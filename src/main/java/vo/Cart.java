@@ -10,6 +10,7 @@ public class Cart {
 	public Cart() {}
 
 	public Cart(int goodsCode, String customerId, int cartQuantity, String createdate) {
+		super();
 		this.goodsCode = goodsCode;
 		this.customerId = customerId;
 		this.cartQuantity = cartQuantity;

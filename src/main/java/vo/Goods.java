@@ -14,6 +14,7 @@ public class Goods {
 
 	public Goods(int goodsCode, String goodsName, int goodsPrice, String soldout, String empId, int hit,
 			String createdate) {
+		super();
 		this.goodsCode = goodsCode;
 		this.goodsName = goodsName;
 		this.goodsPrice = goodsPrice;

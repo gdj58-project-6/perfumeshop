@@ -9,6 +9,7 @@ public class AuthInfo {
 	public AuthInfo() {}
 	
 	public AuthInfo(int authCode, String authMemo, String createdate) {
+		super();
 		this.authCode = authCode;
 		this.authMemo = authMemo;
 		this.createdate = createdate;

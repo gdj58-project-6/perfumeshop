@@ -10,6 +10,7 @@ public class CustomerAddress {
 	public CustomerAddress() {}
 
 	public CustomerAddress(int addressCode, String cutomerId, String address, String createdate) {
+		super();
 		this.addressCode = addressCode;
 		this.cutomerId = cutomerId;
 		this.address = address;

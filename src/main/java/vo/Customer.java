@@ -10,6 +10,7 @@ public class Customer {
 	public Customer() {}
 
 	public Customer(int goodsCode, String customerId, int cartQuantity, String createdate) {
+		super();
 		this.goodsCode = goodsCode;
 		this.customerId = customerId;
 		this.cartQuantity = cartQuantity;
