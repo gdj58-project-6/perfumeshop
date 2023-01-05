@@ -12,7 +12,17 @@ public class GoodsDao {
 	// AddGoodsList
 	public ArrayList<HashMap<String, Object>> selectGoodsList(Connection conn) throws Exception {
 		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
-		String sql = "SELECT";
+		String sql = "SELECT g.goods_code goodsCode, g.goods_name goodsName, g.goods_price goodsPrice, gi.filename fileName FROM goods g INNER JOIN goods_img gi ON g.goods_code = gi.goods_code;";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		ResultSet rs = stmt.executeQuery();
+		while(rs.next()) {
+			HashMap<String, Object> m = new HashMap<String, Object>();
+			m.put("goodsCode", rs.getInt("goodCode"));
+			m.put("goodsName", rs.getString("goodsName"));
+			m.put("goodsPrice", rs.getString("goodsPrice"));
+			m.put("fileName", rs.getString("fileName"));
+			list.add(m);
+		}
 		
 		return list;
 	}
