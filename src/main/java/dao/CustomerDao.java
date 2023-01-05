@@ -5,17 +5,18 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import vo.Customer;
+import vo.Emp;
 
 public class CustomerDao {
 	// 고객 로그인
-	public Customer customerLogin(Connection conn, Customer paramCustomer) throws Exception {
-		// 객체초기화
+	public Customer loginCustomer(Connection conn, Customer paramCustomer) throws Exception {
+		// 객체 초기화
 		Customer customer = null;
 		// 쿼리문 작성
-		String sql = "SELECT customer_id customerId, customer_name customerName, customer_phone customerPhone, point, auth_code authCode FROM customer WHERE customer_id=? AND customer_pw=PASSWORD('?')";
+		String sql = "SELECT customer_id customerId, customer_name customerName, customer_phone customerPhone, point, auth_code authCode FROM customer WHERE customer_id=? AND customer_pw=PASSWORD(?);";
 		// 쿼리 객체 생성
 		PreparedStatement stmt = conn.prepareStatement(sql);
-		// 쿼리문 ?값지정
+		// 쿼리문 ?값 지정
 		stmt.setString(1, paramCustomer.getCustomerId());
 		stmt.setString(2, paramCustomer.getCustomerPw());
 		// 쿼리 실행
@@ -28,7 +29,6 @@ public class CustomerDao {
 			customer.setPoint(rs.getInt("point"));
 			customer.setAuthCode(rs.getInt("authCode"));
 		}
-		
 		stmt.close();
 		rs.close();
 		return customer;

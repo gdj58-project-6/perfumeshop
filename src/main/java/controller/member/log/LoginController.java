@@ -2,7 +2,6 @@ package controller.member.log;
 
 import java.io.IOException;
 
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,12 +10,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import service.CustomerService;
+import service.EmpService;
 import vo.Customer;
 import vo.Emp;
 
 @WebServlet("/member/login")
 public class LoginController extends HttpServlet {
 	private CustomerService customerService;
+	private EmpService empService;
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 로그인 view
@@ -26,45 +27,47 @@ public class LoginController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		HttpSession session = request.getSession();
-		request.setCharacterEncoding("utf-8");
-		// 로그인 Action
+		
 		String customerId = request.getParameter("customerId");
 		String customerPw = request.getParameter("customerPw");
+		// String empId = request.getParameter("empId");
+		// String empPw = request.getParameter("empPw");
+		// System.out.println(customerId + "<-- customerId");
+		// System.out.println(customerPw + "<-- customerPw");
+		// System.out.println(empId + "<-- empId");
+		// System.out.println(empPw + "<-- empPw");
 		
-		
-		System.out.println(customerId);
-		System.out.println(customerPw);
-		
-		
-		// 고객 로그인 메서드 호출 매개값
+		// 메서드 호출 매개값
 		Customer paramCustomer = new Customer();
 		paramCustomer.setCustomerId(customerId);
 		paramCustomer.setCustomerPw(customerPw);
-		
 		// 고객 로그인 메서드 호출
 		this.customerService = new CustomerService();
-		Customer result = customerService.customerLogin(paramCustomer);
-		session.setAttribute("loginCustomer", result);
+		Customer customerLogin = customerService.loginCustomer(paramCustomer);
+		session.setAttribute("loginCustomer", customerLogin);
 		response.sendRedirect(request.getContextPath()+"/home");
-		
+		// System.out.println(paramCustomer.getCustomerId() + "<-- paramCustomerId");
+		// System.out.println(paramCustomer.getCustomerPw() + "<-- paramCustomerPw");
 		/*
-		if(request.getParameter("customerId") != null && request.getParameter("customerPw") != null 
-				&& request.getParameter("empId") == null && request.getParameter("empPw") == null) {
-			
-		} else if(request.getParameter("customerId") == null && request.getParameter("customerPw") == null 
-				&& request.getParameter("empId") != null && request.getParameter("empPw") != null) {
-			// 직원 로그인 메서드 호출 매개값
-			Emp emp = new Emp();
-			emp.setEmpId(empId);
-			emp.setEmpPw(empPw);
-			
-			// 직원 로그인 메서드 호출
-			
-		}
-		
+		// 메서드 호출 매개값
+		Emp paramEmp = new Emp();
+		paramEmp.setEmpId(empId);
+		paramEmp.setEmpPw(empPw);
+		System.out.println(paramEmp.getEmpId() + "<-- paramEmpId");
+		System.out.println(paramEmp.getEmpPw() + "<-- paramEmpPw");
 		*/
 		
 		
+		
+		
+		/*
+		// 직원 로그인 메서드 호출
+		this.empService = new EmpService();
+		Emp empLogin = empService.loginEmp(paramEmp);
+		*/
+		
+		// session.setAttribute("loginEmp", empLogin);
+		// 
 		
 	}
 }

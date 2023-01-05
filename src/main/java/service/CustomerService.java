@@ -5,27 +5,26 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import dao.CustomerDao;
+import dao.EmpDao;
 import dao.OutidDao;
 import util.DBUtil;
 import vo.Customer;
+import vo.Emp;
 
 public class CustomerService {
 	private CustomerDao customerDao;
 	private OutidDao outidDao;
-	// 로그인
-	public Customer customerLogin(Customer paramCustomer) {
-		// 객체 초기화
+	
+	// 
+	// 직원 로그인
+	public Customer loginCustomer(Customer paramCustomer) {
 		Customer customer = null;
-		// 드라이버 초기화
 		Connection conn = null;
 		
 		try {
-			// 드라이버 연결
 			conn = DBUtil.getConnection();
-			// dao
 			this.customerDao = new CustomerDao();
-			customer = customerDao.customerLogin(conn, paramCustomer);
-			// 커밋
+			customer = customerDao.loginCustomer(conn, paramCustomer);
 			conn.commit();
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -36,7 +35,6 @@ public class CustomerService {
 				e.printStackTrace();
 			}
 		}
-		
 		return customer;
 	}
 	// 아이디 중복검사 : 사용가능 - true, 사용불가능 - false

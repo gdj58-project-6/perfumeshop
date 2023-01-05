@@ -7,6 +7,7 @@
 		<title>login</title>
 	</head>
 	<body>
+		
 		<h1>고객 로그인</h1>
 		<form action="${pageContext.request.contextPath}/member/login" method="post">
 			<table border="1">
@@ -27,8 +28,27 @@
 				<button type="submit">로그인</button>
 			</div>
 		</form>
-		<div>
+		<br>
+		<h1>직원 로그인</h1>
+		<form action="${pageContext.request.contextPath}/member/login" method="post">
+			<table border="1">
+				<tr>
+					<td>아이디</td>
+					<td>
+						<input type="text" name="empId">
+					</td>
+				</tr>
+				<tr>
+					<td>비번</td>
+					<td>
+						<input type="password" name="empPw">
+					</td>
+				</tr>
+			</table>
+			<div>
+				<button type="submit">로그인</button>
+			</div>
+		</form>
 		
-		</div>
 	</body>
 </html>

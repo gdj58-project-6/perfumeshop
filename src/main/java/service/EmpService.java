@@ -9,6 +9,28 @@ import vo.Emp;
 
 public class EmpService {
 	private EmpDao empDao;
+	
+	// 직원 로그인
+	public Emp loginEmp(Emp paramEmp) {
+		Emp emp = null;
+		Connection conn = null;
+		
+		try {
+			conn = DBUtil.getConnection();
+			this.empDao = new EmpDao();
+			emp = empDao.loginEmp(conn, paramEmp);
+			conn.commit();
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return emp;
+	}
 	// 직원 가입
 	public int getInsertEmp(Emp emp) {
 		int row = 0;

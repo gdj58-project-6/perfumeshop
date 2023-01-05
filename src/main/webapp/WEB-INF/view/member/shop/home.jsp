@@ -13,7 +13,7 @@
 		<a href="${pageContext.request.contextPath}/member/goodsList">상품</a>
 		<a href="${pageContext.request.contextPath}/member/cart">장바구니</a>
 		<a href="${pageContext.request.contextPath}/member/login">로그인</a>
-		<c:if test="${loginCustomer != null}">
+		<c:if test="${loginEmp != null || loginCustomer != null}">
 			<a href="${pageContext.request.contextPath}/member/logout">로그아웃</a>
 		</c:if>
 		<!-- 큰 사진 -->
