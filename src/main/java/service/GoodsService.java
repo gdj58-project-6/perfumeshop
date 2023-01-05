@@ -14,6 +14,7 @@ import vo.GoodsImg;
 public class GoodsService {
 	private GoodsDao goodsDao;
 	private GoodsImgDao goodsImgDao;
+	
 	// AddGoods
 	public void addGoods(Goods goods, GoodsImg goodsImg, String dir) {
 		Connection conn = null;
@@ -48,4 +49,7 @@ public class GoodsService {
 			}
 		}
 	}
+	
+	// GoodsList
+	
 }
