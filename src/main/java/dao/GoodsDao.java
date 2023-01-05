@@ -8,7 +8,8 @@ import java.util.HashMap;
 import vo.Goods;
 
 public class GoodsDao {
-	public HashMap<String, Integer> AddGoods(Connection conn, Goods goods) throws Exception {
+	// AddGoods
+	public HashMap<String, Integer> addGoods(Connection conn, Goods goods) throws Exception {
 		String sql ="INSERT INTO goods(goods_name, goods_price, soldout, emp_id, hit, createdate) VALUES(?, ?, ?, ?, ?, NOW())";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, goods.getGoodsName());
@@ -29,4 +30,6 @@ public class GoodsDao {
 		map.put("autoKey", autoKey);
 		return map;
 	}
+	
+	// AddGoodsList
 }
