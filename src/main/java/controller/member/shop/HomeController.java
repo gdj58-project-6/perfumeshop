@@ -1,6 +1,7 @@
 package controller.member.shop;
 
 import java.io.IOException;
+
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
@@ -8,8 +9,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import service.ShopService;
+import vo.Customer;
 import vo.Notice;
 
 @WebServlet("/home")
@@ -17,7 +20,9 @@ public class HomeController extends HttpServlet {
 	private ShopService shopService;
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		HttpSession session =  request.getSession();
+		Customer loginCustomer = (Customer)session.getAttribute("loginCustomer");
+		System.out.println(loginCustomer);
 		// 공지목록 페이징
 		int currentPage = 1;
 		if(request.getParameter("currentPage") != null) {
@@ -33,7 +38,7 @@ public class HomeController extends HttpServlet {
 		request.setAttribute("currentPage", currentPage);
 		request.setAttribute("lastPage", lastPage);
 		request.setAttribute("list", list);
-		
+		request.setAttribute("loginCustomer", loginCustomer);
 		
 		// 공지사항 list
 		request.getRequestDispatcher("/WEB-INF/view/member/shop/home.jsp").forward(request, response);

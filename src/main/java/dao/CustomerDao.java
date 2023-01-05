@@ -7,6 +7,32 @@ import java.sql.ResultSet;
 import vo.Customer;
 
 public class CustomerDao {
+	// 고객 로그인
+	public Customer customerLogin(Connection conn, Customer paramCustomer) throws Exception {
+		// 객체초기화
+		Customer customer = null;
+		// 쿼리문 작성
+		String sql = "SELECT customer_id customerId, customer_name customerName, customer_phone customerPhone, point, auth_code authCode FROM customer WHERE customer_id=? AND customer_pw=PASSWORD('?')";
+		// 쿼리 객체 생성
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		// 쿼리문 ?값지정
+		stmt.setString(1, paramCustomer.getCustomerId());
+		stmt.setString(2, paramCustomer.getCustomerPw());
+		// 쿼리 실행
+		ResultSet rs = stmt.executeQuery();
+		if(rs.next()) {
+			customer = new Customer();
+			customer.setCustomerId(rs.getString("customerId"));
+			customer.setCustomerName(rs.getString("customerName"));
+			customer.setCustomerPhone(rs.getString("customerPhone"));
+			customer.setPoint(rs.getInt("point"));
+			customer.setAuthCode(rs.getInt("authCode"));
+		}
+		
+		stmt.close();
+		rs.close();
+		return customer;
+	}
 	// 아이디 중복검사 : 사용가능 - false, 사용불가능 - true
 	public boolean selectCustomerId(Connection conn, String id) throws Exception {
 		boolean result = true;
