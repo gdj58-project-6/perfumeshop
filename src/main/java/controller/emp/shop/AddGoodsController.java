@@ -21,7 +21,7 @@ import vo.GoodsImg;
 public class AddGoodsController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 상품 등록 form
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/view/member/shop/addGoods.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/view/emp/shop/addGoods.jsp");
 		rd.forward(request, response);
 	}
 
@@ -40,24 +40,36 @@ public class AddGoodsController extends HttpServlet {
 				
 		// 이미지 파일 검사
 		String contentType = mreq.getContentType("goodsImg");
+		String originName = mreq.getOriginalFileName("goodsImg"); // 원본 파일 이름
+		String fileName = mreq.getFilesystemName("goodsImg"); //  저장된 파일 이름
 		
 		if(contentType.equals("image/jpeg") || contentType.equals("image/png")) {
 			String goodsName = mreq.getParameter("goodsName");
+			int goodsPrice = Integer.parseInt(mreq.getParameter("goodsPrice"));
 			String soldout = mreq.getParameter("soldout");
+			int hit = Integer.parseInt(mreq.getParameter("hit"));
 			String empId = mreq.getParameter("empId");
-			Goods goods = new Goods();
 			
+			Goods goods = new Goods();	
 			goods.setGoodsName(goodsName);
-			goods.setEmpId(empId);
+			goods.setGoodsPrice(goodsPrice);
 			goods.setSoldout(soldout);
-			
+			goods.setHit(hit);
+			goods.setEmpId(empId);
+		
+			/*
 			System.out.println(goodsName);
-			System.out.println(empId);
+			System.out.println(goodsPrice);
 			System.out.println(soldout);
+			System.out.println(hit);
+			System.out.println(empId);
+			*/
 			
 			GoodsImg goodsImg = new GoodsImg();
-			goodsImg.setFileName(contentType);
-			
+			goodsImg.setOriginName(originName);
+			goodsImg.setFileName(fileName);
+			goodsImg.setContentType(contentType);
+	
 			GoodsService goodsService = new  GoodsService();
 			goodsService.addGoods(goods, goodsImg, dir);
 		
