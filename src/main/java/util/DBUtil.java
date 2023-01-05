@@ -4,10 +4,17 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 
 public class DBUtil {
-public Connection getConnection() throws Exception {
+	public static Connection getConnection() throws Exception {
+		Connection conn = null;
 		
-		Class.forName("org.mariadb.jdbc.Driver");		
-		Connection conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/shop", "root", "java1234");
+		String driver = "org.mariadb.jdbc.Driver";
+		String dbUrl = "jdbc:mariadb://localhost:3306/shop";
+		String dbUser = "root";
+		String dbPw = "java1234";
+		
+		Class.forName(driver);
+		conn = DriverManager.getConnection(dbUrl, dbUser, dbPw);
+		conn.setAutoCommit(false);
 		
 		return conn;
 	}
