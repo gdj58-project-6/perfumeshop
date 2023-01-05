@@ -1,36 +1,42 @@
 package vo;
 
 public class Customer {
-	private int goodsCode;
+	private int customerCode;
 	private String customerId;
-	private int cartQuantity;
+	private String customerPw;
+	private String customerName;
+	private String customerPhone;
+	private int point;
 	private String createdate;
 	
-	// 생성자
 	public Customer() {}
-
-	public Customer(int goodsCode, String customerId, int cartQuantity, String createdate) {
-		super();
-		this.goodsCode = goodsCode;
-		this.customerId = customerId;
-		this.cartQuantity = cartQuantity;
-		this.createdate = createdate;
-	}
 	
-	// 부모 메서드를 자식단에서 재정의해서 디버깅시 멤버 객체 출력할시 사용
 	@Override
 	public String toString() {
-		return "Customer [goodsCode=" + goodsCode + ", customerId=" + customerId + ", cartQuantity=" + cartQuantity
-				+ ", createdate=" + createdate + "]";
+		return "Customer [customerCode=" + customerCode + ", customerId=" + customerId + ", customerPw=" + customerPw
+				+ ", customerName=" + customerName + ", customerPhone=" + customerPhone + ", point=" + point
+				+ ", createdate=" + createdate + ", getClass()=" + getClass() + ", hashCode()=" + hashCode()
+				+ ", toString()=" + super.toString() + "]";
 	}
 
-	// get,set
-	public int getGoodsCode() {
-		return goodsCode;
+	public Customer(int customerCode, String customerId, String customerPw, String customerName, String customerPhone,
+			int point, String createdate) {
+		super();
+		this.customerCode = customerCode;
+		this.customerId = customerId;
+		this.customerPw = customerPw;
+		this.customerName = customerName;
+		this.customerPhone = customerPhone;
+		this.point = point;
+		this.createdate = createdate;
 	}
 
-	public void setGoodsCode(int goodsCode) {
-		this.goodsCode = goodsCode;
+	public int getCustomerCode() {
+		return customerCode;
+	}
+
+	public void setCustomerCode(int customerCode) {
+		this.customerCode = customerCode;
 	}
 
 	public String getCustomerId() {
@@ -41,12 +47,36 @@ public class Customer {
 		this.customerId = customerId;
 	}
 
-	public int getCartQuantity() {
-		return cartQuantity;
+	public String getCustomerPw() {
+		return customerPw;
 	}
 
-	public void setCartQuantity(int cartQuantity) {
-		this.cartQuantity = cartQuantity;
+	public void setCustomerPw(String customerPw) {
+		this.customerPw = customerPw;
+	}
+
+	public String getCustomerName() {
+		return customerName;
+	}
+
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
+	}
+
+	public String getCustomerPhone() {
+		return customerPhone;
+	}
+
+	public void setCustomerPhone(String customerPhone) {
+		this.customerPhone = customerPhone;
+	}
+
+	public int getPoint() {
+		return point;
+	}
+
+	public void setPoint(int point) {
+		this.point = point;
 	}
 
 	public String getCreatedate() {
@@ -56,8 +86,4 @@ public class Customer {
 	public void setCreatedate(String createdate) {
 		this.createdate = createdate;
 	}
-	
-	
-	
-	
 }
