@@ -17,7 +17,6 @@ public class ShopService {
 		// 드라이버 초기화
 		Connection conn = null;
 		
-		
 		try {
 			// 드라이버 연결 오토커밋끄는거 포함
 			conn = DBUtil.getConnection();

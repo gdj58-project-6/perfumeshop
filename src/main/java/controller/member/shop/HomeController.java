@@ -34,7 +34,6 @@ public class HomeController extends HttpServlet {
 		// 공지목록 메서드 호출
 		this.shopService = new ShopService();
 		ArrayList<Notice> list = shopService.getNoticeList(currentPage, rowPerPage);
-		// System.out.println(cnt);
 		int lastPage = shopService.getHomeCount() / rowPerPage;
 		// System.out.println(lastPage);
 		request.setAttribute("currentPage", currentPage);

@@ -17,9 +17,17 @@
 		<c:if test="${loginEmp.getAuthCode() > 4}">
 			<a href="${pageContext.request.contextPath}/admin/addGoods">상품등록</a>
 		</c:if>
-		
+		<c:if test="${loginEmp.getAuthCode() == 7}">
+			<a href="${pageContext.request.contextPath}/admin/modifyMember">고객등급수정</a>
+		</c:if>
 		<c:if test="${loginEmp != null || loginCustomer != null}">
 			<a href="${pageContext.request.contextPath}/member/logout">로그아웃</a>
+		</c:if>
+		<c:if test="${loginCustomer != null}">
+			${loginCustomer.getCustomerId()}님
+		</c:if>
+		<c:if test="${loginEmp != null}">
+			${loginEmp.getEmpId()}님
 		</c:if>
 		<!-- 큰 사진 -->
 		<div style="text-align:center;"><img src="${pageContext.request.contextPath}/img/camera.jpg" width="1500" height="700"></div>

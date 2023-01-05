@@ -1,20 +1,70 @@
 package service;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import dao.CustomerDao;
-import dao.EmpDao;
 import dao.OutidDao;
 import util.DBUtil;
 import vo.Customer;
-import vo.Emp;
 
 public class CustomerService {
 	private CustomerDao customerDao;
 	private OutidDao outidDao;
-
+	// 고객 레벨수정 페이지 페이징에 필요한 목록수 출력
+	public int getCustomerCountByMemberModify() {
+		// 객체 초기화
+		int row = 0;
+		// 드라이버 초기화
+		Connection conn = null;
+		
+		try {
+			// 드라이버 연결
+			conn = DBUtil.getConnection();
+			// dao초기화
+			this.customerDao = new CustomerDao();
+			// dao호출
+			row = customerDao.selectCountByMemberModify(conn);
+			// 커밋
+			conn.commit();
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return row;
+	}
+	// 고객 레벨수정 페이지 고객 리스트
+	public ArrayList<Customer> getCustomerList(int currentPage, int rowPerPage) {
+		// 객체 초기화
+		ArrayList<Customer> list = null;
+		// 드라이버 초기화
+		Connection conn = null;
+		
+		try {
+			// 드라이버 연결
+			conn = DBUtil.getConnection();
+			// dao 초기화
+			this.customerDao = new CustomerDao();
+			list = customerDao.selectCustomerListByMemberModify(conn, currentPage, rowPerPage);
+			// 커밋
+			conn.commit();
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return list;
+	}
 	// 회원 로그인
 	public Customer loginCustomer(Customer paramCustomer) {
 		Customer customer = null;
