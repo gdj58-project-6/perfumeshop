@@ -37,20 +37,30 @@ public class AddGoodsController extends HttpServlet {
 		DefaultFileRenamePolicy fp = new DefaultFileRenamePolicy();
 		
 		MultipartRequest mreq = new MultipartRequest(request, dir, maxFileSize, "utf-8", fp);
-		
+				
 		// 이미지 파일 검사
 		String contentType = mreq.getContentType("goodsImg");
+		
 		if(contentType.equals("image/jpeg") || contentType.equals("image/png")) {
 			String goodsName = mreq.getParameter("goodsName");
-			
+			String soldout = mreq.getParameter("soldout");
+			String empId = mreq.getParameter("empId");
 			Goods goods = new Goods();
+			
 			goods.setGoodsName(goodsName);
+			goods.setEmpId(empId);
+			goods.setSoldout(soldout);
+			
+			System.out.println(goodsName);
+			System.out.println(empId);
+			System.out.println(soldout);
 			
 			GoodsImg goodsImg = new GoodsImg();
 			goodsImg.setFileName(contentType);
 			
 			GoodsService goodsService = new  GoodsService();
 			goodsService.addGoods(goods, goodsImg, dir);
+		
 		} else {
 			System.out.println("*.jpg, *.png파일만 업로드가능");
 			File f = new File(dir+"\\"+mreq.getFilesystemName("goodsImg"));
