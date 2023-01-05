@@ -14,9 +14,8 @@ import vo.Emp;
 public class CustomerService {
 	private CustomerDao customerDao;
 	private OutidDao outidDao;
-	
-	// 
-	// 직원 로그인
+
+	// 회원 로그인
 	public Customer loginCustomer(Customer paramCustomer) {
 		Customer customer = null;
 		Connection conn = null;
@@ -93,6 +92,7 @@ public class CustomerService {
 		return row;
 	}
 	
+	// 회원탈퇴
 	public void getDeleteCustomer(Customer customer) {
 		Connection conn = null;
 		

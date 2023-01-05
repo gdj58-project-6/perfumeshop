@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 public class RemoveMemberController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 회원탈퇴 form
+		request.getRequestDispatcher("/WEB-INF/view/member/log/removeMember.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

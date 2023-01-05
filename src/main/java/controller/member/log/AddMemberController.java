@@ -43,8 +43,8 @@ public class AddMemberController extends HttpServlet {
 		// Model
 		this.customerService = new CustomerService();
 		
-		// 아이디 중복검사
-		if(customerService.getSelectCustomerId(id) == true) {
+		/* 아이디 중복검사
+		if(customerService.getSelectCustomerId(customer) == null) { // 중복되는 아이디 없으면 회원가입 진행
 			int row = customerService.getInsertCustomer(customer);
 			if(row == 1) {
 				System.out.println("회원가입 성공");
@@ -53,7 +53,7 @@ public class AddMemberController extends HttpServlet {
 			}
 		} else {
 			System.out.println("중복되는 아이디");
-		}
+		}*/
 	}
 
 }

@@ -33,6 +33,7 @@ public class CustomerDao {
 		rs.close();
 		return customer;
 	}
+	
 	// 아이디 중복검사 : 사용가능 - false, 사용불가능 - true
 	public boolean selectCustomerId(Connection conn, String id) throws Exception {
 		boolean result = true;
@@ -82,5 +83,12 @@ public class CustomerDao {
 		stmt.close();
 		
 		return row;
+	}
+	
+	// 회원 정보
+	public Customer selectCustomerOne(Connection conn, Customer customer) throws Exception {
+		Customer resultCustomer = null;
+		
+		return resultCustomer;
 	}
 }

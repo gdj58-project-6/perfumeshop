@@ -25,8 +25,6 @@ public class AddEmpController extends HttpServlet {
 		
 		// 로그인 유효성 검사
 		
-		// 중복 아이디 검사
-		
 		// 입력 값
 		String id = request.getParameter("id");
 		String name = request.getParameter("name");
@@ -38,15 +36,20 @@ public class AddEmpController extends HttpServlet {
 		emp.setEmpName(name);
 		emp.setEmpPw(pw);
 		
-		// Model
+		// Model 
 		this.empService = new EmpService();
-		int row = empService.getInsertEmp(emp);
 		
-		if(row == 1) {
-			System.out.println("직원 가입 성공");
+		/* 아이디 중복검사
+		if(empService.getSelectEmpId(id) == null) { // 중복되는 아이디 없으면 회원 가입 진행
+			int row = empService.getInsertEmp(emp);
+			if(row == 1) {
+				System.out.println("직원 가입 성공");
+			} else {
+				System.out.println("직원 가입 실패");
+			}
 		} else {
-			System.out.println("직원 가입 실패");
-		}
+			System.out.println("중복 직원 아이디");
+		}*/
 	}
 
 }
