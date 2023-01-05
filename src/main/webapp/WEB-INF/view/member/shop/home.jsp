@@ -8,6 +8,45 @@
 	</head>
 	<body>
 		<h1>home</h1>
+		<!-- nav -->
 		
+		<!-- 큰 사진 -->
+		
+		<!-- 공지목록 페이징 5개씩 -->
+		<h2>공지사항</h2>
+		<table border="1">
+			<tr>
+				<th>번호</th>
+				<th>제목</th>
+				<th>내용</th>
+				<th>작성자</th>
+				<th>작성일</th>
+			</tr>
+			<c:forEach var="m" items="${list}">
+				<tr>
+					<td>${m.noticeCode}</td>
+					<td>${m.noticeTitle}</td>
+					<td>${m.noticeContent}</td>
+					<td>${m.empId}</td>
+					<td>${m.createdate}</td>
+				</tr>
+			</c:forEach>
+		</table>
+		<!-- 공지목록 페이징 5개씩 -->
+		<div>
+			<c:if test="${currentPage != 1}">
+				<a href="${pageContext.request.contextPath}/home?currentPage=1">처음</a>				
+			</c:if>
+			<c:if test="${currentPage > 1}">
+				<a href="${pageContext.request.contextPath}/home?currentPage=${currentPage-1}">이전</a>
+			</c:if>
+			${currentPage}
+			<c:if test="${currentPage < lastPage}">
+				<a href="${pageContext.request.contextPath}/home?currentPage=${currentPage+1}">다음</a>
+			</c:if>
+			<c:if test="${currentPage != lastPage}">
+				<a href="${pageContext.request.contextPath}/home?currentPage=${lastPage}">마지막</a>
+			</c:if>
+		</div>
 	</body>
 </html>
