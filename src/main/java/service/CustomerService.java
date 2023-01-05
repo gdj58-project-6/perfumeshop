@@ -1,6 +1,7 @@
 package service;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import dao.CustomerDao;
@@ -11,15 +12,15 @@ import vo.Customer;
 public class CustomerService {
 	private CustomerDao customerDao;
 	private OutidDao outidDao;
-	// 아이디 중복검사
-	public int getSelectCustomerId(Customer customer) {
-		int row = 0;
+	// 아이디 중복검사 : 사용가능 - true, 사용불가능 - false
+	public boolean getSelectCustomerId(String id) {
+		boolean result = true;
 		Connection conn = null;
 		
 		try {
 			conn = DBUtil.getConnection();
 			this.customerDao = new CustomerDao();
-			row = customerDao.selectCustomerId(conn, customer);
+			result = customerDao.selectCustomerId(conn, id);
 			conn.commit();
 		} catch (Exception e) {
 			try {
@@ -36,11 +37,11 @@ public class CustomerService {
 			}
 		}
 		
-		return row;
+		return result;
 	}
 	
 	// 회원가입
-	public int getAddCustomer(Customer customer) {
+	public int getInsertCustomer(Customer customer) {
 		int row = 0;
 		Connection conn = null;
 		

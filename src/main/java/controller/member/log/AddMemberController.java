@@ -27,7 +27,7 @@ public class AddMemberController extends HttpServlet {
 		// 로그인 유효성 검사
 		
 		// 입력 값
-		String id = request.getParameter("id");
+		String id = request.getParameter("id");            
 		String name = request.getParameter("name");
 		String phone = request.getParameter("phone1") + request.getParameter("phone2") + request.getParameter("phone3");
 		System.out.println(phone); // 디버깅
@@ -44,8 +44,8 @@ public class AddMemberController extends HttpServlet {
 		this.customerService = new CustomerService();
 		
 		// 아이디 중복검사
-		if(customerService.getSelectCustomerId(customer) == 1) {
-			int row = customerService.getAddCustomer(customer);
+		if(customerService.getSelectCustomerId(id) == true) {
+			int row = customerService.getInsertCustomer(customer);
 			if(row == 1) {
 				System.out.println("회원가입 성공");
 			} else {

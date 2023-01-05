@@ -6,6 +6,12 @@ import java.sql.PreparedStatement;
 import vo.Customer;
 
 public class OutidDao {
+	// 아이디 중복 검사
+	public boolean selectOutid(Connection conn, String id) throws Exception {
+		
+		return true;
+	}
+	
 	// 탈퇴한 아이디 저장
 	public int insertOutid(Connection conn, Customer customer) throws Exception {
 		int row = 0;

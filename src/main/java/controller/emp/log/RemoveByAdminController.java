@@ -11,6 +11,10 @@ import javax.servlet.http.HttpServletResponse;
 public class RemoveByAdminController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 멤버 탈퇴
+		// 인코딩
+		request.setCharacterEncoding("UTF-8");
+		
+		// 
 	}
 
 }
