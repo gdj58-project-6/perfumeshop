@@ -30,44 +30,42 @@ public class LoginController extends HttpServlet {
 		
 		String customerId = request.getParameter("customerId");
 		String customerPw = request.getParameter("customerPw");
-		// String empId = request.getParameter("empId");
-		// String empPw = request.getParameter("empPw");
+		String empId = request.getParameter("empId");
+		String empPw = request.getParameter("empPw");
 		// System.out.println(customerId + "<-- customerId");
 		// System.out.println(customerPw + "<-- customerPw");
 		// System.out.println(empId + "<-- empId");
 		// System.out.println(empPw + "<-- empPw");
 		
+		
 		// 메서드 호출 매개값
 		Customer paramCustomer = new Customer();
 		paramCustomer.setCustomerId(customerId);
 		paramCustomer.setCustomerPw(customerPw);
-		// 고객 로그인 메서드 호출
-		this.customerService = new CustomerService();
-		Customer customerLogin = customerService.loginCustomer(paramCustomer);
-		session.setAttribute("loginCustomer", customerLogin);
-		response.sendRedirect(request.getContextPath()+"/home");
 		// System.out.println(paramCustomer.getCustomerId() + "<-- paramCustomerId");
 		// System.out.println(paramCustomer.getCustomerPw() + "<-- paramCustomerPw");
-		/*
 		// 메서드 호출 매개값
 		Emp paramEmp = new Emp();
 		paramEmp.setEmpId(empId);
 		paramEmp.setEmpPw(empPw);
-		System.out.println(paramEmp.getEmpId() + "<-- paramEmpId");
-		System.out.println(paramEmp.getEmpPw() + "<-- paramEmpPw");
-		*/
+		// System.out.println(paramEmp.getEmpId() + "<-- paramEmpId");
+		// System.out.println(paramEmp.getEmpPw() + "<-- paramEmpPw");
 		
 		
-		
-		
-		/*
-		// 직원 로그인 메서드 호출
-		this.empService = new EmpService();
-		Emp empLogin = empService.loginEmp(paramEmp);
-		*/
-		
-		// session.setAttribute("loginEmp", empLogin);
-		// 
-		
+		this.customerService = null;
+		this.empService = null;
+		Customer customerLogin = null;
+		Emp empLogin = null;
+		if(paramEmp.getEmpId() == null && paramEmp.getEmpPw() == null) {
+			customerService = new CustomerService();
+			customerLogin = customerService.loginCustomer(paramCustomer);
+			session.setAttribute("loginCustomer", customerLogin);
+			response.sendRedirect(request.getContextPath()+"/home");
+		} else if(paramCustomer.getCustomerId() == null && paramCustomer.getCustomerPw() == null) {
+			empService = new EmpService();
+			empLogin = empService.loginEmp(paramEmp);
+			session.setAttribute("loginEmp", empLogin);
+			response.sendRedirect(request.getContextPath()+"/home");
+		}
 	}
 }
