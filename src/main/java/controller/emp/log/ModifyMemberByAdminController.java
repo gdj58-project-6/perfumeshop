@@ -23,7 +23,7 @@ public class ModifyMemberByAdminController extends HttpServlet {
 		HttpSession session = request.getSession();
 		Customer loginCustomer = (Customer)session.getAttribute("loginCustomer");
 		Emp loginEmp = (Emp)session.getAttribute("loginEmp");
-		if(loginEmp.getAuthCode() != 7 || loginCustomer != null) {
+		if(loginEmp == null) {
 			response.sendRedirect(request.getContextPath()+"/member/login");
 			return;
 		}
@@ -40,7 +40,7 @@ public class ModifyMemberByAdminController extends HttpServlet {
 		int lastPage = customerService.getCustomerCountByMemberModify() / rowPerPage;
 		// System.out.println(lastPage);
 		request.setAttribute("currentPage", currentPage);
-		request.setAttribute("latsPage", lastPage);
+		request.setAttribute("lastPage", lastPage);
 		request.setAttribute("list", list);
 		request.setAttribute("loginEmp", loginEmp);
 		
@@ -49,6 +49,13 @@ public class ModifyMemberByAdminController extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 레벨 수정 탈퇴
+		request.setCharacterEncoding("utf-8");
+		String customerId = request.getParameter("customerId");
+		int authCode = Integer.parseInt(request.getParameter("authCode"));
+		// System.out.println(customerId);
+		// System.out.println(authCode);
+		
+		
 	}
 
 }

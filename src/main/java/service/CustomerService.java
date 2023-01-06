@@ -47,12 +47,14 @@ public class CustomerService {
 		// 드라이버 초기화
 		Connection conn = null;
 		
+		int beginRow = (currentPage - 1) * rowPerPage;
+		
 		try {
 			// 드라이버 연결
 			conn = DBUtil.getConnection();
 			// dao 초기화
 			this.customerDao = new CustomerDao();
-			list = customerDao.selectCustomerListByMemberModify(conn, currentPage, rowPerPage);
+			list = customerDao.selectCustomerListByMemberModify(conn, beginRow, rowPerPage);
 			// 커밋
 			conn.commit();
 		} catch(Exception e) {

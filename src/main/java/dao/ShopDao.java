@@ -37,7 +37,7 @@ public class ShopDao {
 				+ " , notice_content noticeContent"
 				+ " , emp_id empId"
 				+ " , createdate"
-				+ " FROM notice LIMIT ?,?";
+				+ " FROM notice ORDER BY notice_code ASC LIMIT ?,?";
 		// 쿼리 객체 생성
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		// 쿼리문 ?값 지정

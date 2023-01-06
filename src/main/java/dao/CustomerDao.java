@@ -38,7 +38,7 @@ public class CustomerDao {
 				+ " , point"
 				+ " , auth_code authCode"
 				+ " , createdate"
-				+ " FROM customer LIMIT ?, ?";
+				+ " FROM customer  ORDER BY customer_code ASC LIMIT ?, ?";
 		// 쿼리 객체 생성
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		// 쿼리문 ?값 지정
