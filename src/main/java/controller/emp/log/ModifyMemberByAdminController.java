@@ -41,6 +41,7 @@ public class ModifyMemberByAdminController extends HttpServlet {
 		int lastPage = customerService.getCustomerCountByMemberModify() / rowPerPage;
 		// System.out.println(lastPage);
 		request.setAttribute("currentPage", currentPage);
+		request.setAttribute("rowPerPage", rowPerPage);
 		request.setAttribute("lastPage", lastPage);
 		request.setAttribute("list", list);
 		request.setAttribute("loginEmp", loginEmp);
@@ -51,13 +52,14 @@ public class ModifyMemberByAdminController extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// 레벨 수정(미완성) 탈퇴? 
-		/*
+		// 레벨 수정(1단계:수정버튼으로 수정되게끔) 탈퇴기능은 나중에 
 		request.setCharacterEncoding("utf-8");
+		int customerCode = Integer.parseInt(request.getParameter("customerCode")); 
 		String customerId = request.getParameter("customerId");
 		int authCode = Integer.parseInt(request.getParameter("authCode"));
-		System.out.println(customerId);
-		System.out.println(authCode);
+		// System.out.println(customerCode);
+		// System.out.println(customerId);
+		// System.out.println(authCode);
 		// 아직 수정시스템 미구현 혹시 몰라 고객 등급이 3보다 크면 수정 안되게끔
 		if(authCode > 4) {
 			String msg = URLEncoder.encode("고객의 최대등급은 3입니다.", "utf-8");
@@ -66,13 +68,12 @@ public class ModifyMemberByAdminController extends HttpServlet {
 		
 		// 메서드 호출
 		this.customerService = new CustomerService();
-		int row = customerService.updateMemberLevel(authCode, customerId);
+		int row = customerService.updateMemberLevel(authCode, customerId, customerCode);
 		
 		if(row == 1) {
-			System.out.println("수정완료");
+			// System.out.println("수정완료");
 			response.sendRedirect(request.getContextPath()+"/admin/modifyMember");
 		}
-		*/
 		
 	}
 

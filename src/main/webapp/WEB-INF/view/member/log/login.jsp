@@ -131,6 +131,7 @@
 							<button type="submit">로그인</button>
 						</div>
 					</form>
+					<a href="{${pageContext.request.contextPath}/member/addMember}">회원가입</a>
 		        </div>
 		        <div id="tab2" class="tab_content">
 		        	<!-- 탭2 직원 -->
@@ -154,6 +155,7 @@
 							<button type="submit">로그인</button>
 						</div>
 					</form>
+					<a href="{${pageContext.request.contextPath}/admin/addAdmin}">회원가입</a>
 		        </div>
 	    	</div>
 		</div>

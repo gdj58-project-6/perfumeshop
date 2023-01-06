@@ -10,30 +10,62 @@
 		<!-- 직원 리스트 조회 -->
 		<h1>직원 레벨수정</h1>
 		${loginEmp.getEmpName()}(등급:${loginEmp.getAuthCode()})
-		<form action="${pageContext.request.contextPath}/admin/modifyByAdmin" method="post">
-			<table border="1">
+		<table border="1">
+			<tr>
+				<th>empCode</th>
+				<th>empId</th>
+				<th>empName</th>
+				<th>active</th>
+				<th>authCode</th>
+				<th>createdate</th>
+			</tr>
+			<c:forEach var="m" items="${list}">
 				<tr>
-					<th>empCode</th>
-					<th>empId</th>
-					<th>empName</th>
-					<th>active</th>
-					<th>authCode</th>
-					<th>createdate</th>
+					<td>${m.empCode}</td>
+					<td>${m.empId}</td>
+					<td>${m.empName}</td>
+					<td>${m.active}</td>
+					<td>
+						<form action="${pageContext.request.contextPath}/admin/modifyByAdmin" method="post">
+							<input type="hidden" name="empCode" value="${m.empCode}">
+							<input type="hidden" name="empId" value="${m.empId}">
+							<input type="hidden" name="currentPage" value="${currentPage}">
+							<input type="hidden" name="rowPerPage" value="${rowPerPage}">
+							${m.authCode}
+							<select name="authCode">
+								<c:if test="${m.authCode == 4}">
+									<option value="4" selected="selected">4</option>
+									<option value="5">5</option>
+									<option value="6">6</option>
+									<option value="7">7</option>
+								</c:if>
+								<c:if test="${m.authCode == 5}">
+									<option value="4">4</option>
+									<option value="5" selected="selected">5</option>
+									<option value="6">6</option>
+									<option value="7">7</option>
+								</c:if>
+								<c:if test="${m.authCode == 6}">
+									<option value="4">4</option>
+									<option value="5">5</option>
+									<option value="6" selected="selected">6</option>
+									<option value="7">7</option>
+								</c:if>
+								<c:if test="${m.authCode == 7}">
+									<option value="4">4</option>
+									<option value="5">5</option>
+									<option value="6">6</option>
+									<option value="7" selected="selected">7</option>
+								</c:if>
+							</select>
+							<button type="submit">수정</button>
+						</form>
+					</td>
+					<td>${m.createdate}</td>
 				</tr>
-				<c:forEach var="m" items="${list}">
-					<tr>
-						<td>${m.empCode}</td>
-						<td>
-							<input type="text" name="empId" value="${m.empId}" readonly="readonly">
-						</td>
-						<td>${m.empName}</td>
-						<td>${m.active}</td>
-						<td>${m.authCode}</td>
-						<td>${m.createdate}</td>
-					</tr>
-				</c:forEach>
-			</table>
-		</form>
+			</c:forEach>
+		</table>
+		
 		<!-- 고객 리스트 페이징 버튼 -->
 		<div>
 			<c:if test="${currentPage != 1}">

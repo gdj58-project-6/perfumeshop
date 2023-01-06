@@ -10,6 +10,24 @@ import vo.Customer;
 import vo.Emp;
 
 public class EmpDao {
+	// 직원 레벨 수정
+	public int updateEmpLevel(Connection conn, int authCode, String empId, int empCode) throws Exception {
+		// 객체 초기화
+		int row = 0;
+		// 쿼리문 작성
+		String sql = "UPDATE emp SET auth_code = ? WHERE emp_id = ? AND emp_code = ?";
+		// 쿼리 객체 생성
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		// 쿼리문 ?값 지정
+		stmt.setInt(1, authCode);
+		stmt.setString(2, empId);
+		stmt.setInt(3, empCode);
+		// 쿼리 실행
+		row = stmt.executeUpdate();
+
+		stmt.close();
+		return row;
+	}
 	// 직원 레벨수정 페이지 페이징에 필요한 목록수 출력
 	public int selectCountByEmpModify(Connection conn) throws Exception {
 		// 객체 초기화

@@ -9,16 +9,17 @@ import vo.Customer;
 
 public class CustomerDao {
 	// 고객 레벨 수정
-	public int updateMemberLevel(Connection conn, int authCode, String customerId) throws Exception {
+	public int updateMemberLevel(Connection conn, int authCode, String customerId, int customerCode) throws Exception {
 		// 객체 초기화
 		int row = 0;
 		// 쿼리문 작성
-		String sql = "UPDATE customer SET auth_code = ? WHERE customer_id = ?";
+		String sql = "UPDATE customer SET auth_code = ? WHERE customer_id = ? AND customer_code = ?";
 		// 쿼리 객체 생성
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		// 쿼리문 ?값 지정
 		stmt.setInt(1, authCode);
 		stmt.setString(2, customerId);
+		stmt.setInt(3, customerCode);
 		// 쿼리 실행
 		row = stmt.executeUpdate();
 

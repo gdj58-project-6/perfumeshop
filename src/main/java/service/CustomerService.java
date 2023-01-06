@@ -16,7 +16,7 @@ public class CustomerService {
 	private PwHistoryDao pwHistoryDao;
 
 	// 고객 레벨 수정
-	public int updateMemberLevel(int authCode, String customerId) {
+	public int updateMemberLevel(int authCode, String customerId, int customerCode) {
 		// 객체 초기화
 		int row = 0;
 		// 드라이버 초기화
@@ -28,7 +28,7 @@ public class CustomerService {
 			// dao초기화
 			this.customerDao = new CustomerDao();
 			// dao호출
-			row = customerDao.updateMemberLevel(conn, authCode, customerId);
+			row = customerDao.updateMemberLevel(conn, authCode, customerId, customerCode);
 			// 커밋
 			conn.commit();
 		} catch (Exception e) {

@@ -1,6 +1,7 @@
 package controller.emp.log;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import service.CustomerService;
 import service.EmpService;
 import vo.Customer;
 import vo.Emp;
@@ -36,9 +38,10 @@ public class ModifyEmpByAdminController extends HttpServlet {
 		// 서비스 호출
 		this.empService = new EmpService();
 		ArrayList<Emp> list = empService.getEmpList(currentPage, rowPerPage);
-		int lastPage = empService.getEmpCountByEmpModify() / rowPerPage;
-		System.out.println(lastPage);
+		int lastPage = empService.getEmpCountByEmpModify();
+		// System.out.println(lastPage);
 		request.setAttribute("currentPage", currentPage);
+		request.setAttribute("rowPerPage", rowPerPage);
 		request.setAttribute("lastPage", lastPage);
 		request.setAttribute("list", list);
 		request.setAttribute("loginEmp", loginEmp);
@@ -49,6 +52,23 @@ public class ModifyEmpByAdminController extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 관리자 레벨 수정 탈퇴 계정사용
+		// 레벨 수정(1단계:수정버튼으로 수정되게끔) 탈퇴기능은 나중에 
+		request.setCharacterEncoding("utf-8");
+		int empCode = Integer.parseInt(request.getParameter("empCode")); 
+		String empId = request.getParameter("empId");
+		int authCode = Integer.parseInt(request.getParameter("authCode"));
+		//System.out.println(empCode);
+		//System.out.println(empId);
+		//System.out.println(authCode);
+		
+		// 메서드 호출
+		this.empService = new EmpService();
+		int row = empService.updateEmpLevel(authCode, empId, empCode);
+		
+		if(row == 1) {
+			// System.out.println("수정완료");
+			response.sendRedirect(request.getContextPath()+"/admin/modifyByAdmin");
+		}
 	}
 
 }
