@@ -222,7 +222,7 @@ public class CustomerService {
 			this.pwHistoryDao = new PwHistoryDao();
 			if(pwHistoryDao.deletePwHistory(conn, customer) == 1) { // pw_history 삭제
 				this.outidDao = new OutidDao();
-				if (outidDao.insertOutid(conn, customer) == 1) { // outid에 insert되면 진행
+				if (outidDao.insertCustomerOutid(conn, customer) == 1) { // outid에 insert되면 진행
 					this.customerDao = new CustomerDao();
 					row = customerDao.deleteCustomer(conn, customer);
 					if (row != 1) {

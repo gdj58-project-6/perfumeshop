@@ -213,15 +213,16 @@ public class EmpService {
 	}
 	
 	// 직원탈퇴 후 outid에 아이디 저장
-	public void getDeleteEmp(String id, String pw) {
+	public int getDeleteEmp(String id) {
+		int row = 0;
 		Connection conn = null;
 		
 		try {
 			conn = DBUtil.getConnection();
 			this.outidDao = new OutidDao();
-			if(outidDao.insertOutid(conn, id) == 1) {
+			if(outidDao.insertEmpOutid(conn, id) == 1) {
 				this.empDao = new EmpDao();
-				int row = empDao.deleteEmp(conn, id, pw);
+				row = empDao.deleteEmp(conn, id);
 				if(row != 1) {
 					throw new Exception();
 					// 회원탈퇴가 안되면 강제예외발생시켜 catch절로 이동하여 rollback되게
@@ -242,5 +243,7 @@ public class EmpService {
 				e.printStackTrace();
 			}
 		}
+		
+		return row;
 	}
 }

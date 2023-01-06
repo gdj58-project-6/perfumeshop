@@ -19,16 +19,27 @@ public class RemoveByAdminController extends HttpServlet {
 		// 멤버 탈퇴
 		// 인코딩
 		request.setCharacterEncoding("UTF-8");
-		
-		// 디버깅용 로그인 정보 저장
+
 		HttpSession session = request.getSession();
-		Emp loginEmp = (Emp)(session.getAttribute("loginEmp"));
-		String empId = loginEmp.getEmpId();
-		String empPw = "1234";
+		Emp loginEmp = (Emp)session.getAttribute("loginEmp");
+		
+		// 최고관리자만 탈퇴 권한
+		if(loginEmp.getAuthCode() != 7) {
+			response.sendRedirect(request.getContextPath() + "/home");
+			return;
+		}
+		
+		// 탈퇴시킬 직원 아이디
+		String empId = request.getParameter("empId");
 		
 		this.empService = new EmpService();
-		empService.getDeleteEmp(empId, empPw);
+		int row = empService.getDeleteEmp(empId);
 		
+		if(row == 1) {
+			System.out.println("직원 탈퇴 성공");
+		} else {
+			System.out.println("직원 탈퇴 실패");
+		}
 	}
 
 }

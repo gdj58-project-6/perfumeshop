@@ -164,12 +164,11 @@ public class EmpDao {
 	}
 	
 	// 직원 탈퇴
-	public int deleteEmp(Connection conn, String id, String pw) throws Exception {
+	public int deleteEmp(Connection conn, String id) throws Exception {
 		int row = 0;
-		String sql = "DELETE from emp WHERE emp_id = ? AND emp_pw = PASSWORD(?)";
+		String sql = "DELETE from emp WHERE emp_id = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, id);
-		stmt.setString(2, pw);
 		
 		row = stmt.executeUpdate();
 		
