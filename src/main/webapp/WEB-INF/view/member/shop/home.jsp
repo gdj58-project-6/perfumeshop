@@ -8,29 +8,38 @@
 	</head>
 	<body>
 		<h1>home</h1>
-		<!-- nav -->
-		<a href="${pageContext.request.contextPath}/home">홈</a>
-		<a href="${pageContext.request.contextPath}/member/goodsList">상품</a>
-		<a href="${pageContext.request.contextPath}/member/cart">장바구니</a>
-		<a href="${pageContext.request.contextPath}/member/login">로그인</a>
-		<!-- 테스트용 -->
+		<!-- 비로그인 -->
+		<c:if test="${loginCustomer == null && loginEmp == null}">
+			<jsp:include page="/inc/menu.jsp"></jsp:include>
+		</c:if>
+		<!-- 고객 -->
+		<c:if test="${loginCustomer != null}">
+			<jsp:include page="/inc/customerMenu.jsp"></jsp:include>
+		</c:if>
+		<!-- 팀장 -->
+		<c:if test="${loginEmp.getAuthCode() == 7}">
+			<jsp:include page="/inc/adminMenu.jsp"></jsp:include>
+		</c:if>
+		<c:if test="${loginEmp.getAuthCode() < 7}">
+			
+		</c:if>
+		<!-- 테스트용 
 		<c:if test="${loginCustomer.getAuthCode() < 4}">
 			<a href="${pageContext.request.contextPath}/member/memberOne">정보</a>
-		</c:if>
-		<c:if test="${loginEmp.getAuthCode() > 4}">
-			<a href="${pageContext.request.contextPath}/admin/addGoods">상품등록</a>
-			<a href="${pageContext.request.contextPath}/admin/adminOne">정보</a>
-		</c:if>
-		<c:if test="${loginEmp.getAuthCode() == 7}">
-			<a href="${pageContext.request.contextPath}/admin/modifyMember">고객등급수정</a>
-			<a href="${pageContext.request.contextPath}/admin/modifyByAdmin">직원등급수정</a>
-		</c:if>
-		<c:if test="${loginEmp != null || loginCustomer != null}">
+			<c:if test="${loginEmp != null || loginCustomer != null}">
 			<a href="${pageContext.request.contextPath}/member/logout">로그아웃</a>
 		</c:if>
 		<c:if test="${loginCustomer != null}">
 			${loginCustomer.getCustomerId()}님
 		</c:if>
+		</c:if>
+		-->
+		<c:if test="${loginEmp.getAuthCode() > 4}">
+			<a href="${pageContext.request.contextPath}/admin/addGoods">상품등록</a>
+			<a href="${pageContext.request.contextPath}/admin/adminOne">정보</a>
+		</c:if>
+		
+		
 		<c:if test="${loginEmp != null}">
 			${loginEmp.getEmpId()}님
 		</c:if>

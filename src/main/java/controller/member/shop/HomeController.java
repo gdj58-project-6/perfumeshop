@@ -44,5 +44,4 @@ public class HomeController extends HttpServlet {
 		// 공지사항 list
 		request.getRequestDispatcher("/WEB-INF/view/member/shop/home.jsp").forward(request, response);
 	}
-
 }
