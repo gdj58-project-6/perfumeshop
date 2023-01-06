@@ -21,11 +21,11 @@ public class CustomerDao {
 		stmt.setString(2, customerId);
 		// 쿼리 실행
 		row = stmt.executeUpdate();
-		
+
 		stmt.close();
 		return row;
 	}
-	
+
 	// 고객 레벨수정 페이지 페이징에 필요한 목록수 출력
 	public int selectCountByMemberModify(Connection conn) throws Exception {
 		// 객체 초기화
@@ -36,28 +36,23 @@ public class CustomerDao {
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		// 쿼리 실행
 		ResultSet rs = stmt.executeQuery();
-		if(rs.next()) {
+		if (rs.next()) {
 			row = rs.getInt("COUNT(*)");
 		}
 		stmt.close();
 		rs.close();
 		return row;
 	}
-	
+
 	// 고객 레벨수정 페이지 고객 리스트
-	public ArrayList<Customer> selectCustomerListByMemberModify(Connection conn, int beginRow, int rowPerPage) throws Exception {
+	public ArrayList<Customer> selectCustomerListByMemberModify(Connection conn, int beginRow, int rowPerPage)
+			throws Exception {
 		// 객체 초기화
 		ArrayList<Customer> list = null;
 		// 쿼리문 작성
-		String sql = "SELECT"
-				+ "   customer_code customerCode"
-				+ " , customer_id customerId"
-				+ " , customer_name customerName"
-				+ " , customer_phone customerPhone"
-				+ " , point"
-				+ " , auth_code authCode"
-				+ " , createdate"
-				+ " FROM customer  ORDER BY customer_code ASC LIMIT ?, ?";
+		String sql = "SELECT" + "   customer_code customerCode" + " , customer_id customerId"
+				+ " , customer_name customerName" + " , customer_phone customerPhone" + " , point"
+				+ " , auth_code authCode" + " , createdate" + " FROM customer  ORDER BY customer_code ASC LIMIT ?, ?";
 		// 쿼리 객체 생성
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		// 쿼리문 ?값 지정
@@ -66,7 +61,7 @@ public class CustomerDao {
 		// 쿼리 실행
 		ResultSet rs = stmt.executeQuery();
 		list = new ArrayList<Customer>();
-		while(rs.next()) {
+		while (rs.next()) {
 			Customer c = new Customer();
 			c.setCustomerCode(rs.getInt("customerCode"));
 			c.setCustomerId(rs.getString("customerId"));
@@ -81,7 +76,7 @@ public class CustomerDao {
 		rs.close();
 		return list;
 	}
-	
+
 	// 고객 로그인
 	public Customer loginCustomer(Connection conn, Customer paramCustomer) throws Exception {
 		// 객체 초기화
@@ -95,7 +90,7 @@ public class CustomerDao {
 		stmt.setString(2, paramCustomer.getCustomerPw());
 		// 쿼리 실행
 		ResultSet rs = stmt.executeQuery();
-		if(rs.next()) {
+		if (rs.next()) {
 			customer = new Customer();
 			customer.setCustomerId(rs.getString("customerId"));
 			customer.setCustomerName(rs.getString("customerName"));
@@ -107,26 +102,26 @@ public class CustomerDao {
 		rs.close();
 		return customer;
 	}
-	
-	// 아이디 중복검사 : 사용가능 - false, 사용불가능 - true
+
+	// 아이디 중복검사 : 사용가능 - null반환
 	public String selectCustomerId(Connection conn, Customer customer) throws Exception {
 		String selectId = null;
 		ResultSet rs = null;
 		String sql = "SELECT t.id from (SELECT customer_id id FROM customer UNION SELECT emp_id id FROM emp UNION SELECT id id FROM outid) t WHERE t.id = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, customer.getCustomerId());
-		  
+
 		rs = stmt.executeQuery();
-		  
-		if(rs.next()) {
+
+		if (rs.next()) {
 			selectId = rs.getString("t.id");
 		}
-		  
+
 		stmt.close();
-		  
-		return selectId; // 사용가능한 아이디면 null 반환
+
+		return selectId;
 	}
-	
+
 	// 일반회원 회원가입
 	public int addCustomer(Connection conn, Customer customer) throws Exception {
 		int row = 0;
@@ -136,14 +131,14 @@ public class CustomerDao {
 		stmt.setString(2, customer.getCustomerPw());
 		stmt.setString(3, customer.getCustomerName());
 		stmt.setString(4, customer.getCustomerPhone());
-		
+
 		row = stmt.executeUpdate();
-		
+
 		stmt.close();
-		
+
 		return row;
 	}
-	
+
 	// 회원 정보
 	public Customer selectCustomerOne(Connection conn, Customer customer) throws Exception {
 		Customer resultCustomer = null;
@@ -151,10 +146,10 @@ public class CustomerDao {
 		String sql = "SELECT customer_code customerCode, customer_id customerId, customer_pw customerPw, customer_name customerName, customer_phone customerPhone, point, auth_code authCode, createdate FROM customer WHERE customer_id = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, customer.getCustomerId());
-		
+
 		rs = stmt.executeQuery();
-		
-		if(rs.next()) {
+
+		if (rs.next()) {
 			resultCustomer = new Customer();
 			resultCustomer.setAuthCode(rs.getInt("customerCode"));
 			resultCustomer.setCustomerId(rs.getString("customerId"));
@@ -165,10 +160,25 @@ public class CustomerDao {
 			resultCustomer.setAuthCode(rs.getInt("authCode"));
 			resultCustomer.setCreatedate(rs.getString("createdate"));
 		}
-		
+
+		stmt.close();
+		rs.close();
+
 		return resultCustomer;
 	}
-	
+
+	// 회원 비밀번호 수정
+	public int updateCustomerPw(Connection conn, String id, String pw, String chagePw) throws Exception {
+		int row = 0;
+		String sql = "UPDATE customer SET customer_pw = PASSWORD(?) WHERE customer_id = ? AND customer_pw = PASSWORD(?)";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, chagePw);
+		stmt.setString(2, id);
+		stmt.setString(3, pw);
+
+		return row;
+	}
+
 	// 회원 탈퇴
 	public int deleteCustomer(Connection conn, String id, String pw) throws Exception {
 		int row = 0;
@@ -176,11 +186,11 @@ public class CustomerDao {
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, id);
 		stmt.setString(2, pw);
-		
+
 		row = stmt.executeUpdate();
-		
+
 		stmt.close();
-		
+
 		return row;
 	}
 }
