@@ -68,7 +68,7 @@ public class ModifyMemberByAdminController extends HttpServlet {
 		
 		// 메서드 호출
 		this.customerService = new CustomerService();
-		int row = customerService.updateMemberLevel(authCode, customerId, customerCode);
+		int row = customerService.updateMemberLevel(authCode, customerId);
 		
 		if(row == 1) {
 			// System.out.println("수정완료");
