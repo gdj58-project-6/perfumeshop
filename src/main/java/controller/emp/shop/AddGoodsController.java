@@ -1,6 +1,7 @@
 package controller.emp.shop;
 
 import java.io.File;
+
 import java.io.IOException;
 
 import javax.servlet.RequestDispatcher;
@@ -28,13 +29,11 @@ public class AddGoodsController extends HttpServlet {
 		Emp loginEmp = (Emp)session.getAttribute("loginEmp");	
 		request.setAttribute("loginEmp", loginEmp);
 		// System.out.println(loginEmp.getEmpId());
-		if(loginEmp.getEmpId() == null) { // empId로 로그인 하지 않았을 경우
-			
-		}
 		
-		
+		// 나중에 방어코드 넣기
 		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/view/emp/shop/addGoods.jsp");
 		rd.forward(request, response);
+				
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

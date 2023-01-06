@@ -8,7 +8,7 @@
 <body>
 	<!-- include? -->
 	<h3>장바구니</h3>
-	<table>
+	<table border="1">
 		<tr>
 			<td></td>
 		<tr>

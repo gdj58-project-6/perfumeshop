@@ -23,7 +23,6 @@ public class GoodsService {
 		Connection conn = null;
 		try {
 			conn = DBUtil.getConnection();
-			conn.setAutoCommit(false);
 			this.goodsDao = new GoodsDao();
 			list = goodsDao.goodsOne(conn, goodsCode);
 			conn.commit();
@@ -51,7 +50,6 @@ public class GoodsService {
 		Connection conn = null;
 		try {
 			conn = DBUtil.getConnection();
-			conn.setAutoCommit(false);
 			this.goodsDao = new GoodsDao();
 			list = goodsDao.selectGoodsList(conn);
 			conn.commit();
@@ -78,7 +76,6 @@ public class GoodsService {
 		Connection conn = null;
 		try {
 			conn = DBUtil.getConnection();
-			conn.setAutoCommit(false);
 			this.goodsDao = new GoodsDao();
 			HashMap<String, Integer> map = goodsDao.addGoods(conn, goods);
 			
