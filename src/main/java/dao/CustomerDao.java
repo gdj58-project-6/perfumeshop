@@ -25,6 +25,7 @@ public class CustomerDao {
 		rs.close();
 		return row;
 	}
+	
 	// 고객 레벨수정 페이지 고객 리스트
 	public ArrayList<Customer> selectCustomerListByMemberModify(Connection conn, int beginRow, int rowPerPage) throws Exception {
 		// 객체 초기화
@@ -60,6 +61,7 @@ public class CustomerDao {
 		rs.close();
 		return list;
 	}
+	
 	// 고객 로그인
 	public Customer loginCustomer(Connection conn, Customer paramCustomer) throws Exception {
 		// 객체 초기화
@@ -87,22 +89,22 @@ public class CustomerDao {
 	}
 	
 	// 아이디 중복검사 : 사용가능 - false, 사용불가능 - true
-	public boolean selectCustomerId(Connection conn, String id) throws Exception {
-		boolean result = true;
+	public String selectCustomerId(Connection conn, Customer customer) throws Exception {
+		String selectId = null;
 		ResultSet rs = null;
-		String sql = "SELECT customer_id FROM customer WHERE customer_id = ?";
+		String sql = "SELECT t.id from (SELECT customer_id id FROM customer UNION SELECT emp_id id FROM emp UNION SELECT id id FROM outid) t WHERE t.id = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setString(1, id);
-		
+		stmt.setString(1, customer.getCustomerId());
+		  
 		rs = stmt.executeQuery();
-		
+		  
 		if(rs.next()) {
-			result = false;
+			selectId = rs.getString("t.id");
 		}
-		
+		  
 		stmt.close();
-		
-		return result;
+		  
+		return selectId; // 사용가능한 아이디면 null 반환
 	}
 	
 	// 일반회원 회원가입

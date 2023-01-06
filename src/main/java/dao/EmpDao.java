@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+import vo.Customer;
 import vo.Emp;
 
 public class EmpDao {
@@ -32,7 +33,25 @@ public class EmpDao {
 		rs.close();
 		return emp;
 	}
-	// 아이디 중복검사 : ..
+	
+	// 아이디 중복검사 : 사용가능 - false, 사용불가능 - true
+	public String selectEmpId(Connection conn, Emp emp) throws Exception {
+		String selectId = null;
+		ResultSet rs = null;
+		String sql = "SELECT t.id from (SELECT customer_id id FROM customer UNION SELECT emp_id id FROM emp UNION SELECT id id FROM outid) t WHERE t.id = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, emp.getEmpId());
+		  
+		rs = stmt.executeQuery();
+		  
+		if(rs.next()) {
+		selectId = rs.getString("t.id");
+		}
+		  
+		stmt.close();
+		  
+		return selectId; // 사용가능한 아이디면 null 반환
+	}
 	
 	// 직원 가입
 	public int insertEmp(Connection conn, Emp emp) throws Exception {

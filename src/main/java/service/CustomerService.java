@@ -39,6 +39,7 @@ public class CustomerService {
 		}
 		return row;
 	}
+	
 	// 고객 레벨수정 페이지 고객 리스트
 	public ArrayList<Customer> getCustomerList(int currentPage, int rowPerPage) {
 		// 객체 초기화
@@ -65,6 +66,7 @@ public class CustomerService {
 		}
 		return list;
 	}
+	
 	// 회원 로그인
 	public Customer loginCustomer(Customer paramCustomer) {
 		Customer customer = null;
@@ -86,15 +88,16 @@ public class CustomerService {
 		}
 		return customer;
 	}
+	
 	// 아이디 중복검사 : 사용가능 - true, 사용불가능 - false
-	public boolean getSelectCustomerId(String id) {
-		boolean result = true;
+	public String getSelectCustomerId(Customer customer) {
+		String selectId = null;
 		Connection conn = null;
-		
+	  
 		try {
 			conn = DBUtil.getConnection();
 			this.customerDao = new CustomerDao();
-			result = customerDao.selectCustomerId(conn, id);
+			selectId = customerDao.selectCustomerId(conn, customer);
 			conn.commit();
 		} catch (Exception e) {
 			try {
@@ -107,11 +110,10 @@ public class CustomerService {
 			try {
 				conn.close();
 			} catch (SQLException e) {
-				e.printStackTrace();
+			e.printStackTrace();
 			}
 		}
-		
-		return result;
+		return selectId;
 	}
 	
 	// 회원가입

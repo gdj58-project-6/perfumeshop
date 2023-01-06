@@ -39,8 +39,8 @@ public class AddEmpController extends HttpServlet {
 		// Model 
 		this.empService = new EmpService();
 		
-		/* 아이디 중복검사
-		if(empService.getSelectEmpId(id) == null) { // 중복되는 아이디 없으면 회원 가입 진행
+		// 아이디 중복검사
+		if(empService.getSelectEmpId(emp) == null) { // 중복되는 아이디 없으면 회원 가입 진행
 			int row = empService.getInsertEmp(emp);
 			if(row == 1) {
 				System.out.println("직원 가입 성공");
@@ -49,7 +49,7 @@ public class AddEmpController extends HttpServlet {
 			}
 		} else {
 			System.out.println("중복 직원 아이디");
-		}*/
+		}
 	}
 
 }
