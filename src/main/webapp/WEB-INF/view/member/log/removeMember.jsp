@@ -6,7 +6,7 @@
 		<title>Insert title here</title>
 	</head>
 	<body>
-		<form action="${pageContext.request.contextPath}/member/removeMember">
+		<form action="${pageContext.request.contextPath}/member/removeMember" method="post">
 			<table border="1">
 				<tr>
 					<td>아이디</td>

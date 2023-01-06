@@ -209,15 +209,16 @@ public class CustomerService {
 	}
 	
 	// 회원탈퇴
-	public void getDeleteCustomer(Customer customer) {
+	public void getDeleteCustomer(String id, String pw) {
 		Connection conn = null;
 		
 		try {
 			conn = DBUtil.getConnection();
 			this.outidDao = new OutidDao();
-			if(this.outidDao.insertOutid(conn, customer) == 1) { // outid에 insert되면 진행
+			if(outidDao.insertOutid(conn, id)== 1) { // outid에 insert되면 진행
 				this.customerDao = new CustomerDao();
-				if(this.customerDao.deleteCustomer(conn, customer) != 1) { 
+				int row = this.customerDao.deleteCustomer(conn, id, pw);
+				if(row != 1) { 
 					// 회원탈퇴가 안되었으면 강제 예외발생시켜 catch절로 이동 후 rollback
 					throw new Exception();
 				}

@@ -170,12 +170,12 @@ public class CustomerDao {
 	}
 	
 	// 회원 탈퇴
-	public int deleteCustomer(Connection conn, Customer customer) throws Exception {
+	public int deleteCustomer(Connection conn, String id, String pw) throws Exception {
 		int row = 0;
 		String sql = "DELETE FROM customer WHERE customer_id = ? AND customer_pw = PASSWORD(?)";
 		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setString(1, customer.getCustomerId());
-		stmt.setString(2, customer.getCustomerPw());
+		stmt.setString(1, id);
+		stmt.setString(2, pw);
 		
 		row = stmt.executeUpdate();
 		
