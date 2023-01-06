@@ -1,6 +1,8 @@
 package controller.member.log;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -36,9 +38,9 @@ public class MemberOneController extends HttpServlet {
 		
 		// Model
 		this.customerService = new CustomerService();
-		Customer customerOne = customerService.getSelectCustomerOne(customer);
+		ArrayList<HashMap<String, Object>> list = customerService.getSelectCustomerOne(customer);
 		
-		request.setAttribute("customerOne", customerOne);
+		request.setAttribute("customerOne", list);
 		
 		
 		request.getRequestDispatcher("/WEB-INF/view/member/log/memberOne.jsp").forward(request, response);

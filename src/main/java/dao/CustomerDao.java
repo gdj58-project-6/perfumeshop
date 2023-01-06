@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import vo.Customer;
 
@@ -140,31 +141,38 @@ public class CustomerDao {
 	}
 
 	// 회원 정보
-	public Customer selectCustomerOne(Connection conn, Customer customer) throws Exception {
-		Customer resultCustomer = null;
+	public ArrayList<HashMap<String, Object>> selectCustomerOne(Connection conn, Customer customer) throws Exception {
+		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
 		ResultSet rs = null;
-		String sql = "SELECT customer_code customerCode, customer_id customerId, customer_pw customerPw, customer_name customerName, customer_phone customerPhone, point, auth_code authCode, createdate FROM customer WHERE customer_id = ?";
+		String sql = "SELECT c.customer_code customerCode, c.customer_id customerId, c.customer_pw customerPw, c.customer_name customerName, c.customer_phone customerPhone, c.point point, c.auth_code authCode, ca.address_code addressCode, ca.address address, c.createdate createdate "
+					+"FROM customer c INNER JOIN customer_address ca "
+					+"ON c.customer_id = ca.customer_id "
+					+"WHERE c.customer_id = ? AND ca.customer_id = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, customer.getCustomerId());
+		stmt.setString(2, customer.getCustomerId());
 
 		rs = stmt.executeQuery();
 
 		if (rs.next()) {
-			resultCustomer = new Customer();
-			resultCustomer.setAuthCode(rs.getInt("customerCode"));
-			resultCustomer.setCustomerId(rs.getString("customerId"));
-			resultCustomer.setCustomerPw(rs.getString("customerPw"));
-			resultCustomer.setCustomerName(rs.getString("customerName"));
-			resultCustomer.setCustomerPhone(rs.getString("customerPhone"));
-			resultCustomer.setPoint(rs.getInt("point"));
-			resultCustomer.setAuthCode(rs.getInt("authCode"));
-			resultCustomer.setCreatedate(rs.getString("createdate"));
+			HashMap<String, Object> m = new HashMap<String, Object>();
+			m.put("customerCode", rs.getInt("customerCode"));
+			m.put("customerId", rs.getString("customerId"));
+			m.put("customerPw", rs.getString("customerPw"));
+			m.put("customerName", rs.getString("customerName"));
+			m.put("customerPhone", rs.getString("customerPhone"));
+			m.put("point", rs.getInt("point"));
+			m.put("authCode", rs.getInt("authCode"));
+			m.put("addressCode", rs.getInt("addressCode"));
+			m.put("address", rs.getString("address"));
+			m.put("createdate", rs.getString("createdate"));
+			list.add(m);
 		}
 
 		stmt.close();
 		rs.close();
 
-		return resultCustomer;
+		return list;
 	}
 
 	// 회원 비밀번호 수정

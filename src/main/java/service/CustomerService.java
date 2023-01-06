@@ -3,6 +3,7 @@ package service;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import dao.CustomerDao;
 import dao.OutidDao;
@@ -185,14 +186,14 @@ public class CustomerService {
 	}
 
 	// 회원 정보
-	public Customer getSelectCustomerOne(Customer customer) {
-		Customer resultCustomer = null;
+	public ArrayList<HashMap<String, Object>> getSelectCustomerOne(Customer customer) {
+		ArrayList<HashMap<String, Object>> list = null;
 		Connection conn = null;
 
 		try {
 			conn = DBUtil.getConnection();
 			this.customerDao = new CustomerDao();
-			resultCustomer = customerDao.selectCustomerOne(conn, customer);
+			list = customerDao.selectCustomerOne(conn, customer);
 			conn.commit();
 		} catch (Exception e) {
 			try {
@@ -209,7 +210,7 @@ public class CustomerService {
 			}
 		}
 
-		return resultCustomer;
+		return list;
 	}
 
 	// 회원탈퇴 전 pw_histroy 삭제 후 outid에 저장
