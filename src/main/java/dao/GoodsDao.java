@@ -17,7 +17,7 @@ public class GoodsDao {
 		ResultSet rs = stmt.executeQuery();
 		while(rs.next()) {
 			HashMap<String, Object> m = new HashMap<String, Object>();
-			m.put("goodsCode", rs.getInt("goodCode"));
+			m.put("goodsCode", rs.getInt("goodsCode"));
 			m.put("goodsName", rs.getString("goodsName"));
 			m.put("goodsPrice", rs.getString("goodsPrice"));
 			m.put("fileName", rs.getString("fileName"));

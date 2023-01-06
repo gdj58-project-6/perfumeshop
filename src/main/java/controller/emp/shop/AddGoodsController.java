@@ -81,7 +81,7 @@ public class AddGoodsController extends HttpServlet {
 			}
 		}
 		
-		response.sendRedirect(request.getContextPath()+"/admin/addGoods");
+		response.sendRedirect(request.getContextPath()+"/member/goodsList");
 	}
 
 }
