@@ -8,6 +8,24 @@ import java.util.ArrayList;
 import vo.Customer;
 
 public class CustomerDao {
+	// 고객 레벨 수정
+	public int updateMemberLevel(Connection conn, int authCode, String customerId) throws Exception {
+		// 객체 초기화
+		int row = 0;
+		// 쿼리문 작성
+		String sql = "UPDATE customer SET auth_code = ? WHERE customer_id = ?";
+		// 쿼리 객체 생성
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		// 쿼리문 ?값 지정
+		stmt.setInt(1, authCode);
+		stmt.setString(2, customerId);
+		// 쿼리 실행
+		row = stmt.executeUpdate();
+		
+		stmt.close();
+		return row;
+	}
+	
 	// 고객 레벨수정 페이지 페이징에 필요한 목록수 출력
 	public int selectCountByMemberModify(Connection conn) throws Exception {
 		// 객체 초기화
@@ -32,7 +50,8 @@ public class CustomerDao {
 		ArrayList<Customer> list = null;
 		// 쿼리문 작성
 		String sql = "SELECT"
-				+ " customer_id customerId"
+				+ "   customer_code customerCode"
+				+ " , customer_id customerId"
 				+ " , customer_name customerName"
 				+ " , customer_phone customerPhone"
 				+ " , point"
@@ -49,6 +68,7 @@ public class CustomerDao {
 		list = new ArrayList<Customer>();
 		while(rs.next()) {
 			Customer c = new Customer();
+			c.setCustomerCode(rs.getInt("customerCode"));
 			c.setCustomerId(rs.getString("customerId"));
 			c.setCustomerName(rs.getString("customerName"));
 			c.setCustomerPhone(rs.getString("customerPhone"));

@@ -8,7 +8,7 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 		<script>
 			$(document).ready(function() {
-				$('#authCode').change(function() {
+				$('#updateAuth').change(function() {
 					$('#authCodeForm').submit();
 					alert('change');
 				});
@@ -22,6 +22,7 @@
 		<form action="${pageContext.request.contextPath}/admin/modifyMember" method="post" id="authCodeForm">
 			<table border="1">
 				<tr>
+					<th>customerCode</th>
 					<th>customerId</th>
 					<th>customerName</th>
 					<th>customerPhone</th>
@@ -32,6 +33,9 @@
 				<c:forEach var="m" items="${list}">
 					<tr>
 						<td>
+							<input type="text" name="customerCode" value="${m.customerCode}" readonly="readonly">
+						</td>
+						<td>
 							<input type="text" name="customerId" value="${m.customerId}" readonly="readonly">
 						</td>
 						<td>${m.customerName}</td>
@@ -39,7 +43,7 @@
 						<td>${m.point}</td>
 						<td>
 							${m.authCode}
-							<select name="authCode" id="authCode">
+							<select name="authCode" id="updateAuth">
 								<c:if test="${m.authCode == 0}">
 									<option value="0" selected="selected">0</option>
 									<option value="1">1</option>

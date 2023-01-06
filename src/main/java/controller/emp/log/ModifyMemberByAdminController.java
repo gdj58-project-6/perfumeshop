@@ -50,12 +50,21 @@ public class ModifyMemberByAdminController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 레벨 수정 탈퇴
 		request.setCharacterEncoding("utf-8");
+		int customerCode = Integer.parseInt(request.getParameter("customerCode")); 
 		String customerId = request.getParameter("customerId");
 		int authCode = Integer.parseInt(request.getParameter("authCode"));
+		// System.out.println(customerCode);
 		// System.out.println(customerId);
 		// System.out.println(authCode);
 		
+		// 메서드 호출
+		this.customerService = new CustomerService();
+		int row = customerService.updateMemberLevel(authCode, customerId);
 		
+		if(row == 1) {
+			System.out.println("수정완료");
+			response.sendRedirect(request.getContextPath()+"/admin/modifyMember");
+		}
 	}
 
 }
