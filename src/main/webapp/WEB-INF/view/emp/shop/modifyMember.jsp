@@ -5,21 +5,13 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>modifyMemberLevel</title>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-		<script>
-			$(document).ready(function() {
-				$('#updateAuth').change(function() {
-					$('#authCodeForm').submit();
-					alert('change');
-				});
-			});
-		</script>
 	</head>
 	<body>
+		
 		<!-- 고객 리스트 조회 -->
 		<h1>고객 레벨수정</h1>
 		${loginEmp.getEmpName()}(등급:${loginEmp.getAuthCode()})
-		<form action="${pageContext.request.contextPath}/admin/modifyMember" method="post" id="authCodeForm">
+		<form action="${pageContext.request.contextPath}/admin/modifyMember" method="post">
 			<table border="1">
 				<tr>
 					<th>customerCode</th>
@@ -32,44 +24,14 @@
 				</tr>
 				<c:forEach var="m" items="${list}">
 					<tr>
-						<td>
-							<input type="text" name="customerCode" value="${m.customerCode}" readonly="readonly">
-						</td>
+						<td>${m.customerCode}</td>
 						<td>
 							<input type="text" name="customerId" value="${m.customerId}" readonly="readonly">
 						</td>
 						<td>${m.customerName}</td>
 						<td>${m.customerPhone}</td>
 						<td>${m.point}</td>
-						<td>
-							${m.authCode}
-							<select name="authCode" id="updateAuth">
-								<c:if test="${m.authCode == 0}">
-									<option value="0" selected="selected">0</option>
-									<option value="1">1</option>
-									<option value="2">2</option>
-									<option value="3">3</option>
-								</c:if>
-								<c:if test="${m.authCode == 1}">
-									<option value="0">0</option>
-									<option value="1" selected="selected">1</option>
-									<option value="2">2</option>
-									<option value="3">3</option>
-								</c:if>
-								<c:if test="${m.authCode == 2}">
-									<option value="0">0</option>
-									<option value="1">1</option>
-									<option value="2" selected="selected">2</option>
-									<option value="3">3</option>
-								</c:if>
-								<c:if test="${m.authCode == 3}">
-									<option value="0" >0</option>
-									<option value="1">1</option>
-									<option value="2">2</option>
-									<option value="3" selected="selected">3</option>
-								</c:if>
-							</select>
-						</td>
+						<td>${m.authCode}</td>
 						<td>${m.createdate}</td>
 					</tr>
 				</c:forEach>
