@@ -124,6 +124,31 @@ public class CustomerDao {
 		return row;
 	}
 	
+	// 회원 정보
+	public Customer selectCustomerOne(Connection conn, Customer customer) throws Exception {
+		Customer resultCustomer = null;
+		ResultSet rs = null;
+		String sql = "SELECT customer_code customerCode, customer_id customerId, customer_pw customerPw, customer_name customerName, customer_phone customerPhone, point, auth_code authCode, createdate FROM customer WHERE customer_id = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, customer.getCustomerId());
+		
+		rs = stmt.executeQuery();
+		
+		if(rs.next()) {
+			resultCustomer = new Customer();
+			resultCustomer.setAuthCode(rs.getInt("customerCode"));
+			resultCustomer.setCustomerId(rs.getString("customerId"));
+			resultCustomer.setCustomerPw(rs.getString("customerPw"));
+			resultCustomer.setCustomerName(rs.getString("customerName"));
+			resultCustomer.setCustomerPhone(rs.getString("customerPhone"));
+			resultCustomer.setPoint(rs.getInt("point"));
+			resultCustomer.setAuthCode(rs.getInt("authCode"));
+			resultCustomer.setCreatedate(rs.getString("createdate"));
+		}
+		
+		return resultCustomer;
+	}
+	
 	// 회원 탈퇴
 	public int deleteCustomer(Connection conn, Customer customer) throws Exception {
 		int row = 0;
@@ -137,12 +162,5 @@ public class CustomerDao {
 		stmt.close();
 		
 		return row;
-	}
-	
-	// 회원 정보
-	public Customer selectCustomerOne(Connection conn, Customer customer) throws Exception {
-		Customer resultCustomer = null;
-		
-		return resultCustomer;
 	}
 }

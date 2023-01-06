@@ -144,6 +144,34 @@ public class CustomerService {
 		return row;
 	}
 	
+	// 회원 정보
+	public Customer getSelectCustomerOne(Customer customer) {
+		Customer resultCustomer = null;
+		Connection conn = null;
+		
+		try {
+			conn = DBUtil.getConnection();
+			this.customerDao = new CustomerDao();
+			resultCustomer = customerDao.selectCustomerOne(conn, customer);
+			conn.commit();
+		} catch (Exception e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return resultCustomer;
+	}
+	
 	// 회원탈퇴
 	public void getDeleteCustomer(Customer customer) {
 		Connection conn = null;

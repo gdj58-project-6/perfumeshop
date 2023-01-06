@@ -23,6 +23,10 @@ public class MemberOneController extends HttpServlet {
 		Customer loginCustomer = (Customer)(session.getAttribute("loginCustomer"));
 		
 		// 로그인 안되어있으면
+		if(loginCustomer == null) {
+			response.sendRedirect(request.getContextPath() + "/member/login");
+			return;
+		}
 		String memberId = loginCustomer.getCustomerId();
 				
 		Customer customer = new Customer();
@@ -30,6 +34,9 @@ public class MemberOneController extends HttpServlet {
 		
 		// Model
 		this.customerService = new CustomerService();
+		Customer customerOne = customerService.getSelectCustomerOne(customer);
+		
+		request.setAttribute("customerOne", customerOne);
 		
 		
 		request.getRequestDispatcher("/WEB-INF/view/member/log/memberOne.jsp").forward(request, response);
