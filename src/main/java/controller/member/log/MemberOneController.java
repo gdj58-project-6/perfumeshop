@@ -27,10 +27,12 @@ public class MemberOneController extends HttpServlet {
 			response.sendRedirect(request.getContextPath() + "/member/login");
 			return;
 		}
-		String memberId = loginCustomer.getCustomerId();
+		
+		// 로그인되어있으면
+		String customerId = loginCustomer.getCustomerId();
 				
 		Customer customer = new Customer();
-		customer.setCustomerId(memberId);
+		customer.setCustomerId(customerId);
 		
 		// Model
 		this.customerService = new CustomerService();

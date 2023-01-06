@@ -12,23 +12,34 @@ import javax.servlet.http.HttpSession;
 import service.EmpService;
 import vo.Emp;
 
-@WebServlet("/admin/removeByAdmin")
-public class RemoveByAdminController extends HttpServlet {
+@WebServlet("/admin/adminOne")
+public class EmpOneController extends HttpServlet {
 	private EmpService empService;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// 멤버 탈퇴
-		// 인코딩
-		request.setCharacterEncoding("UTF-8");
-		
-		// 디버깅용 로그인 정보 저장
+		// 직원 상세 정보 view
+		// 로그인 정보 저장
 		HttpSession session = request.getSession();
 		Emp loginEmp = (Emp)(session.getAttribute("loginEmp"));
+		
+		// 로그인이 안되어있으면
+		if(loginEmp == null) {
+			response.sendRedirect(request.getContextPath() + "/member/login");
+			return;
+		}
+		
+		// 로그인되어있으면
 		String empId = loginEmp.getEmpId();
-		String empPw = "1234";
 		
+		// 바인딩
+		Emp emp = new Emp();
+		emp.setEmpId(empId);
+		
+		// Model
 		this.empService = new EmpService();
-		empService.getDeleteEmp(empId, empPw);
+		Emp empOne = empService.getSelectEmpOne(emp);
 		
+		request.setAttribute("empOne", empOne);
+		
+		request.getRequestDispatcher("/WEB-INF/view/emp/log/empOne.jsp").forward(request, response);
 	}
-
 }

@@ -56,7 +56,7 @@ public class EmpDao {
 	// 직원 가입
 	public int insertEmp(Connection conn, Emp emp) throws Exception {
 		int row = 0;
-		String sql = "INSERT INTO emp(emp_id, emp_pw, emp_name, active, auth_code, createdate) VALUES(?, PASSWORD(?), ?, DEFAULT(`active`), DEFAULT(`auth_code`), CURDATE())";
+		String sql = "INSERT INTO emp(emp_id, emp_pw, emp_name, active, auth_code, createdate) VALUES(?, PASSWORD(?), ?, DEFAULT(`active`), DEFAULT(`auth_code`), NOW())";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, emp.getEmpId());
 		stmt.setString(2, emp.getEmpPw());
@@ -66,4 +66,42 @@ public class EmpDao {
 		
 		return row;
 	}
+	
+	// 직원 상세정보
+	public Emp selectEmpOne(Connection conn, Emp emp) throws Exception {
+		Emp resultEmp = null;
+		ResultSet rs = null;
+		String sql = "SELECT emp_code empCode, emp_id empId, emp_pw empPw, emp_name empName, active, auth_code authCode, createdate FROM emp WHERE emp_id = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, emp.getEmpId());
+		
+		rs = stmt.executeQuery();
+		
+		if(rs.next()) {
+			resultEmp = new Emp();
+			resultEmp.setAuthCode(rs.getInt("empCode"));
+			resultEmp.setEmpId(rs.getString("empId"));
+			resultEmp.setEmpPw(rs.getString("empPw"));
+			resultEmp.setEmpName(rs.getString("empName"));
+			resultEmp.setActive(rs.getString("active"));
+			resultEmp.setAuthCode(rs.getInt("authCode"));
+			resultEmp.setCreatedate(rs.getString("createdate"));
+		}
+		
+		return resultEmp;
+	}
+	
+	// 직원 탈퇴
+	public int deleteEmp(Connection conn, String id, String pw) throws Exception {
+		int row = 0;
+		String sql = "DELETE from emp WHERE emp_id = ? AND emp_pw = PASSWORD(?)";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, id);
+		stmt.setString(2, pw);
+		
+		row = stmt.executeUpdate();
+		
+		return row;
+	}
+
 }
