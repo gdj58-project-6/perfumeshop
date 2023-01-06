@@ -9,11 +9,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 import service.GoodsService;
+import vo.Emp;
 import vo.Goods;
 import vo.GoodsImg;
 
@@ -21,6 +23,16 @@ import vo.GoodsImg;
 public class AddGoodsController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 상품 등록 form
+		// 직원으로 로그인 한 사람만 들어올 수 있음
+		HttpSession session =  request.getSession();
+		Emp loginEmp = (Emp)session.getAttribute("loginEmp");	
+		request.setAttribute("loginEmp", loginEmp);
+		// System.out.println(loginEmp.getEmpId());
+		if(loginEmp.getEmpId() == null) { // empId로 로그인 하지 않았을 경우
+			
+		}
+		
+		
 		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/view/emp/shop/addGoods.jsp");
 		rd.forward(request, response);
 	}
@@ -28,7 +40,7 @@ public class AddGoodsController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 상품 등록 Action
 		request.setCharacterEncoding("utf-8"); // 인코딩
-		
+	
 		// 프로젝트안 upload폴더의 실제 물리적 위치를 반환
 		String dir = request.getServletContext().getRealPath("/upload");
 		int maxFileSize = 1024 * 1024 * 100; // 100Mbyte

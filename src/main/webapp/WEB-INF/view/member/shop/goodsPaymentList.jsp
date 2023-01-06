@@ -3,15 +3,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>cartList</title>
+<title>goodsPaymentList</title>
 </head>
 <body>
-	<!-- include? -->
-	<h3>장바구니</h3>
-	<table>
-		<tr>
-			<td></td>
-		<tr>
-	</table>
+	<h2>결제 페이지</h2>
 </body>
 </html>

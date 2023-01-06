@@ -20,13 +20,13 @@
 			<input type="radio" name="soldout" value="Y">Y 
 			<input type="radio" name="soldout" value="N">N	 
 		</div>
-		<!-- hit 값은 일단 0~5로 설정 -->
+		<!-- hit 값은 일단 0~5로 설정, 나중에 셀렉으로 변경 예쩡-->		
 		<div>
 			hit : <input type="number" name="hit">
 		</div>
-		<!-- 임시로 넣음 -->
+		<!-- empId는 받와아야 함 -> 해결했음 -->
 		<div>
-			empId : <input type="text" name="empId">
+			작성자 : <input type="text" name="empId" value="${loginEmp.empId}" readonly="readonly">
 		</div>
 		<div>
 			상품이미지 : <input type="file" name="goodsImg">

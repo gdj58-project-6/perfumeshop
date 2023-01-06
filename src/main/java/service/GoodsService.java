@@ -17,6 +17,34 @@ public class GoodsService {
 	private GoodsDao goodsDao;
 	private GoodsImgDao goodsImgDao;
 	
+	// GoodsOne
+	public ArrayList<HashMap<String, Object>> goodsOne(int goodsCode) {
+		ArrayList<HashMap<String, Object>> list = null;
+		Connection conn = null;
+		try {
+			conn = DBUtil.getConnection();
+			conn.setAutoCommit(false);
+			this.goodsDao = new GoodsDao();
+			list = goodsDao.goodsOne(conn, goodsCode);
+			conn.commit();
+		} catch (Exception e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch(SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return list;
+	}
+	
+	
 	// GoodsList
 	public ArrayList<HashMap<String, Object>> getGoodsList() {
 		ArrayList<HashMap<String, Object>> list = null;

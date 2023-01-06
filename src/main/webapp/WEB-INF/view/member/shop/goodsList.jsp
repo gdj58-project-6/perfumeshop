@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -37,7 +37,7 @@
 				</c:if>	
 				<td>
 					<div><img src="${pageContext.request.contextPath}/upload/${m.fileName}" width="200" height="200"></div>
-					<div><a href="">${m.goodsName}</a></div>
+					<div><a href="${pageContext.request.contextPath}/member/goodsOne?goodsCode=${m.goodsCode}">${m.goodsName}</a></div>
 					<div>${m.goodsPrice}</div>
 				</td>
 			</c:forEach>

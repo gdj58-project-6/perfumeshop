@@ -9,10 +9,33 @@ import java.util.HashMap;
 import vo.Goods;
 
 public class GoodsDao {
+
+	// GoodsOne
+	public ArrayList<HashMap<String, Object>> goodsOne(Connection conn, int goodsCode) throws Exception {
+		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
+		String sql = "SELECT g.goods_code goodsCode, g.goods_name goodsName, g.goods_price goodsPrice, gi.filename fileName FROM goods g INNER JOIN goods_img gi ON g.goods_code = gi.goods_code WHERE g.goods_code = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, goodsCode);
+		ResultSet rs = stmt.executeQuery();
+		while(rs.next()) {
+			HashMap<String, Object> m = new HashMap<String, Object>();
+			m.put("goodsCode", rs.getInt("goodsCode"));
+			m.put("goodsName", rs.getString("goodsName"));
+			m.put("goodsPrice", rs.getString("goodsPrice"));
+			m.put("fileName", rs.getString("fileName"));
+			list.add(m);
+		}
+		rs.close();
+		stmt.close();
+		
+		return list;
+	}
+	
+	
 	// AddGoodsList
 	public ArrayList<HashMap<String, Object>> selectGoodsList(Connection conn) throws Exception {
 		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
-		String sql = "SELECT g.goods_code goodsCode, g.goods_name goodsName, g.goods_price goodsPrice, gi.filename fileName FROM goods g INNER JOIN goods_img gi ON g.goods_code = gi.goods_code;";
+		String sql = "SELECT g.goods_code goodsCode, g.goods_name goodsName, g.goods_price goodsPrice, gi.filename fileName FROM goods g INNER JOIN goods_img gi ON g.goods_code = gi.goods_code";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		ResultSet rs = stmt.executeQuery();
 		while(rs.next()) {
@@ -23,6 +46,8 @@ public class GoodsDao {
 			m.put("fileName", rs.getString("fileName"));
 			list.add(m);
 		}
+		rs.close();
+		stmt.close();
 		
 		return list;
 	}
@@ -49,6 +74,9 @@ public class GoodsDao {
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
 		map.put("row", row);
 		map.put("autoKey", autoKey);
+		
+		rs.close();
+		stmt.close();
 		return map;
 	}
 		
