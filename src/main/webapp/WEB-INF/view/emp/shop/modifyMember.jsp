@@ -7,7 +7,6 @@
 		<title>modifyMemberLevel</title>
 	</head>
 	<body>
-		
 		<!-- 고객 리스트 조회 -->
 		<h1>고객 레벨수정</h1>
 		${loginEmp.getEmpName()}(등급:${loginEmp.getAuthCode()})

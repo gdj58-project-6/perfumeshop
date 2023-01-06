@@ -23,6 +23,7 @@
 		</c:if>
 		<c:if test="${loginEmp.getAuthCode() == 7}">
 			<a href="${pageContext.request.contextPath}/admin/modifyMember">고객등급수정</a>
+			<a href="${pageContext.request.contextPath}/admin/modifyByAdmin">직원등급수정</a>
 		</c:if>
 		<c:if test="${loginEmp != null || loginCustomer != null}">
 			<a href="${pageContext.request.contextPath}/member/logout">로그아웃</a>

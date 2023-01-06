@@ -2,15 +2,75 @@ package service;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
+import dao.CustomerDao;
 import dao.EmpDao;
 import dao.OutidDao;
 import util.DBUtil;
+import vo.Customer;
 import vo.Emp;
 
 public class EmpService {
 	private EmpDao empDao;
 	private OutidDao outidDao;
+	
+	// 고객 레벨수정 페이지 페이징에 필요한 목록수 출력
+	public int getEmpCountByEmpModify() {
+		// 객체 초기화
+		int row = 0;
+		// 드라이버 초기화
+		Connection conn = null;
+		
+		try {
+			// 드라이버 연결
+			conn = DBUtil.getConnection();
+			// dao초기화
+			this.empDao = new EmpDao();
+			// dao호출
+			row = empDao.selectCountByEmpModify(conn);
+			// 커밋
+			conn.commit();
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return row;
+	}
+		
+	// 고객 레벨수정 페이지 고객 리스트
+	public ArrayList<Emp> getEmpList(int currentPage, int rowPerPage) {
+		// 객체 초기화
+		ArrayList<Emp> list = null;
+		// 드라이버 초기화
+		Connection conn = null;
+		
+		int beginRow = (currentPage - 1) * rowPerPage;
+		
+		try {
+			// 드라이버 연결
+			conn = DBUtil.getConnection();
+			// dao 초기화
+			this.empDao = new EmpDao();
+			list = empDao.selectEmpListByEmpModify(conn, beginRow, rowPerPage);
+			// 커밋
+			conn.commit();
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return list;
+	}
 	// 직원 로그인
 	public Emp loginEmp(Emp paramEmp) {
 		Emp emp = null;

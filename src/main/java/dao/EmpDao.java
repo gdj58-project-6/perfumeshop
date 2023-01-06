@@ -4,11 +4,65 @@ import java.sql.Connection;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 import vo.Customer;
 import vo.Emp;
 
 public class EmpDao {
+	// 직원 레벨수정 페이지 페이징에 필요한 목록수 출력
+	public int selectCountByEmpModify(Connection conn) throws Exception {
+		// 객체 초기화
+		int row = 0;
+		// 쿼리문 작성
+		String sql = "SELECT COUNT(*) FROM emp";
+		// 쿼리 객체 생성
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		// 쿼리 실행
+		ResultSet rs = stmt.executeQuery();
+		if(rs.next()) {
+			row = rs.getInt("COUNT(*)");
+		}
+		stmt.close();
+		rs.close();
+		return row;
+	}
+	
+	// 직원 레벨 수정 직원 리스트
+	public ArrayList<Emp> selectEmpListByEmpModify(Connection conn, int beginRow, int rowPerPage) throws Exception {
+		// 객체 초기화
+		ArrayList<Emp> list = null;
+		// 쿼리문 작성
+		String sql = "SELECT"
+				+ "		emp_code empCode"
+				+ "		, emp_id empId"
+				+ "		, emp_name empName"
+				+ "		, active"
+				+ "		, auth_code authoCode"
+				+ "		, createdate"
+				+ "		FROM emp ORDER BY emp_code ASC LIMIT ?, ?";
+		// 쿼리 객체 생성
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		// 쿼리문 ?값 지정
+		stmt.setInt(1, beginRow);
+		stmt.setInt(2, rowPerPage);
+		// 쿼리 실행
+		ResultSet rs = stmt.executeQuery();
+		list = new ArrayList<Emp>();
+		while(rs.next()) {
+			Emp e = new Emp();
+			e.setEmpCode(rs.getInt("empCode"));
+			e.setEmpId(rs.getString("empId"));
+			e.setEmpName(rs.getString("empName"));
+			e.setActive(rs.getString("active"));
+			e.setAuthCode(rs.getInt("authoCode"));
+			e.setCreatedate(rs.getString("createdate"));
+			list.add(e);
+		}
+		stmt.close();
+		rs.close();
+		return list;
+	}
 	// 직원 로그인
 	public Emp loginEmp(Connection conn, Emp paramEmp) throws Exception {
 		// 객체 초기화

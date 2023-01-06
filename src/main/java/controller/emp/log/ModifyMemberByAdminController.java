@@ -21,9 +21,8 @@ public class ModifyMemberByAdminController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String msg = request.getParameter("msg");
 		// 고객리스트 출력 view
-		// 팀원이나 고객이 접속했다면 접근불가
+		// 팀원이나 접속했다면 접근불가
 		HttpSession session = request.getSession();
-		Customer loginCustomer = (Customer)session.getAttribute("loginCustomer");
 		Emp loginEmp = (Emp)session.getAttribute("loginEmp");
 		if(loginEmp == null) {
 			response.sendRedirect(request.getContextPath()+"/member/login");
@@ -52,7 +51,8 @@ public class ModifyMemberByAdminController extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// 레벨 수정 탈퇴
+		// 레벨 수정(미완성) 탈퇴? 
+		/*
 		request.setCharacterEncoding("utf-8");
 		String customerId = request.getParameter("customerId");
 		int authCode = Integer.parseInt(request.getParameter("authCode"));
@@ -72,7 +72,7 @@ public class ModifyMemberByAdminController extends HttpServlet {
 			System.out.println("수정완료");
 			response.sendRedirect(request.getContextPath()+"/admin/modifyMember");
 		}
-		
+		*/
 		
 	}
 
