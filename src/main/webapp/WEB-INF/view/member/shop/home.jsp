@@ -14,7 +14,7 @@
 		<a href="${pageContext.request.contextPath}/member/cart">장바구니</a>
 		<a href="${pageContext.request.contextPath}/member/login">로그인</a>
 		<!-- 테스트용 -->
-		<c:if test="${loginEmp.getAuthCode() < 4}">
+		<c:if test="${loginCustomer.getAuthCode() < 4}">
 			<a href="${pageContext.request.contextPath}/member/memberOne">정보</a>
 		</c:if>
 		<c:if test="${loginEmp.getAuthCode() > 4}">

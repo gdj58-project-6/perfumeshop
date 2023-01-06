@@ -33,5 +33,6 @@
 			</tr>
 		</table>
 		<a href="${pageContext.request.contextPath}/member/removeMember">회원탈퇴</a>
+		<a href="${pageContext.request.contextPath}/member/modifyMemberPw">비밀번호수정</a>
 	</body>
 </html>

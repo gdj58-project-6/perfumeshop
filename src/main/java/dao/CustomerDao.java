@@ -9,17 +9,16 @@ import vo.Customer;
 
 public class CustomerDao {
 	// 고객 레벨 수정
-	public int updateMemberLevel(Connection conn, int authCode, String customerId, int customerCode) throws Exception {
+	public int updateMemberLevel(Connection conn, int authCode, String customerId) throws Exception {
 		// 객체 초기화
 		int row = 0;
 		// 쿼리문 작성
-		String sql = "UPDATE customer SET auth_code = ? WHERE customer_id = ? AND customer_code = ?";
+		String sql = "UPDATE customer SET auth_code = ? WHERE customer_id = ?";
 		// 쿼리 객체 생성
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		// 쿼리문 ?값 지정
 		stmt.setInt(1, authCode);
 		stmt.setString(2, customerId);
-		stmt.setInt(3, customerCode);
 		// 쿼리 실행
 		row = stmt.executeUpdate();
 
@@ -169,24 +168,28 @@ public class CustomerDao {
 	}
 
 	// 회원 비밀번호 수정
-	public int updateCustomerPw(Connection conn, String id, String pw, String chagePw) throws Exception {
+	public int updateCustomerPw(Connection conn, String id, String pw, String changePw) throws Exception {
 		int row = 0;
 		String sql = "UPDATE customer SET customer_pw = PASSWORD(?) WHERE customer_id = ? AND customer_pw = PASSWORD(?)";
 		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setString(1, chagePw);
+		stmt.setString(1, changePw);
 		stmt.setString(2, id);
 		stmt.setString(3, pw);
+
+		row = stmt.executeUpdate();
+
+		stmt.close();
 
 		return row;
 	}
 
 	// 회원 탈퇴
-	public int deleteCustomer(Connection conn, String id, String pw) throws Exception {
+	public int deleteCustomer(Connection conn, Customer customer) throws Exception {
 		int row = 0;
 		String sql = "DELETE FROM customer WHERE customer_id = ? AND customer_pw = PASSWORD(?)";
 		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setString(1, id);
-		stmt.setString(2, pw);
+		stmt.setString(1, customer.getCustomerId());
+		stmt.setString(2, customer.getCustomerPw());
 
 		row = stmt.executeUpdate();
 

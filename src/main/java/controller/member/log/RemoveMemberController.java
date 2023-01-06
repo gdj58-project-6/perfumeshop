@@ -43,10 +43,15 @@ public class RemoveMemberController extends HttpServlet {
 
 		String id = loginCustomer.getCustomerId();
 		String pw = request.getParameter("customerPw");
+		
+		// 바인딩
+		Customer customer = new Customer();
+		customer.setCustomerId(id);
+		customer.setCustomerPw(pw);
 
 		// Model
 		this.customerService = new CustomerService();
-		int row = customerService.getDeleteCustomer(id, pw);
+		int row = customerService.getDeleteCustomer(customer);
 		if (row == 1) {
 			System.out.println("회원 탈퇴 성공");
 			request.getSession().invalidate();

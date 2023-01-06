@@ -16,7 +16,7 @@ public class CustomerService {
 	private PwHistoryDao pwHistoryDao;
 
 	// 고객 레벨 수정
-	public int updateMemberLevel(int authCode, String customerId, int customerCode) {
+	public int updateMemberLevel(int authCode, String customerId) {
 		// 객체 초기화
 		int row = 0;
 		// 드라이버 초기화
@@ -28,7 +28,7 @@ public class CustomerService {
 			// dao초기화
 			this.customerDao = new CustomerDao();
 			// dao호출
-			row = customerDao.updateMemberLevel(conn, authCode, customerId, customerCode);
+			row = customerDao.updateMemberLevel(conn, authCode, customerId);
 			// 커밋
 			conn.commit();
 		} catch (Exception e) {
@@ -212,20 +212,23 @@ public class CustomerService {
 		return resultCustomer;
 	}
 
-	// 회원탈퇴 후 outid에 저장
-	public int getDeleteCustomer(String id, String pw) {
+	// 회원탈퇴 전 pw_histroy 삭제 후 outid에 저장
+	public int getDeleteCustomer(Customer customer) {
 		int row = 0;
 		Connection conn = null;
 
 		try {
 			conn = DBUtil.getConnection();
-			this.outidDao = new OutidDao();
-			if (outidDao.insertOutid(conn, id) == 1) { // outid에 insert되면 진행
-				this.customerDao = new CustomerDao();
-				row = customerDao.deleteCustomer(conn, id, pw);
-				if (row != 1) {
-					// 회원탈퇴가 안되었으면 강제 예외발생시켜 catch절로 이동 후 rollback
-					throw new Exception();
+			this.pwHistoryDao = new PwHistoryDao();
+			if(pwHistoryDao.deletePwHistory(conn, customer) == 1) { // pw_history 삭제
+				this.outidDao = new OutidDao();
+				if (outidDao.insertOutid(conn, customer) == 1) { // outid에 insert되면 진행
+					this.customerDao = new CustomerDao();
+					row = customerDao.deleteCustomer(conn, customer);
+					if (row != 1) {
+						// 회원탈퇴가 안되었으면 강제 예외발생시켜 catch절로 이동 후 rollback
+						throw new Exception();
+					}
 				}
 			}
 			conn.commit();
@@ -247,11 +250,37 @@ public class CustomerService {
 		return row;
 	}
 
-	// 회원 비밀번호 유효성 검사 -> 수정 -> pw_history에 저장
+	// 회원 비밀번호 수정 -> pw_history에 저장
 	public int getUpdateCustomerPw(String id, String pw, String changePw) {
 		int row = 0;
 		Connection conn = null;
 
-		return 0;
+		try {
+			conn = DBUtil.getConnection();
+			this.pwHistoryDao = new PwHistoryDao();
+			if (pwHistoryDao.insertPwHistory(conn, id, changePw) == 1) {
+				this.customerDao = new CustomerDao();
+				row = customerDao.updateCustomerPw(conn, id, changePw, pw);
+				if (row != 1) {
+					// 비밀번호 수정이 안되면 강제로 예외발생시켜 rollback
+					throw new Exception();
+				}
+			}
+			conn.commit();
+		} catch (Exception e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return row;
 	}
 }
