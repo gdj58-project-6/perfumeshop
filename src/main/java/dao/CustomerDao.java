@@ -141,8 +141,8 @@ public class CustomerDao {
 	}
 
 	// 회원 정보
-	public ArrayList<HashMap<String, Object>> selectCustomerOne(Connection conn, Customer customer) throws Exception {
-		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
+	public HashMap<String, Object> selectCustomerOne(Connection conn, Customer customer) throws Exception {
+		HashMap<String, Object> memberOne = null;
 		ResultSet rs = null;
 		String sql = "SELECT c.customer_code customerCode, c.customer_id customerId, c.customer_pw customerPw, c.customer_name customerName, c.customer_phone customerPhone, c.point point, c.auth_code authCode, ca.address_code addressCode, ca.address address, c.createdate createdate "
 					+"FROM customer c INNER JOIN customer_address ca "
@@ -155,24 +155,39 @@ public class CustomerDao {
 		rs = stmt.executeQuery();
 
 		if (rs.next()) {
-			HashMap<String, Object> m = new HashMap<String, Object>();
-			m.put("customerCode", rs.getInt("customerCode"));
-			m.put("customerId", rs.getString("customerId"));
-			m.put("customerPw", rs.getString("customerPw"));
-			m.put("customerName", rs.getString("customerName"));
-			m.put("customerPhone", rs.getString("customerPhone"));
-			m.put("point", rs.getInt("point"));
-			m.put("authCode", rs.getInt("authCode"));
-			m.put("addressCode", rs.getInt("addressCode"));
-			m.put("address", rs.getString("address"));
-			m.put("createdate", rs.getString("createdate"));
-			list.add(m);
+			memberOne = new HashMap<String, Object>();
+			memberOne.put("customerCode", rs.getInt("customerCode"));
+			memberOne.put("customerId", rs.getString("customerId"));
+			memberOne.put("customerPw", rs.getString("customerPw"));
+			memberOne.put("customerName", rs.getString("customerName"));
+			memberOne.put("customerPhone", rs.getString("customerPhone"));
+			memberOne.put("point", rs.getInt("point"));
+			memberOne.put("authCode", rs.getInt("authCode"));
+			memberOne.put("addressCode", rs.getInt("addressCode"));
+			memberOne.put("address", rs.getString("address"));
+			memberOne.put("createdate", rs.getString("createdate"));
 		}
 
 		stmt.close();
 		rs.close();
 
-		return list;
+		return memberOne;
+	}
+	
+	// 회원 정보 수정 (주소는 따로)
+	public int updateCustomerOne(Connection conn, Customer customer) throws Exception {
+		int row = 0;
+		String sql = "UPDATE customer SET customer_name = ?, customer_phone WHERE customer_id = ? AND customer_pw = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, customer.getCustomerName());
+		stmt.setString(2, customer.getCustomerId());
+		stmt.setString(3, customer.getCustomerPw());
+		
+		row = stmt.executeUpdate();
+		
+		stmt.close();
+		
+		return row;
 	}
 
 	// 회원 비밀번호 수정

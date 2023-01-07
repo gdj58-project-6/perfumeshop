@@ -38,9 +38,9 @@ public class MemberOneController extends HttpServlet {
 		
 		// Model
 		this.customerService = new CustomerService();
-		ArrayList<HashMap<String, Object>> list = customerService.getSelectCustomerOne(customer);
+		HashMap<String, Object> memberOne = customerService.getSelectCustomerOne(customer);
 		
-		request.setAttribute("memberOne", list);
+		request.setAttribute("memberOne", memberOne);
 		
 		
 		request.getRequestDispatcher("/WEB-INF/view/member/log/memberOne.jsp").forward(request, response);

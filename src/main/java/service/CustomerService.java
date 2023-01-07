@@ -130,7 +130,7 @@ public class CustomerService {
 		return customer;
 	}
 
-	// 아이디 중복검사 : 사용가능 - true, 사용불가능 - false
+	// 아이디 중복검사 : 사용가능 - null
 	public String getSelectCustomerId(Customer customer) {
 		String selectId = null;
 		Connection conn = null;
@@ -141,11 +141,6 @@ public class CustomerService {
 			selectId = customerDao.selectCustomerId(conn, customer);
 			conn.commit();
 		} catch (Exception e) {
-			try {
-				conn.rollback();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
 			e.printStackTrace();
 		} finally {
 			try {
@@ -168,11 +163,6 @@ public class CustomerService {
 			row = customerDao.addCustomer(conn, customer);
 			conn.commit();
 		} catch (Exception e) {
-			try {
-				conn.rollback();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
 			e.printStackTrace();
 		} finally {
 			try {
@@ -185,22 +175,17 @@ public class CustomerService {
 		return row;
 	}
 
-	// 회원 정보
-	public ArrayList<HashMap<String, Object>> getSelectCustomerOne(Customer customer) {
-		ArrayList<HashMap<String, Object>> list = null;
+	// 회원 정보(주소 inner join)
+	public HashMap<String, Object> getSelectCustomerOne(Customer customer) {
+		HashMap<String, Object> memberOne = null;
 		Connection conn = null;
 
 		try {
 			conn = DBUtil.getConnection();
 			this.customerDao = new CustomerDao();
-			list = customerDao.selectCustomerOne(conn, customer);
+			memberOne = customerDao.selectCustomerOne(conn, customer);
 			conn.commit();
 		} catch (Exception e) {
-			try {
-				conn.rollback();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
 			e.printStackTrace();
 		} finally {
 			try {
@@ -209,8 +194,29 @@ public class CustomerService {
 				e.printStackTrace();
 			}
 		}
-
-		return list;
+		return memberOne;
+	}
+	
+	// 회원 정보 수정 (주소 따로)
+	public int getUpdateCustomerOne(Customer customer) {
+		int row = 0;
+		Connection conn = null;
+		
+		try {
+			conn = DBUtil.getConnection();
+			this.customerDao = new CustomerDao();
+			row = customerDao.updateCustomerOne(conn, customer);
+			conn.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return row;
 	}
 
 	// 회원탈퇴 전 pw_histroy 삭제 후 outid에 저장

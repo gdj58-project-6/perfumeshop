@@ -17,35 +17,13 @@ import vo.Customer;
 @WebServlet("/member/modifyMember")
 public class ModifyMemberController extends HttpServlet {
 	private CustomerService customerService;
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// 멤버정보 수정 form
-		// 현재 로그인 정보
-		HttpSession session = request.getSession();
-		Customer loginCustomer = (Customer)(session.getAttribute("loginCustomer"));
-		
-		// 로그인 안되어있으면
-		if(loginCustomer == null) {
-			response.sendRedirect(request.getContextPath() + "/member/login");
-			return;
-		}
-		
-		// 로그인 되어있으면
-		String memberId = loginCustomer.getCustomerId();
-		
-		// 바인딩
-		Customer customer = new Customer();
-		customer.setCustomerId(memberId);
-		
-		// Model
-		this.customerService = new CustomerService();
-		ArrayList<HashMap<String, Object>> list = customerService.getSelectCustomerOne(customer);
-		
-		request.setAttribute("customerOne", list);
-		
-		request.getRequestDispatcher("/WEB-INF/view/member/log/modifyMember.jsp").forward(request, response);
-	}
-
+	// 회원정보 수정 modal 처리
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// 현재 로그인 정보 저장
+		HttpSession session = request.getSession();
+		Customer loginCustomer = (Customer)(session.getAttribute("loginMember"));
+		
+		
 		// 멤버 정보 수정 Action
 	}
 
