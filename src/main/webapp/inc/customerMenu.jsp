@@ -3,12 +3,13 @@
 <nav>
 	<div>
 		<c:if test="${nowPage eq home}">
-		<a href="${pageContext.request.contextPath}/home">홈</a>
-		<a href="${pageContext.request.contextPath}/member/goodsList">상품</a>
-		<a href="${pageContext.request.contextPath}/member/cart">장바구니</a>
-		<a href="${pageContext.request.contextPath}/member/logout">로그아웃</a>
-		<a href="${pageContext.request.contextPath}/member/memberOne">정보</a>
-		${loginCustomer.getCustomerId()}님
+			${loginCustomer.getCustomerId()}님
+			<a href="${pageContext.request.contextPath}/home">홈</a>
+			<a href="${pageContext.request.contextPath}/member/goodsList">상품</a>
+			<a href="${pageContext.request.contextPath}/member/cart">장바구니</a>
+			<a href="${pageContext.request.contextPath}/member/memberOne">회원정보</a>
+			<a>고객센터</a> <!-- 미구현 -->
+			<a href="${pageContext.request.contextPath}/member/logout">로그아웃</a>
 		</c:if>
 	</div>
 </nav>

@@ -3,45 +3,52 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<style>
+			.menu a {
+				cursor:pointer;
+			}
+			.menu .hide {
+				display:none;
+			}
+		</style>
 		<meta charset="UTF-8">
 		<title>home</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+		<script>
+			// html dom 이 다 로딩된 후 실행된다.
+		    $(document).ready(function(){
+		        // memu 클래스 바로 하위에 있는 a 태그를 클릭했을때
+		        $(".menu>a").click(function(){
+		            // 현재 클릭한 태그가 a 이기 때문에
+		            // a 옆의 태그중 ul 태그에 hide 클래스 태그를 넣던지 빼던지 한다.
+		            $(this).next("ul").toggleClass("hide");
+		        });
+		    });
+		</script>
 	</head>
 	<body>
 		<h1>home</h1>
 		<!-- 비로그인 -->
-		<c:if test="${loginCustomer == null && loginEmp == null}">
+		<c:if test="${loginMember == null}">
 			<jsp:include page="/inc/menu.jsp"></jsp:include>
 		</c:if>
 		<!-- 고객 -->
-		<c:if test="${loginCustomer != null}">
+		<c:if test="${loginMember.getAuthCode() < 4}">
 			<jsp:include page="/inc/customerMenu.jsp"></jsp:include>
 		</c:if>
-		<!-- 팀장 -->
-		<c:if test="${loginEmp.getAuthCode() == 7}">
-			<jsp:include page="/inc/adminMenu.jsp"></jsp:include>
-		</c:if>
-		<c:if test="${loginEmp.getAuthCode() < 7}">
-			
-		</c:if>
-		<!-- 테스트용 
-		<c:if test="${loginCustomer.getAuthCode() < 4}">
-			<a href="${pageContext.request.contextPath}/member/memberOne">정보</a>
-			<c:if test="${loginEmp != null || loginCustomer != null}">
-			<a href="${pageContext.request.contextPath}/member/logout">로그아웃</a>
-		</c:if>
-		<c:if test="${loginCustomer != null}">
-			${loginCustomer.getCustomerId()}님
-		</c:if>
-		</c:if>
-		-->
-		<c:if test="${loginEmp.getAuthCode() > 4}">
-			<a href="${pageContext.request.contextPath}/admin/addGoods">상품등록</a>
-			<a href="${pageContext.request.contextPath}/admin/adminOne">정보</a>
-		</c:if>
-		
-		
-		<c:if test="${loginEmp != null}">
-			${loginEmp.getEmpId()}님
+		<!-- 직원 -->
+		<c:if test="${loginMember.getAuthCode() > 3}">
+			<div>
+				<jsp:include page="/inc/empMenu.jsp"></jsp:include>
+			    <ul>
+			        <li class="menu">
+			            <a>관리자페이지</a>
+			            <ul class="hide">
+			            	<li><jsp:include page="/inc/adminMenu.jsp"></jsp:include></li>
+			            </ul>
+			        </li>
+			    </ul>
+		    </div>
 		</c:if>
 		<!-- 큰 사진 -->
 		<div style="text-align:center;"><img src="${pageContext.request.contextPath}/img/camera.jpg" width="1500" height="700"></div>

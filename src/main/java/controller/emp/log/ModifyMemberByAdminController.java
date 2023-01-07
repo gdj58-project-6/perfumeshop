@@ -21,10 +21,10 @@ public class ModifyMemberByAdminController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String msg = request.getParameter("msg");
 		// 고객리스트 출력 view
-		// 팀원이나 접속했다면 접근불가
+		// 비로그인or등급 7이 아니면 접근불가 
 		HttpSession session = request.getSession();
-		Emp loginEmp = (Emp)session.getAttribute("loginEmp");
-		if(loginEmp == null) {
+		Emp loginMember = (Emp)session.getAttribute("loginMember");
+		if(loginMember == null || loginMember.getAuthCode() != 7) {
 			response.sendRedirect(request.getContextPath()+"/member/login");
 			return;
 		}
@@ -38,17 +38,25 @@ public class ModifyMemberByAdminController extends HttpServlet {
 		// 서비스 호출
 		this.customerService = new CustomerService();
 		ArrayList<Customer> list = customerService.getCustomerList(currentPage, rowPerPage);
-		int lastPage = customerService.getCustomerCountByMemberModify() / rowPerPage;
-		// System.out.println(lastPage);
+		int cnt = customerService.getCustomerCountByMemberModify();
+		// System.out.println(cnt);
+		int lastPage = 0;
+		if(cnt / rowPerPage == 0) {
+			lastPage = cnt / rowPerPage;
+			// System.out.println(lastPage + "<--나누어 떨어질때");
+		} else if(cnt / rowPerPage != 0) {
+			lastPage = (cnt / rowPerPage) +1;
+			// System.out.println(lastPage + "<--안나누어 떨어질때");
+		}
+		
 		request.setAttribute("currentPage", currentPage);
 		request.setAttribute("rowPerPage", rowPerPage);
 		request.setAttribute("lastPage", lastPage);
 		request.setAttribute("list", list);
-		request.setAttribute("loginEmp", loginEmp);
+		request.setAttribute("loginMember", loginMember);
 		request.setAttribute("msg", msg);
 		
-		
-		request.getRequestDispatcher("/WEB-INF/view/emp/shop/modifyMember.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/view/emp/shop/modifyMemberLevel.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -21,7 +21,7 @@ public class ModifyMemberController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 현재 로그인 정보 저장
 		HttpSession session = request.getSession();
-		Customer loginCustomer = (Customer)(session.getAttribute("loginMember"));
+		Customer loginMember = (Customer)(session.getAttribute("loginMember"));
 		
 		
 		// 멤버 정보 수정 Action

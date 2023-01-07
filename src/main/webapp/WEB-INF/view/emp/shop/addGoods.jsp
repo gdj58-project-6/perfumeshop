@@ -26,7 +26,7 @@
 		</div>
 		<!-- empId는 받와아야 함 -> 해결했음 -->
 		<div>
-			작성자 : <input type="text" name="empId" value="${loginEmp.empId}" readonly="readonly">
+			작성자 : <input type="text" name="empId" value="${loginMember.empId}" readonly="readonly">
 		</div>
 		<div>
 			상품이미지 : <input type="file" name="goodsImg">

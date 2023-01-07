@@ -103,8 +103,8 @@
 		<div id="wrapper">    
 		    <!--탭 메뉴 영역 -->
 		    <ul class="tabs">
-		        <li><a href="#tab1">tab1</a></li>
-		        <li><a href="#tab2">tab2</a></li>
+		        <li><a href="#tab1">고객로그인</a></li>
+		        <li><a href="#tab2">직원로그인</a></li>
 		    </ul>
 	
 		    <!--탭 콘텐츠 영역 -->
@@ -131,7 +131,7 @@
 							<button type="submit">로그인</button>
 						</div>
 					</form>
-					<a href="{${pageContext.request.contextPath}/member/addMember}">회원가입</a>
+					<a href="${pageContext.request.contextPath}/member/addMember">회원가입</a>
 		        </div>
 		        <div id="tab2" class="tab_content">
 		        	<!-- 탭2 직원 -->
@@ -155,7 +155,7 @@
 							<button type="submit">로그인</button>
 						</div>
 					</form>
-					<a href="{${pageContext.request.contextPath}/admin/addAdmin}">회원가입</a>
+					<a href="${pageContext.request.contextPath}/admin/addAdmin">회원가입</a>
 		        </div>
 	    	</div>
 		</div>

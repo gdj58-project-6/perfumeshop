@@ -22,16 +22,16 @@ public class MemberOneController extends HttpServlet {
 		
 		// 현재 로그인 정보
 		HttpSession session = request.getSession();
-		Customer loginCustomer = (Customer)(session.getAttribute("loginCustomer"));
+		Customer loginMember = (Customer)(session.getAttribute("loginMember"));
 		
 		// 로그인 안되어있으면
-		if(loginCustomer == null) {
+		if(loginMember == null) {
 			response.sendRedirect(request.getContextPath() + "/member/login");
 			return;
 		}
 		
 		// 로그인되어있으면
-		String customerId = loginCustomer.getCustomerId();
+		String customerId = loginMember.getCustomerId();
 				
 		Customer customer = new Customer();
 		customer.setCustomerId(customerId);

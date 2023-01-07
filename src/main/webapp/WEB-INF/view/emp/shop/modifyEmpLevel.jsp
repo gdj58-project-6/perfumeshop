@@ -9,7 +9,7 @@
 	<body>
 		<!-- 직원 리스트 조회 -->
 		<h1>직원 레벨수정</h1>
-		${loginEmp.getEmpName()}(등급:${loginEmp.getAuthCode()})
+		${loginMember.getEmpName()}(등급:${loginMember.getAuthCode()})
 		<table border="1">
 			<tr>
 				<th>empCode</th>
@@ -18,6 +18,7 @@
 				<th>active</th>
 				<th>authCode</th>
 				<th>createdate</th>
+				<th>퇴사직원</th>
 			</tr>
 			<c:forEach var="m" items="${list}">
 				<tr>
@@ -62,6 +63,9 @@
 						</form>
 					</td>
 					<td>${m.createdate}</td>
+					<td>
+						<a href="${pageContext.request.contextPath}/admin/removeByAdmin?empId=${m.empId}">퇴사직원</a>
+					</td>
 				</tr>
 			</c:forEach>
 		</table>

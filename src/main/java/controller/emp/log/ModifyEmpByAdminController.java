@@ -21,10 +21,10 @@ public class ModifyEmpByAdminController extends HttpServlet {
 	private EmpService empService;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 관리자 리스트 출력 view
-		// 팀원이나 접속했다면 접근불가
 		HttpSession session = request.getSession();
-		Emp loginEmp = (Emp)session.getAttribute("loginEmp");
-		if(loginEmp == null) {
+		Emp loginMember = (Emp)session.getAttribute("loginMember");
+		// 비로그인시 접근불가 그리고 멤버레벨이 7이 아니면 접근불가
+		if(loginMember == null || loginMember.getAuthCode() != 7) {
 			response.sendRedirect(request.getContextPath()+"/member/login");
 			return;
 		}
@@ -38,16 +38,25 @@ public class ModifyEmpByAdminController extends HttpServlet {
 		// 서비스 호출
 		this.empService = new EmpService();
 		ArrayList<Emp> list = empService.getEmpList(currentPage, rowPerPage);
-		int lastPage = empService.getEmpCountByEmpModify();
-		// System.out.println(lastPage);
+		int cnt = empService.getEmpCountByEmpModify();
+		// System.out.println(cnt + "<-- 총 목록수");
+		int lastPage = 0;
+		if(cnt % rowPerPage == 0) {
+			lastPage = cnt / rowPerPage;
+			// System.out.println(lastPage + "<--나누어 떨어질때");
+		} else if(cnt % rowPerPage != 0) {
+			lastPage = (cnt / rowPerPage) + 1;
+			// System.out.println(cnt%rowPerPage);
+			// System.out.println(lastPage + "<--나누어 떨어지지 않을때");
+		}
 		request.setAttribute("currentPage", currentPage);
 		request.setAttribute("rowPerPage", rowPerPage);
 		request.setAttribute("lastPage", lastPage);
 		request.setAttribute("list", list);
-		request.setAttribute("loginEmp", loginEmp);
+		request.setAttribute("loginMember", loginMember);
 		
 		
-		request.getRequestDispatcher("/WEB-INF/view/emp/shop/modifyEmp.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/view/emp/shop/modifyEmpLevel.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

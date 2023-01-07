@@ -29,13 +29,22 @@ public class GoodsOneController extends HttpServlet {
 		request.setCharacterEncoding("utf-8"); // 인코딩
 		// 로그인 비로그인 상관없이 볼 수 있음
 		
+		
 		// customerId값 불러오기
 		HttpSession session =  request.getSession();
-		Customer loginCustomer = (Customer)session.getAttribute("loginCustomer");
-		request.setAttribute("loginCustomer", loginCustomer);
-		// System.out.println(loginCustomer);
+		Customer loginMember = (Customer)session.getAttribute("loginMember");
+		request.setAttribute("loginMember", loginMember);
+		// System.out.println(loginMember);
+		// 상품코드 없이는 상품상세보기칸으로 못감
+		int goodsCode = 0;
+		if(request.getParameter("goodsCode") == null) {
+			response.sendRedirect(request.getContextPath()+"/member/goodsList");
+			return;
+		} else if(request.getParameter("goodsCode") != null) {
+			goodsCode = Integer.parseInt(request.getParameter("goodsCode"));
+			// System.out.println(goodsCode);
+		}
 		
-		int goodsCode = Integer.parseInt(request.getParameter("goodsCode"));
 		// System.out.println(goodsCode);
 		this.goodsService = new GoodsService();
 		ArrayList<HashMap<String, Object>> list = goodsService.goodsOne(goodsCode);

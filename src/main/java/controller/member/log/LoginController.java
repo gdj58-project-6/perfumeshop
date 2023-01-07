@@ -21,6 +21,12 @@ public class LoginController extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 로그인 view
+		HttpSession session = request.getSession();
+		// 로그인 되어있다면 로그인페이지는 접근불가
+		if(session.getAttribute("loginMember") != null) {
+			response.sendRedirect(request.getContextPath()+"/home");
+			return;
+		}
 		request.getRequestDispatcher("/WEB-INF/view/member/log/login.jsp").forward(request, response);
 	}
 
@@ -56,15 +62,15 @@ public class LoginController extends HttpServlet {
 		this.empService = null;
 		Customer customerLogin = null;
 		Emp empLogin = null;
-		if(paramEmp.getEmpId() == null && paramEmp.getEmpPw() == null) {
+		if(paramCustomer.getCustomerId() != null && paramCustomer.getCustomerPw() != null) {
 			customerService = new CustomerService();
 			customerLogin = customerService.loginCustomer(paramCustomer);
-			session.setAttribute("loginCustomer", customerLogin);
+			session.setAttribute("loginMember", customerLogin);
 			response.sendRedirect(request.getContextPath()+"/home");
 		} else if(paramCustomer.getCustomerId() == null && paramCustomer.getCustomerPw() == null) {
 			empService = new EmpService();
 			empLogin = empService.loginEmp(paramEmp);
-			session.setAttribute("loginEmp", empLogin);
+			session.setAttribute("loginMember", empLogin);
 			response.sendRedirect(request.getContextPath()+"/home");
 		}
 	}

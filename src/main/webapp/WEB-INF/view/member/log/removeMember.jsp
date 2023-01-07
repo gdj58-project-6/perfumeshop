@@ -10,7 +10,7 @@
 			<table border="1">
 				<tr>
 					<td>아이디</td>
-					<td><input type="text" name="customerId" value="${loginCustomer.customerId}" readonly="readonly"></td>
+					<td><input type="text" name="customerId" value="${loginMember.customerId}" readonly="readonly"></td>
 				</tr>
 				<tr>
 					<td>비밀번호</td>

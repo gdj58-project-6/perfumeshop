@@ -3,11 +3,11 @@
 <nav>
 	<div>
 		<c:if test="${nowPage eq home}">
+			[직원]${loginMember.getEmpId()}님
 			<a href="${pageContext.request.contextPath}/home">홈</a>
 			<a href="${pageContext.request.contextPath}/member/goodsList">상품</a>
 			<a href="${pageContext.request.contextPath}/member/cart">장바구니</a>
-			<a href="${pageContext.request.contextPath}/admin/adminOne">정보</a>
-			[직원]${loginEmp.getEmpId()}님
+			<a href="${pageContext.request.contextPath}/admin/adminOne">직원정보</a>
 			<a href="${pageContext.request.contextPath}/member/logout">로그아웃</a>
 		</c:if>
 	</div>

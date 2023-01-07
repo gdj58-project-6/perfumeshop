@@ -26,8 +26,14 @@ public class AddGoodsController extends HttpServlet {
 		// 상품 등록 form
 		// 직원으로 로그인 한 사람만 들어올 수 있음
 		HttpSession session =  request.getSession();
-		Emp loginEmp = (Emp)session.getAttribute("loginEmp");	
-		request.setAttribute("loginEmp", loginEmp);
+		Emp loginMember = (Emp)session.getAttribute("loginMember");	
+		// 
+		if(loginMember == null || loginMember.getAuthCode() < 4) {
+			response.sendRedirect(request.getContextPath()+"/member/login");
+			return;
+		}
+		// 상품등록시 로그인한 직원 아이디 출력을 위해
+		request.setAttribute("loginMember", loginMember);
 		// System.out.println(loginEmp.getEmpId());
 		
 		// 나중에 방어코드 넣기

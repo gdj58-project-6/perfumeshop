@@ -21,16 +21,16 @@ public class RemoveMemberController extends HttpServlet {
 		// 회원탈퇴 form
 		// 로그인 정보 저장
 		HttpSession session = request.getSession();
-		Customer loginCustomer = (Customer) (session.getAttribute("loginCustomer"));
+		Customer loginMember = (Customer)session.getAttribute("loginMember");
 
 		// 로그인이 안되어있다면
-		if (loginCustomer == null) {
+		if (loginMember == null) {
 			response.sendRedirect(request.getContextPath() + "/member/login");
 			return;
 		}
 
 		// 로그인되어있으면
-		request.setAttribute("loginCutomer", loginCustomer);
+		request.setAttribute("loginMember", loginMember);
 		request.getRequestDispatcher("/WEB-INF/view/member/log/removeMember.jsp").forward(request, response);
 	}
 
@@ -39,9 +39,9 @@ public class RemoveMemberController extends HttpServlet {
 		// 회원탈퇴 Action
 		// 로그인 정보 저장
 		HttpSession session = request.getSession();
-		Customer loginCustomer = (Customer) (session.getAttribute("loginCustomer"));
+		Customer loginMember = (Customer)session.getAttribute("loginMember");
 
-		String id = loginCustomer.getCustomerId();
+		String id = loginMember.getCustomerId();
 		String pw = request.getParameter("customerPw");
 		
 		// 바인딩
@@ -58,6 +58,7 @@ public class RemoveMemberController extends HttpServlet {
 			response.sendRedirect(request.getContextPath() + "/home");
 		} else {
 			System.out.println("회원 탈퇴 실패");
+			response.sendRedirect(request.getContextPath() + "/member/removeMember");
 		}
 	}
 

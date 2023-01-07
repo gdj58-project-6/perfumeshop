@@ -20,7 +20,7 @@
 	<body>
 		<!-- 고객 리스트 조회 -->
 		<h1>고객 레벨수정</h1>
-		${loginEmp.getEmpName()}(등급:${loginEmp.getAuthCode()})
+		${loginMember.getEmpName()}(등급:${loginMember.getAuthCode()})
 			<table border="1">
 				<tr>
 					<th>customerCode</th>

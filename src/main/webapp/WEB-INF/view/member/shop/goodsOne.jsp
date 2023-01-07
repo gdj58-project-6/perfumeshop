@@ -39,7 +39,7 @@
 				<!-- 또 추가할게 있으면 추가 -->
 			</table>
 			<!-- customerId값 히든으로 넘김 -->
-			<input type="hidden" name="customerId" value="${loginCustomer.customerId}">
+			<input type="hidden" name="customerId" value="${loginMember.customerId}">
 			<!-- 나중에 장바구니 버튼 누르면 장바구니에 담겼다는 창 한개 띄우기 -->
 			<button type="submit">장바구니</button>
 		</form>	

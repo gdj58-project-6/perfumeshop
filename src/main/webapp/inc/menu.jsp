@@ -7,6 +7,8 @@
 		<a href="${pageContext.request.contextPath}/member/goodsList">상품</a>
 		<a href="${pageContext.request.contextPath}/member/cart">장바구니</a>
 		<a href="${pageContext.request.contextPath}/member/login">로그인</a>
+		<a href="${pageContext.request.contextPath}/member/addMember">회원가입</a>
+		<a>고객센터</a> <!-- 아직 미구현 -->
 		</c:if>
 	</div>
 </nav>

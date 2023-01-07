@@ -21,16 +21,17 @@ public class RemoveByAdminController extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 
 		HttpSession session = request.getSession();
-		Emp loginEmp = (Emp)session.getAttribute("loginEmp");
+		Emp loginMember = (Emp)session.getAttribute("loginMember");
 		
 		// 최고관리자만 탈퇴 권한
-		if(loginEmp.getAuthCode() != 7) {
+		if(loginMember.getAuthCode() != 7) {
 			response.sendRedirect(request.getContextPath() + "/home");
 			return;
 		}
 		
 		// 탈퇴시킬 직원 아이디
 		String empId = request.getParameter("empId");
+		System.out.println(empId +"<< empId 디버깅");
 		
 		this.empService = new EmpService();
 		int row = empService.getDeleteEmp(empId);
@@ -40,6 +41,8 @@ public class RemoveByAdminController extends HttpServlet {
 		} else {
 			System.out.println("직원 탈퇴 실패");
 		}
+		
+		response.sendRedirect(request.getContextPath()+"/admin/modifyByAdmin");
 	}
 
 }

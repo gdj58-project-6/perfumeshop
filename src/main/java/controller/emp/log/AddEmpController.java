@@ -7,6 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import service.EmpService;
 import vo.Emp;
@@ -16,14 +17,19 @@ public class AddEmpController extends HttpServlet {
 	private EmpService empService;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 관리자 회원가입 view
+		// 로그인 유효성 검사
+		HttpSession session = request.getSession();
+		if(session.getAttribute("loginMember") !=null) {
+			response.sendRedirect(request.getContextPath()+"/home");
+			return;
+		}
+		
 		request.getRequestDispatcher("/WEB-INF/view/emp/log/addEmp.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 인코딩
 		request.setCharacterEncoding("UTF-8");
-		
-		// 로그인 유효성 검사
 		
 		// 입력 값
 		String id = request.getParameter("id");

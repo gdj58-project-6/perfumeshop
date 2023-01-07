@@ -7,6 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import service.CustomerService;
 import vo.Customer;
@@ -16,6 +17,12 @@ public class AddMemberController extends HttpServlet {
 	private CustomerService customerService;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 회원가입 view
+		// 로그인 되있으면 접근불가
+		HttpSession session = request.getSession();
+		if(session.getAttribute("loginMember") != null) {
+			response.sendRedirect(request.getContextPath()+"/home");
+			return;
+		}
 		request.getRequestDispatcher("/WEB-INF/view/member/log/addMember.jsp").forward(request, response);
 	}
 

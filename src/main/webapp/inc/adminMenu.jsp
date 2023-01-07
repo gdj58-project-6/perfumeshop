@@ -2,17 +2,46 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <nav>
 	<div>
-		<c:if test="${nowPage eq home}">
-			<a href="${pageContext.request.contextPath}/home">홈</a>
-			<a href="${pageContext.request.contextPath}/member/goodsList">상품</a>
-			<a href="${pageContext.request.contextPath}/member/cart">장바구니</a>
-			<a href="${pageContext.request.contextPath}/admin/adminOne">정보</a>
-			[팀장]${loginEmp.getEmpId()}님
-			<a href="${pageContext.request.contextPath}/member/logout">로그아웃</a>
-			<a href="${pageContext.request.contextPath}/admin/modifyMember">고객등급수정</a>
-			<a href="${pageContext.request.contextPath}/admin/modifyByAdmin">직원등급수정</a>
-		</c:if>
-	</div>
+	<!-- 위의 직급은 아래 직급의 권한을 다 가짐 -->
+	<!-- 직원 4등급 신입 문의(답글,수정), 리뷰 삭제 -->
+	<c:if test="${loginMember.getAuthCode() == 4}">
+		<a>문의답변</a> <!-- 미구현 -->
+		<a>문의수정</a> <!-- 미구현 -->
+		<a>리뷰삭제</a> <!-- 미구현 -->
+	</c:if>
+	<!-- 직원 5등급 대리 상품등록, 문의(답글,수정,삭제), 리뷰 삭제 -->
+	<c:if test="${loginMember.getAuthCode() == 5}">
+		<a>문의답변</a> <!-- 미구현 -->
+		<a>문의수정</a> <!-- 미구현 -->
+		<a>문의삭제</a> <!-- 미구현 -->
+		<a>리뷰삭제</a> <!-- 미구현 -->
+		<a href="${pageContext.request.contextPath}/admin/addGoods">상품등록</a>
+	</c:if>
+	<!-- 직원 6등급 과장 상품수정, 삭제, 상품등록, 문의(답글,수정,삭제), 리뷰 삭제  -->
+	<c:if test="${loginMember.getAuthCode() == 6}">
+		<a>문의답변</a> <!-- 미구현 -->
+		<a>문의수정</a> <!-- 미구현 -->
+		<a>문의삭제</a> <!-- 미구현 -->
+		<a>리뷰삭제</a> <!-- 미구현 -->
+		<a href="${pageContext.request.contextPath}/admin/addGoods">상품등록</a>
+		<a>상품수정</a> <!-- 미구현 -->
+		<a>상품삭제</a> <!-- 미구현 -->
+	</c:if>
+	<!-- 직원 7등급 팀장 다 가능(고객,직원 등급수정 팀장만 가능), 상품등록, 문의(답글,수정,삭제), 리뷰 삭제 -->
+	<c:if test="${loginMember.getAuthCode() == 7}">
+		<ul>
+			<li><a>문의답변</a></li> <!-- 미구현 -->
+			<li><a>문의수정</a></li> <!-- 미구현 -->
+			<li><a>문의삭제</a></li> <!-- 미구현 -->
+			<li><a>리뷰삭제</a></li> <!-- 미구현 -->
+			<li><a href="${pageContext.request.contextPath}/admin/addGoods">상품등록</a></li>
+			<li><a>상품수정</a> </li> <!-- 미구현 -->
+			<li><a>상품삭제</a> </li> <!-- 미구현 -->
+			<li><a href="${pageContext.request.contextPath}/admin/modifyMember">고객레벨수정</a></li>
+			<li><a href="${pageContext.request.contextPath}/admin/modifyByAdmin">직원레벨수정</a></li>
+		</ul>
+	</c:if>
+</div>
 </nav>
 
 <!-- nav 

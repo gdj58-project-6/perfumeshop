@@ -22,10 +22,10 @@ public class ModifyMemberPwController extends HttpServlet {
 		// 비밀번호 수정 form
 		// 로그인 정보 저장
 		HttpSession session = request.getSession();
-		Customer loginCustomer = (Customer) (session.getAttribute("loginCustomer"));
+		Customer loginMember = (Customer) (session.getAttribute("loginMember"));
 
 		// 로그인 안되어있으면
-		if (loginCustomer == null) {
+		if (loginMember == null) {
 			response.sendRedirect(request.getContextPath() + "/member/login");
 			return;
 		}
@@ -42,10 +42,10 @@ public class ModifyMemberPwController extends HttpServlet {
 
 		// 로그인 정보 저장
 		HttpSession session = request.getSession();
-		Customer loginCustomer = (Customer)(session.getAttribute("loginCustomer"));
+		Customer loginMember = (Customer)(session.getAttribute("loginMember"));
 
 		// 값 저장
-		String id = loginCustomer.getCustomerId();
+		String id = loginMember.getCustomerId();
 		String pw = request.getParameter("customerPw");
 		String changePw = request.getParameter("changePw");
 		System.out.println(id);
