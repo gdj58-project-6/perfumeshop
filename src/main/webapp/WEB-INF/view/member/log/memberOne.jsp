@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -7,30 +8,16 @@
 	</head>
 	<body>
 		<table border="1">
-			<tr>
-				<td>아이디</td>
-				<td>${customerOne.customerId}</td>
-			</tr>
-			<tr>
-				<td>이름</td>
-				<td>${customerOne.customerName}</td>
-			</tr>
-			<tr>
-				<td>전화번호</td>
-				<td>${customerOne.customerPhone}</td>
-			</tr>
-			<tr>
-				<td>포인트</td>
-				<td>${customerOne.point}</td>
-			</tr>
-			<tr>
-				<td>등급</td>
-				<td>${customerOne.authCode}</td>
-			</tr>
-			<tr>
-				<td>가입일자</td>
-				<td>${customerOne.createdate}</td>
-			</tr>
+			<!-- table 가로 출력... -->	
+			<c:forEach var="memberOne" items="${memberOne}">
+				<td>아이디 : ${memberOne.customerId}</td>
+				<td>이름 : ${memberOne.customerName}</td>
+				<td>전화번호 : ${memberOne.customerPhone}</td>
+				<td>포인트 : ${memberOne.point}</td>
+				<td>등급 : ${memberOne.authCode}</td>
+				<td>주소 : ${memberOne.address}</td>
+				<td>가입일자 : ${memberOne.createdate}</td>
+			</c:forEach>
 		</table>
 		<a href="${pageContext.request.contextPath}/member/removeMember">회원탈퇴</a>
 		<a href="${pageContext.request.contextPath}/member/modifyMemberPw">비밀번호수정</a>
