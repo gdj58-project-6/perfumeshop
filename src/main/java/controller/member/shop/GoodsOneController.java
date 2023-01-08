@@ -82,6 +82,6 @@ public class GoodsOneController extends HttpServlet {
 		} else {
 			System.out.println("장바구니 담기 성공");
 		}
-		response.sendRedirect(request.getContextPath()+"/member/goodsOne");
+		response.sendRedirect(request.getContextPath()+"/member/goodsOne?goodsCode="+cart.getGoodsCode());
 	}
 }
