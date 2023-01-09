@@ -16,6 +16,12 @@
 			상품가격 : <input type="number" name="goodsPrice">
 		</div>	
 		<div>
+			상품설명 : 
+		</div>
+		<div>
+			<textarea rows="5" cols="50" name="goodsMemo"></textarea>
+		</div>
+		<div>
 			품절여부 : 
 			<input type="radio" name="soldout" value="Y">Y 
 			<input type="radio" name="soldout" value="N">N	 

@@ -37,6 +37,8 @@ public class AddGoodsController extends HttpServlet {
 		// System.out.println(loginEmp.getEmpId());
 		
 		// 나중에 방어코드 넣기
+		
+		
 		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/view/emp/shop/addGoods.jsp");
 		rd.forward(request, response);
 				
@@ -63,6 +65,7 @@ public class AddGoodsController extends HttpServlet {
 		if(contentType.equals("image/jpeg") || contentType.equals("image/png")) {
 			String goodsName = mreq.getParameter("goodsName");
 			int goodsPrice = Integer.parseInt(mreq.getParameter("goodsPrice"));
+			String goodsMemo = mreq.getParameter("goodsMemo");
 			String soldout = mreq.getParameter("soldout");
 			int hit = Integer.parseInt(mreq.getParameter("hit"));
 			String empId = mreq.getParameter("empId");
@@ -70,17 +73,18 @@ public class AddGoodsController extends HttpServlet {
 			Goods goods = new Goods();	
 			goods.setGoodsName(goodsName);
 			goods.setGoodsPrice(goodsPrice);
+			goods.setGoodsMemo(goodsMemo);
 			goods.setSoldout(soldout);
 			goods.setHit(hit);
 			goods.setEmpId(empId);
 		
-			/*
 			System.out.println(goodsName);
 			System.out.println(goodsPrice);
+			System.out.println(goodsMemo);
 			System.out.println(soldout);
 			System.out.println(hit);
 			System.out.println(empId);
-			*/
+			
 			
 			GoodsImg goodsImg = new GoodsImg();
 			goodsImg.setOriginName(originName);

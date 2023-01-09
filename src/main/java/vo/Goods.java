@@ -4,6 +4,7 @@ public class Goods {
 	private int goodsCode;
 	private String goodsName;
 	private int goodsPrice;
+	private String goodsMemo;
 	private String soldout;
 	private String empId;
 	private int hit;
@@ -12,12 +13,14 @@ public class Goods {
 	// 생성자
 	public Goods()  {}
 
-	public Goods(int goodsCode, String goodsName, int goodsPrice, String soldout, String empId, int hit,
-			String createdate) {
+	
+	public Goods(int goodsCode, String goodsName, int goodsPrice, String goodsMemo, String soldout, String empId,
+			int hit, String createdate) {
 		super();
 		this.goodsCode = goodsCode;
 		this.goodsName = goodsName;
 		this.goodsPrice = goodsPrice;
+		this.goodsMemo = goodsMemo;
 		this.soldout = soldout;
 		this.empId = empId;
 		this.hit = hit;
@@ -28,66 +31,95 @@ public class Goods {
 	@Override
 	public String toString() {
 		return "Goods [goodsCode=" + goodsCode + ", goodsName=" + goodsName + ", goodsPrice=" + goodsPrice
-				+ ", soldout=" + soldout + ", empId=" + empId + ", hit=" + hit + ", createdate=" + createdate + "]";
+				+ ", goodsMemo=" + goodsMemo + ", soldout=" + soldout + ", empId=" + empId + ", hit=" + hit
+				+ ", createdate=" + createdate + ", getClass()=" + getClass() + ", hashCode()=" + hashCode()
+				+ ", toString()=" + super.toString() + "]";
 	}
 
-	// get, set
+
+	// get, set	
 	public int getGoodsCode() {
 		return goodsCode;
 	}
+
 
 	public void setGoodsCode(int goodsCode) {
 		this.goodsCode = goodsCode;
 	}
 
+
 	public String getGoodsName() {
 		return goodsName;
 	}
+
 
 	public void setGoodsName(String goodsName) {
 		this.goodsName = goodsName;
 	}
 
+
 	public int getGoodsPrice() {
 		return goodsPrice;
 	}
+
 
 	public void setGoodsPrice(int goodsPrice) {
 		this.goodsPrice = goodsPrice;
 	}
 
+
+	public String getGoodsMemo() {
+		return goodsMemo;
+	}
+
+
+	public void setGoodsMemo(String goodsMemo) {
+		this.goodsMemo = goodsMemo;
+	}
+
+
 	public String getSoldout() {
 		return soldout;
 	}
+
 
 	public void setSoldout(String soldout) {
 		this.soldout = soldout;
 	}
 
+
 	public String getEmpId() {
 		return empId;
 	}
+
 
 	public void setEmpId(String empId) {
 		this.empId = empId;
 	}
 
+
 	public int getHit() {
 		return hit;
 	}
+
 
 	public void setHit(int hit) {
 		this.hit = hit;
 	}
 
+
 	public String getCreatedate() {
 		return createdate;
 	}
 
+
 	public void setCreatedate(String createdate) {
 		this.createdate = createdate;
 	}
+
 	
+	
+
 	
 	
 }
