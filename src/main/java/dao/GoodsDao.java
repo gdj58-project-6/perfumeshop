@@ -11,6 +11,9 @@ import vo.Goods;
 
 public class GoodsDao {
 
+	// GoodsList 검색기능 추가
+	
+	
 	// GoodsOne
 	public ArrayList<HashMap<String, Object>> goodsOne(Connection conn, int goodsCode) throws Exception {
 		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
