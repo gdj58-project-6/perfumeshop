@@ -10,8 +10,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import service.CartService;
+import vo.Customer;
 
 @WebServlet("/member/cart")
 public class CartController extends HttpServlet {
@@ -21,6 +23,13 @@ public class CartController extends HttpServlet {
 		this.cartService = new CartService();
 		// 로그인 하지않아도 장바구니에 들어올 수는 있음
 		
+		// loginMember id값 받기
+		HttpSession session =  request.getSession();
+		Customer loginMember = (Customer)session.getAttribute("loginMember");
+		request.setAttribute("loginMember", loginMember);
+		// System.out.println(loginMember.getCustomerId()+" <- customerId");
+		
+				
 		ArrayList<HashMap<String, Object>> list = cartService.getCartList();
 		System.out.println(list);
 		request.setAttribute("list", list);

@@ -20,9 +20,13 @@
 			<input type="radio" name="soldout" value="Y">Y 
 			<input type="radio" name="soldout" value="N">N	 
 		</div>
-		<!-- hit 값은 일단 0~5로 설정, 나중에 셀렉으로 변경 예쩡-->		
+		<!-- hit 값은 일단 0~3으로 설정-->		
 		<div>
-			hit : <input type="number" name="hit">
+			hit : 
+			<input type="radio" name="hit" value="0">0 
+			<input type="radio" name="hit" value="1">1	 
+			<input type="radio" name="hit" value="2">2 
+			<input type="radio" name="hit" value="3">3	 
 		</div>
 		<!-- empId는 받와아야 함 -> 해결했음 -->
 		<div>

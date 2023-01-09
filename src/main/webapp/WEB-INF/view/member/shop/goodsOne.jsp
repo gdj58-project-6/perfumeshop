@@ -11,7 +11,7 @@
 	<h3>goodsOne</h3>
 	<!-- 가격, 수량조절, 장바구니로 갈지 결제창으로 갈지, 제품소개 등등.... -->
 	<c:forEach var="m" items="${list}">
-		<form action="${pageContext.request.contextPath}/member/goodsOne?goodsCode=${m.goodsCode}" method="post">
+		<form action="${pageContext.request.contextPath}/member/goodsOne?goodsCode=${m.goodsCode}" method="post" id="goodsOne">
 			<table border="1">
 				<tr>
 					<td colspan="2">
@@ -41,11 +41,20 @@
 			<!-- customerId값 히든으로 넘김 -->
 			<input type="hidden" name="customerId" value="${loginMember.customerId}">
 			<!-- 나중에 장바구니 버튼 누르면 장바구니에 담겼다는 창 한개 띄우기 -->
-			<button type="submit">장바구니 담기</button>
+			<button type="submit" id="cartAddBtn">장바구니 담기</button>
 		</form>	
 		<!-- 장바구니, 결제창 이동-->
 		<a href='${pageContext.request.contextPath}/member/cart'>장바구니로 이동</a>
 		<a href='${pageContext.request.contextPath}/member/goodsPayMent'>바로 구매</a>
 	</c:forEach>
+	<script>
+	// 장바구니 담기 버튼 누르면 성공했다는 창 하나 나오게
+	let cartAddBtn = document.querySelector('#cartAddBtn');
+	
+	cartAddBtn.addEventListener('click', function(){
+		// console.log('장바구니 추가 클릭!');
+		alert('장바구니 담기 성공!');
+	});
+	</script>
 </body>
 </html>
