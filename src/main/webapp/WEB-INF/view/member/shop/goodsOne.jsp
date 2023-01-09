@@ -41,9 +41,10 @@
 			<!-- customerId값 히든으로 넘김 -->
 			<input type="hidden" name="customerId" value="${loginMember.customerId}">
 			<!-- 나중에 장바구니 버튼 누르면 장바구니에 담겼다는 창 한개 띄우기 -->
-			<button type="submit">장바구니</button>
+			<button type="submit">장바구니 담기</button>
 		</form>	
-		<!-- 결제창 이동-->
+		<!-- 장바구니, 결제창 이동-->
+		<a href='${pageContext.request.contextPath}/member/cart'>장바구니로 이동</a>
 		<a href='${pageContext.request.contextPath}/member/goodsPayMent'>바로 구매</a>
 	</c:forEach>
 </body>

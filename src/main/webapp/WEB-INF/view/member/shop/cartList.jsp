@@ -32,5 +32,6 @@
 			<!-- 결제 페이지 이동 버튼 만들기 -->
 		</table>
 	</c:forEach>
+	<a href='${pageContext.request.contextPath}/member/goodsPayMent'>구매하기</a>
 </body>
 </html>
