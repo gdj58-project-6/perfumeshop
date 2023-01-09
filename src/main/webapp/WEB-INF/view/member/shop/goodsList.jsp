@@ -43,6 +43,24 @@
 			</c:forEach>
 		</tr>
 	</table>
+	<!-- 검색기능 -->
+	<form action="${pageContext.request.contextPath}/member/goodsList" method="get">
+		<span>
+			<input type="text" name="word">
+			<button type ="submit">검색</button>
+		</span>
+	</form>
+	<div>
+		<!-- 현재 페이지가 1보다 클때만 이전버튼 나오게 -->
+		<c:if test="${currentPage > 1}"> 
+		<a href="${pageContext.request.contextPath}/member/goodsList?rowPerPage=${rowPerPage}&currentPage=${currentPage-1}">이전</a>
+		</c:if>
+		<span>${currentPage}</span>
+		<!-- 현재 페이지가 라스트페이지보다 작으면 다음버튼 나오게 -->
+		<c:if test="${currentPage < lastPage}"> 
+		<a href="${pageContext.request.contextPath}/member/goodsList?rowPerPage=${rowPerPage}&currentPage=${currentPage+1}">다음</a>
+		</c:if>	
+	</div>
 	<a href='${pageContext.request.contextPath}/home'>홈</a>
 </body>
 </html>

@@ -2,6 +2,7 @@ package dao;
 
 import java.sql.Connection;
 
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -10,9 +11,6 @@ import java.util.HashMap;
 import vo.Goods;
 
 public class GoodsDao {
-
-	// GoodsList 검색기능 추가
-	
 	
 	// GoodsOne
 	public ArrayList<HashMap<String, Object>> goodsOne(Connection conn, int goodsCode) throws Exception {
@@ -35,13 +33,35 @@ public class GoodsDao {
 		
 		return list;
 	}
-	
-	
-	// GoodsList
-	public ArrayList<HashMap<String, Object>> selectGoodsList(Connection conn) throws Exception {
-		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
-		String sql = "SELECT g.goods_code goodsCode, g.goods_name goodsName, g.goods_price goodsPrice, g.goods_memo goodsMemo, gi.filename fileName FROM goods g INNER JOIN goods_img gi ON g.goods_code = gi.goods_code";
+	// 상품 전체 수 구하기
+	public int goodsCount(Connection conn) throws Exception {
+		int cnt = 0;
+		String sql = "SELECT COUNT(*) cnt FROM goods";
 		PreparedStatement stmt = conn.prepareStatement(sql);
+		ResultSet rs = stmt.executeQuery();
+		if(rs.next()) {
+			cnt = rs.getInt("cnt");
+		}
+		rs.close();
+		stmt.close();
+
+		return cnt;
+	}
+	
+	
+	// GoodsList 검색기능 추가해야 됨.. -
+	public ArrayList<HashMap<String, Object>> selectGoodsList(Connection conn, int beginRow, int endRow, String word) throws Exception {
+		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();		
+		PreparedStatement stmt = null;
+		if(word == null || word.equals("")) {
+			String sql = "SELECT g.goods_code goodsCode, g.goods_name goodsName, g.goods_price goodsPrice, g.goods_memo goodsMemo, gi.filename fileName FROM goods g INNER JOIN goods_img gi ON g.goods_code = gi.goods_code";
+			stmt = conn.prepareStatement(sql);
+		} else {
+			String sql = "SELECT g.goods_code goodsCode, g.goods_name goodsName, g.goods_price goodsPrice, g.goods_memo goodsMemo, gi.filename fileName FROM goods g INNER JOIN goods_img gi ON g.goods_code = gi.goods_code WHERE goods_name LIKE ?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, "%"+word+"%");
+		}
+
 		ResultSet rs = stmt.executeQuery();
 		while(rs.next()) {
 			HashMap<String, Object> m = new HashMap<String, Object>();

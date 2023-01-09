@@ -43,15 +43,41 @@ public class GoodsService {
 		return list;
 	}
 	
-	
-	// GoodsList
-	public ArrayList<HashMap<String, Object>> getGoodsList() {
-		ArrayList<HashMap<String, Object>> list = null;
+	// 상품 전체 수
+	public int goodsCount() {
+		int row = 0;
 		Connection conn = null;
 		try {
 			conn = DBUtil.getConnection();
 			this.goodsDao = new GoodsDao();
-			list = goodsDao.selectGoodsList(conn);
+			row = goodsDao.goodsCount(conn);
+			conn.commit();
+		} catch(Exception e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch(SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return row;
+	}
+	// GoodsList
+	public ArrayList<HashMap<String, Object>> getGoodsList(int currentPage, int rowPerPage, String word) {
+		ArrayList<HashMap<String, Object>> list = null;
+		Connection conn = null;
+		try {
+			conn = DBUtil.getConnection();
+			int beginRow = (currentPage-1)*rowPerPage+1;
+			int endRow = beginRow + rowPerPage - 1;
+			this.goodsDao = new GoodsDao();
+			list = goodsDao.selectGoodsList(conn, beginRow, endRow, word);
 			conn.commit();
 		} catch(Exception e) {
 			try {
