@@ -1,7 +1,6 @@
 package controller.member.shop;
 
 import java.io.IOException;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -15,14 +14,15 @@ import javax.servlet.http.HttpSession;
 
 import service.CartService;
 import service.GoodsService;
+import service.QuestionService;
 import vo.Cart;
 import vo.Customer;
-import vo.Emp;
 
 @WebServlet("/member/goodsOne")
 public class GoodsOneController extends HttpServlet {
 	private GoodsService goodsService;
 	private CartService cartService;
+	private QuestionService questionService;
 	private Cart cart;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 상품 상세보기 정보, 리뷰, 문의글, 장바구니, 바로구매, 옵션수정, 가격 동적으로 수정 문의 답변도 model
@@ -45,11 +45,22 @@ public class GoodsOneController extends HttpServlet {
 			// System.out.println(goodsCode);
 		}
 		
+		// 페이징
+		int currentPage = 1;
+		if(request.getParameter("currentPage") != null) {
+			currentPage = Integer.parseInt(request.getParameter("currentPage"));
+		}
+		int rowPerPage = 5;
+		
+		
 		// System.out.println(goodsCode);
 		this.goodsService = new GoodsService();
+		this.questionService = new QuestionService();
 		ArrayList<HashMap<String, Object>> list = goodsService.goodsOne(goodsCode);
+		ArrayList<HashMap<String, Object>> questionList = questionService.getQuestionList(currentPage, rowPerPage);
 		// System.out.println(list);
 		request.setAttribute("list", list);
+		request.setAttribute("questionList", questionList);
 		// View 연결
 		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/view/member/shop/goodsOne.jsp");
 		rd.forward(request, response);
