@@ -21,7 +21,7 @@
 		           height: 32px; /*--Set height of tabs--*/
 		           border-bottom: 1px solid #999;
 		           border-left: 1px solid #999;
-		           width: 15%;
+		           width: 30%;
 		       }
 		       ul.tabs li {
 		           float: left;
@@ -63,7 +63,7 @@
 		           overflow: hidden;
 		           clear: both;
 		           float: left; 
-		           width: 15%;
+		           width: 30%;
 		           background: #fff;
 		       }
 		       .tab_content {

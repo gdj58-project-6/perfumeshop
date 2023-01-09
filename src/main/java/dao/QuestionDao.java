@@ -6,22 +6,24 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import vo.GoodsQuestion;
+
 public class QuestionDao {
 	// 상품문의 리스트
-	public ArrayList<HashMap<String, Object>> selectQuestionList(Connection conn, int beginRow, int rowPerPage) throws Exception {
+	public ArrayList<HashMap<String, Object>> selectGoodsQuestionList(Connection conn, int beginRow, int rowPerPage) throws Exception {
 		// 객체 초기화
 		ArrayList<HashMap<String, Object>> list = null;
 		// 쿼리문 작성
-		String sql="SELECT "
-				+ "		q.question_code questionCode"
-				+ "		, q.orders_code ordersCode"
-				+ "		, o.goods_code goodsCode"
-				+ "		, o.customer_id customerId"
-				+ "		, q.category category"
-				+ "		, q.question_memo questionMemo"
-				+ "		, q.createdate createdate"
-				+ "		FROM question q INNER JOIN orders o ON q.orders_code = o.order_code"
-				+ "		ORDER BY q.question_code ASC LIMIT ?,?";
+		String sql="SELECT"
+				+ "		gq.goods_question_code goodsQuestionCode"
+				+ "		, gq.goods_code goodsCode"
+				+ "		, gq.category category"
+				+ "		, gq.goods_question_memo goodsQuestionMemo"
+				+ "		, gq.createdate createdate"
+				+ "		, g.goods_name goodsName "
+				+ "		FROM goods_question gq INNER JOIN goods g "
+				+ "		ON gq.goods_code = g.goods_code "
+				+ "		ORDER BY gq.goods_question_code ASC LIMIT ?, ?";
 		// 쿼리 객체 생성
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		// 쿼리문 ?값 지정
@@ -32,17 +34,38 @@ public class QuestionDao {
 		list = new ArrayList<HashMap<String, Object>>();
 		while(rs.next()) {
 			HashMap<String, Object> m = new HashMap<String, Object>();
-			m.put("questionCode", rs.getInt("questionCode"));
-			m.put("ordersCode", rs.getInt("ordersCode"));
+			m.put("goodsQuestionCode", rs.getInt("goodsQuestionCode"));
 			m.put("goodsCode", rs.getInt("goodsCode"));
-			m.put("customerId", rs.getString("customerId"));
 			m.put("category", rs.getString("category"));
-			m.put("questionMemo", rs.getString("questionMemo"));
+			m.put("goodsQuestionMemo", rs.getString("goodsQuestionMemo"));
 			m.put("createdate", rs.getString("createdate"));
+			m.put("goodsName", rs.getString("goodsName"));
 			list.add(m);
 		}
 		stmt.close();
 		rs.close();
 		return list;
+	}
+	
+	// 상품문의 문의하기
+	public int insertGoodsQuestion(Connection conn, GoodsQuestion goodsQuestion) throws Exception {
+		// 객체 생성
+		int row = 0;
+		// 쿼리문 작성
+		String sql = "INSERT INTO goods_question(goods_code, customer_id"
+				+ "		, category, goods_question_memo, createdate)"
+				+ "		VALUES(?, ?, ?, ?, NOW())";
+		// 쿼리 객체 생성
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		// 쿼리문 ?값 지정
+		stmt.setInt(1, goodsQuestion.getGoodsCode());
+		stmt.setString(2, goodsQuestion.getCustomerId());
+		stmt.setString(3, goodsQuestion.getCategory());
+		stmt.setString(4, goodsQuestion.getGoodsQuestionMemo());
+		// 쿼리 실행
+		row = stmt.executeUpdate();
+		
+		stmt.close();
+		return row;
 	}
 }

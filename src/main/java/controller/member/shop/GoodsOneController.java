@@ -45,7 +45,7 @@ public class GoodsOneController extends HttpServlet {
 			// System.out.println(goodsCode);
 		}
 		
-		// 페이징
+		// 페이징 마지막 페이지는 아직 미구현
 		int currentPage = 1;
 		if(request.getParameter("currentPage") != null) {
 			currentPage = Integer.parseInt(request.getParameter("currentPage"));
@@ -57,10 +57,11 @@ public class GoodsOneController extends HttpServlet {
 		this.goodsService = new GoodsService();
 		this.questionService = new QuestionService();
 		ArrayList<HashMap<String, Object>> list = goodsService.goodsOne(goodsCode);
-		ArrayList<HashMap<String, Object>> questionList = questionService.getQuestionList(currentPage, rowPerPage);
+		ArrayList<HashMap<String, Object>> questionList = questionService.getGoodsQuestionList(currentPage, rowPerPage);
 		// System.out.println(list);
 		request.setAttribute("list", list);
 		request.setAttribute("questionList", questionList);
+		request.setAttribute("goodsCode", goodsCode);
 		// View 연결
 		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/view/member/shop/goodsOne.jsp");
 		rd.forward(request, response);

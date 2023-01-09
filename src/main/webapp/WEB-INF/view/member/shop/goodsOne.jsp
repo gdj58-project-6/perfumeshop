@@ -78,6 +78,8 @@
 		<meta charset="UTF-8">
 		<title>goodsOne</title>
 		<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 		<script type="text/javascript">
 		    $(document).ready(function() {
 		
@@ -175,26 +177,54 @@
 		        <div id="tab2" class="tab_content">
 		        	<!-- 탭2 상품문의 -->
 		         	<h1>상품문의</h1>
-		         	<table border="1">
+		         	<!-- 상품문의-문의하기 modal -->
+					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#memberOne">문의하기</button>
+					<form action="${pageContext.request.contextPath}/member/addGoodsQuestion" method="post">
+						<div class="modal" id="memberOne">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h4 class="modal-title">상품 문의</h4>
+										<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+									</div>
+									<div class="modal-body">
+										상품번호 : <input type="text" name="goodsCode" value="${goodsCode}" readonly="readonly"><br>
+										아이디 : <input type="text" name="customerId" value="${loginMember.getCustomerId()}" readonly=""><br>
+										문의분류 :
+										<select name="category">
+											<option value="">==선택==</option>
+											<option value="배송">배송</option>
+											<option value="반품">반품</option>
+											<option value="교환">교환</option>
+											<option value="기타">기타</option>
+										</select> 
+										문의내용 : <textarea cols="50" rows="5" name="goodsQuestionMemo"></textarea>
+									</div>
+									<div class="modal-footer">
+										<button type="submit">입력</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+		         	<table class="table table-bordered">
 		         		<tr>
-		         			<th>questionCode</th>
-		         			<th>ordersCode</th>
+		         			<th>goodsQuestionCode</th>
+		         			<th>goodsCode</th>
 		         			<th>category</th>
-		         			<th>questionMemo</th>
+		         			<th>goodsQuestionMemo</th>
 		         			<th>createdate</th>
-		         			<th>수정</th>
-		         			<th>삭제</th>
 		         		</tr>
 		         		<c:forEach var="m2" items="${questionList}">
 		         			<tr>
-		         				<td>${m2.questionCode}</td>
-		         				<td>${m2.ordersCode}</td>
+		         				<td>${m2.goodsQuestionCode}</td>
+		         				<td>${m2.goodsCode}</td>
 		         				<td>${m2.category}</td>
 		         				<td>
 		         					<div>
 									    <ul>
 									        <li class="menu">
-									            <a>${m2.questionMemo}</a>
+									            <a>${m2.goodsQuestionMemo}</a>
 									            <ul class="hide">
 									            	<li>답글예정입니다.</li>
 									            </ul>
@@ -203,8 +233,6 @@
 								    </div>
 		         				</td>
 		         				<td>${m2.createdate}</td>
-		         				<td><!-- 수정은 모달로 memberOne에 코드 있음 --></td>
-		         				<td><!-- 삭제는 그냥 가능하게 --></td>
 		         			</tr>
 		         		</c:forEach>
 		         	</table>
