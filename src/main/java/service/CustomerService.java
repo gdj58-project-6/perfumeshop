@@ -218,6 +218,28 @@ public class CustomerService {
 		}
 		return row;
 	}
+	
+	// 회원 주소 수정
+	public int getUpdateCustomerAddress(String id, String address) {
+		int row = 0;
+		Connection conn = null;
+		
+		try {
+			conn = DBUtil.getConnection();
+			this.customerDao = new CustomerDao();
+			row = customerDao.updateCustomerAddress(conn, id, address);
+			conn.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return row;
+	}
 
 	// 회원탈퇴 전 pw_histroy 삭제 후 outid에 저장
 	public int getDeleteCustomer(Customer customer) {

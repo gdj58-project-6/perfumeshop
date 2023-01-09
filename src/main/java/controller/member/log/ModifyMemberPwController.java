@@ -17,8 +17,7 @@ import vo.Customer;
 public class ModifyMemberPwController extends HttpServlet {
 	private CustomerService customerService;
 	private PwHistoryService pwHistoryService;
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 비밀번호 수정 form
 		// 로그인 정보 저장
 		HttpSession session = request.getSession();
@@ -35,8 +34,7 @@ public class ModifyMemberPwController extends HttpServlet {
 
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 비밀번호 수정 Action
 		request.setCharacterEncoding("UTF-8");
 

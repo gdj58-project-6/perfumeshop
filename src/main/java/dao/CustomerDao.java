@@ -177,11 +177,27 @@ public class CustomerDao {
 	// 회원 정보 수정 (주소는 따로)
 	public int updateCustomerOne(Connection conn, Customer customer) throws Exception {
 		int row = 0;
-		String sql = "UPDATE customer SET customer_name = ?, customer_phone WHERE customer_id = ? AND customer_pw = ?";
+		String sql = "UPDATE customer SET customer_name = ?, customer_phone = ? WHERE customer_id = ? AND customer_pw = PASSWORD(?)";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, customer.getCustomerName());
-		stmt.setString(2, customer.getCustomerId());
-		stmt.setString(3, customer.getCustomerPw());
+		stmt.setString(2, customer.getCustomerPhone());
+		stmt.setString(3, customer.getCustomerId());
+		stmt.setString(4, customer.getCustomerPw());
+		
+		row = stmt.executeUpdate();
+		
+		stmt.close();
+		
+		return row;
+	}
+	
+	// 회원 주소 수정
+	public int updateCustomerAddress(Connection conn, String id, String address) throws Exception {
+		int row = 0;
+		String sql = "UPDATE customer_address SET address = ? WHERE customer_id = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, address);
+		stmt.setString(2, id);
 		
 		row = stmt.executeUpdate();
 		
