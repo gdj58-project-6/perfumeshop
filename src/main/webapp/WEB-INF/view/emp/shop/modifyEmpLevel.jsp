@@ -86,5 +86,6 @@
 				<a href="${pageContext.request.contextPath}/admin/modifyByAdmin?currentPage=${lastPage}">마지막</a>
 			</c:if>
 		</div>
+		<a href="${pageContext.request.contextPath}/home">홈</a>
 	</body>
 </html>

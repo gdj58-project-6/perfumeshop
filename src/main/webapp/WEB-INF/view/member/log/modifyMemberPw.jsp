@@ -29,5 +29,6 @@
 			</table>
 			<button type="submit">수정</button>
 		</form>
+		<a href="${pageContext.request.contextPath}/member/memberOne">뒤로</a>
 	</body>
 </html>

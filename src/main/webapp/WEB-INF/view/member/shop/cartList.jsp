@@ -36,5 +36,6 @@
 		</c:if>	
 	</c:forEach>	
 	<a href='${pageContext.request.contextPath}/member/goodsPayMent'>구매하기</a>
+	<a href='${pageContext.request.contextPath}/home'>홈</a>
 </body>
 </html>

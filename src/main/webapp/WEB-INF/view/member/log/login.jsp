@@ -23,7 +23,7 @@
             height: 32px; /*--Set height of tabs--*/
             border-bottom: 1px solid #999;
             border-left: 1px solid #999;
-            width: 100%;
+            width: 15%;
         }
         ul.tabs li {
             float: left;
@@ -58,20 +58,21 @@
             border-bottom: 1px solid #fff; 
         }
 
-        /*Tab Conent CSS*/
+        /*Tab Content CSS*/
         .tab_container {
             border: 1px solid #999;
             border-top: none;
             overflow: hidden;
             clear: both;
             float: left; 
-            width: 100%;
+            width: 15%;
             background: #fff;
         }
         .tab_content {
             padding: 20px;
             font-size: 1.2em;
         }
+        
     </style>
 
 
@@ -100,6 +101,10 @@
         });
     </script>
 	<body>
+		<!-- 비로그인 -->
+		<c:if test="${loginMember == null}">
+			<jsp:include page="/inc/menu.jsp"></jsp:include>
+		</c:if>
 		<div id="wrapper">    
 		    <!--탭 메뉴 영역 -->
 		    <ul class="tabs">

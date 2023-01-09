@@ -3,7 +3,7 @@
 <nav>
 	<div>
 		<c:if test="${nowPage eq home}">
-			${loginCustomer.getCustomerId()}님
+			${loginMember.getCustomerId()}님
 			<a href="${pageContext.request.contextPath}/home">홈</a>
 			<a href="${pageContext.request.contextPath}/member/goodsList">상품</a>
 			<a href="${pageContext.request.contextPath}/member/cart">장바구니</a>

@@ -39,5 +39,6 @@
 			<button type="submit">상품등록</button>
 		</div>
 	</form>
+	<a href='${pageContext.request.contextPath}/home'>홈</a>
 </body>
 </html>

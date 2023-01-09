@@ -88,5 +88,6 @@
 	<a href="${pageContext.request.contextPath}/member/removeMember">회원탈퇴</a>
 	<a href="${pageContext.request.contextPath}/member/modifyMemberPw">비밀번호수정</a>
 	<a href="${pageContext.request.contextPath}/member/modifyMember">회원정보수정</a>
+	<a href="${pageContext.request.contextPath}/home">홈</a>
 </body>
 </html>

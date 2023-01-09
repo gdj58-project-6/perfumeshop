@@ -26,5 +26,6 @@
 		</table>
 		<!-- 디버깅용 -->
 		<a href="${pageContext.request.contextPath}/admin/removeByAdmin">탈퇴</a>
+		<a href="${pageContext.request.contextPath}/home">홈</a>
 	</body>
 </html>

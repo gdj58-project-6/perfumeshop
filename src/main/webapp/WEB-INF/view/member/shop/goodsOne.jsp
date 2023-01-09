@@ -56,5 +56,6 @@
 		alert('장바구니 담기 성공!');
 	});
 	</script>
+	<a href='${pageContext.request.contextPath}/member/goodsList'>뒤로</a>
 </body>
 </html>

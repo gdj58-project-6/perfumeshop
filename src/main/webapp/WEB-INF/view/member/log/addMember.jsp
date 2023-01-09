@@ -43,5 +43,6 @@
 			</table>
 			<button type="submit">회원가입</button>
 		</form>
+		<a href="${pageContext.request.contextPath}/member/login">취소</a>
 	</body>
 </html>

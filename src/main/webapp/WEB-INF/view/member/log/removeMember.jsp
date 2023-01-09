@@ -24,5 +24,6 @@
 			<button type="reset">취소</button>
 			<button type="submit">회원탈퇴</button>
 		</form>
+		<a href="${pageContext.request.contextPath}/member/memberOne">뒤로</a>
 	</body>
 </html>
