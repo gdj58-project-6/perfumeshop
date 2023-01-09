@@ -73,5 +73,7 @@ public class LoginController extends HttpServlet {
 			session.setAttribute("loginMember", empLogin);
 			response.sendRedirect(request.getContextPath()+"/home");
 		}
+		
+		// 실패 디버깅
 	}
 }

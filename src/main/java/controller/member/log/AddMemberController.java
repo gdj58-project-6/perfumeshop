@@ -55,6 +55,7 @@ public class AddMemberController extends HttpServlet {
 			int row = customerService.getInsertCustomer(customer);
 			if(row == 1) {
 				System.out.println("회원가입 성공");
+				response.sendRedirect(pw);
 			} else {
 				System.out.println("회원가입 실패");
 			}
