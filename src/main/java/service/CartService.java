@@ -21,6 +21,7 @@ public class CartService {
 			conn = DBUtil.getConnection();
 			this.cartDao = new CartDao();
 			row = cartDao.removeCartList(conn, goodsCode);
+			conn.commit();
 		} catch(Exception e) {
 			try {
 				conn.rollback();
