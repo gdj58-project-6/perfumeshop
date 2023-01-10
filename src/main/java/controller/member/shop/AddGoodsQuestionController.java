@@ -18,7 +18,6 @@ import vo.GoodsQuestion;
 public class AddGoodsQuestionController extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
 		int goodsCode = Integer.parseInt(request.getParameter("goodsCode"));
 		String customerId = request.getParameter("customerId");
 		String category = request.getParameter("category");

@@ -17,9 +17,6 @@ public class RemoveByAdminController extends HttpServlet {
 	private EmpService empService;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 멤버 탈퇴
-		// 인코딩
-		request.setCharacterEncoding("UTF-8");
-
 		HttpSession session = request.getSession();
 		Emp loginMember = (Emp)session.getAttribute("loginMember");
 		

@@ -28,9 +28,6 @@ public class AddMemberController extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 회원가입 Action
-		// 인코딩
-		request.setCharacterEncoding("UTF-8");
-		
 		// 로그인 유효성 검사
 		
 		// 입력 값

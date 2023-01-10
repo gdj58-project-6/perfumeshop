@@ -36,8 +36,6 @@ public class ModifyMemberPwController extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 비밀번호 수정 Action
-		request.setCharacterEncoding("UTF-8");
-
 		// 로그인 정보 저장
 		HttpSession session = request.getSession();
 		Customer loginMember = (Customer)(session.getAttribute("loginMember"));

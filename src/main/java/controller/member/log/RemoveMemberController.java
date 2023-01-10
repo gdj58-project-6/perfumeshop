@@ -16,8 +16,7 @@ import vo.Customer;
 public class RemoveMemberController extends HttpServlet {
 	private CustomerService customerService;
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 회원탈퇴 form
 		// 로그인 정보 저장
 		HttpSession session = request.getSession();
@@ -34,8 +33,7 @@ public class RemoveMemberController extends HttpServlet {
 		request.getRequestDispatcher("/WEB-INF/view/member/log/removeMember.jsp").forward(request, response);
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 회원탈퇴 Action
 		// 로그인 정보 저장
 		HttpSession session = request.getSession();

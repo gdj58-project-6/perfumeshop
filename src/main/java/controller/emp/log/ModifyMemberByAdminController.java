@@ -60,8 +60,7 @@ public class ModifyMemberByAdminController extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// 레벨 수정(1단계:수정버튼으로 수정되게끔) 탈퇴기능은 나중에 
-		request.setCharacterEncoding("utf-8");
+		// 레벨 수정(1단계:수정버튼으로 수정되게끔) 탈퇴기능은 나중에
 		int customerCode = Integer.parseInt(request.getParameter("customerCode")); 
 		String customerId = request.getParameter("customerId");
 		int authCode = Integer.parseInt(request.getParameter("authCode"));

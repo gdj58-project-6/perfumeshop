@@ -28,9 +28,6 @@ public class AddEmpController extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// 인코딩
-		request.setCharacterEncoding("UTF-8");
-		
 		// 입력 값
 		String id = request.getParameter("id");
 		String name = request.getParameter("name");

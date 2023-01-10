@@ -62,7 +62,6 @@ public class ModifyEmpByAdminController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 관리자 레벨 수정 탈퇴 계정사용
 		// 레벨 수정(1단계:수정버튼으로 수정되게끔) 탈퇴기능은 나중에 
-		request.setCharacterEncoding("utf-8");
 		int empCode = Integer.parseInt(request.getParameter("empCode")); 
 		String empId = request.getParameter("empId");
 		int authCode = Integer.parseInt(request.getParameter("authCode"));

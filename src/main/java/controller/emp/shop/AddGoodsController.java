@@ -46,8 +46,6 @@ public class AddGoodsController extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 상품 등록 Action
-		request.setCharacterEncoding("utf-8"); // 인코딩
-	
 		// 프로젝트안 upload폴더의 실제 물리적 위치를 반환
 		String dir = request.getServletContext().getRealPath("/upload");
 		int maxFileSize = 1024 * 1024 * 100; // 100Mbyte
