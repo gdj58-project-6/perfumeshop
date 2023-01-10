@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import service.CartService;
 import service.GoodsService;
 import service.QuestionService;
+import service.ReviewService;
 import vo.Cart;
 import vo.Customer;
 import vo.Emp;
@@ -24,6 +25,7 @@ public class GoodsOneController extends HttpServlet {
 	private GoodsService goodsService;
 	private CartService cartService;
 	private QuestionService questionService;
+	private ReviewService reviewService;
 	private Cart cart;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 상품 상세보기 정보, 리뷰, 문의글, 장바구니, 바로구매, 옵션수정, 가격 동적으로 수정 문의 답변도 model
@@ -62,10 +64,14 @@ public class GoodsOneController extends HttpServlet {
 		// System.out.println(goodsCode); 아직 lastPage는 미구현
 		this.goodsService = new GoodsService();
 		this.questionService = new QuestionService();
+		this.reviewService = new ReviewService();
 		ArrayList<HashMap<String, Object>> list = goodsService.goodsOne(goodsCode);
 		ArrayList<HashMap<String, Object>> questionList = questionService.getGoodsQuestionList(currentPage, rowPerPage);
+		ArrayList<HashMap<String, Object>> reviewList = reviewService.getReviewList(currentPage, rowPerPage);
 		int cnt = questionService.getQuestionCountByGoodsQuestion();
+		int count = reviewService.getReviewCount();
 		int lastPage = 0;
+		int lastPage2 = 0;
 		if(cnt % rowPerPage == 0) {
 			lastPage = cnt / rowPerPage;
 			// System.out.println(lastPage + "<--나누어 떨어질때");
@@ -74,9 +80,16 @@ public class GoodsOneController extends HttpServlet {
 			// System.out.println(cnt%rowPerPage);
 			// System.out.println(lastPage + "<--나누어 떨어지지 않을때");
 		}
+		
+		if(count % rowPerPage == 0) {
+			lastPage2 = count / rowPerPage;
+		} else if(count % rowPerPage != 0) {
+			lastPage2 = (count / rowPerPage) + 1;
+		}
 		// System.out.println(list);
 		request.setAttribute("list", list);
 		request.setAttribute("questionList", questionList);
+		request.setAttribute("reviewList", reviewList);
 		request.setAttribute("goodsCode", goodsCode);
 		request.setAttribute("currentPage", currentPage);
 		request.setAttribute("lastPage", lastPage);

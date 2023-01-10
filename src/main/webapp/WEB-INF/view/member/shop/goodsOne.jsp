@@ -101,20 +101,26 @@
 		        });
 		        
 				// memu 클래스 바로 하위에 있는 a 태그를 클릭했을때
-				$(".menu>a").click(function(){
-				    // 현재 클릭한 태그가 a 이기 때문에
-				    // a 옆의 태그중 ul 태그에 hide 클래스 태그를 넣던지 빼던지 한다.
-				    $(this).next("ul").toggleClass("hide");
+		        $(".menu>a").click(function(){
+		            var submenu = $(this).next("ul");
+		 
+		            // submenu 가 화면상에 보일때는 위로 보드랍게 접고 아니면 아래로 보드랍게 펼치기
+		            if( submenu.is(":visible") ){
+		                submenu.slideUp();
+		            }else{
+		                submenu.slideDown();
+		            }
+		        });
+				// 장바구니 담기 버튼 누르면 성공했다는 창 하나 나오게
+				let cartAddBtn = document.querySelector('#cartAddBtn');
+				
+				cartAddBtn.addEventListener('click', function(){
+					// console.log('장바구니 추가 클릭!');
+					alert('장바구니 담기 성공!');
 				});
 		
 		    });
-			// 장바구니 담기 버튼 누르면 성공했다는 창 하나 나오게
-			let cartAddBtn = document.querySelector('#cartAddBtn');
 			
-			cartAddBtn.addEventListener('click', function(){
-				// console.log('장바구니 추가 클릭!');
-				alert('장바구니 담기 성공!');
-			});
 		</script>
 	</head>
 	<body>
@@ -246,16 +252,52 @@
 		         			</tr>
 		         		</c:forEach>
 		         	</table>
+		         	<!-- 문의글 페이징 -->
 		         	<div>
-		         		<a href="${pageContext.request.contextPath}/member/goodsOne?currentPage=1&goodsCode=${goodsCode}">처음</a>
-		         		<a href="${pageContext.request.contextPath}/member/goodsOne?currentPage=${currentPage-1}&goodsCode=${goodsCode}">이전</a>
-		         		<a href="${pageContext.request.contextPath}/member/goodsOne?currentPage=${currentPage+1}&goodsCode=${goodsCode}">다음</a>
-		         		<a href="${pageContext.request.contextPath}/member/goodsOne?currentPage=${lastPage}&goodsCode=${goodsCode}">마지막</a>
+		         		<c:if test="${currentPage != 1}">
+		         			<a href="${pageContext.request.contextPath}/member/goodsOne?currentPage=1&goodsCode=${goodsCode}">처음</a>
+		         		</c:if>
+		         		<c:if test="${currentPage > 1}">
+		         			<a href="${pageContext.request.contextPath}/member/goodsOne?currentPage=${currentPage-1}&goodsCode=${goodsCode}">이전</a>
+		         		</c:if>
+		         		<c:if test="${currentPage < lastPage}">
+		         			<a href="${pageContext.request.contextPath}/member/goodsOne?currentPage=${currentPage+1}&goodsCode=${goodsCode}">다음</a>
+		         		</c:if>
+		         		<c:if test="${currentPage != lastPage}">
+		         			<a href="${pageContext.request.contextPath}/member/goodsOne?currentPage=${lastPage}&goodsCode=${goodsCode}">마지막</a>
+		         		</c:if>
 		         	</div>
 				</div>
 		        <div id="tab3" class="tab_content">
 		        	<!-- 탭3 리뷰 -->
 		         	<h1>상품리뷰</h1>
+		         	<table class="table table-bordered">
+		         		<tr>
+		         			<th>orderCode</th>
+		         			<th>reviewMemo</th>
+		         		</tr>
+		         		<c:forEach var="m3" items="${reviewList}">
+		         			<tr>
+		         				<td>${m3.orderCode}</td>
+		         				<td>${m3.reviewMemo}</td>
+		         			</tr>
+		         		</c:forEach>
+		         	</table>
+		         	<!-- 리뷰 페이징 -->
+		         	<div>
+		         		<c:if test="${currentPage != 1}">
+		         			<a href="${pageContext.request.contextPath}/member/goodsOne?currentPage=1&goodsCode=${goodsCode}">처음</a>
+		         		</c:if>
+		         		<c:if test="${currentPage > 1}">
+		         			<a href="${pageContext.request.contextPath}/member/goodsOne?currentPage=${currentPage-1}&goodsCode=${goodsCode}">이전</a>
+		         		</c:if>
+		         		<c:if test="${currentPage < lastPage}">
+		         			<a href="${pageContext.request.contextPath}/member/goodsOne?currentPage=${currentPage+1}&goodsCode=${goodsCode}">다음</a>
+		         		</c:if>
+		         		<c:if test="${currentPage != lastPage}">
+		         			<a href="${pageContext.request.contextPath}/member/goodsOne?currentPage=${lastPage}&goodsCode=${goodsCode}">마지막</a>
+		         		</c:if>
+		         	</div>
 		        </div>
 	    	</div>
 		</div>
