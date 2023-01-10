@@ -3,6 +3,7 @@ package dao;
 import java.sql.Connection;
 
 
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -11,6 +12,28 @@ import java.util.HashMap;
 import vo.Goods;
 
 public class GoodsDao {
+	
+	// ModifyGoodsForm 이미지, 상품이름, 상품가격, 상품설명?
+	public ArrayList<HashMap<String, Object>> modifyGoodsForm(Connection conn, int goodsCode) throws Exception {
+		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
+		String sql = "SELECT g.goods_code goodsCode, g.goods_name goodsName, g.goods_price goodsPrice, g.goods_memo goodsMemo, gi.filename fileName FROM goods g INNER JOIN goods_img gi ON g.goods_code = gi.goods_code WHERE g.goods_code = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, goodsCode);
+		ResultSet rs = stmt.executeQuery();
+		while(rs.next()) {
+			HashMap<String, Object> m = new HashMap<String, Object>();
+			m.put("goodsCode", rs.getInt("goodsCode"));
+			m.put("goodsName", rs.getString("goodsName"));
+			m.put("goodsPrice", rs.getString("goodsPrice"));
+			m.put("goodsMemo", rs.getString("goodsMemo"));
+			m.put("fileName", rs.getString("fileName"));
+			list.add(m);
+		}
+		rs.close();
+		stmt.close();
+		
+		return list;
+	}
 	
 	// GoodsOne
 	public ArrayList<HashMap<String, Object>> goodsOne(Connection conn, int goodsCode) throws Exception {

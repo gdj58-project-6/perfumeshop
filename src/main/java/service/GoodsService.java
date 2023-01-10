@@ -17,6 +17,33 @@ public class GoodsService {
 	private GoodsDao goodsDao;
 	private GoodsImgDao goodsImgDao;
 	
+	// ModifyGoodsForm 
+	public ArrayList<HashMap<String, Object>> modifyGoodsForm(int goodsCode) {
+		ArrayList<HashMap<String, Object>> list = null;
+		Connection conn = null;
+		try {
+			conn = DBUtil.getConnection();
+			conn.setAutoCommit(false);
+			list = goodsDao.modifyGoodsForm(conn, goodsCode);
+			conn.commit();
+		} catch (Exception e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch(SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return list;
+	}
+	
+	
 	// GoodsOne
 	public ArrayList<HashMap<String, Object>> goodsOne(int goodsCode) {
 		ArrayList<HashMap<String, Object>> list = null;
