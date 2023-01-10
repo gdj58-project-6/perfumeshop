@@ -4,12 +4,41 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import dao.CustomerDao;
 import dao.QuestionDao;
 import util.DBUtil;
 import vo.GoodsQuestion;
 
 public class QuestionService {
 	private QuestionDao questionDao;
+	
+	// 상품문의 리스트 페이징에 필요한 목록수
+	public int getQuestionCountByGoodsQuestion() {
+		// 객체 초기화
+		int row = 0;
+		// 드라이버 초기화
+		Connection conn = null;
+
+		try {
+			// 드라이버 연결
+			conn = DBUtil.getConnection();
+			// dao초기화
+			this.questionDao = new QuestionDao();
+			// dao호출
+			row = questionDao.selectCountByGoodsQuestion(conn);
+			// 커밋
+			conn.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return row;
+	}
 	
 	// 상품문의 리스트
 	public ArrayList<HashMap<String, Object>> getGoodsQuestionList(int currentPage, int rowPerPage) {

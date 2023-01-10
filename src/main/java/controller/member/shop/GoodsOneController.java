@@ -30,16 +30,15 @@ public class GoodsOneController extends HttpServlet {
 		request.setCharacterEncoding("utf-8"); // 인코딩
 		// 로그인 비로그인 상관없이 볼 수 있음
 		
-		
-		// customerId값 불러오기
 		HttpSession session =  request.getSession();
-		if(session.getAttribute("loginMember").equals(session.getAttribute("customerLogin"))) {
+		// customerId값 불러오기
+		if(session.getAttribute("loginMember") == session.getAttribute("customerLogin")) {
 			Customer loginMember = (Customer)session.getAttribute("loginMember");
 			request.setAttribute("loginMember", loginMember);
-		} else if(session.getAttribute("loginMember").equals(session.getAttribute("empLogin"))) {
+		} else if(session.getAttribute("loginMember") == session.getAttribute("empLogin")) {
 			Emp loginMember = (Emp)session.getAttribute("loginMember");
 			request.setAttribute("loginMember", loginMember);
-		}
+		} 
 		
 		// System.out.println(loginMember);
 		// 상품코드 없이는 상품상세보기칸으로 못감
@@ -65,10 +64,22 @@ public class GoodsOneController extends HttpServlet {
 		this.questionService = new QuestionService();
 		ArrayList<HashMap<String, Object>> list = goodsService.goodsOne(goodsCode);
 		ArrayList<HashMap<String, Object>> questionList = questionService.getGoodsQuestionList(currentPage, rowPerPage);
+		int cnt = questionService.getQuestionCountByGoodsQuestion();
+		int lastPage = 0;
+		if(cnt % rowPerPage == 0) {
+			lastPage = cnt / rowPerPage;
+			// System.out.println(lastPage + "<--나누어 떨어질때");
+		} else if(cnt % rowPerPage != 0) {
+			lastPage = (cnt / rowPerPage) + 1;
+			// System.out.println(cnt%rowPerPage);
+			// System.out.println(lastPage + "<--나누어 떨어지지 않을때");
+		}
 		// System.out.println(list);
 		request.setAttribute("list", list);
 		request.setAttribute("questionList", questionList);
 		request.setAttribute("goodsCode", goodsCode);
+		request.setAttribute("currentPage", currentPage);
+		request.setAttribute("lastPage", lastPage);
 		// View 연결
 		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/view/member/shop/goodsOne.jsp");
 		rd.forward(request, response);

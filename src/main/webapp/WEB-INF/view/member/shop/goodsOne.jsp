@@ -184,38 +184,39 @@
 		        	<!-- 탭2 상품문의 -->
 		         	<h1>상품문의</h1>
 		         	<!-- 상품문의-문의하기 modal -->
-					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#memberOne">문의하기</button>
-					<form action="${pageContext.request.contextPath}/member/addGoodsQuestion" method="post">
-						<div class="modal" id="memberOne">
-							<div class="modal-dialog">
-								<div class="modal-content">
-									<div class="modal-header">
-										<h4 class="modal-title">상품 문의</h4>
-										<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-									</div>
-									<div class="modal-body">
-										상품번호 : <input type="text" name="goodsCode" value="${goodsCode}" readonly="readonly"><br>
-										<c:if test="${loginMember.getAuthCode() < 4}">
-											아이디 : <input type="text" name="customerId" value="${loginMember.getCustomerId()}" readonly="readonly"><br>
-										</c:if>
-										문의분류 :
-										<select name="category">
-											<option value="">==선택==</option>
-											<option value="배송">배송</option>
-											<option value="반품">반품</option>
-											<option value="교환">교환</option>
-											<option value="기타">기타</option>
-										</select><br>
-										문의내용 : <textarea cols="50" rows="5" name="goodsQuestionMemo"></textarea>
-									</div>
-									<div class="modal-footer">
-										<button type="submit">입력</button>
+		         	<c:if test="${loginMember != null}">
+		         		<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#memberOne">문의하기</button>
+						<form action="${pageContext.request.contextPath}/member/addGoodsQuestion" method="post">
+							<div class="modal" id="memberOne">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h4 class="modal-title">상품 문의</h4>
+											<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+										</div>
+										<div class="modal-body">
+											상품번호 : <input type="text" name="goodsCode" value="${goodsCode}" readonly="readonly"><br>
+											<c:if test="${loginMember.getAuthCode() < 4}">
+												아이디 : <input type="text" name="customerId" value="${loginMember.getCustomerId()}" readonly="readonly"><br>
+											</c:if>
+											문의분류 :
+											<select name="category">
+												<option value="">==선택==</option>
+												<option value="배송">배송</option>
+												<option value="반품">반품</option>
+												<option value="교환">교환</option>
+												<option value="기타">기타</option>
+											</select><br>
+											문의내용 : <textarea cols="50" rows="5" name="goodsQuestionMemo"></textarea>
+										</div>
+										<div class="modal-footer">
+											<button type="submit">입력</button>
+										</div>
 									</div>
 								</div>
 							</div>
-						</div>
-					</form>
-					<a>내 문의글</a>
+						</form>
+		         	</c:if>
 		         	<table class="table table-bordered">
 		         		<tr>
 		         			<th>goodsQuestionCode</th>
@@ -245,7 +246,13 @@
 		         			</tr>
 		         		</c:forEach>
 		         	</table>
-		        </div>
+		         	<div>
+		         		<a href="${pageContext.request.contextPath}/member/goodsOne?currentPage=1&goodsCode=${goodsCode}">처음</a>
+		         		<a href="${pageContext.request.contextPath}/member/goodsOne?currentPage=${currentPage-1}&goodsCode=${goodsCode}">이전</a>
+		         		<a href="${pageContext.request.contextPath}/member/goodsOne?currentPage=${currentPage+1}&goodsCode=${goodsCode}">다음</a>
+		         		<a href="${pageContext.request.contextPath}/member/goodsOne?currentPage=${lastPage}&goodsCode=${goodsCode}">마지막</a>
+		         	</div>
+				</div>
 		        <div id="tab3" class="tab_content">
 		        	<!-- 탭3 리뷰 -->
 		         	<h1>상품리뷰</h1>

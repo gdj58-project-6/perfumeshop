@@ -9,6 +9,23 @@ import java.util.HashMap;
 import vo.GoodsQuestion;
 
 public class QuestionDao {
+	// 상품문의글 페이징 목록수
+	public int selectCountByGoodsQuestion(Connection conn) throws Exception {
+		// 객체 초기화
+		int row = 0;
+		// 쿼리문 작성
+		String sql = "SELECT COUNT(*) FROM goods_question";
+		// 쿼리 객체 생성
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		// 쿼리 실행
+		ResultSet rs = stmt.executeQuery();
+		if (rs.next()) {
+			row = rs.getInt("COUNT(*)");
+		}
+		stmt.close();
+		rs.close();
+		return row;
+	}
 	// 상품문의 리스트
 	public ArrayList<HashMap<String, Object>> selectGoodsQuestionList(Connection conn, int beginRow, int rowPerPage) throws Exception {
 		// 객체 초기화
