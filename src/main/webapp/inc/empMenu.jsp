@@ -8,6 +8,7 @@
 			<a href="${pageContext.request.contextPath}/member/goodsList">상품</a>
 			<a href="${pageContext.request.contextPath}/member/cart">장바구니</a>
 			<a href="${pageContext.request.contextPath}/admin/adminOne">직원정보</a>
+			<a href="${pageContext.request.contextPath}/admin/orderList">주문 관리</a>
 			<a href="${pageContext.request.contextPath}/member/logout">로그아웃</a>
 		</c:if>
 	</div>

@@ -2,34 +2,34 @@ package vo;
 
 public class Orders {
 	private int orderCode;
-	private int goodsCode;
 	private String customerId;
 	private int addressCode;
 	private int orderQuantity;
 	private int orderPrice;
 	private String orderState;
+	private String orderMemo;
 	private String createdate;
 	
 	public Orders() {}
 
-	public Orders(int orderCode, int goodsCode, String customerId, int addressCode, int orderQuantity, int orderPrice,
-			String orderState, String createdate) {
+	public Orders(int orderCode, String customerId, int addressCode, int orderQuantity, int orderPrice,
+			String orderState, String orderMemo, String createdate) {
 		super();
 		this.orderCode = orderCode;
-		this.goodsCode = goodsCode;
 		this.customerId = customerId;
 		this.addressCode = addressCode;
 		this.orderQuantity = orderQuantity;
 		this.orderPrice = orderPrice;
 		this.orderState = orderState;
+		this.orderMemo = orderMemo;
 		this.createdate = createdate;
 	}
 
 	@Override
 	public String toString() {
-		return "Orders [orderCode=" + orderCode + ", goodsCode=" + goodsCode + ", customerId=" + customerId
-				+ ", addressCode=" + addressCode + ", orderQuantity=" + orderQuantity + ", orderPrice=" + orderPrice
-				+ ", orderState=" + orderState + ", createdate=" + createdate + ", getClass()=" + getClass()
+		return "Orders [orderCode=" + orderCode + ", customerId=" + customerId + ", addressCode=" + addressCode
+				+ ", orderQuantity=" + orderQuantity + ", orderPrice=" + orderPrice + ", orderState=" + orderState
+				+ ", orderMemo=" + orderMemo + ", createdate=" + createdate + ", getClass()=" + getClass()
 				+ ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
 	}
 
@@ -39,14 +39,6 @@ public class Orders {
 
 	public void setOrderCode(int orderCode) {
 		this.orderCode = orderCode;
-	}
-
-	public int getGoodsCode() {
-		return goodsCode;
-	}
-
-	public void setGoodsCode(int goodsCode) {
-		this.goodsCode = goodsCode;
 	}
 
 	public String getCustomerId() {
@@ -89,6 +81,14 @@ public class Orders {
 		this.orderState = orderState;
 	}
 
+	public String getOrderMemo() {
+		return orderMemo;
+	}
+
+	public void setOrderMemo(String orderMemo) {
+		this.orderMemo = orderMemo;
+	}
+
 	public String getCreatedate() {
 		return createdate;
 	}
@@ -96,6 +96,4 @@ public class Orders {
 	public void setCreatedate(String createdate) {
 		this.createdate = createdate;
 	}
-	
-	
 }

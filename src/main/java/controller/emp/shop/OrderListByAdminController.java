@@ -1,4 +1,4 @@
-package controller.member.shop;
+package controller.emp.shop;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,31 +12,34 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import service.OrderService;
-import vo.Customer;
 import vo.Emp;
 
-@WebServlet("/member/orderList")
-public class OrderListController extends HttpServlet {
+@WebServlet("/admin/orderList")
+public class OrderListByAdminController extends HttpServlet {
 	private OrderService orderService;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// 로그인 유효성 검사
+		// 로그인 정보 저장
 		HttpSession session = request.getSession();
-		Customer loginMember = (Customer)(session.getAttribute("loginMember"));
+		Emp loginMember = (Emp)(session.getAttribute("loginMember"));
 		
-		// 로그인안되어있으면
+		// 로그인이 안되어있으면
 		if(loginMember == null) {
 			response.sendRedirect(request.getContextPath() + "/member/login");
 			return;
 		}
 		
-		// 바인딩
-		Customer customer = new Customer();
-		customer.setCustomerId(loginMember.getCustomerId());
-		
+		// 로그인이되어있으면
+		// Model
 		this.orderService = new OrderService();
-		ArrayList<HashMap<String, Object>> list = orderService.getSelectOrderList(customer);
+		ArrayList<HashMap<String, Object>> list = orderService.getSelectAllOrderList();
 		
 		request.setAttribute("list", list);
-		request.getRequestDispatcher("/WEB-INF/view/member/shop/orderList.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/view/emp/shop/orderListByAdmin.jsp").forward(request, response);
 	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+
 }
