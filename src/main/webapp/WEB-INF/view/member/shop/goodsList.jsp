@@ -51,6 +51,7 @@
 		</span>
 	</form>
 	<div>
+		<!-- 아직 검색 결과물 페이징은 안됨 -->
 		<!-- 현재 페이지가 1보다 클때만 이전버튼 나오게 -->
 		<c:if test="${currentPage > 1}"> 
 		<a href="${pageContext.request.contextPath}/member/goodsList?rowPerPage=${rowPerPage}&currentPage=${currentPage-1}">이전</a>

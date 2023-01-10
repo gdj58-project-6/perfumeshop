@@ -12,6 +12,33 @@ import vo.Cart;
 
 public class CartService {
 	private CartDao cartDao;
+	
+	// RemoveCartList
+	public int removeCartList(int goodsCode) {
+		int row = 0;
+		Connection conn = null;
+		try {
+			conn = DBUtil.getConnection();
+			this.cartDao = new CartDao();
+			row = cartDao.removeCartList(conn, goodsCode);
+		} catch(Exception e) {
+			try {
+				conn.rollback();
+			} catch(SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch(SQLException e) {
+				e.printStackTrace();
+			}
+		} 
+		return row;
+	}
+	
+	
 	// CartList
 	public ArrayList<HashMap<String, Object>> getCartList() {
 		ArrayList<HashMap<String, Object>> list = null;

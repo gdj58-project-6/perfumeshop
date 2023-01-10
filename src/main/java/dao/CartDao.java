@@ -10,6 +10,18 @@ import vo.Cart;
 
 public class CartDao {
 	
+	// 장바구니 리스트 삭제 RemoveCartList
+	public int removeCartList(Connection conn, int goodsCode) throws Exception {
+		int row = 0;
+		String sql = "DELETE FROM cart WHERE goods_code = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, goodsCode);
+		row = stmt.executeUpdate();
+	
+		stmt.close();
+		return row;
+	}
+	
 	// 장바구니 리스트 AddCartList
 	public ArrayList<HashMap<String, Object>> selectCartList(Connection conn) throws Exception {
 		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();

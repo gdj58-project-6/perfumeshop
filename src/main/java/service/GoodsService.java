@@ -17,6 +17,40 @@ public class GoodsService {
 	private GoodsDao goodsDao;
 	private GoodsImgDao goodsImgDao;
 	
+	// RemoveGoods
+	public int removeGoods(Goods goods, GoodsImg goodsImg) {
+		int goodsRow = 0;
+		int goodsImgRow = 0;
+		Connection conn = null;
+		try {
+			conn = DBUtil.getConnection();
+			// 1) 
+			this.goodsImgDao = new GoodsImgDao();
+			goodsImgRow = goodsImgDao.removeGoodsImg(conn, goodsImg);
+			
+			// 2) 
+			this.goodsDao = new GoodsDao();
+			goodsRow = goodsDao.removeGoods(conn, goods);
+			
+			conn.commit(); // 1) + 2) 일괄처리 -> 트랜젝션 -> 하나라도 실패시 롤백
+		} catch (Exception e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch(SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return goodsRow+goodsImgRow;
+	}
+	
 	// ModifyGoodsForm 
 	public ArrayList<HashMap<String, Object>> modifyGoodsForm(int goodsCode) {
 		ArrayList<HashMap<String, Object>> list = null;
