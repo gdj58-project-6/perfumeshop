@@ -119,6 +119,9 @@
 	</head>
 	<body>
 		<a href='${pageContext.request.contextPath}/member/goodsList'>뒤로</a>
+		<c:if test="${loginMember.getAuthCode() > 5}">
+			<a href="${pageContext.request.contextPath}/admin/modifyGoods">상품수정</a>
+		</c:if>
 		<!-- 맨위에 include  -->
 		<h3>goodsOne</h3>
 		<!-- 가격, 수량조절, 장바구니로 갈지 결제창으로 갈지, 제품소개 등등.... -->
@@ -151,7 +154,10 @@
 					<!-- 또 추가할게 있으면 추가 -->
 				</table>
 				<!-- customerId값 히든으로 넘김 -->
-				<input type="hidden" name="customerId" value="${loginMember.customerId}">
+				<c:if test="${loginMember.getAuthCode() < 4}">
+					<input type="hidden" name="customerId" value="${loginMember.customerId}">
+				</c:if>
+				
 				<!-- 나중에 장바구니 버튼 누르면 장바구니에 담겼다는 창 한개 띄우기 -->
 				<button type="submit" id="cartAddBtn">장바구니 담기</button>
 			</form>	
@@ -189,7 +195,9 @@
 									</div>
 									<div class="modal-body">
 										상품번호 : <input type="text" name="goodsCode" value="${goodsCode}" readonly="readonly"><br>
-										아이디 : <input type="text" name="customerId" value="${loginMember.getCustomerId()}" readonly=""><br>
+										<c:if test="${loginMember.getAuthCode() < 4}">
+											아이디 : <input type="text" name="customerId" value="${loginMember.getCustomerId()}" readonly="readonly"><br>
+										</c:if>
 										문의분류 :
 										<select name="category">
 											<option value="">==선택==</option>
@@ -197,7 +205,7 @@
 											<option value="반품">반품</option>
 											<option value="교환">교환</option>
 											<option value="기타">기타</option>
-										</select> 
+										</select><br>
 										문의내용 : <textarea cols="50" rows="5" name="goodsQuestionMemo"></textarea>
 									</div>
 									<div class="modal-footer">

@@ -17,6 +17,7 @@ import service.GoodsService;
 import service.QuestionService;
 import vo.Cart;
 import vo.Customer;
+import vo.Emp;
 
 @WebServlet("/member/goodsOne")
 public class GoodsOneController extends HttpServlet {
@@ -32,8 +33,14 @@ public class GoodsOneController extends HttpServlet {
 		
 		// customerId값 불러오기
 		HttpSession session =  request.getSession();
-		Customer loginMember = (Customer)session.getAttribute("loginMember");
-		request.setAttribute("loginMember", loginMember);
+		if(session.getAttribute("loginMember").equals(session.getAttribute("customerLogin"))) {
+			Customer loginMember = (Customer)session.getAttribute("loginMember");
+			request.setAttribute("loginMember", loginMember);
+		} else if(session.getAttribute("loginMember").equals(session.getAttribute("empLogin"))) {
+			Emp loginMember = (Emp)session.getAttribute("loginMember");
+			request.setAttribute("loginMember", loginMember);
+		}
+		
 		// System.out.println(loginMember);
 		// 상품코드 없이는 상품상세보기칸으로 못감
 		int goodsCode = 0;
@@ -53,7 +60,7 @@ public class GoodsOneController extends HttpServlet {
 		int rowPerPage = 5;
 		
 		
-		// System.out.println(goodsCode);
+		// System.out.println(goodsCode); 아직 lastPage는 미구현
 		this.goodsService = new GoodsService();
 		this.questionService = new QuestionService();
 		ArrayList<HashMap<String, Object>> list = goodsService.goodsOne(goodsCode);
