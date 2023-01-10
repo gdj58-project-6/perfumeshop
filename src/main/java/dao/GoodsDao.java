@@ -16,7 +16,7 @@ public class GoodsDao {
 	// ModifyGoodsForm 이미지, 상품이름, 상품가격, 상품설명?
 	public ArrayList<HashMap<String, Object>> modifyGoodsForm(Connection conn, int goodsCode) throws Exception {
 		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
-		String sql = "SELECT g.goods_code goodsCode, g.goods_name goodsName, g.goods_price goodsPrice, g.goods_memo goodsMemo, gi.filename fileName FROM goods g INNER JOIN goods_img gi ON g.goods_code = gi.goods_code WHERE g.goods_code = ?";
+		String sql = "SELECT g.goods_code goodsCode, g.goods_name goodsName, g.goods_price goodsPrice, g.goods_memo goodsMemo, g.soldout soldout, g.emp_id empId, g.hit hit, gi.filename fileName FROM goods g INNER JOIN goods_img gi ON g.goods_code = gi.goods_code WHERE g.goods_code = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, goodsCode);
 		ResultSet rs = stmt.executeQuery();
@@ -26,6 +26,9 @@ public class GoodsDao {
 			m.put("goodsName", rs.getString("goodsName"));
 			m.put("goodsPrice", rs.getString("goodsPrice"));
 			m.put("goodsMemo", rs.getString("goodsMemo"));
+			m.put("soldout", rs.getString("soldout"));
+			m.put("empId", rs.getString("empId"));
+			m.put("hit", rs.getInt("hit"));
 			m.put("fileName", rs.getString("fileName"));
 			list.add(m);
 		}
@@ -34,6 +37,24 @@ public class GoodsDao {
 		
 		return list;
 	}
+	
+	// ModifyGoodsAction 
+	public int modifyGoodsAction(Connection conn, Goods goods, String fileName) throws Exception {	
+		int row = 0;
+		String sql = "UPDATE goods g INNER JOIN goods_img gi on g.goods_code = gi.goods_code SET g.goods_name=?, g.goods_price=?, g.goods_memo=?, g.soldout=?, g.hit=?, gi.filename=? WHERE g.goods_code=?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, goods.getGoodsName());
+		stmt.setInt(2, goods.getGoodsPrice());
+		stmt.setString(3, goods.getGoodsMemo());
+		stmt.setString(4, goods.getSoldout());
+		stmt.setInt(5, goods.getHit());
+		stmt.setString(6, fileName);
+		stmt.setInt(7, goods.getGoodsCode());
+		
+		row = stmt.executeUpdate();
+		return row;
+	}
+		
 	
 	// GoodsOne
 	public ArrayList<HashMap<String, Object>> goodsOne(Connection conn, int goodsCode) throws Exception {

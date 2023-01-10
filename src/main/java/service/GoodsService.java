@@ -23,7 +23,7 @@ public class GoodsService {
 		Connection conn = null;
 		try {
 			conn = DBUtil.getConnection();
-			conn.setAutoCommit(false);
+			this.goodsDao = new GoodsDao();
 			list = goodsDao.modifyGoodsForm(conn, goodsCode);
 			conn.commit();
 		} catch (Exception e) {
@@ -43,7 +43,31 @@ public class GoodsService {
 		return list;
 	}
 	
-	
+	// ModifyGoodsAction
+	public int modifyGoodsAction(Goods goods, String fileName) {
+		int row = 0;
+		Connection conn = null;
+		try {
+			conn = DBUtil.getConnection();
+			this.goodsDao = new GoodsDao();
+			row = goodsDao.modifyGoodsAction(conn, goods, fileName);
+			conn.commit();
+		} catch (Exception e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch(SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return row;
+	}
 	// GoodsOne
 	public ArrayList<HashMap<String, Object>> goodsOne(int goodsCode) {
 		ArrayList<HashMap<String, Object>> list = null;
