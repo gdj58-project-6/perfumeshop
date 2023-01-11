@@ -9,6 +9,7 @@ import java.util.HashMap;
 import vo.Customer;
 
 public class OrderDao {
+	// 주문하기
 	
 	// 관리자용 모든 주문 리스트
 	public ArrayList<HashMap<String, Object>> selectAllOrderList(Connection conn) throws Exception {
