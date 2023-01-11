@@ -39,7 +39,7 @@ public class AddGoodsController extends HttpServlet {
 		// 나중에 방어코드 넣기
 		
 		
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/view/emp/shop/addGoods.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/view/emp/goods/addGoods.jsp");
 		rd.forward(request, response);
 				
 	}

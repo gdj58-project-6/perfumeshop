@@ -44,7 +44,7 @@ public class ModifyNoticeController extends HttpServlet {
 		Notice notice = noticeService.getNoticeByModifyNotice(noticeCode);
 		request.setAttribute("n", notice);
 		
-		request.getRequestDispatcher("/WEB-INF/view/emp/shop/modifyNotice.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/view/emp/notice/modifyNotice.jsp").forward(request, response);
 	}
 	// 공지사항 수정 액션 제목,내용,작성자,작성일=수정일
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -51,6 +51,6 @@ public class HomeController extends HttpServlet {
 		request.setAttribute("list", list);
 		
 		// 공지사항 list
-		request.getRequestDispatcher("/WEB-INF/view/member/shop/home.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/view//home.jsp").forward(request, response);
 	}
 }

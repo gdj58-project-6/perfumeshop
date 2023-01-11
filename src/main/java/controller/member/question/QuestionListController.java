@@ -39,7 +39,7 @@ public class QuestionListController extends HttpServlet {
 		
 		request.setAttribute("list", list);
 		
-		request.getRequestDispatcher("/WEB-INF/view/member/shop/questionList.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/view/member/question/questionList.jsp").forward(request, response);
 	}
 	// 문의글 수정, 삭제 정도?
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

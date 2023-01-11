@@ -56,7 +56,7 @@ public class ModifyEmpByAdminController extends HttpServlet {
 		request.setAttribute("loginMember", loginMember);
 		
 		
-		request.getRequestDispatcher("/WEB-INF/view/emp/shop/modifyEmpLevel.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/view/emp/log/modifyEmpLevel.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

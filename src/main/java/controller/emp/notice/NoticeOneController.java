@@ -30,6 +30,6 @@ public class NoticeOneController extends HttpServlet {
 		Notice notice = noticeService.getNotice(noticeCode);
 		request.setAttribute("n", notice);
 		
-		request.getRequestDispatcher("/WEB-INF/view/emp/shop/noticeOne.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/view/emp/notice/noticeOne.jsp").forward(request, response);
 	}
 }

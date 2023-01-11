@@ -29,7 +29,7 @@ public class AddNoticeController extends HttpServlet {
 			session.setAttribute("loginMember", loginEmp);
 		}
 		
-		request.getRequestDispatcher("/WEB-INF/view/emp/shop/addNotice.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/view/emp/notice/addNotice.jsp").forward(request, response);
 	}
 
 	/**

@@ -31,7 +31,7 @@ public class ModifyGoodsController extends HttpServlet {
 		
 		
 		// View 연결
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/view/emp/shop/modifyGoods.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/view/emp/goods/modifyGoods.jsp");
 		rd.forward(request, response);
 	}
 
