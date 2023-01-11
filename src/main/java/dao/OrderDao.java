@@ -7,9 +7,25 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import vo.Customer;
+import vo.Orders;
 
 public class OrderDao {
 	// 주문하기
+	public int insertOrderByCustomer(Connection conn, Orders orders) throws Exception {
+		int row = 0;
+		String sql = "INSERT INTO orders(customer_id, address_code, order_price, order_state, order_memo, createdate) VALUES(?, ?, ?, '결제', ?, NOW())";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, orders.getCustomerId());
+		stmt.setInt(2, orders.getAddressCode());
+		stmt.setInt(3, orders.getOrderPrice());
+		stmt.setString(4, orders.getOrderMemo());
+		
+		row = stmt.executeUpdate();
+		
+		stmt.close();
+		
+		return row;
+	}
 	
 	// 관리자용 모든 주문 리스트
 	public ArrayList<HashMap<String, Object>> selectAllOrderList(Connection conn) throws Exception {
