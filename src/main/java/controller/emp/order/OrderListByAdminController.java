@@ -34,7 +34,7 @@ public class OrderListByAdminController extends HttpServlet {
 		ArrayList<HashMap<String, Object>> list = orderService.getSelectAllOrderList();
 		
 		request.setAttribute("list", list);
-		request.getRequestDispatcher("/WEB-INF/view/emp/shop/orderListByAdmin.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/view/emp/order/orderListByAdmin.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

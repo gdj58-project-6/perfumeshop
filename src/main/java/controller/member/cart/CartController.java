@@ -35,7 +35,7 @@ public class CartController extends HttpServlet {
 		request.setAttribute("list", list);
 		
 		// View 연결
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/view/member/shop/cartList.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/view/member/cart/cartList.jsp");
 		rd.forward(request, response);
 	}
 
