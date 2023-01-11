@@ -13,6 +13,32 @@ import vo.Cart;
 public class CartService {
 	private CartDao cartDao;
 	
+	// modifyCartList
+	public int modifyCartList(Cart cart) {
+		int row = 0;
+		Connection conn = null;
+		try {
+			conn = DBUtil.getConnection();
+			this.cartDao = new CartDao();
+			row = cartDao.modifyCartList(conn, cart);
+			conn.commit();
+		} catch(Exception e) {
+			try {
+				conn.rollback();
+			} catch(SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch(SQLException e) {
+				e.printStackTrace();
+			}
+		} 
+		return row;
+	}
+	
 	// RemoveCartList
 	public int removeCartList(int goodsCode) {
 		int row = 0;

@@ -146,7 +146,7 @@
 					</tr>
 					<tr>
 						<td>상품 가격</td>
-						<td>${m.goodsPrice}</td>
+						<td><input type="number" value="${m.goodsPrice}" name="goodsPrice"></td>
 					</tr>
 					<tr>
 					<!--  수량이 변경되면 상품가격이 변경되야 함 -->

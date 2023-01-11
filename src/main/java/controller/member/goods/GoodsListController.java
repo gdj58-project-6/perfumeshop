@@ -36,7 +36,7 @@ public class GoodsListController extends HttpServlet {
 		}
 		
 		// lastPage
-		int count = goodsService.goodsCount();
+		int count = goodsService.goodsCount(word);
 		int lastPage = (int)Math.ceil((double)count / (double)rowPerPage);
 		
 		ArrayList<HashMap<String, Object>> list = goodsService.getGoodsList(currentPage, rowPerPage, word);

@@ -13,6 +13,8 @@ import vo.Goods;
 
 public class GoodsDao {
 	
+	
+	
 	// RemoveGoods
 	public int removeGoods(Connection conn, Goods goods) throws Exception {
 		int row = 0;
@@ -26,7 +28,7 @@ public class GoodsDao {
 	}
 	
 	
-	// ModifyGoodsForm 이미지, 상품이름, 상품가격, 상품설명?
+	// ModifyGoodsForm 이미지, 상품이름, 상품가격, 상품설명? 나중에 오리지널 네임이랑 컨텐트타입도 바꿀수 있으면 바꾸기
 	public ArrayList<HashMap<String, Object>> modifyGoodsForm(Connection conn, int goodsCode) throws Exception {
 		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
 		String sql = "SELECT g.goods_code goodsCode, g.goods_name goodsName, g.goods_price goodsPrice, g.goods_memo goodsMemo, g.soldout soldout, g.emp_id empId, g.hit hit, gi.filename fileName FROM goods g INNER JOIN goods_img gi ON g.goods_code = gi.goods_code WHERE g.goods_code = ?";
@@ -91,11 +93,25 @@ public class GoodsDao {
 		return list;
 	}
 	// 상품 전체 수 구하기
-	public int goodsCount(Connection conn) throws Exception {
+	public int goodsCount(Connection conn, String word) throws Exception {
 		int cnt = 0;
-		String sql = "SELECT COUNT(*) cnt FROM goods";
-		PreparedStatement stmt = conn.prepareStatement(sql);
+		String sql = null;
+		PreparedStatement stmt = null;
+		if(word == null || word.equals("")) {
+			sql = "SELECT COUNT(*) cnt FROM goods";
+			stmt = conn.prepareStatement(sql);
+		} else {
+			sql = "SELECT COUNT(*) cnt FROM goods WHERE goods_name LIKE ?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, "%"+word+"%");
+			
+		}
+		
+		
+		
 		ResultSet rs = stmt.executeQuery();
+		
+		
 		if(rs.next()) {
 			cnt = rs.getInt("cnt");
 		}
@@ -107,20 +123,21 @@ public class GoodsDao {
 	
 	
 	// GoodsList 검색기능 추가해야 됨.. 
-	public ArrayList<HashMap<String, Object>> selectGoodsList(Connection conn, int beginRow, int endRow, String word) throws Exception {
+	public ArrayList<HashMap<String, Object>> selectGoodsList(Connection conn, int beginRow, int rowPerPage, String word) throws Exception {
 		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();		
 		PreparedStatement stmt = null;
+		String sql = null;
 		if(word == null || word.equals("")) {
-			String sql = "SELECT g.goods_code goodsCode, g.goods_name goodsName, g.goods_price goodsPrice, g.goods_memo goodsMemo, gi.filename fileName FROM goods g INNER JOIN goods_img gi ON g.goods_code = gi.goods_code LIMIT ?, ?";
+			sql = "SELECT g.goods_code goodsCode, g.goods_name goodsName, g.goods_price goodsPrice, g.goods_memo goodsMemo, gi.filename fileName FROM goods g INNER JOIN goods_img gi ON g.goods_code = gi.goods_code LIMIT ?, ?";
 			stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, beginRow);
-			stmt.setInt(2, endRow);
+			stmt.setInt(2, rowPerPage);
 		} else {
-			String sql = "SELECT g.goods_code goodsCode, g.goods_name goodsName, g.goods_price goodsPrice, g.goods_memo goodsMemo, gi.filename fileName FROM goods g INNER JOIN goods_img gi ON g.goods_code = gi.goods_code WHERE goods_name LIKE ? LIMIT ?, ?";
+			sql = "SELECT g.goods_code goodsCode, g.goods_name goodsName, g.goods_price goodsPrice, g.goods_memo goodsMemo, gi.filename fileName FROM goods g INNER JOIN goods_img gi ON g.goods_code = gi.goods_code WHERE goods_name LIKE ? LIMIT ?, ?";
 			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, "%"+word+"%");
 			stmt.setInt(2, beginRow);
-			stmt.setInt(3, endRow);
+			stmt.setInt(3, rowPerPage);
 		}
 
 		ResultSet rs = stmt.executeQuery();

@@ -83,6 +83,9 @@ public class GoodsService {
 		Connection conn = null;
 		try {
 			conn = DBUtil.getConnection();
+			
+			// insert img?
+			
 			this.goodsDao = new GoodsDao();
 			row = goodsDao.modifyGoodsAction(conn, goods, fileName);
 			conn.commit();
@@ -129,13 +132,13 @@ public class GoodsService {
 	}
 	
 	// 상품 전체 수
-	public int goodsCount() {
+	public int goodsCount(String word) {
 		int row = 0;
 		Connection conn = null;
 		try {
 			conn = DBUtil.getConnection();
 			this.goodsDao = new GoodsDao();
-			row = goodsDao.goodsCount(conn);
+			row = goodsDao.goodsCount(conn, word);
 			conn.commit();
 		} catch(Exception e) {
 			try {
@@ -159,10 +162,9 @@ public class GoodsService {
 		Connection conn = null;
 		try {
 			conn = DBUtil.getConnection();
-			int beginRow = (currentPage-1)*rowPerPage+1;
-			int endRow = beginRow + rowPerPage - 1;
+			int beginRow = (currentPage-1)*rowPerPage;
 			this.goodsDao = new GoodsDao();
-			list = goodsDao.selectGoodsList(conn, beginRow, endRow, word);
+			list = goodsDao.selectGoodsList(conn, beginRow, rowPerPage, word);
 			conn.commit();
 		} catch(Exception e) {
 			try {

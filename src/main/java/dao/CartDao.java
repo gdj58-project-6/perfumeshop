@@ -10,6 +10,22 @@ import vo.Cart;
 
 public class CartDao {
 	
+	// 장바구니 수정 modifyCartList
+	public int modifyCartList(Connection conn, Cart cart) throws Exception {
+		int row = 0;
+		String sql = "UPDATE cart SET cart_quantity = ? WHERE goods_code = ? AND customer_id = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, cart.getCartQuantity());
+		stmt.setInt(2, cart.getGoodsCode());
+		stmt.setString(3, cart.getCustomerId());
+		
+		row = stmt.executeUpdate();
+		
+		stmt.close();
+		return row;
+	}
+	
+	
 	// 장바구니 리스트 삭제 RemoveCartList
 	public int removeCartList(Connection conn, int goodsCode) throws Exception {
 		int row = 0;
@@ -43,8 +59,8 @@ public class CartDao {
 	
 		return list;
 	}
-		
-		
+	
+	
 	// 장바구니에 상품 추가 AddCart
 	public int addCart(Connection conn, Cart cart) throws Exception {
 		int row = 0;

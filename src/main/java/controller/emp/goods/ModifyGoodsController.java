@@ -26,7 +26,7 @@ public class ModifyGoodsController extends HttpServlet {
 		
 		this.goodsService = new GoodsService();
 		ArrayList<HashMap<String, Object>> list = goodsService.modifyGoodsForm(goodsCode);
-		System.out.println(list);
+		// System.out.println(list);
 		request.setAttribute("list", list);
 		
 		
@@ -58,7 +58,7 @@ public class ModifyGoodsController extends HttpServlet {
 		this.goodsService = new GoodsService();
 		int row = goodsService.modifyGoodsAction(goods, fileName);
 		
-		if(row != 1) {
+		if(row != 2) {
 			System.out.println("수정실패");
 		} else {
 			System.out.println("수정성공");
