@@ -230,7 +230,6 @@
 		         			<th>goodsCode</th>
 		         			<th>category</th>
 		         			<th>goodsQuestionMemo</th>
-		         			<th>createdate</th>
 		         		</tr>
 		         		<c:forEach var="m2" items="${questionList}">
 		         			<tr>
@@ -243,7 +242,12 @@
 									        <li class="menu">
 									            <a>${m2.goodsQuestionMemo}</a>
 									            <ul class="hide">
-									            	<li>답글예정입니다.</li>
+									            	<c:if test="${m2.goodsCommentMemo != null}">
+									            		<li>${m2.goodsCommentMemo}</li>
+									            	</c:if>
+									            	<c:if test="${m2.goodsCommentMemo == null}">
+									            		<li>답변대기중</li>
+									            	</c:if>
 									            </ul>
 									        </li>
 									    </ul>

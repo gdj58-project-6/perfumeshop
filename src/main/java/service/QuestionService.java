@@ -12,6 +12,35 @@ import vo.GoodsQuestion;
 public class QuestionService {
 	private QuestionDao questionDao;
 	
+	// 문의 수정, 삭제를 위한 리스트 출력
+	public ArrayList<HashMap<String, Object>> getGoodsQuestion(int currentPage, int rowPerPage) {
+		// 객체 초기화
+		ArrayList<HashMap<String, Object>> list = null;
+		// 드라이버 초기화
+		Connection conn = null;
+		
+		int beginRow = (currentPage - 1) * rowPerPage;
+		
+		try {
+			// 드라이버 연결
+			conn = DBUtil.getConnection();
+			// dao 호출
+			this.questionDao = new QuestionDao();
+			list = questionDao.selectGoodsQuestion(conn, beginRow, rowPerPage);
+			// 커밋
+			conn.commit();
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return list;
+	}
+	
 	// 상품문의 리스트 페이징에 필요한 목록수
 	public int getQuestionCountByGoodsQuestion() {
 		// 객체 초기화

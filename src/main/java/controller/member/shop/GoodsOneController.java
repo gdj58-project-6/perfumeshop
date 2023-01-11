@@ -31,17 +31,18 @@ public class GoodsOneController extends HttpServlet {
 		// 상품 상세보기 정보, 리뷰, 문의글, 장바구니, 바로구매, 옵션수정, 가격 동적으로 수정 문의 답변도 model
 		request.setCharacterEncoding("utf-8"); // 인코딩
 		// 로그인 비로그인 상관없이 볼 수 있음
-		
+		Customer loginCustomer = null;
+		Emp loginEmp = null;
 		HttpSession session =  request.getSession();
+		
 		// customerId값 불러오기
 		if(session.getAttribute("loginMember") == session.getAttribute("customerLogin")) {
-			Customer loginMember = (Customer)session.getAttribute("loginMember");
-			request.setAttribute("loginMember", loginMember);
+			loginCustomer = (Customer)session.getAttribute("loginMember");
+			request.setAttribute("loginMember", loginCustomer);
 		} else if(session.getAttribute("loginMember") == session.getAttribute("empLogin")) {
-			Emp loginMember = (Emp)session.getAttribute("loginMember");
-			request.setAttribute("loginMember", loginMember);
+			loginEmp = (Emp)session.getAttribute("loginMember");
+			request.setAttribute("loginMember", loginEmp);
 		} 
-		
 		// System.out.println(loginMember);
 		// 상품코드 없이는 상품상세보기칸으로 못감
 		int goodsCode = 0;

@@ -17,11 +17,16 @@
 		<script>
 			// html dom 이 다 로딩된 후 실행된다.
 		    $(document).ready(function(){
-		        // memu 클래스 바로 하위에 있는 a 태그를 클릭했을때
+		    	// memu 클래스 바로 하위에 있는 a 태그를 클릭했을때
 		        $(".menu>a").click(function(){
-		            // 현재 클릭한 태그가 a 이기 때문에
-		            // a 옆의 태그중 ul 태그에 hide 클래스 태그를 넣던지 빼던지 한다.
-		            $(this).next("ul").toggleClass("hide");
+		            var submenu = $(this).next("ul");
+		 
+		            // submenu 가 화면상에 보일때는 위로 보드랍게 접고 아니면 아래로 보드랍게 펼치기
+		            if( submenu.is(":visible") ){
+		                submenu.slideUp();
+		            }else{
+		                submenu.slideDown();
+		            }
 		        });
 		    });
 		</script>
@@ -54,19 +59,22 @@
 		<div style="text-align:center;"><img src="${pageContext.request.contextPath}/img/camera.jpg" width="1500" height="700"></div>
 		<!-- 공지목록 페이징 5개씩 -->
 		<h2>공지사항</h2>
+		<c:if test="${loginMember.getAuthCode() >3}">
+			<a href="${pageContext.request.contextPath}/admin/addNotice">공지사항 입력</a>
+		</c:if>
 		<table border="1">
 			<tr>
 				<th>번호</th>
 				<th>제목</th>
-				<th>내용</th>
 				<th>작성자</th>
 				<th>작성일</th>
 			</tr>
 			<c:forEach var="m" items="${list}">
 				<tr>
 					<td>${m.noticeCode}</td>
-					<td>${m.noticeTitle}</td>
-					<td>${m.noticeContent}</td>
+					<td>
+						<a href="${pageContext.request.contextPath}/admin/noticeOne?noticeCode=${m.noticeCode}">${m.noticeTitle}</a>
+					</td>
 					<td>${m.empId}</td>
 					<td>${m.createdate}</td>
 				</tr>

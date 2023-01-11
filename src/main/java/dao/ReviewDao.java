@@ -32,7 +32,7 @@ public class ReviewDao {
 		String sql = "SELECT r.order_code orderCode, r.review_memo reviewMemo"
 				+ "		FROM orders o INNER JOIN review r "
 				+ "		ON o.order_code = r.order_code "
-				+ "		ORDER BY r.order_code ASC LIMIT ?, ?";
+				+ "		ORDER BY r.order_code DESC LIMIT ?, ?";
 		// 쿼리 객체 생성
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		// 쿼리 ?값 지정
