@@ -29,7 +29,7 @@ public class OrderOneController extends HttpServlet {
 		
 		request.setAttribute("goodsList", goodsList);
 		request.setAttribute("customerOne", customerByOrder);
-		request.getRequestDispatcher("/WEB-INF/view/member/shop/orderOne.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/view/member/order/orderOne.jsp").forward(request, response);
 	}
 
 }

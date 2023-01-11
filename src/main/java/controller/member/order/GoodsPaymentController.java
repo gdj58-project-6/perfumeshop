@@ -26,7 +26,7 @@ public class GoodsPaymentController extends HttpServlet {
 		
 		
 		// View 연결
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/view/member/shop/goodsPaymentList.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/view/member/order/goodsPaymentList.jsp");
 		rd.forward(request, response);
 	}
 

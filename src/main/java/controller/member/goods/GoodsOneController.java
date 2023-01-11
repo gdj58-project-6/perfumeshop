@@ -95,7 +95,7 @@ public class GoodsOneController extends HttpServlet {
 		request.setAttribute("currentPage", currentPage);
 		request.setAttribute("lastPage", lastPage);
 		// View 연결
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/view/member/shop/goodsOne.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/view/member/goods/goodsOne.jsp");
 		rd.forward(request, response);
 	}
 

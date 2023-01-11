@@ -37,6 +37,6 @@ public class OrderListController extends HttpServlet {
 		ArrayList<HashMap<String, Object>> list = orderService.getSelectOrderByCustomerLIst(customer);
 		
 		request.setAttribute("list", list);
-		request.getRequestDispatcher("/WEB-INF/view/member/shop/orderList.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/view/member/order/orderList.jsp").forward(request, response);
 	}
 }

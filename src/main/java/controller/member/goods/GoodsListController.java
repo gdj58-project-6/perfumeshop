@@ -48,7 +48,7 @@ public class GoodsListController extends HttpServlet {
 		request.setAttribute("lastPage", lastPage);
 		
 		// View 연결
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/view/member/shop/goodsList.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/view/member/goods/goodsList.jsp");
 		rd.forward(request, response);
 	}
 
