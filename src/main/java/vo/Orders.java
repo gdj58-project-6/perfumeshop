@@ -4,7 +4,6 @@ public class Orders {
 	private int orderCode;
 	private String customerId;
 	private int addressCode;
-	private int orderQuantity;
 	private int orderPrice;
 	private String orderState;
 	private String orderMemo;
@@ -12,13 +11,12 @@ public class Orders {
 	
 	public Orders() {}
 
-	public Orders(int orderCode, String customerId, int addressCode, int orderQuantity, int orderPrice,
-			String orderState, String orderMemo, String createdate) {
+	public Orders(int orderCode, String customerId, int addressCode, int orderPrice, String orderState,
+			String orderMemo, String createdate) {
 		super();
 		this.orderCode = orderCode;
 		this.customerId = customerId;
 		this.addressCode = addressCode;
-		this.orderQuantity = orderQuantity;
 		this.orderPrice = orderPrice;
 		this.orderState = orderState;
 		this.orderMemo = orderMemo;
@@ -28,9 +26,9 @@ public class Orders {
 	@Override
 	public String toString() {
 		return "Orders [orderCode=" + orderCode + ", customerId=" + customerId + ", addressCode=" + addressCode
-				+ ", orderQuantity=" + orderQuantity + ", orderPrice=" + orderPrice + ", orderState=" + orderState
-				+ ", orderMemo=" + orderMemo + ", createdate=" + createdate + ", getClass()=" + getClass()
-				+ ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
+				+ ", orderPrice=" + orderPrice + ", orderState=" + orderState + ", orderMemo=" + orderMemo
+				+ ", createdate=" + createdate + ", getClass()=" + getClass() + ", hashCode()=" + hashCode()
+				+ ", toString()=" + super.toString() + "]";
 	}
 
 	public int getOrderCode() {
@@ -55,14 +53,6 @@ public class Orders {
 
 	public void setAddressCode(int addressCode) {
 		this.addressCode = addressCode;
-	}
-
-	public int getOrderQuantity() {
-		return orderQuantity;
-	}
-
-	public void setOrderQuantity(int orderQuantity) {
-		this.orderQuantity = orderQuantity;
 	}
 
 	public int getOrderPrice() {
@@ -96,4 +86,5 @@ public class Orders {
 	public void setCreatedate(String createdate) {
 		this.createdate = createdate;
 	}
+	
 }

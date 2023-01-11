@@ -11,21 +11,26 @@
 			<tr>
 				<th>상품 </th>
 				<th>상품 이름</th>
-				<th>상품 가격</th>
-				<th>상품 개수</th>
-				<th>총 가격</th>
 				<th>주문 고객</th>
+				<th>총 가격</th>
 				<th>주문 상태</th>
 				<th>주문 일자</th>
 			</tr>
 			<c:forEach var="o" items="${list}">
 				<tr>
 					<td><img src="${pageContext.request.contextPath}/upload/${o.filename}" width="200" height="200"></td>
-					<td><a href="${pageContext.request.contextPath}/member/orderOne?orderCode=${o.orderCode}">${o.goodsName}</a></td>
+					<td>
+						<a href="${pageContext.request.contextPath}/member/orderOne?orderCode=${o.orderCode}">
+							<c:if test="${o.cnt eq 0}">
+								${o.goodsName}
+							</c:if>
+							<c:if test="${o.cnt > 0}">
+								${o.goodsName}외 ${o.cnt}건
+							</c:if>
+						</a>
+					</td>
+					<td>${o.customerId}</td>
 					<td>${o.goodsPrice}</td>
-					<td>${o.orderQuantity}</td>
-					<td>${o.orderPrice}</td>
-					<td>${o.customerName}(${o.customerId})</td>
 					<td>${o.orderState}</td>
 					<td>${o.createdate}</td>
 				</tr>

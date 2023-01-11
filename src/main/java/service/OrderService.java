@@ -11,15 +11,39 @@ import vo.Customer;
 
 public class OrderService {
 	private OrderDao orderDao;
-	// 관리자용 모든 주문 리스트
-	public ArrayList<HashMap<String, Object>> getSelectAllOrderList() {
+	// orderOne
+	// orderCode에 대한 주문자 정보 출력
+	public HashMap<String, Object> getSelectCustomerByOrderList(int orderCode) {
+		HashMap<String, Object> customerByOrder = null;
+		Connection conn = null;
+		
+		try {
+			conn = DBUtil.getConnection();
+			this.orderDao = new OrderDao();
+			customerByOrder = orderDao.selectCustomerByOrder(conn, orderCode);
+			conn.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return customerByOrder;
+	}
+	
+	// orderCode에 대한 구매 굿즈 출력
+	public ArrayList<HashMap<String, Object>> getSelectOrderByGoodsList(int orderCode) {
 		ArrayList<HashMap<String, Object>> list = null;
 		Connection conn = null;
 		
 		try {
 			conn = DBUtil.getConnection();
 			this.orderDao = new OrderDao();
-			list = orderDao.selectAllOrderList(conn);
+			list = orderDao.selectOrderByGoodsList(conn, orderCode);
 			conn.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -34,15 +58,15 @@ public class OrderService {
 		return list;
 	}
 	
-	// 로그인한 회원의 주문 리스트
-	public ArrayList<HashMap<String, Object>> getSelectOrderList(Customer customer) {
-		 ArrayList<HashMap<String, Object>> list = null;
-		 Connection conn = null;
-		 
+	// 관리자용 모든 주문 리스트
+	public ArrayList<HashMap<String, Object>> getSelectAllOrderList() {
+		ArrayList<HashMap<String, Object>> list = null;
+		Connection conn = null;
+		
 		 try {
 			 conn = DBUtil.getConnection();
 			 this.orderDao = new OrderDao();
-			 list = orderDao.selectOrderList(conn, customer);
+			 list = orderDao.selectAllOrderList(conn);
 			 conn.commit();
 		 } catch (Exception e) {
 			 e.printStackTrace();
@@ -57,15 +81,15 @@ public class OrderService {
 		 return list;
 	}
 	
-	// 주문내역 상세보기
-	public HashMap<String, Object> getSelectOrderOne(int orderCode) {
-		HashMap<String, Object> orderOne = null;
+	// 고객용 주문 리스트
+	public ArrayList<HashMap<String, Object>> getSelectOrderByCustomerLIst(Customer customer) {
+		ArrayList<HashMap<String, Object>> list = null;
 		Connection conn = null;
 		
 		try {
 			conn = DBUtil.getConnection();
 			this.orderDao = new OrderDao();
-			orderOne = orderDao.selectOrderOne(conn, orderCode);
+			list = orderDao.selectOrderByCustomerList(conn, customer);
 			conn.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -77,6 +101,6 @@ public class OrderService {
 			}
 		}
 		
-		return orderOne;
+		return list;
 	}
 }

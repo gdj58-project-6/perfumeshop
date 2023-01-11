@@ -1,6 +1,7 @@
 package controller.member.shop;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.ServletException;
@@ -23,9 +24,11 @@ public class OrderOneController extends HttpServlet {
 		
 		// Model
 		this.orderService = new OrderService();
-		HashMap<String, Object> orderOne = orderService.getSelectOrderOne(orderCode);
+		ArrayList<HashMap<String, Object>> goodsList = orderService.getSelectOrderByGoodsList(orderCode);
+		HashMap<String, Object> customerByOrder = orderService.getSelectCustomerByOrderList(orderCode);
 		
-		request.setAttribute("orderOne", orderOne);
+		request.setAttribute("goodsList", goodsList);
+		request.setAttribute("customerOne", customerByOrder);
 		request.getRequestDispatcher("/WEB-INF/view/member/shop/orderOne.jsp").forward(request, response);
 	}
 

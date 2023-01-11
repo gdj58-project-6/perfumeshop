@@ -9,27 +9,28 @@ import java.util.HashMap;
 import vo.Customer;
 
 public class OrderDao {
+	
 	// 관리자용 모든 주문 리스트
 	public ArrayList<HashMap<String, Object>> selectAllOrderList(Connection conn) throws Exception {
 		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
 		ResultSet rs = null;
 		String sql = "SELECT "
-				+ "	o.order_code orderCode "
-				+ "	, gi.filename filename "
-				+ "	, g.goods_name goodsName "
-				+ "	, g.goods_price goodsPrice "
-				+ "	, o.order_quantity orderQuantity "
-				+ "	, o.order_price orderPrice "
-				+ "	, o.customer_id customerId "
-				+ "	, c.customer_name customerName "
-				+ "	, o.order_state orderState "
-				+ "	, o.createdate createdate "
-				+ "FROM orders o INNER JOIN goods g "
-				+ "					ON o.goods_code = g.goods_code "
-				+ "					INNER JOIN goods_img gi "
-				+ "					ON g.goods_code = gi.goods_code "
-				+ "					INNER JOIN customer c "
-				+ "					ON o.customer_id = c.customer_id";
+					+ "o.order_code orderCode"
+					+ ", gi.filename filename "
+					+ ", g.goods_name goodsName "
+					+ ", t.cnt cnt "
+					+ ", o.customer_id customerId "
+					+ ", o.order_price orderPrice "
+					+ ", o.order_state orderState "
+					+ ", o.createdate createdate "
+					+ "FROM orders o "
+					+ "INNER JOIN (SELECT order_code orderCode, goods_code goodsCode, (COUNT(*)-1) cnt FROM order_goods GROUP BY order_code) t "
+					+ "ON o.order_code = t.orderCode "
+					+ "INNER JOIN goods g "
+					+ "ON t.goodsCode = g.goods_code "
+					+ "INNER JOIN goods_img gi "
+					+ "ON g.goods_code = gi.goods_code "
+					+ "GROUP BY o.order_code";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		
 		rs = stmt.executeQuery();
@@ -39,36 +40,41 @@ public class OrderDao {
 			m.put("orderCode", rs.getInt("orderCode"));
 			m.put("filename", rs.getString("filename"));
 			m.put("goodsName", rs.getString("goodsName"));
-			m.put("goodsPrice", rs.getInt("goodsPrice"));
-			m.put("orderQuantity", rs.getInt("orderQuantity"));
-			m.put("orderPrice", rs.getInt("orderPrice"));
+			m.put("cnt", rs.getInt("cnt"));
 			m.put("customerId", rs.getString("customerId"));
-			m.put("customerName", rs.getString("customerName"));
+			m.put("orderPrice", rs.getInt("orderPrice"));
 			m.put("orderState", rs.getString("orderState"));
 			m.put("createdate", rs.getString("createdate"));
 			list.add(m);
 		}
 		
+		rs.close();
+		stmt.close();
+		
 		return list;
 	}
 	
-	// 로그인한 회원의 주문 리스트
-	public ArrayList<HashMap<String, Object>> selectOrderList(Connection conn, Customer customer) throws Exception {
+	// 고객용 주문 리스트
+	public ArrayList<HashMap<String, Object>> selectOrderByCustomerList(Connection conn, Customer customer) throws Exception {
 		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
 		ResultSet rs = null;
 		String sql = "SELECT "
-					+ "	o.order_code orderCode "
-					+ "	, gi.filename filename "
-					+ " , g.goods_name goodsName "
-					+ "	, o.order_quantity orderQuantity "
-					+ "	, o.order_price orderPrice "
-					+ "	, o.order_state orderState "
-					+ "	, o.createdate createdate "
-					+ "FROM orders o INNER JOIN goods g "
-					+ "					ON o.goods_code = g.goods_code "
-					+ "					INNER JOIN goods_img gi "
-					+ "					ON g.goods_code = gi.goods_code "
-					+ "WHERE o.customer_id = ?";
+					+ "o.order_code orderCode"
+					+ ", gi.filename filename "
+					+ ", g.goods_name goodsName "
+					+ ", t.cnt cnt "
+					+ ", o.order_price orderPrice "
+					+ ", o.order_state orderState "
+					+ ", o.createdate createdate "
+					+ "FROM orders o "
+					+ "INNER JOIN (SELECT order_code orderCode, goods_code goodsCode, (COUNT(*)-1) cnt FROM order_goods GROUP BY order_code) t "
+					+ "ON o.order_code = t.orderCode "
+					+ "INNER JOIN goods g "
+					+ "ON t.goodsCode = g.goods_code "
+					+ "INNER JOIN goods_img gi "
+					+ "ON g.goods_code = gi.goods_code "
+					+ "WHERE o.customer_id = ? "
+					+ "GROUP BY o.order_code";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, customer.getCustomerId());
 		
@@ -76,51 +82,40 @@ public class OrderDao {
 		
 		while(rs.next()) {
 			HashMap<String, Object> m = new HashMap<String, Object>();
-			m.put("orderCode", rs.getString("orderCode"));
-			m.put("goodsName",rs.getString("goodsName"));
+			m.put("orderCode", rs.getInt("orderCode"));
 			m.put("filename", rs.getString("filename"));
-			m.put("orderQuantity", rs.getString("orderQuantity"));
-			m.put("orderPrice", rs.getString("orderPrice"));
+			m.put("goodsName", rs.getString("goodsName"));
+			m.put("cnt", rs.getInt("cnt"));
+			m.put("orderPrice", rs.getInt("orderPrice"));
 			m.put("orderState", rs.getString("orderState"));
 			m.put("createdate", rs.getString("createdate"));
 			list.add(m);
 		}
 		
+		rs.close();
+		stmt.close();
+		
 		return list;
 	}
 	
-	// 주문내역 상세보기
-	public HashMap<String, Object> selectOrderOne(Connection conn, int orderCode) throws Exception {
-		// 초기화
-		HashMap<String, Object> orderOne = null;
+	// orderOne
+	// orderCode에 대한 주문자 정보 출력
+	public HashMap<String, Object> selectCustomerByOrder(Connection conn, int orderCode) throws Exception {
+		HashMap<String, Object> customerByOrder = null;
 		ResultSet rs = null;
 		String sql = "SELECT "
-					+ "	o.order_code orderCode "
-					+ ", o.goods_code goodsCode "
-					+ ", t1.goods_name goodsName "
-					+ ", t1.filename filename "
-					+ ", t1.goods_price goodsPrice "
-					+ ", o.order_quantity orderQuantity "
+					+ "o.order_code orderCode "
+					+ ", c.customer_id customerId "
+					+ ", c.customer_name customerName "
+					+ ", c.customer_phone customerPhone "
+					+ ", ca.address address "
 					+ ", o.order_price orderPrice "
-					+ ", t.customerId customerId "
-					+ ", t.customerName customerName "
-					+ ", t.customerPhone customerPhone "
-					+ ", t.address address "
-					+ ", o.order_memo orderMemo "
 					+ ", o.order_state orderState "
-					+ ", o.createdate createdate "
-					+ "FROM( SELECT c.customer_id customerId "
-					+ "				, c.customer_name customerName "
-					+ "				, c.customer_phone customerPhone "
-					+ "				, ca.address_code "
-					+ "				, ca.address address "
-					+ "			FROM customer c INNER JOIN customer_address ca "
-					+ "			ON c.customer_id = ca.customer_id) t INNER JOIN orders o "
-					+ "																ON t.customerId = o.customer_id "
-					+ "																INNER JOIN (SELECT g.goods_code goodsCode, g.goods_name, gi.filename, g.goods_price	"
-					+ "																					FROM goods g INNER JOIN goods_img gi "
-					+ "																										ON g.goods_code = gi.goods_code) t1 "
-					+ "																ON o.goods_code = t1.goodsCode "
+					+ ", o.order_memo orderMemo "
+					+ ", o.createdate createdtae "
+					+ "FROM customer c "
+					+ "INNER JOIN customer_address ca ON c.customer_id = ca.customer_id "
+					+ "INNER JOIN orders o ON o.customer_id = c.customer_id "
 					+ "WHERE o.order_code = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, orderCode);
@@ -128,22 +123,59 @@ public class OrderDao {
 		rs = stmt.executeQuery();
 		
 		if(rs.next()) {
-			orderOne = new HashMap<String, Object>();
-			orderOne.put("orderCode", rs.getInt("orderCode"));
-			orderOne.put("goodsCode", rs.getInt("goodsCode"));
-			orderOne.put("goodsName", rs.getString("goodsName"));
-			orderOne.put("filename", rs.getString("filename"));
-			orderOne.put("goodsPrice", rs.getInt("goodsPrice"));
-			orderOne.put("orderQuantity", rs.getInt("orderQuantity"));
-			orderOne.put("orderPrice", rs.getInt("orderPrice"));
-			orderOne.put("customerId", rs.getString("customerId"));
-			orderOne.put("customerName", rs.getString("customerName"));
-			orderOne.put("customerPhone", rs.getString("customerPhone"));
-			orderOne.put("address", rs.getString("address"));
-			orderOne.put("orderMemo", rs.getString("orderMemo"));
-			orderOne.put("orderState", rs.getString("orderState"));
-			orderOne.put("createdate", rs.getString("createdate"));
+			customerByOrder = new HashMap<String, Object>();
+			customerByOrder.put("orderCode", rs.getInt("orderCode"));
+			customerByOrder.put("customerId", rs.getString("customerId"));
+			customerByOrder.put("customerName", rs.getString("customerName"));
+			customerByOrder.put("customerPhone", rs.getString("customerPhone"));
+			customerByOrder.put("address", rs.getString("address"));
+			customerByOrder.put("orderPrice", rs.getInt("orderPrice"));
+			customerByOrder.put("orderState", rs.getString("orderState"));
+			customerByOrder.put("orderMemo", rs.getString("orderMemo"));
+			customerByOrder.put("createdtae", rs.getString("createdtae"));
 		}
-		return orderOne;
+		
+		rs.close();
+		stmt.close();
+		
+		return customerByOrder;
+	}
+	
+	// orderCode에 대한 구매 굿즈 출력
+	public ArrayList<HashMap<String, Object>> selectOrderByGoodsList(Connection conn, int orderCode) throws Exception {
+		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
+		ResultSet rs = null;
+		String sql = "SELECT"
+					+ "	og.goods_code goodsCode "
+					+ ", gi.filename filename"
+					+ ", g.goods_name goodsName"
+					+ ", og.order_goods_price orderGoodsPrice"
+					+ ", og.order_goods_quantity orderGoodsQuantity "
+					+ "FROM orders o INNER JOIN order_goods og "
+					+ "ON o.order_code = og.order_code "
+					+ "INNER JOIN goods g "
+					+ "ON og.goods_code = g.goods_code "
+					+ "INNER JOIN goods_img gi "
+					+ "ON g.goods_code = gi.goods_code "
+					+ "WHERE o.order_code = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, orderCode);
+		
+		rs = stmt.executeQuery();
+		
+		while(rs.next()) {
+			HashMap<String, Object> m = new HashMap<String, Object>();
+			m.put("goodsCode", rs.getInt("goodsCode"));
+			m.put("filename", rs.getString("filename"));
+			m.put("goodsName", rs.getString("goodsName"));
+			m.put("orderGoodsPrice", rs.getInt("orderGoodsPrice"));
+			m.put("orderGoodsQuantity", rs.getInt("orderGoodsQuantity"));
+			list.add(m);
+		}
+		
+		rs.close();
+		stmt.close();
+		
+		return list;
 	}
 }

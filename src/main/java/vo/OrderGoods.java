@@ -1,14 +1,14 @@
 package vo;
 
-public class orderGoods {
+public class OrderGoods {
 	private int orderCode;
 	private int goodsCode;
 	private int orderGoodsPrice;
 	private int orderGoodsQuantity;
 	
-	public orderGoods() {}
+	public OrderGoods() {}
 
-	public orderGoods(int orderCode, int goodsCode, int orderGoodsPrice, int orderGoodsQuantity) {
+	public OrderGoods(int orderCode, int goodsCode, int orderGoodsPrice, int orderGoodsQuantity) {
 		super();
 		this.orderCode = orderCode;
 		this.goodsCode = goodsCode;
@@ -18,7 +18,7 @@ public class orderGoods {
 
 	@Override
 	public String toString() {
-		return "orderGoods [orderCode=" + orderCode + ", goodsCode=" + goodsCode + ", orderGoodsPrice="
+		return "OrderGoods [orderCode=" + orderCode + ", goodsCode=" + goodsCode + ", orderGoodsPrice="
 				+ orderGoodsPrice + ", orderGoodsQuantity=" + orderGoodsQuantity + ", getClass()=" + getClass()
 				+ ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
 	}
@@ -54,5 +54,5 @@ public class orderGoods {
 	public void setOrderGoodsQuantity(int orderGoodsQuantity) {
 		this.orderGoodsQuantity = orderGoodsQuantity;
 	}
-
+	
 }
