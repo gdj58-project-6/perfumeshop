@@ -17,7 +17,10 @@
 					<td>구매자</td>
 					<td>${m.customerId}</td>
 				<tr>
-				<!-- 이름옆에 상품사진 나오게? -->
+				<!-- 이름위에 상품사진 나오게? -> 사진크기 조금 줄임 -->
+					<td colspan="2">
+						<img src="${pageContext.request.contextPath}/upload/${m.fileName}" width="100" height="100">
+					</td>
 				<tr>
 					<td>상품이름</td>
 					<td>${m.goodsName}</td>
@@ -31,6 +34,11 @@
 					<td>가격</td>
 					<td>${m.goodsPrice}</td>
 				<tr>
+				<tr>
+					<!-- 장바구니에 담긴 상품 삭제하는 버튼 만들기, 상품을 여러게 담았을경우 각 상품마다 X표시 혹은 삭제버튼 따로따로 나오게  -->
+					<!-- 이렇게 하는게 맞는지? 더 좋은방법이 있으면 바꿀예정, -->
+					<td colspan="2"><a href='${pageContext.request.contextPath}/RemoveCartList?goodsCode=${m.goodsCode}'>장바구니에서 삭제</a></td>
+				</tr>
 				<!-- 결제 페이지 이동 버튼 만들기 -->
 			</table>
 		</c:if>	

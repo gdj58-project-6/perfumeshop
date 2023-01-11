@@ -127,6 +127,7 @@
 		<a href='${pageContext.request.contextPath}/member/goodsList'>뒤로</a>
 		<c:if test="${loginMember.getAuthCode() > 5}">
 			<a href="${pageContext.request.contextPath}/admin/modifyGoods?goodsCode=${goodsCode}">상품수정</a>
+			<a href="${pageContext.request.contextPath}/admin/removeGoods?goodsCode=${goodsCode}">상품삭제</a>
 		</c:if>
 		<!-- 맨위에 include  -->
 		<h3>goodsOne</h3>

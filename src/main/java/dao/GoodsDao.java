@@ -13,6 +13,19 @@ import vo.Goods;
 
 public class GoodsDao {
 	
+	// RemoveGoods
+	public int removeGoods(Connection conn, Goods goods) throws Exception {
+		int row = 0;
+		String sql = "DELETE FROM goods WHERE goods_code = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, goods.getGoodsCode());
+		row = stmt.executeUpdate();		
+		
+		stmt.close();
+		return row;
+	}
+	
+	
 	// ModifyGoodsForm 이미지, 상품이름, 상품가격, 상품설명?
 	public ArrayList<HashMap<String, Object>> modifyGoodsForm(Connection conn, int goodsCode) throws Exception {
 		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
@@ -93,17 +106,21 @@ public class GoodsDao {
 	}
 	
 	
-	// GoodsList 검색기능 추가해야 됨.. -
+	// GoodsList 검색기능 추가해야 됨.. 
 	public ArrayList<HashMap<String, Object>> selectGoodsList(Connection conn, int beginRow, int endRow, String word) throws Exception {
 		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();		
 		PreparedStatement stmt = null;
 		if(word == null || word.equals("")) {
-			String sql = "SELECT g.goods_code goodsCode, g.goods_name goodsName, g.goods_price goodsPrice, g.goods_memo goodsMemo, gi.filename fileName FROM goods g INNER JOIN goods_img gi ON g.goods_code = gi.goods_code";
+			String sql = "SELECT g.goods_code goodsCode, g.goods_name goodsName, g.goods_price goodsPrice, g.goods_memo goodsMemo, gi.filename fileName FROM goods g INNER JOIN goods_img gi ON g.goods_code = gi.goods_code LIMIT ?, ?";
 			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, beginRow);
+			stmt.setInt(2, endRow);
 		} else {
-			String sql = "SELECT g.goods_code goodsCode, g.goods_name goodsName, g.goods_price goodsPrice, g.goods_memo goodsMemo, gi.filename fileName FROM goods g INNER JOIN goods_img gi ON g.goods_code = gi.goods_code WHERE goods_name LIKE ?";
+			String sql = "SELECT g.goods_code goodsCode, g.goods_name goodsName, g.goods_price goodsPrice, g.goods_memo goodsMemo, gi.filename fileName FROM goods g INNER JOIN goods_img gi ON g.goods_code = gi.goods_code WHERE goods_name LIKE ? LIMIT ?, ?";
 			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, "%"+word+"%");
+			stmt.setInt(2, beginRow);
+			stmt.setInt(3, endRow);
 		}
 
 		ResultSet rs = stmt.executeQuery();
