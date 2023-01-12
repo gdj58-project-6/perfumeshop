@@ -9,7 +9,7 @@
 			<a href="${pageContext.request.contextPath}/member/cart">장바구니</a>
 			<a href="${pageContext.request.contextPath}/member/orderList">주문내역</a>
 			<a href="${pageContext.request.contextPath}/member/memberOne">회원정보</a>
-			<a>고객센터</a> <!-- 미구현 -->
+			<a href="${pageContext.request.contextPath}/member/question">고객센터</a>
 			<a href="${pageContext.request.contextPath}/member/logout">로그아웃</a>
 		</c:if>
 	</div>

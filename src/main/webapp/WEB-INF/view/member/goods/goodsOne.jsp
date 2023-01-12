@@ -191,6 +191,9 @@
 		        	<!-- 탭2 상품문의 -->
 		         	<h1>상품문의</h1>
 		         	<!-- 상품문의-문의하기 modal -->
+		         	<c:if test="${loginMember == null}">
+		         		<a class="btn btn_primary" href="${pageContext.request.contextPath}/member/login">문의하기</a>
+		         	</c:if>
 		         	<c:if test="${loginMember != null}">
 		         		<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#memberOne">문의하기</button>
 						<form action="${pageContext.request.contextPath}/member/addGoodsQuestion" method="post">
@@ -209,9 +212,9 @@
 											문의분류 :
 											<select name="category">
 												<option value="">==선택==</option>
+												<option value="재입고">재입고</option>
 												<option value="배송">배송</option>
-												<option value="반품">반품</option>
-												<option value="교환">교환</option>
+												<option value="취소">취소</option>
 												<option value="기타">기타</option>
 											</select><br>
 											문의내용 : <textarea cols="50" rows="5" name="goodsQuestionMemo"></textarea>

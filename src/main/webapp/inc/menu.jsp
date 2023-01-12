@@ -8,7 +8,7 @@
 		<a href="${pageContext.request.contextPath}/member/cart">장바구니</a>
 		<a href="${pageContext.request.contextPath}/member/login">로그인</a>
 		<a href="${pageContext.request.contextPath}/member/addMember">회원가입</a>
-		<a>고객센터</a> <!-- 아직 미구현 -->
+		<a href="${pageContext.request.contextPath}/member/question">고객센터</a>
 		</c:if>
 	</div>
 </nav>

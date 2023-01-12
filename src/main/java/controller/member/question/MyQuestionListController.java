@@ -12,20 +12,26 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import service.QuestionService;
+import vo.Customer;
 
 
-@WebServlet("/member/questionList")
-public class QuestionListController extends HttpServlet {
+@WebServlet("/member/myQuestionList")
+public class MyQuestionListController extends HttpServlet {
 	private QuestionService questionService;
 	// 고객센터 폼
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// 비로그인시 접근불가
 		HttpSession session = request.getSession();
 		if(session.getAttribute("loginMember") == null) {
-			response.sendRedirect(request.getContextPath()+"/member/login");
+			response.sendRedirect(request.getContextPath() + "/member/login");
 			return;
 		}
-		
+		Customer loginCustomer = null;
+		String customerId = null;
+		if(session.getAttribute("loginMember") instanceof Customer) {
+			loginCustomer = (Customer)session.getAttribute("loginMember");
+			customerId = loginCustomer.getCustomerId();
+			session.setAttribute("loginMember", loginCustomer);
+		}
 		// 페이징
 		int currentPage = 1;
 		if(request.getParameter("currentPage") != null) {
@@ -35,11 +41,19 @@ public class QuestionListController extends HttpServlet {
 		
 		// 메서드 호출
 		this.questionService = new QuestionService();
-		ArrayList<HashMap<String, Object>> list = questionService.getGoodsQuestion(currentPage, rowPerPage);
-		
+		ArrayList<HashMap<String, Object>> list = questionService.getGoodsQuestion(customerId, currentPage, rowPerPage);
+		int cnt = questionService.getQuestionCountByGoodsQuestionModify();
+		int lastPage = 0;
+		if(cnt % rowPerPage == 0) {
+			lastPage = cnt / rowPerPage;
+		} else if (cnt % rowPerPage != 0) {
+			lastPage = (cnt / rowPerPage) +1;
+		}
 		request.setAttribute("list", list);
+		request.setAttribute("currentPage", currentPage);
+		request.setAttribute("lastPage", lastPage);
 		
-		request.getRequestDispatcher("/WEB-INF/view/member/question/questionList.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/view/member/question/myQuestionList.jsp").forward(request, response);
 	}
 	// 문의글 수정, 삭제 정도?
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

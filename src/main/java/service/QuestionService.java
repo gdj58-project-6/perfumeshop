@@ -11,9 +11,62 @@ import vo.GoodsQuestion;
 
 public class QuestionService {
 	private QuestionDao questionDao;
+	// 상품 문의 수정 폼
+	public GoodsQuestion getSelectGoodsQuestionByModifyGoodsQuestion(int goodsQuestionCode) {
+		// 객체 초기화
+		GoodsQuestion g = null;
+		// 드라이버 초기화
+		Connection conn = null;
+		
+		try {
+			// 드라이버 연결
+			conn = DBUtil.getConnection();
+			// dao호출
+			this.questionDao = new QuestionDao();
+			g = questionDao.selectGoodsQuestionByModifyGoodswQuestion(conn, goodsQuestionCode);
+			// 커밋
+			conn.commit();
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return g;
+	}
+	// 고객센터 문의 수정, 삭제 목록의수
+	public int getQuestionCountByGoodsQuestionModify() {
+		// 객체 초기화
+		int row = 0;
+		// 드라이버 초기화
+		Connection conn = null;
+
+		try {
+			// 드라이버 연결
+			conn = DBUtil.getConnection();
+			// dao초기화
+			this.questionDao = new QuestionDao();
+			// dao호출
+			row = questionDao.selectCountByGoodsQuestionModify(conn);
+			// 커밋
+			conn.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return row;
+	}
 	
-	// 문의 수정, 삭제를 위한 리스트 출력
-	public ArrayList<HashMap<String, Object>> getGoodsQuestion(int currentPage, int rowPerPage) {
+	// 고객센터 문의 수정, 삭제를 위한 리스트 출력
+	public ArrayList<HashMap<String, Object>> getGoodsQuestion(String customerId, int currentPage, int rowPerPage) {
 		// 객체 초기화
 		ArrayList<HashMap<String, Object>> list = null;
 		// 드라이버 초기화
@@ -26,7 +79,7 @@ public class QuestionService {
 			conn = DBUtil.getConnection();
 			// dao 호출
 			this.questionDao = new QuestionDao();
-			list = questionDao.selectGoodsQuestion(conn, beginRow, rowPerPage);
+			list = questionDao.selectGoodsQuestion(conn, customerId, beginRow, rowPerPage);
 			// 커밋
 			conn.commit();
 		} catch(Exception e) {

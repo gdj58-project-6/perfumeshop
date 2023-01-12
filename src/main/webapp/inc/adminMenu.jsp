@@ -24,8 +24,6 @@
 		<a>문의삭제</a> <!-- 미구현 -->
 		<a>리뷰삭제</a> <!-- 미구현 -->
 		<a href="${pageContext.request.contextPath}/admin/addGoods">상품등록</a>
-		<a>상품수정</a> <!-- 미구현 -->
-		<a>상품삭제</a> <!-- 미구현 -->
 	</c:if>
 	<!-- 직원 7등급 팀장 다 가능(고객,직원 등급수정 팀장만 가능), 상품등록, 문의(답글,수정,삭제), 리뷰 삭제 -->
 	<c:if test="${loginMember.getAuthCode() == 7}">
@@ -35,8 +33,6 @@
 			<li><a>문의삭제</a></li> <!-- 미구현 -->
 			<li><a>리뷰삭제</a></li> <!-- 미구현 -->
 			<li><a href="${pageContext.request.contextPath}/admin/addGoods">상품등록</a></li>
-			<li><a>상품수정</a> </li> <!-- 미구현 -->
-			<li><a>상품삭제</a> </li> <!-- 미구현 -->
 			<li><a href="${pageContext.request.contextPath}/admin/modifyMember">고객레벨수정</a></li>
 			<li><a href="${pageContext.request.contextPath}/admin/modifyByAdmin">직원레벨수정</a></li>
 		</ul>

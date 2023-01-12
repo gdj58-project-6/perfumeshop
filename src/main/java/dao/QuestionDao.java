@@ -9,8 +9,57 @@ import java.util.HashMap;
 import vo.GoodsQuestion;
 
 public class QuestionDao {
-	// 문의 수정, 삭제를 위한 리스트 출력
-	public ArrayList<HashMap<String, Object>> selectGoodsQuestion(Connection conn, int beginRow, int rowPerPage) throws Exception {
+	// 상품문의 수정폼
+	public GoodsQuestion selectGoodsQuestionByModifyGoodswQuestion(Connection conn, int goodsQuestionCode) throws Exception {
+		//객체 초기화
+		GoodsQuestion g = null;
+		// 쿼리문 작성
+		String sql = "SELECT"
+				+ "		goods_question_code goodsQuestionCode"
+				+ "		, goods_code goodsCode"
+				+ "		, customer_id customerId"
+				+ "		, category"
+				+ "		, goods_question_memo goodsQuestionMemo"
+				+ "		, createdate"
+				+ "		FROM goods_question WHERE goods_question_code = ?";
+		// 쿼리 객체 생성
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		// 쿼리문 ?값 지정
+		stmt.setInt(1, goodsQuestionCode);
+		// 쿼리 실행
+		ResultSet rs = stmt.executeQuery();
+		if(rs.next()) {
+			g = new GoodsQuestion();
+			g.setGoodsQuestionCode(rs.getInt("goodsQuestionCode"));
+			g.setGoodsCode(rs.getInt("goodsCode"));
+			g.setCustomerId(rs.getString("customerId"));
+			g.setCategory(rs.getString("category"));
+			g.setGoodsQuestionMemo(rs.getString("goodsQuestionMemo"));
+			g.setCreatedate(rs.getString("createdate"));
+		}
+		stmt.close();
+		rs.close();
+		return g;
+	}
+	// 고객센터 문의 수정, 삭제 목록의수
+	public int selectCountByGoodsQuestionModify(Connection conn) throws Exception {
+		// 객체 초기화
+		int row = 0;
+		// 쿼리문 작성
+		String sql = "SELECT COUNT(*) FROM goods_question";
+		// 쿼리 객체 생성
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		// 쿼리 실행
+		ResultSet rs = stmt.executeQuery();
+		if (rs.next()) {
+			row = rs.getInt("COUNT(*)");
+		}
+		stmt.close();
+		rs.close();
+		return row;
+	}
+	// 고객센터 문의 수정, 삭제를 위한 리스트 출력
+	public ArrayList<HashMap<String, Object>> selectGoodsQuestion(Connection conn, String customerId, int beginRow, int rowPerPage) throws Exception {
 		// 객체 초기화
 		ArrayList<HashMap<String, Object>> list = null;
 		// 쿼리문 작성
@@ -23,12 +72,14 @@ public class QuestionDao {
 				+ "		, gqc.goods_comment_memo goodsCommentMemo"
 				+ "		, gqc.createdate gqcCreatedate"
 				+ "		FROM goods_question gq LEFT JOIN goods_question_comment gqc ON gq.goods_question_code = gqc.goods_question_code"
+				+ "		WHERE gq.customer_id=?"
 				+ "		ORDER BY gq.goods_question_code desc LIMIT ?, ?";
 		// 쿼리 객체 생성
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		// 쿼리문 ?값 지정
-		stmt.setInt(1, beginRow);
-		stmt.setInt(2, rowPerPage);
+		stmt.setString(1, customerId);
+		stmt.setInt(2, beginRow);
+		stmt.setInt(3, rowPerPage);
 		// 쿼리 실행
 		ResultSet rs = stmt.executeQuery();
 		list = new ArrayList<HashMap<String, Object>>();
