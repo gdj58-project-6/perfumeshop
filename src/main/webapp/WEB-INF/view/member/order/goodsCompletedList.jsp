@@ -8,7 +8,7 @@
 	</head>
 	<body>
 		<h1>주문완료</h1>
-		<table>
+			<table>
 			<tr>
 				<c:forEach var="g" items="${goodsList}">
 					<td><img src="${pageContext.request.contextPath}/upload/${g.filename}" width="100" height="100"></td>
