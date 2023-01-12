@@ -17,32 +17,6 @@ public class GoodsService {
 	private GoodsDao goodsDao;
 	private GoodsImgDao goodsImgDao;
 	
-	// 정렬
-	public ArrayList<Goods> GoodsListSort(String col, String sort) {
-		ArrayList<Goods> list = new ArrayList<Goods>();
-		Connection conn = null;
-		try {
-			conn = DBUtil.getConnection();
-			this.goodsDao = new GoodsDao();
-			list = goodsDao.GoodsListSort(conn, col, sort);
-			conn.commit();
-		} catch (Exception e) {
-			try {
-				conn.rollback();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-			e.printStackTrace();
-		} finally {
-			try {
-				conn.close();
-			} catch(SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		return list;
-	}
-	
 	// RemoveGoods
 	public int removeGoods(Goods goods, GoodsImg goodsImg) {
 		int goodsRow = 0;

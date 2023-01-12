@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import dao.GoodsDao;
 import service.*;
+import vo.Goods;
 
 @WebServlet("/member/goodsList")
 public class GoodsListController extends HttpServlet {
@@ -47,6 +48,7 @@ public class GoodsListController extends HttpServlet {
 		request.setAttribute("word", word);
 		request.setAttribute("lastPage", lastPage);
 		
+
 		// View 연결
 		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/view/member/goods/goodsList.jsp");
 		rd.forward(request, response);

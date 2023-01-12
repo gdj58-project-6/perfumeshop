@@ -13,30 +13,6 @@ import vo.Goods;
 
 public class GoodsDao {
 	
-	// 정렬 
-	public ArrayList<Goods> GoodsListSort(Connection conn, String col, String sort) throws Exception {
-		ArrayList<Goods> list = new ArrayList<Goods>();
-		String sql = "SELECT goods_name goodsName, goods_price goodsPrice, soldout, hit, createdate FROM goods ORDER BY "+col+" "+sort;
-		PreparedStatement stmt = conn.prepareStatement(sql);
-		ResultSet rs = stmt.executeQuery();
-		
-		while(rs.next()) {
-			Goods g = new Goods();
-			g.setGoodsName(rs.getString("goodsName"));
-			g.setGoodsPrice(rs.getInt("goodsPrice"));
-			g.setSoldout(rs.getString("soldout"));
-			g.setHit(rs.getInt("hit"));
-			g.setCreatedate(rs.getString("createdate"));
-			list.add(g);
-		}
-		
-		stmt.close();
-		rs.close();
-		
-		return list;
-	}
-	
-	
 	// RemoveGoods
 	public int removeGoods(Connection conn, Goods goods) throws Exception {
 		int row = 0;
