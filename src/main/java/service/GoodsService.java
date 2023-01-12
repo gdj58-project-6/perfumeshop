@@ -78,17 +78,20 @@ public class GoodsService {
 	}
 	
 	// ModifyGoodsAction
-	public int modifyGoodsAction(Goods goods, String fileName) {
-		int row = 0;
+	public int modifyGoodsAction(Goods goods, GoodsImg goodsImg ) {
+		int goodsRow = 0;
+		int goodsImgRow = 0;
 		Connection conn = null;
 		try {
 			conn = DBUtil.getConnection();
-			
-			// insert img?
-			
+			// 1)
 			this.goodsDao = new GoodsDao();
-			row = goodsDao.modifyGoodsAction(conn, goods, fileName);
-			conn.commit();
+			goodsRow = goodsDao.modifyGoodsAction(conn, goods);
+			// 2)
+			this.goodsImgDao = new GoodsImgDao();
+			goodsImgRow = goodsImgDao.modifyGoodsImg(conn, goodsImg);
+			
+			conn.commit(); // 1) + 2) 일괄처리 -> 트랜젝션 -> 하나라도 실패시 롤백
 		} catch (Exception e) {
 			try {
 				conn.rollback();
@@ -103,7 +106,7 @@ public class GoodsService {
 				e.printStackTrace();
 			}
 		}
-		return row;
+		return goodsRow+goodsImgRow;
 	}
 	// GoodsOne
 	public ArrayList<HashMap<String, Object>> goodsOne(int goodsCode) {

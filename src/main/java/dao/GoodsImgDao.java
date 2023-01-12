@@ -21,6 +21,22 @@ public class GoodsImgDao {
 		return row;
 	}
 	
+	// ModifyGoodsImg
+	public int modifyGoodsImg(Connection conn, GoodsImg goodsImg) throws Exception {
+		int row = 0;
+		String sql ="UPDATE goods_img SET filename=?, origin_name=?, content_type=? WHERE goods_code=?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, goodsImg.getFileName());
+		stmt.setString(2, goodsImg.getOriginName());
+		stmt.setString(3, goodsImg.getContentType());
+		stmt.setInt(4, goodsImg.getGoodsCode());
+		
+		row = stmt.executeUpdate();
+		
+		stmt.close();
+		return row;
+	}
+	
 	// AddGoddsImg
 	public int addGoodsImg(Connection conn, GoodsImg goodsImg) throws Exception {
 		int row = 0;

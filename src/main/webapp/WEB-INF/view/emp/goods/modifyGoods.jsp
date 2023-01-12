@@ -8,15 +8,14 @@
 </head>
 <body>
 	<h3>상품 수정</h3>
-	<form action="${pageContext.request.contextPath}/admin/modifyGoods" method="post">		
+	<form action="${pageContext.request.contextPath}/admin/modifyGoods" method="post" enctype="multipart/form-data">		
 		<c:forEach var="b" items="${list}">
-			<!-- 수정폼에서 이미지 변경시 변경된 이미지로 교체하는법? 알아내야할듯 아니면 이미지 수정은 없는걸로?-->
 			<div> 
 				상품이미지
 		 	</div>
 		 	<div> 	
 		 		<img src="${pageContext.request.contextPath}/upload/${b.fileName}" width="200" height="200">
-		 	 	<input type="file" name="fileName">
+		 	 	<input type="file" name="goodsImg">
 			</div>
 			<div>
 				상품이름 : <input type="text" name="goodsName" value="${b.goodsName}">

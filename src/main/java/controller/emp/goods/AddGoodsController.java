@@ -76,12 +76,7 @@ public class AddGoodsController extends HttpServlet {
 			goods.setHit(hit);
 			goods.setEmpId(empId);
 		
-			System.out.println(goodsName);
-			System.out.println(goodsPrice);
-			System.out.println(goodsMemo);
-			System.out.println(soldout);
-			System.out.println(hit);
-			System.out.println(empId);
+			// System.out.println(goods);
 			
 			
 			GoodsImg goodsImg = new GoodsImg();

@@ -28,10 +28,10 @@ public class GoodsDao {
 	}
 	
 	
-	// ModifyGoodsForm 이미지, 상품이름, 상품가격, 상품설명? 나중에 오리지널 네임이랑 컨텐트타입도 바꿀수 있으면 바꾸기
+	// ModifyGoodsForm 
 	public ArrayList<HashMap<String, Object>> modifyGoodsForm(Connection conn, int goodsCode) throws Exception {
 		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
-		String sql = "SELECT g.goods_code goodsCode, g.goods_name goodsName, g.goods_price goodsPrice, g.goods_memo goodsMemo, g.soldout soldout, g.emp_id empId, g.hit hit, gi.filename fileName FROM goods g INNER JOIN goods_img gi ON g.goods_code = gi.goods_code WHERE g.goods_code = ?";
+		String sql = "SELECT g.goods_code goodsCode, g.goods_name goodsName, g.goods_price goodsPrice, g.goods_memo goodsMemo, g.soldout soldout, g.emp_id empId, g.hit hit, gi.filename fileName, gi.origin_name originName, gi.content_type contentType FROM goods g INNER JOIN goods_img gi ON g.goods_code = gi.goods_code WHERE g.goods_code = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, goodsCode);
 		ResultSet rs = stmt.executeQuery();
@@ -45,6 +45,8 @@ public class GoodsDao {
 			m.put("empId", rs.getString("empId"));
 			m.put("hit", rs.getInt("hit"));
 			m.put("fileName", rs.getString("fileName"));
+			m.put("originName", rs.getString("originName"));
+			m.put("contentType", rs.getString("contentType"));
 			list.add(m);
 		}
 		rs.close();
@@ -54,19 +56,20 @@ public class GoodsDao {
 	}
 	
 	// ModifyGoodsAction 
-	public int modifyGoodsAction(Connection conn, Goods goods, String fileName) throws Exception {	
+	public int modifyGoodsAction(Connection conn, Goods goods) throws Exception {	
 		int row = 0;
-		String sql = "UPDATE goods g INNER JOIN goods_img gi on g.goods_code = gi.goods_code SET g.goods_name=?, g.goods_price=?, g.goods_memo=?, g.soldout=?, g.hit=?, gi.filename=? WHERE g.goods_code=?";
+		String sql = "UPDATE goods SET goods_name=?, goods_price=?, goods_memo=?, soldout=?, hit=? WHERE goods_code=?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, goods.getGoodsName());
 		stmt.setInt(2, goods.getGoodsPrice());
 		stmt.setString(3, goods.getGoodsMemo());
 		stmt.setString(4, goods.getSoldout());
 		stmt.setInt(5, goods.getHit());
-		stmt.setString(6, fileName);
-		stmt.setInt(7, goods.getGoodsCode());
+		stmt.setInt(6, goods.getGoodsCode());
 		
 		row = stmt.executeUpdate();
+		
+		stmt.close();
 		return row;
 	}
 		
