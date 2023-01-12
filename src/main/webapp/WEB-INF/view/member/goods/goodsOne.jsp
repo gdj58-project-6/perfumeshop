@@ -294,17 +294,17 @@
 		         	</table>
 		         	<!-- 리뷰 페이징 -->
 		         	<div>
-		         		<c:if test="${currentPage != 1}">
-		         			<a href="${pageContext.request.contextPath}/member/goodsOne?currentPage=1&goodsCode=${goodsCode}">처음</a>
+		         		<c:if test="${currentPage2 != 1}">
+		         			<a href="${pageContext.request.contextPath}/member/goodsOne?currentPage2=1&goodsCode=${goodsCode}">처음</a>
 		         		</c:if>
-		         		<c:if test="${currentPage > 1}">
-		         			<a href="${pageContext.request.contextPath}/member/goodsOne?currentPage=${currentPage-1}&goodsCode=${goodsCode}">이전</a>
+		         		<c:if test="${currentPage2 > 1}">
+		         			<a href="${pageContext.request.contextPath}/member/goodsOne?currentPage2=${currentPage2-1}&goodsCode=${goodsCode}">이전</a>
 		         		</c:if>
-		         		<c:if test="${currentPage < lastPage}">
-		         			<a href="${pageContext.request.contextPath}/member/goodsOne?currentPage=${currentPage+1}&goodsCode=${goodsCode}">다음</a>
+		         		<c:if test="${currentPage2 < lastPage2}">
+		         			<a href="${pageContext.request.contextPath}/member/goodsOne?currentPage2=${currentPage2+1}&goodsCode=${goodsCode}">다음</a>
 		         		</c:if>
-		         		<c:if test="${currentPage != lastPage}">
-		         			<a href="${pageContext.request.contextPath}/member/goodsOne?currentPage=${lastPage}&goodsCode=${goodsCode}">마지막</a>
+		         		<c:if test="${currentPage2 != lastPage2}">
+		         			<a href="${pageContext.request.contextPath}/member/goodsOne?currentPage2=${lastPage2}&goodsCode=${goodsCode}">마지막</a>
 		         		</c:if>
 		         	</div>
 		        </div>
