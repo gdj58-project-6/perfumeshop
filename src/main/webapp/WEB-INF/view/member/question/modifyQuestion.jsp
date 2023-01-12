@@ -3,39 +3,39 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>modifyGoodsQuestion</title>
+		<title>modifyQuestion</title>
 	</head>
 	<body>
-		<h1>상품문의수정</h1>
-		<form action="${pageContext.request.contextPath}/member/modifyGoodsQuestion" method="post">
+		<h1>문의수정</h1>
+		<form action="${pageContext.request.contextPath}/member/modifyQuestion" method="post">
 			<table border="1">
 				<tr>
 					<td>문의번호</td>
 					<td>
-						<input type="text" name="goodsQuestionCode" value="${goodsQuestion.goodsQuestionCode}" readonly="readonly">
+						<input type="text" name="questionCode" value="${modifyQuestion.questionCode}" readonly="readonly">
 					</td>
 				</tr>
 				<tr>
-					<td>상품번호</td>
-					<td>${goodsQuestion.goodsCode}</td>
+					<td>주문번호</td>
+					<td>${modifyQuestion.orderCode}</td>
 				</tr>
 				<tr>
 					<td>작성자</td>
-					<td>${goodsQuestion.customerId}</td>
+					<td>${modifyQuestion.customerId}</td>
 				</tr>
 				<tr>
 					<td>분류</td>
-					<td>${goodsQuestion.category}</td>
+					<td>${modifyQuestion.category}</td>
 				</tr>
 				<tr>
 					<td>내용</td>
 					<td>
-						<textarea cols="50" rows="5" name="goodsQuestionMemo">${goodsQuestion.goodsQuestionMemo}</textarea>
+						<textarea cols="50" rows="5" name="questionMemo">${modifyQuestion.questionMemo}</textarea>
 					</td>
 				</tr>
 				<tr>
 					<td>작성일자</td>
-					<td>${goodsQuestion.createdate}</td>
+					<td>${modifyQuestion.createdate}</td>
 				</tr>
 			</table>
 			<div>

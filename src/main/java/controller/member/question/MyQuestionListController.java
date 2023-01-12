@@ -37,28 +37,37 @@ public class MyQuestionListController extends HttpServlet {
 		if(request.getParameter("currentPage") != null) {
 			currentPage = Integer.parseInt(request.getParameter("currentPage"));
 		}
+		int currentPage2 = 1;
+		if(request.getParameter("currentPage2") != null) {
+			currentPage2 = Integer.parseInt(request.getParameter("currentPage2"));
+		}
 		int rowPerPage = 5;
 		
 		// 메서드 호출
 		this.questionService = new QuestionService();
 		ArrayList<HashMap<String, Object>> list = questionService.getGoodsQuestion(customerId, currentPage, rowPerPage);
+		ArrayList<HashMap<String, Object>> questionList = questionService.getQuestionList(customerId, currentPage2, rowPerPage);
 		int cnt = questionService.getQuestionCountByGoodsQuestionModify();
+		int count = questionService.getCountByQuestionList();
 		int lastPage = 0;
+		int lastPage2 = 0;
 		if(cnt % rowPerPage == 0) {
 			lastPage = cnt / rowPerPage;
 		} else if (cnt % rowPerPage != 0) {
 			lastPage = (cnt / rowPerPage) +1;
 		}
-		request.setAttribute("list", list);
+		if(count % rowPerPage == 0) {
+			lastPage2 = count / rowPerPage;
+		} else if(count % rowPerPage != 0) {
+			lastPage2 = (count / rowPerPage) +1;
+		}
+		request.setAttribute("goodsQustionList", list);
+		request.setAttribute("questionList", questionList);
 		request.setAttribute("currentPage", currentPage);
+		request.setAttribute("currentPage2", currentPage2);
 		request.setAttribute("lastPage", lastPage);
+		request.setAttribute("lastPage2", lastPage2);
 		
 		request.getRequestDispatcher("/WEB-INF/view/member/question/myQuestionList.jsp").forward(request, response);
 	}
-	// 문의글 수정, 삭제 정도?
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
-
 }

@@ -38,13 +38,13 @@ public class ReviewService {
 	}
 	
 	// 리뷰 출력
-	public ArrayList<HashMap<String, Object>> getReviewList(int currentPage, int rowPerPage) {
+	public ArrayList<HashMap<String, Object>> getReviewList(int currentPage2, int rowPerPage) {
 		// 객체 초기화
 		ArrayList<HashMap<String, Object>> list = null;
 		// 드라이버 초기화
 		Connection conn = null;
 		
-		int beginRow = (currentPage - 1) * rowPerPage;
+		int beginRow = (currentPage2 - 1) * rowPerPage;
 		
 		try {
 			// 드라이버 연결
