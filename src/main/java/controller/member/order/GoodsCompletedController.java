@@ -1,4 +1,4 @@
-package controller.member.goods;
+package controller.member.order;
 
 import java.io.IOException;
 import java.util.ArrayList;

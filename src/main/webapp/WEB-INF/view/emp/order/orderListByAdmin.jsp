@@ -5,6 +5,15 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Insert title here</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+		<script>
+			$(document).ready(function() {
+				$('.orderState').change(function() {
+					$(this.form).submit();
+					alert('주문상태를 변경했습니다');
+				})
+			})
+		</script>
 	</head>
 	<body>
 		<table>
@@ -31,7 +40,47 @@
 					</td>
 					<td>${o.customerId}</td>
 					<td>${o.goodsPrice}</td>
-					<td>${o.orderState}</td>
+					<td>
+						<form action="${pageContext.request.contextPath}/admin/modifyOrderState?orderCode=${o.orderCode}" method="post">
+							<select name="orderState" class="orderState">
+								<c:if test="${o.orderState eq '결제'}">
+									<option value="결제" selected="selected">결제</option>
+									<option value="취소">취소</option>
+									<option value="배송전">배송전</option>
+									<option value="배송중">배송중</option>
+									<option value="배송완료">배송완료</option>
+								</c:if>
+								<c:if test="${o.orderState eq '취소'}">
+									<option value="결제">결제</option>
+									<option value="취소" selected="selected">취소</option>
+									<option value="배송전">배송전</option>
+									<option value="배송중">배송중</option>
+									<option value="배송완료">배송완료</option>
+								</c:if>
+								<c:if test="${o.orderState eq '배송전'}">
+									<option value="결제">결제</option>
+									<option value="취소">취소</option>
+									<option value="배송전" selected="selected">배송전</option>
+									<option value="배송중">배송중</option>
+									<option value="배송완료">배송완료</option>
+								</c:if>
+								<c:if test="${o.orderState eq '배송중'}">
+									<option value="결제">결제</option>
+									<option value="취소">취소</option>
+									<option value="배송전">배송전</option>
+									<option value="배송중" selected="selected">배송중</option>
+									<option value="배송완료">배송완료</option>
+								</c:if>
+								<c:if test="${o.orderState eq '배송완료'}">
+									<option value="결제">결제</option>
+									<option value="취소">취소</option>
+									<option value="배송전">배송전</option>
+									<option value="배송중">배송중</option>
+									<option value="배송완료" selected="selected">배송완료</option>
+								</c:if>
+							</select>
+						</form>
+					</td>
 					<td>${o.createdate}</td>
 				</tr>
 			</c:forEach>

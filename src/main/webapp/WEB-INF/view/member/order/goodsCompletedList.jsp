@@ -10,7 +10,7 @@
 		<h1>주문완료</h1>
 			<table>
 			<tr>
-				<c:forEach var="g" items="${goodsList}">
+				<c:forEach var="g" items="${list}">
 					<td><img src="${pageContext.request.contextPath}/upload/${g.filename}" width="100" height="100"></td>
 					<td>상품 이름 : <a href="${pageContext.request.contextPath}/member/goodsOne?goodsCode=${g.goodsCode}">${g.goodsName}</a></td>
 					<td>상품 가격 : ${g.orderGoodsPrice}</td>

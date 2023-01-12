@@ -180,6 +180,7 @@ public class OrderDao {
 					+ ", g.goods_name goodsName"
 					+ ", og.order_goods_price orderGoodsPrice"
 					+ ", og.order_goods_quantity orderGoodsQuantity "
+					+ ", o.order_state orderState "
 					+ "FROM orders o INNER JOIN order_goods og "
 					+ "ON o.order_code = og.order_code "
 					+ "INNER JOIN goods g "
@@ -199,6 +200,7 @@ public class OrderDao {
 			m.put("goodsName", rs.getString("goodsName"));
 			m.put("orderGoodsPrice", rs.getInt("orderGoodsPrice"));
 			m.put("orderGoodsQuantity", rs.getInt("orderGoodsQuantity"));
+			m.put("orderState", rs.getString("orderState"));
 			list.add(m);
 		}
 		
@@ -206,5 +208,20 @@ public class OrderDao {
 		stmt.close();
 		
 		return list;
+	}
+	
+	// 관리자가 주문상태 변경
+	public int updateOrderState(Connection conn, Orders orders) throws Exception {
+		int row = 0;
+		String sql = "UPDATE orders SET order_state = ? WHERE order_code = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, orders.getOrderState());
+		stmt.setInt(2, orders.getOrderCode());
+		
+		row = stmt.executeUpdate();
+		
+		stmt.close();
+		
+		return row;
 	}
 }

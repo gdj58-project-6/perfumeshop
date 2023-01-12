@@ -172,4 +172,27 @@ public class OrderService {
 		
 		return list;
 	}
+	
+	// 관리자가 주문상태 변경
+	public int getUpdateOrderState(Orders orders) {
+		int row = 0;
+		Connection conn = null;
+		
+		try {
+			conn = DBUtil.getConnection();
+			this.orderDao = new OrderDao();
+			row = orderDao.updateOrderState(conn, orders);
+			conn.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return row;
+	}
 }

@@ -29,7 +29,14 @@
 						</a>
 					</td>
 					<td>${o.goodsPrice}</td>
-					<td>${o.orderState}</td>
+					<td>
+						<c:if test="${o.orderState eq '결제' || o.orderState eq '배송전'}">
+							${o.orderState}<a href="${pageContext.request.contextPath}">취소신청</a>
+						</c:if>
+						<c:if test="${o.orderState ne '결제' && o.orderState ne '배송전'}">
+							${o.orderState}
+						</c:if>
+					</td>
 					<td>${o.createdate}</td>
 				</tr>
 			</c:forEach>
