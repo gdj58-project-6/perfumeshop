@@ -42,43 +42,51 @@
 					<td>${o.goodsPrice}</td>
 					<td>
 						<form action="${pageContext.request.contextPath}/admin/modifyOrderState?orderCode=${o.orderCode}" method="post">
-							<select name="orderState" class="orderState">
-								<c:if test="${o.orderState eq '결제'}">
-									<option value="결제" selected="selected">결제</option>
-									<option value="취소">취소</option>
-									<option value="배송전">배송전</option>
-									<option value="배송중">배송중</option>
-									<option value="배송완료">배송완료</option>
-								</c:if>
-								<c:if test="${o.orderState eq '취소'}">
-									<option value="결제">결제</option>
-									<option value="취소" selected="selected">취소</option>
-									<option value="배송전">배송전</option>
-									<option value="배송중">배송중</option>
-									<option value="배송완료">배송완료</option>
-								</c:if>
-								<c:if test="${o.orderState eq '배송전'}">
-									<option value="결제">결제</option>
-									<option value="취소">취소</option>
-									<option value="배송전" selected="selected">배송전</option>
-									<option value="배송중">배송중</option>
-									<option value="배송완료">배송완료</option>
-								</c:if>
-								<c:if test="${o.orderState eq '배송중'}">
-									<option value="결제">결제</option>
-									<option value="취소">취소</option>
-									<option value="배송전">배송전</option>
-									<option value="배송중" selected="selected">배송중</option>
-									<option value="배송완료">배송완료</option>
-								</c:if>
-								<c:if test="${o.orderState eq '배송완료'}">
-									<option value="결제">결제</option>
-									<option value="취소">취소</option>
-									<option value="배송전">배송전</option>
-									<option value="배송중">배송중</option>
-									<option value="배송완료" selected="selected">배송완료</option>
-								</c:if>
-							</select>
+							<c:if test="${o.orderState ne '반품신청' && o.orderState ne '반품' && o.orderState ne '구매확정'}">
+								<select name="orderState" class="orderState">
+									<c:if test="${o.orderState eq '결제'}">
+										<option value="결제" selected="selected">결제</option>
+										<option value="취소">취소</option>
+										<option value="배송전">배송전</option>
+										<option value="배송중">배송중</option>
+										<option value="배송완료">배송완료</option>
+									</c:if>
+									<c:if test="${o.orderState eq '취소'}">
+										<option value="결제">결제</option>
+										<option value="취소" selected="selected">취소</option>
+										<option value="배송전">배송전</option>
+										<option value="배송중">배송중</option>
+										<option value="배송완료">배송완료</option>
+									</c:if>
+									<c:if test="${o.orderState eq '배송전'}">
+										<option value="결제">결제</option>
+										<option value="취소">취소</option>
+										<option value="배송전" selected="selected">배송전</option>
+										<option value="배송중">배송중</option>
+										<option value="배송완료">배송완료</option>
+									</c:if>
+									<c:if test="${o.orderState eq '배송중'}">
+										<option value="결제">결제</option>
+										<option value="취소">취소</option>
+										<option value="배송전">배송전</option>
+										<option value="배송중" selected="selected">배송중</option>
+										<option value="배송완료">배송완료</option>
+									</c:if>
+									<c:if test="${o.orderState eq '배송완료'}">
+										<option value="결제">결제</option>
+										<option value="취소">취소</option>
+										<option value="배송전">배송전</option>
+										<option value="배송중">배송중</option>
+										<option value="배송완료" selected="selected">배송완료</option>
+									</c:if>
+								</select>
+							</c:if>
+							<c:if test="${o.orderState eq '반품신청'}">
+								<a href="${pageContext.request.contextPath}/admin/returnHistoryList">반품승인</a>
+							</c:if>
+							<c:if test="${o.orderState eq '반품' || o.orderState eq '구매확정'}">
+								${o.orderState}
+							</c:if>
 						</form>
 					</td>
 					<td>${o.createdate}</td>

@@ -175,7 +175,9 @@ public class OrderDao {
 		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
 		ResultSet rs = null;
 		String sql = "SELECT"
-					+ "	og.goods_code goodsCode "
+					+ " o.order_code orderCode"
+					+ ", og.goods_code goodsCode "
+					+ ", o.customer_id customerId"
 					+ ", gi.filename filename"
 					+ ", g.goods_name goodsName"
 					+ ", og.order_goods_price orderGoodsPrice"
@@ -195,7 +197,9 @@ public class OrderDao {
 		
 		while(rs.next()) {
 			HashMap<String, Object> m = new HashMap<String, Object>();
+			m.put("orderCode", rs.getString("orderCode"));
 			m.put("goodsCode", rs.getInt("goodsCode"));
+			m.put("customerId", rs.getString("customerId"));
 			m.put("filename", rs.getString("filename"));
 			m.put("goodsName", rs.getString("goodsName"));
 			m.put("orderGoodsPrice", rs.getInt("orderGoodsPrice"));
@@ -210,7 +214,7 @@ public class OrderDao {
 		return list;
 	}
 	
-	// 관리자가 주문상태 변경
+	// 주문상태 변경
 	public int updateOrderState(Connection conn, Orders orders) throws Exception {
 		int row = 0;
 		String sql = "UPDATE orders SET order_state = ? WHERE order_code = ?";

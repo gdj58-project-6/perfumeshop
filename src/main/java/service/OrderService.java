@@ -1,4 +1,4 @@
-package service;
+ package service;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -26,23 +26,6 @@ public class OrderService {
 		try {
 			conn = DBUtil.getConnection();
 			this.orderDao = new OrderDao();
-			/*HashMap<String, Integer> map = orderDao.insertOrderByCustomer(conn, orders);
-			orderCode = (int)map.get("autoKey");
-			if(map == null) { // order insert가 진행되었으면
-				this.orderGoodsDao = new OrderGoodsDao();
-				int result = orderGoodsDao.insertOrderGoods(conn, list, orderCode);
-				if(result != 1) { // insertOrderGoods안되었으면 강제로 예외발생시켜서 catch절로 이동 후 rollback;
-					throw new Exception();
-				} else {
-					this.cartDao = new CartDao();
-					row = cartDao.deleteCartList(conn, orders.getCustomerId());
-					if(row != 1) {
-						throw new Exception();							
-					}
-				}
-			} else {
-				throw new Exception();
-			}*/
 			HashMap<String, Integer> map = orderDao.insertOrderByCustomer(conn, orders);
 			orderCode = (int)map.get("autoKey");
 			if(map == null) {
