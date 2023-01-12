@@ -11,6 +11,73 @@ import vo.Question;
 
 public class QuestionService {
 	private QuestionDao questionDao;
+	// 고객센터 order 문의 삭제액션
+	public int removeQuestion(int questionCode) {
+		// 객체 초기화
+		int row = 0;
+		// 드라이버 초기화
+		Connection conn = null;
+		
+		try {
+			// 드라이버 연결
+			conn = DBUtil.getConnection();
+			// dao초기화&호출
+			this.questionDao = new QuestionDao();
+			row = questionDao.deleteQuestion(conn, questionCode);
+			// 커밋
+			conn.commit();
+		} catch(Exception e) {
+			// 삭제 실패시 롤백
+			try {
+				conn.rollback();
+			} catch(Exception e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			//삭제 성공시 자원반납
+			try {
+				conn.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return row;
+	}
+	// 고객센터 order 문의 수정액션
+	public int modifyQuestion(Question question) {
+		//객체 초기화
+		int row = 0;
+		// 드라이버 초기화
+		Connection conn = null;
+		
+		try {
+			// 드라이버 연결
+			conn = DBUtil.getConnection();
+			// dao초기화&호출
+			this.questionDao = new QuestionDao();
+			row = questionDao.updateQuestion(conn, question);
+			// 커밋
+			conn.commit();
+		} catch(Exception e) {
+			// 수정 실패면 롤백
+			try {
+				conn.rollback();
+			} catch(Exception e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			// 수정 성공하면 자원반납
+			try {
+				conn.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return row;
+	}
 	// 고객센터 order 문의 수정폼
 	public Question getQuestionListByModify(int questionCode) {
 		// 객체 초기화
@@ -21,7 +88,7 @@ public class QuestionService {
 		try {
 			// 드라이버 연결
 			conn = DBUtil.getConnection();
-			// dao초기화
+			// dao초기화&호출
 			this.questionDao = new QuestionDao();
 			q = questionDao.selectQuestionByModify(conn, questionCode);
 			// 커밋

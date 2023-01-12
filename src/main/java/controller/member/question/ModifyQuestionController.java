@@ -19,7 +19,7 @@ public class ModifyQuestionController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		// 비로그인이거나 직원이면 접근불가
-		if(session.getAttribute("loginMember") ==null || session.getAttribute("loginMember") instanceof Emp) {
+		if(session.getAttribute("loginMember") == null || session.getAttribute("loginMember") instanceof Emp) {
 			response.sendRedirect(request.getContextPath() + "/home");
 			return;
 		}
@@ -46,8 +46,16 @@ public class ModifyQuestionController extends HttpServlet {
 		// System.out.println(questionCode);
 		// System.out.println(questionMemo);
 		
-		// 메서드 호출
+		// 메서드 호출시 매개값
+		Question q = new Question();
+		q.setQuestionCode(questionCode);
+		q.setQuestionMemo(questionMemo);
 		
+		// 메서드 호출
+		this.questionService = new QuestionService();
+		int updateQuestion = questionService.modifyQuestion(q);
+		
+		response.sendRedirect(request.getContextPath() + "/member/myQuestionList");
 	}
 
 }

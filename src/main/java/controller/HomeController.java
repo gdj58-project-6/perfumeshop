@@ -20,14 +20,16 @@ public class HomeController extends HttpServlet {
 	private NoticeService noticeService;
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Customer loginCustomer = null;
+		Emp loginEmp = null;
 		HttpSession session =  request.getSession();
 		// 로그인정보 가져오기
 		if(session.getAttribute("loginMember") == session.getAttribute("customerLogin")) {
-			Customer loginMember = (Customer)session.getAttribute("loginMember");
-			request.setAttribute("loginMember", loginMember);
+			loginCustomer = (Customer)session.getAttribute("loginMember");
+			request.setAttribute("loginMember", loginCustomer);
 		} else if(session.getAttribute("loginMember") == session.getAttribute("empLogin")) {
-			Emp loginMember = (Emp)session.getAttribute("loginMember");
-			request.setAttribute("loginMember", loginMember);
+			loginEmp = (Emp)session.getAttribute("loginMember");
+			request.setAttribute("loginMember", loginEmp);
 		}
 		// 공지목록 페이징
 		int currentPage = 1;

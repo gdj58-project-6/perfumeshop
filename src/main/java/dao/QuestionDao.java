@@ -12,7 +12,23 @@ import vo.GoodsQuestion;
 import vo.Question;
 
 public class QuestionDao {
-	// 고객센터 order 문의 액션
+	// 고객센터 order 문의 삭제액션
+	public int deleteQuestion(Connection conn, int questionCode) throws Exception {
+		// 객체 초기화
+		int row = 0;
+		// 쿼리문 작성
+		String sql = "DELETE FROM question WHERE question_code=?";
+		// 쿼리 객체 생성
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		// 쿼리문 ?값 지정
+		stmt.setInt(1, questionCode);
+		// 쿼리 실행
+		row = stmt.executeUpdate();
+		
+		stmt.close();
+		return row;
+	}
+	// 고객센터 order 문의 수정액션
 	public int updateQuestion(Connection conn, Question question) throws Exception {
 		// 객체 초기화
 		int row = 0;
@@ -20,6 +36,13 @@ public class QuestionDao {
 		String sql = "UPDATE question SET question_memo=?, createdate=NOW() WHERE question_code=?";
 		// 쿼리 객체 생성
 		PreparedStatement stmt = conn.prepareStatement(sql);
+		// 쿼리문 ?값 지정
+		stmt.setString(1, question.getQuestionMemo());
+		stmt.setInt(2, question.getQuestionCode());
+		// 쿼리 실행
+		row = stmt.executeUpdate();
+		
+		stmt.close();
 		return row;
 	}
 	// 고객센터 order 문의 수정폼
