@@ -7,7 +7,7 @@
 		<title>Insert title here</title>
 	</head>
 	<body>
-		<div>주문 코드 : ${customerOne.orderCode}</div>
+		<h1>주문완료</h1>
 		<table>
 			<tr>
 				<c:forEach var="g" items="${goodsList}">
@@ -19,16 +19,6 @@
 					<td>상품 총 가격 : ${totalPrice}</td>
 					</tr><tr>
 				</c:forEach>
-		</table>
-		<table>
-			<tr><td>주문자 아이디 : ${customerOne.customerId}</td></tr>
-			<tr><td>주문자 이름 : ${customerOne.customerName}</td></tr>
-			<tr><td>주문자 번호 : ${customerOne.customerPhone}</td></tr>
-			<tr><td>주문자 주소 : ${customerOne.address}</td></tr>
-			<tr><td>총 가격 : ${customerOne.orderPrice}</td></tr>
-			<tr><td>현재 상태 : ${customerOne.orderState}</td></tr>
-			<tr><td>주문 메모 : ${customerOne.orderMemo}</td></tr>
-			<tr><td>주문일자 : ${customerOne.createdtae}</td></tr>
 		</table>
 	</body>
 </html>

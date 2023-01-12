@@ -28,9 +28,9 @@ public class CartController extends HttpServlet {
 		Customer loginMember = (Customer)session.getAttribute("loginMember");
 		request.setAttribute("loginMember", loginMember);
 		// System.out.println(loginMember.getCustomerId()+" <- customerId");
-		
+		String id = loginMember.getCustomerId();
 				
-		ArrayList<HashMap<String, Object>> list = cartService.getCartList();
+		ArrayList<HashMap<String, Object>> list = cartService.getCartList(id);
 		System.out.println(list);
 		request.setAttribute("list", list);
 		

@@ -11,20 +11,32 @@ import vo.Orders;
 
 public class OrderDao {
 	// 주문하기
-	public int insertOrderByCustomer(Connection conn, Orders orders) throws Exception {
+	public HashMap<String, Integer> insertOrderByCustomer(Connection conn, Orders orders) throws Exception {
 		int row = 0;
+		ResultSet rs = null;
+		int autoKey = 0; // orderGoods insert 할때 사용할 orderCode
 		String sql = "INSERT INTO orders(customer_id, address_code, order_price, order_state, order_memo, createdate) VALUES(?, ?, ?, '결제', ?, NOW())";
-		PreparedStatement stmt = conn.prepareStatement(sql);
+		PreparedStatement stmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 		stmt.setString(1, orders.getCustomerId());
 		stmt.setInt(2, orders.getAddressCode());
 		stmt.setInt(3, orders.getOrderPrice());
 		stmt.setString(4, orders.getOrderMemo());
 		
 		row = stmt.executeUpdate();
+		rs = stmt.getGeneratedKeys();
 		
+		if(rs.next()) {
+			autoKey = rs.getInt(1); // orderGoods insert 할때 사용할 orderCode
+		}
+		
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		map.put("row", row);
+		map.put("autoKey", autoKey);
+		
+		rs.close();
 		stmt.close();
 		
-		return row;
+		return map;
 	}
 	
 	// 관리자용 모든 주문 리스트
