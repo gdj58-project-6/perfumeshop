@@ -16,6 +16,7 @@
 	</div>
 	<div>
 		<!--  필터, 검색, 페이징 -->
+		<a href="${pageContext.request.contextPath}/member/GoodsListSort?col=goods_price&sort=${paramSort}">가격순</a>
 	</div>
 	<!-- 사진, 제품이름, 가격 등등등.... -->
 	<table border="1">

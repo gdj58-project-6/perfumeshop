@@ -14,7 +14,7 @@ import vo.Cart;
 
 
 @WebServlet("/member/ModifyCartList")
-public class ModifyCartList extends HttpServlet {
+public class ModifyCartListController extends HttpServlet {
 	private CartService cartService;
 	private Cart cart;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import service.CartService;
 
 @WebServlet("/member/RemoveCartList")
-public class RemoveCartList extends HttpServlet {
+public class RemoveCartListController extends HttpServlet {
 	private CartService cartService;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 장바구니에서 상품 삭제할 수 있게

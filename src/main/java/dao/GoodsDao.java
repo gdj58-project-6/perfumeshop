@@ -16,7 +16,7 @@ public class GoodsDao {
 	// 정렬 
 	public ArrayList<Goods> GoodsListSort(Connection conn, String col, String sort) throws Exception {
 		ArrayList<Goods> list = new ArrayList<Goods>();
-		String sql = "SELECT goods_name goodsName, goods_price goodsPrice, soldout, hit, createdate FROM goods ORDER BY"+col+" "+sort;
+		String sql = "SELECT goods_name goodsName, goods_price goodsPrice, soldout, hit, createdate FROM goods ORDER BY "+col+" "+sort;
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		ResultSet rs = stmt.executeQuery();
 		

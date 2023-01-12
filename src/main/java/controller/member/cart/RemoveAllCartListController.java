@@ -13,7 +13,7 @@ import service.CartService;
 import vo.Customer;
 
 @WebServlet("/member/RemoveAllCartList")
-public class RemoveAllCartList extends HttpServlet {
+public class RemoveAllCartListController extends HttpServlet {
 	private CartService cartService;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 장바구니 전부 비우기
