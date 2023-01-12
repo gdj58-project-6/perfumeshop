@@ -1,35 +1,32 @@
 package controller.member.cart;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import service.CartService;
+import vo.Customer;
 
-@WebServlet("/member/RemoveCartList")
-public class RemoveCartList extends HttpServlet {
+@WebServlet("/member/RemoveAllCartList")
+public class RemoveAllCartList extends HttpServlet {
 	private CartService cartService;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// 장바구니에서 상품 삭제할 수 있게
+		// 장바구니 전부 비우기
+		// loginMember id값 받기
 		
-		int goodsCode = Integer.parseInt(request.getParameter("goodsCode"));
-		// System.out.println(goodsCode);
+		String customerId = request.getParameter("customerId");
+		// System.out.println("customerId");
 		
 		this.cartService = new CartService();
 		
-		
-		int row =  cartService.removeCartList(goodsCode);
-		
-		if(row != 1) {
-			System.out.println("장바구니 삭제 실패");
-		} else {
-			System.out.println("장바구니 삭제 성공");
-		}
-		
-		response.sendRedirect(request.getContextPath()+"/member/cart");
-	}
+		int row = cartService.removeAllCartList(customerId);
 
+		
+		response.sendRedirect(request.getContextPath()+"/member/cart");	
+	}
 }

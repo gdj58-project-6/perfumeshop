@@ -78,7 +78,7 @@ public class GoodsService {
 	}
 	
 	// ModifyGoodsAction
-	public int modifyGoodsAction(Goods goods, GoodsImg goodsImg ) {
+	public int modifyGoodsAction(Goods goods, GoodsImg goodsImg, String dir) {
 		int goodsRow = 0;
 		int goodsImgRow = 0;
 		Connection conn = null;
@@ -95,6 +95,11 @@ public class GoodsService {
 		} catch (Exception e) {
 			try {
 				conn.rollback();
+				// db작업 실패시 이미 업로드해버린 파일을 불러와 삭제
+				File f = new File(dir+"\\"+goodsImg.getFileName());
+				if(f.exists()) {
+					f.delete();
+				}
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}

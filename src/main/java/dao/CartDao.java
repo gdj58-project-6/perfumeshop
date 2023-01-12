@@ -25,7 +25,20 @@ public class CartDao {
 		return row;
 	}
 	
-	// 장바구니 리스트 삭제 RemoveCartList
+	// 장바구니 리스트 삭제(전부) RemoveAllCartList
+	public int removeAllCartList(Connection conn, String customerId) throws Exception {
+		int row = 0;
+		String sql ="DELETE FROM cart WHERE customer_id = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, customerId);
+		row = stmt.executeUpdate();
+		
+		stmt.close();
+		return row;
+	}
+	
+	
+	// 장바구니 리스트 삭제(개별) RemoveCartList
 	public int removeCartList(Connection conn, int goodsCode) throws Exception {
 		int row = 0;
 		String sql = "DELETE FROM cart WHERE goods_code = ?";

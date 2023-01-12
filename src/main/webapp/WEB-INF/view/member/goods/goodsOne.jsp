@@ -118,7 +118,7 @@
 					// console.log('장바구니 추가 클릭!');
 					alert('장바구니 담기 성공!');
 				});
-		
+				
 		    });
 			
 		</script>
@@ -127,7 +127,7 @@
 		<a href='${pageContext.request.contextPath}/member/goodsList'>뒤로</a>
 		<c:if test="${loginMember.getAuthCode() > 5}">
 			<a href="${pageContext.request.contextPath}/admin/modifyGoods?goodsCode=${goodsCode}">상품수정</a>
-			<a href="${pageContext.request.contextPath}/admin/removeGoods?goodsCode=${goodsCode}">상품삭제</a>
+			<a href="${pageContext.request.contextPath}/admin/removeGoods?goodsCode=${goodsCode}" id="removeBtn">상품삭제</a>
 		</c:if>
 		<!-- 맨위에 include  -->
 		<h3>goodsOne</h3>
@@ -146,12 +146,12 @@
 					</tr>
 					<tr>
 						<td>상품 가격</td>
-						<td><input type="number" value="${m.goodsPrice}" name="goodsPrice"></td>
+						<td><input type="text" value="${m.goodsPrice}" name="goodsPrice" readonly="readonly"></td>
 					</tr>
 					<tr>
 					<!--  수량이 변경되면 상품가격이 변경되야 함 -->
 						<td>수량</td>
-						<td><input type="number" value="1" name="cartQuantity"></td>
+						<td><input type="number" value="1" name="cartQuantity" min="1"></td>
 					</tr>
 					<!-- 제품설명? 개별적인 설명이 나오게 하려면 어떻게?? -->
 					<tr>
@@ -170,6 +170,7 @@
 			</form>	
 			<!-- 장바구니, 결제창 이동-->
 			<a href='${pageContext.request.contextPath}/member/cart'>장바구니로 이동</a>
+			<!-- 일단 값 뒤에 전부 보내기 더 좋은방법 생기면 변경 예정 -->
 			<a href='${pageContext.request.contextPath}/member/goodsPayMent'>바로 구매</a>
 		</c:forEach>
 		<div id="wrapper">    

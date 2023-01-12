@@ -85,7 +85,7 @@ public class ModifyGoodsController extends HttpServlet {
 			// System.out.println(goodsImg);
 			
 			this.goodsService = new GoodsService();
-			int row = goodsService.modifyGoodsAction(goods, goodsImg);
+			int row = goodsService.modifyGoodsAction(goods, goodsImg, dir);
 			
 			if(row != 2) {
 				System.out.println("수정실패");
