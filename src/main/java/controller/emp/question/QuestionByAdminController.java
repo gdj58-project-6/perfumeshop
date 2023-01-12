@@ -7,10 +7,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/QuestionByAdminController")
+@WebServlet("/admin/questionByAdmin")
 public class QuestionByAdminController extends HttpServlet {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		response.getWriter().append("Served at: ").append(request.getContextPath());
+	}
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// 문의 삭제, 문의 답변 등록 수정 삭제
+		// TODO Auto-generated method stub
+		doGet(request, response);
 	}
 
 }

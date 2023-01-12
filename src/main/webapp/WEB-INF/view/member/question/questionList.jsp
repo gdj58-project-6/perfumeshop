@@ -27,7 +27,7 @@
 		</script>
 	</head>
 	<body>
-		<h1>나의 문의내역</h1>
+		<h1>고객센터</h1>
 		<!-- goodsQuestion 나의 상품문의 리스트 customerId로 받아오기 -->
 		<h2>goodsQuestion</h2>
 		<table border="1">
@@ -72,17 +72,17 @@
 		</table>
 		<div>
        		<c:if test="${currentPage != 1}">
-       			<a href="${pageContext.request.contextPath}/member/myQuestionList?currentPage=1">처음</a>
+       			<a href="${pageContext.request.contextPath}/member/question?currentPage=1">처음</a>
        		</c:if>
        		<c:if test="${currentPage > 1}">
-       			<a href="${pageContext.request.contextPath}/member/myQuestionList?currentPage=${currentPage-1}">이전</a>
+       			<a href="${pageContext.request.contextPath}/member/question?currentPage=${currentPage-1}">이전</a>
        		</c:if>
        		${currentPage}
        		<c:if test="${currentPage < lastPage}">
-       			<a href="${pageContext.request.contextPath}/member/myQuestionList?currentPage=${currentPage+1}">다음</a>
+       			<a href="${pageContext.request.contextPath}/member/question?currentPage=${currentPage+1}">다음</a>
        		</c:if>
        		<c:if test="${currentPage != lastPage}">
-       			<a href="${pageContext.request.contextPath}/member/myQuestionList?currentPage=${lastPage}">마지막</a>
+       			<a href="${pageContext.request.contextPath}/member/question?currentPage=${lastPage}">마지막</a>
        		</c:if>
        	</div>
 		<!-- question 나의 주문문의 리스트 -->
@@ -129,17 +129,17 @@
 		</table>
 		<div>
        		<c:if test="${currentPage2 != 1}">
-       			<a href="${pageContext.request.contextPath}/member/myQuestionList?currentPage2=1">처음</a>
+       			<a href="${pageContext.request.contextPath}/member/question?currentPage2=1">처음</a>
        		</c:if>
        		<c:if test="${currentPage2 > 1}">
-       			<a href="${pageContext.request.contextPath}/member/myQuestionList?currentPage2=${currentPage2-1}">이전</a>
+       			<a href="${pageContext.request.contextPath}/member/question?currentPage2=${currentPage2-1}">이전</a>
        		</c:if>
        		${currentPage2}
        		<c:if test="${currentPage2 < lastPage2}">
-       			<a href="${pageContext.request.contextPath}/member/myQuestionList?currentPage2=${currentPage2+1}">다음</a>
+       			<a href="${pageContext.request.contextPath}/member/question?currentPage2=${currentPage2+1}">다음</a>
        		</c:if>
        		<c:if test="${currentPage2 != lastPage2}">
-       			<a href="${pageContext.request.contextPath}/member/myQuestionList?currentPage2=${lastPage2}">마지막</a>
+       			<a href="${pageContext.request.contextPath}/member/question?currentPage2=${lastPage2}">마지막</a>
        		</c:if>
        	</div>
 	</body>

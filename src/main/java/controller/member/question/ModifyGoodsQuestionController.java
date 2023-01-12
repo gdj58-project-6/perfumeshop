@@ -63,7 +63,7 @@ public class ModifyGoodsQuestionController extends HttpServlet {
 		
 		if(updateGoodsQuestion == 1) {
 			System.out.println("수정완료");
-			response.sendRedirect(request.getContextPath() + "/member/myQuestionList?goodsQuestionCode="+goodsQuestionCode);
+			response.sendRedirect(request.getContextPath() + "/member/question?goodsQuestionCode="+goodsQuestionCode);
 		} 
 	}
 

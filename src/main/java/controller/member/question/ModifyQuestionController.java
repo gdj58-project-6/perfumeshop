@@ -55,7 +55,7 @@ public class ModifyQuestionController extends HttpServlet {
 		this.questionService = new QuestionService();
 		int updateQuestion = questionService.modifyQuestion(q);
 		
-		response.sendRedirect(request.getContextPath() + "/member/myQuestionList");
+		response.sendRedirect(request.getContextPath() + "/member/question");
 	}
 
 }

@@ -15,8 +15,8 @@ import service.QuestionService;
 import vo.Customer;
 
 
-@WebServlet("/member/myQuestionList")
-public class MyQuestionListController extends HttpServlet {
+@WebServlet("/member/question")
+public class QuestionListController extends HttpServlet {
 	private QuestionService questionService;
 	// 고객센터 폼
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -68,6 +68,6 @@ public class MyQuestionListController extends HttpServlet {
 		request.setAttribute("lastPage", lastPage);
 		request.setAttribute("lastPage2", lastPage2);
 		
-		request.getRequestDispatcher("/WEB-INF/view/member/question/myQuestionList.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/view/member/question/questionList.jsp").forward(request, response);
 	}
 }

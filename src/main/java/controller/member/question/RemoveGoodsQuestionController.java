@@ -25,7 +25,7 @@ public class RemoveGoodsQuestionController extends HttpServlet {
 		
 		if(deleteGoodsQuestion == 1) {
 			System.out.println("삭제완료");
-			response.sendRedirect(request.getContextPath() + "/member/myQuestionList");
+			response.sendRedirect(request.getContextPath() + "/member/question");
 		} 
 	}
 }
