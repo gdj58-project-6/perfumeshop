@@ -12,6 +12,24 @@ import vo.GoodsQuestion;
 import vo.Question;
 
 public class QuestionDao {
+	// 고객센터 order 문의글 작성
+	public int insertQuestion(Connection conn, Question question) throws Exception {
+		// 객체 초기화
+		int row = 0;
+		// 쿼리문 작성
+		String sql = "INSERT INTO question(orders_code, category, question_memo, createdate) VALUES(?, ?, ?, NOW())";
+		// 쿼리 객체 생성
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		// 쿼리문 ?값 지정
+		stmt.setInt(1, question.getOrderCode());
+		stmt.setString(2, question.getCategory());
+		stmt.setString(3, question.getQuestionMemo());
+		//쿼리 실행
+		row = stmt.executeUpdate();
+		
+		stmt.close();
+		return row;
+	}
 	// 고객센터 order 문의 삭제액션
 	public int deleteQuestion(Connection conn, int questionCode) throws Exception {
 		// 객체 초기화
@@ -102,17 +120,19 @@ public class QuestionDao {
 		// 쿼리문 작성
 		String sql = "SELECT q.question_code questionCode"
 				+ "		, q.orders_code ordersCode"
-				+ "		, q.customer_id customerId"
 				+ "		, q.category category"
 				+ "		, q.question_memo questionMemo"
 				+ "		, q.createdate qCreatedate"
+				+ "		, o.customer_id customerId"
 				+ "		, qc.comment_code commentCode"
 				+ "		, qc.comment_memo commentMemo"
 				+ "		, qc.createdate qcCreatedate"
-				+ "		FROM question q left JOIN question_comment qc"
+				+ "		FROM question q INNER JOIN orders o"
+				+ "		ON q.orders_code = o.order_code"
+				+ "		LEFT JOIN question_comment qc"
 				+ "		ON q.question_code = qc.question_code"
-				+ "		WHERE customer_id = ?"
-				+ "		ORDER BY q.question_code DESC LIMIT ?,?";
+				+ "		WHERE o.customer_id = ?"
+				+ "		ORDER BY q.question_code DESC LIMIT ?, ?";
 		// 쿼리 객체 생성
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		// 쿼리문 ?값 지정
@@ -126,10 +146,10 @@ public class QuestionDao {
 			HashMap<String, Object> m = new HashMap<String, Object>();
 			m.put("questionCode", rs.getInt("questionCode"));
 			m.put("ordersCode", rs.getInt("ordersCode"));
-			m.put("customerId", rs.getString("customerId"));
 			m.put("category", rs.getString("category"));
 			m.put("questionMemo", rs.getString("questionMemo"));
 			m.put("qCreatedate", rs.getString("qCreatedate"));
+			m.put("customerId", rs.getString("customerId"));
 			m.put("commentCode", rs.getInt("commentCode"));
 			m.put("commentMemo", rs.getString("commentMemo"));
 			m.put("qcCreatedate", rs.getString("qcCreatedate"));
@@ -291,15 +311,18 @@ public class QuestionDao {
 		// 쿼리문 작성
 		String sql="SELECT gq.goods_question_code goodsQuestionCode"
 				+ "		, gq.goods_code goodsCode"
+				+ "		, gq.customer_id customerId"
 				+ "		, gq.category category"
 				+ "		, gq.goods_question_memo goodsQuestionMemo"
-				+ "		, gq.createdate createdate"
+				+ "		, gq.createdate gqCreatedate"
 				+ "		, g.goods_name goodsName"
+				+ "		, gqc.goods_comment_code goodsCommentCode"
 				+ "		, gqc.goods_comment_memo goodsCommentMemo"
+				+ "		, gqc.createdate gqcCreatedate"
 				+ "		FROM goods_question gq INNER JOIN goods g"
 				+ "		ON gq.goods_code = g.goods_code"
 				+ "		left JOIN goods_question_comment gqc"
-				+ "		ON gq.goods_question_code = gqc.goods_comment_code"
+				+ "		ON gq.goods_question_code = gqc.goods_question_code"
 				+ "		ORDER BY gq.goods_question_code DESC LIMIT ?, ?";
 		// 쿼리 객체 생성
 		PreparedStatement stmt = conn.prepareStatement(sql);
@@ -313,11 +336,14 @@ public class QuestionDao {
 			HashMap<String, Object> m = new HashMap<String, Object>();
 			m.put("goodsQuestionCode", rs.getInt("goodsQuestionCode"));
 			m.put("goodsCode", rs.getInt("goodsCode"));
+			m.put("customerId", rs.getString("customerId"));
 			m.put("category", rs.getString("category"));
 			m.put("goodsQuestionMemo", rs.getString("goodsQuestionMemo"));
-			m.put("createdate", rs.getString("createdate"));
+			m.put("gqCreatedate", rs.getString("gqCreatedate"));
 			m.put("goodsName", rs.getString("goodsName"));
+			m.put("goodsCommentCode", rs.getInt("goodsCommentCode"));
 			m.put("goodsCommentMemo", rs.getString("goodsCommentMemo"));
+			m.put("gqcCreatedate", rs.getString("gqcCreatedate"));
 			list.add(m);
 		}
 		stmt.close();

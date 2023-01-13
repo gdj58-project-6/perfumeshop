@@ -33,16 +33,16 @@
 		<table border="1">
 			<tr>
 				<th>문의번호</th>
-				<th>상품번호</th>
+				<th>상품이름</th>
 				<th>작성자</th>
 				<th>분류</th>
 				<th style="width:1000px;">내용</th>
 				<th>작성일자</th>
 			</tr>
-			<c:forEach var="m" items="${goodsQustionList}">
+			<c:forEach var="m" items="${goodsQuestionList}">
 				<tr>
 					<td>${m.goodsQuestionCode}</td>
-					<td>${m.goodsCode}</td>
+					<td>${m.goodsName}</td>
 					<td>${m.customerId}</td>
 					<td>${m.category}</td>
 					<td>

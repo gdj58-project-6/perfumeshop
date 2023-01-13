@@ -11,6 +11,39 @@ import vo.Question;
 
 public class QuestionService {
 	private QuestionDao questionDao;
+	// 고객센터 order 문의글 작성
+	public int addQuestion(Question question) {
+		// 객체 초기화
+		int row = 0;
+		// 드라이버 초기화
+		Connection conn = null;
+		
+		try {
+			// 드라이버 연결
+			conn = DBUtil.getConnection();
+			// dao초기화 호출
+			this.questionDao = new QuestionDao();
+			row = questionDao.insertQuestion(conn, question);
+			// 커밋
+			conn.commit();
+		} catch(Exception e) {
+			// 실패시 롤백
+			try {
+				conn.rollback();
+			} catch(Exception e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			// 성공시 자원반납
+			try {
+				conn.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return row;
+	}
 	// 고객센터 order 문의 삭제액션
 	public int removeQuestion(int questionCode) {
 		// 객체 초기화

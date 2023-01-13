@@ -45,7 +45,7 @@ public class QuestionListController extends HttpServlet {
 		
 		// 메서드 호출
 		this.questionService = new QuestionService();
-		ArrayList<HashMap<String, Object>> list = questionService.getGoodsQuestion(customerId, currentPage, rowPerPage);
+		ArrayList<HashMap<String, Object>> list = questionService.getGoodsQuestionList(currentPage, rowPerPage);
 		ArrayList<HashMap<String, Object>> questionList = questionService.getQuestionList(customerId, currentPage2, rowPerPage);
 		int cnt = questionService.getQuestionCountByGoodsQuestionModify();
 		int count = questionService.getCountByQuestionList();
@@ -61,7 +61,7 @@ public class QuestionListController extends HttpServlet {
 		} else if(count % rowPerPage != 0) {
 			lastPage2 = (count / rowPerPage) +1;
 		}
-		request.setAttribute("goodsQustionList", list);
+		request.setAttribute("goodsQuestionList", list);
 		request.setAttribute("questionList", questionList);
 		request.setAttribute("currentPage", currentPage);
 		request.setAttribute("currentPage2", currentPage2);
