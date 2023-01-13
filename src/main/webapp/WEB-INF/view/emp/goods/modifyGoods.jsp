@@ -30,13 +30,13 @@
 				<textarea rows="5" cols="50" name="goodsMemo">${b.goodsMemo}</textarea>
 			</div>
 			<div>
-			<!-- 나중에 if문 활용해서 수정전 체크돼있는 것에 자동으로 체크표시 나오게 -->
+			<!-- 나중에 수정전 체크돼있는 것에 자동으로 체크표시 나오게 -->
 				품절여부 : 
 				<input type="radio" name="soldout" value="Y">Y 
 				<input type="radio" name="soldout" value="N">N	 
 			</div>
 			<!-- hit 값은 일단 0~3으로 설정-->
-			<!-- 나중에 if문 활용해서 수정전 체크돼있는 것에 자동으로 체크표시 나오게 -->		
+			<!-- 나중에 수정전 체크돼있는 것에 자동으로 체크표시 나오게 -->		
 			<div>
 				hit : 
 				<input type="radio" name="hit" value="0">0 

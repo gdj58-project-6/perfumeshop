@@ -10,11 +10,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 import service.GoodsService;
+import vo.Emp;
 import vo.Goods;
 import vo.GoodsImg;
 
@@ -24,6 +26,12 @@ public class ModifyGoodsController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 상품 수정 Form
 		// 관리자 ID로 로그인 했을 경우에만 들어올 수 있음 
+		HttpSession session =  request.getSession();
+		Emp loginMember = (Emp)session.getAttribute("loginMember");	
+		if(loginMember == null || loginMember.getAuthCode() < 6) {
+			response.sendRedirect(request.getContextPath()+"/home");
+			return;
+		}
 		
 		int goodsCode = Integer.parseInt(request.getParameter("goodsCode"));
 		// System.out.println(goodsCode);

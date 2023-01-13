@@ -17,6 +17,7 @@ import vo.Cart;
 public class ModifyCartListController extends HttpServlet {
 	private CartService cartService;
 	private Cart cart;
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String customerId = request.getParameter("customerId");
 		int goodsCode = Integer.parseInt(request.getParameter("goodsCode"));
