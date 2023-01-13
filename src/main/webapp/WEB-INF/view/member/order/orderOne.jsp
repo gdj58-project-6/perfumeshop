@@ -18,10 +18,10 @@
 					<c:set var="totalPrice"  value="${totalPrice + (g.orderGoodsPrice * g.orderGoodsQuantity)}" ></c:set>
 					<td>상품 총 가격 : ${totalPrice}</td>
 					<td>
-						<c:if test="${g.orderState ne '배송완료'}">
+						<c:if test="${g.orderState ne '구매확정'}">
 							${o.orderState}
 						</c:if>
-						<c:if test="${g.orderState eq '배송완료'}">
+						<c:if test="${g.orderState eq '구매확정'}">
 							<a href="${pageContext.request.contextPath}/member/addReview">리뷰쓰기</a>
 						</c:if>
 					</td>

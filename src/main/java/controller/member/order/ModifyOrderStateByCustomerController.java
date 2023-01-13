@@ -17,7 +17,7 @@ public class ModifyOrderStateByCustomerController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 값 받아오기
 		int orderCode = Integer.parseInt(request.getParameter("orderCode"));
-		String orderState = "취소";
+		String orderState = request.getParameter("orderState");
 		
 		// 바인딩
 		Orders orders = new Orders();
