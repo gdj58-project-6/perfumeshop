@@ -43,6 +43,8 @@ public class AddReviewController extends HttpServlet {
 		int goodsCode = Integer.parseInt(request.getParameter("goodsCode"));
 		int point = Integer.parseInt(request.getParameter("point"));
 		String reviewMemo = request.getParameter("reviewMemo");
+		String id = request.getParameter("id");
+		String pointKind = request.getParameter("pointKind");
 		
 		// 바인딩
 		Review review = new Review();
@@ -51,7 +53,10 @@ public class AddReviewController extends HttpServlet {
 		review.setReviewMemo(reviewMemo);
 		
 		PointHistory pointHistory = new PointHistory();
+		pointHistory.setOrderCode(orderCode);
 		pointHistory.setGoodsCode(goodsCode);
+		pointHistory.setCustomerId(id);
+		pointHistory.setPointKind(pointKind);
 		pointHistory.setPoint(point);
 		
 		// Model

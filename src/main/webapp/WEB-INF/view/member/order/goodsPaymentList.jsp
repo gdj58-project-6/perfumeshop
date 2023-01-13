@@ -55,6 +55,10 @@
 					<td><textarea rows="5" cols="10" name="orderMemo"></textarea></td>
 				</tr>
 				<tr>
+					<td>포인트 사용</td>
+					<td><input type="text" name="orderPrice" value="${totalPrice}"></td>
+				</tr>
+				<tr>
 					<td>총 가격</td>
 					<td><input type="text" name="orderPrice" value="${totalPrice}"></td>
 				</tr>

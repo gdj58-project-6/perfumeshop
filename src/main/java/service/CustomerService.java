@@ -8,6 +8,7 @@ import java.util.HashMap;
 import dao.CustomerAddressDao;
 import dao.CustomerDao;
 import dao.OutidDao;
+import dao.PointHistoryDao;
 import dao.PwHistoryDao;
 import util.DBUtil;
 import vo.Customer;
@@ -18,6 +19,7 @@ public class CustomerService {
 	private OutidDao outidDao;
 	private PwHistoryDao pwHistoryDao;
 	private CustomerAddressDao customerAddressDao;
+	private PointHistoryDao pointHistoryDao;
 
 	// 고객 레벨 수정
 	public int updateMemberLevel(int authCode, String customerId) {
@@ -266,14 +268,18 @@ public class CustomerService {
 
 		try {
 			conn = DBUtil.getConnection();
+			this.pointHistoryDao = new PointHistoryDao();
+			pointHistoryDao.deletePointHistory(conn, customer);
 			this.pwHistoryDao = new PwHistoryDao();
-			if(pwHistoryDao.deletePwHistory(conn, customer) == 1) { // pw_history 삭제
+			if(pwHistoryDao.deletePwHistory(conn, customer) == 0) { // 비밀번호 수정 내역 삭제 후
+				throw new Exception();
+			} else {
 				this.outidDao = new OutidDao();
-				if (outidDao.insertCustomerOutid(conn, customer) == 1) { // outid에 insert되면 진행
-					this.customerDao = new CustomerDao();
-					row = customerDao.deleteCustomer(conn, customer);
-					if (row != 1) {
-						// 회원탈퇴가 안되었으면 강제 예외발생시켜 catch절로 이동 후 rollback
+				if(outidDao.insertCustomerOutid(conn, customer) == 0) { // 탈퇴아이디에 저장
+					throw new Exception();
+				} else {
+					row = customerDao.deleteCustomer(conn, customer); // 회원 탈퇴 진행
+					if(row == 0) {// 회원탈퇴가 안되었으면 강제 예외발생시켜 catch절로 이동 후 rollback
 						throw new Exception();
 					}
 				}

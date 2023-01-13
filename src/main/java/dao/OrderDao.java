@@ -221,6 +221,7 @@ public class OrderDao {
 		ResultSet rs = null;
 		String sql = "SELECT "
 					+ "o.order_code orderCode "
+					+ ", o.customer_id customerId "
 					+ ", og.goods_code goodsCode "
 					+ ", gi.filename filename "
 					+ ", g.goods_name goodsName "
@@ -242,6 +243,7 @@ public class OrderDao {
 		if(rs.next()) {
 			orderGoodsOne = new HashMap<String, Object>();
 			orderGoodsOne.put("orderCode", rs.getInt("orderCode"));
+			orderGoodsOne.put("customerId", rs.getString("customerId"));
 			orderGoodsOne.put("goodsCode", rs.getInt("goodsCode"));
 			orderGoodsOne.put("filename", rs.getString("filename"));
 			orderGoodsOne.put("goodsName", rs.getString("goodsName"));

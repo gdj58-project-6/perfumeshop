@@ -1,16 +1,21 @@
 package vo;
 
 public class PointHistory {
+	private int orderCode;
 	private int goodsCode;
+	private String customerId;
 	private String pointKind;
 	private int point;
-	private int createdate;
+	private String createdate;
 	
 	public PointHistory() {}
 
-	public PointHistory(int goodsCode, String pointKind, int point, int createdate) {
+	public PointHistory(int orderCode, int goodsCode, String customerId, String pointKind, int point,
+			String createdate) {
 		super();
+		this.orderCode = orderCode;
 		this.goodsCode = goodsCode;
+		this.customerId = customerId;
 		this.pointKind = pointKind;
 		this.point = point;
 		this.createdate = createdate;
@@ -18,9 +23,17 @@ public class PointHistory {
 
 	@Override
 	public String toString() {
-		return "PointHistory [goodsCode=" + goodsCode + ", pointKind=" + pointKind + ", point=" + point
-				+ ", createdate=" + createdate + ", getClass()=" + getClass() + ", hashCode()=" + hashCode()
-				+ ", toString()=" + super.toString() + "]";
+		return "PointHistory [orderCode=" + orderCode + ", goodsCode=" + goodsCode + ", customerId=" + customerId
+				+ ", pointKind=" + pointKind + ", point=" + point + ", createdate=" + createdate + ", getClass()="
+				+ getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
+	}
+
+	public int getOrderCode() {
+		return orderCode;
+	}
+
+	public void setOrderCode(int orderCode) {
+		this.orderCode = orderCode;
 	}
 
 	public int getGoodsCode() {
@@ -29,6 +42,14 @@ public class PointHistory {
 
 	public void setGoodsCode(int goodsCode) {
 		this.goodsCode = goodsCode;
+	}
+
+	public String getCustomerId() {
+		return customerId;
+	}
+
+	public void setCustomerId(String customerId) {
+		this.customerId = customerId;
 	}
 
 	public String getPointKind() {
@@ -47,11 +68,11 @@ public class PointHistory {
 		this.point = point;
 	}
 
-	public int getCreatedate() {
+	public String getCreatedate() {
 		return createdate;
 	}
 
-	public void setCreatedate(int createdate) {
+	public void setCreatedate(String createdate) {
 		this.createdate = createdate;
 	}
 }
