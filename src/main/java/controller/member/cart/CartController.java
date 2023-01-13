@@ -31,7 +31,7 @@ public class CartController extends HttpServlet {
 		String id = loginMember.getCustomerId();
 				
 		ArrayList<HashMap<String, Object>> list = cartService.getCartList(id);
-		System.out.println(list);
+		// System.out.println(list);
 		request.setAttribute("list", list);
 		
 		// View 연결

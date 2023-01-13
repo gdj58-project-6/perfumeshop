@@ -17,16 +17,10 @@ import vo.Cart;
 public class ModifyCartListController extends HttpServlet {
 	private CartService cartService;
 	private Cart cart;
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// View 연결
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/view/member/cart/cartList.jsp");
-		rd.forward(request, response);
-	}
-	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String customerId = request.getParameter("customerId");
 		int goodsCode = Integer.parseInt(request.getParameter("goodsCode"));
-		int cartQuantity = Integer.parseInt(request.getParameter("cartQuantity"));
+		int cartQuantity = Integer.parseInt(request.getParameter("orderQuantity"));
 		System.out.println(customerId);
 		System.out.println(goodsCode);
 		System.out.println(cartQuantity);
