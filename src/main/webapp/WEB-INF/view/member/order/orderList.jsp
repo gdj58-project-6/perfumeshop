@@ -31,10 +31,10 @@
 					<td>${o.goodsPrice}</td>
 					<td>
 						<c:if test="${o.orderState eq '결제' || o.orderState eq '배송전'}">
-							${o.orderState} <a href="">취소신청</a>
+							${o.orderState} <a href="${pageContext.request.contextPath}/member/modifyOrderState?orderCode=${o.orderCode}">취소신청</a>
 						</c:if>
 						<c:if test="${o.orderState eq '배송중' || o.orderState eq '배송완료'}">
-							${o.orderState}<a href="${pageContext.request.contextPath}/member/addReturnByOrder?orderCode=${o.orderCode}">환불신청</a>
+							${o.orderState} <a href="${pageContext.request.contextPath}/member/addReturnByOrder?orderCode=${o.orderCode}">환불신청</a>
 						</c:if>
 						<c:if test="${o.orderState ne '결제' && o.orderState ne '배송전' && o.orderState ne '배송중' && o.orderState ne '배송완료'}">
 							${o.orderState}
