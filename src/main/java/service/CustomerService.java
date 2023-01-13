@@ -5,16 +5,19 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import dao.CustomerAddressDao;
 import dao.CustomerDao;
 import dao.OutidDao;
 import dao.PwHistoryDao;
 import util.DBUtil;
 import vo.Customer;
+import vo.CustomerAddress;
 
 public class CustomerService {
 	private CustomerDao customerDao;
 	private OutidDao outidDao;
 	private PwHistoryDao pwHistoryDao;
+	private CustomerAddressDao customerAddressDao;
 
 	// 고객 레벨 수정
 	public int updateMemberLevel(int authCode, String customerId) {
@@ -153,16 +156,31 @@ public class CustomerService {
 	}
 
 	// 회원가입
-	public int getInsertCustomer(Customer customer) {
+	// customer 먼저 insert하고 customer_address insert
+	public int getInsertCustomer(Customer customer, CustomerAddress customerAddress) {
 		int row = 0;
 		Connection conn = null;
 
 		try {
 			conn = DBUtil.getConnection();
 			this.customerDao = new CustomerDao();
-			row = customerDao.addCustomer(conn, customer);
+			int result = customerDao.addCustomer(conn, customer);
+			if(result == 0) {
+				throw new Exception();
+			} else {
+				this.customerAddressDao = new CustomerAddressDao();
+				row = customerAddressDao.insertCustomerAddress(conn, customerAddress);
+				if(row == 0) {
+					throw new Exception();
+				}
+			}
 			conn.commit();
 		} catch (Exception e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
 			e.printStackTrace();
 		} finally {
 			try {
