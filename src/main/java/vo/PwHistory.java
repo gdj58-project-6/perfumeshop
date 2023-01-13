@@ -1,13 +1,13 @@
 package vo;
 
-public class pwHistory {
+public class PwHistory {
 	private String customerId;
 	private String pw;
 	private String createdate;
 	
-	public pwHistory() {}
+	public PwHistory() {}
 
-	public pwHistory(String customerId, String pw, String createdate) {
+	public PwHistory(String customerId, String pw, String createdate) {
 		super();
 		this.customerId = customerId;
 		this.pw = pw;
@@ -16,7 +16,7 @@ public class pwHistory {
 
 	@Override
 	public String toString() {
-		return "pwHistory [customerId=" + customerId + ", pw=" + pw + ", createdate=" + createdate + ", getClass()="
+		return "PwHistory [customerId=" + customerId + ", pw=" + pw + ", createdate=" + createdate + ", getClass()="
 				+ getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
 	}
 

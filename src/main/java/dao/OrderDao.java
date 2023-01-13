@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import vo.Customer;
+import vo.OrderGoods;
 import vo.Orders;
 
 public class OrderDao {
@@ -212,6 +213,43 @@ public class OrderDao {
 		stmt.close();
 		
 		return list;
+	}
+	
+	// 리뷰페이지에서 보여줄 상품 구매 내역
+	public HashMap<String, Object> selectOrderGoodsOne(Connection conn, OrderGoods orderGoods) throws Exception {
+		HashMap<String, Object> orderGoodsOne = null;
+		ResultSet rs = null;
+		String sql = "SELECT "
+					+ "o.order_code orderCode "
+					+ ", og.goods_code goodsCode "
+					+ ", gi.filename filename "
+					+ ", g.goods_name goodsName "
+					+ ", og.order_goods_price orderGoodsPrice "
+					+ ", og.order_goods_quantity orderGoodsQuantity "
+					+ "FROM orders o INNER JOIN order_goods og "
+					+ "ON o.order_code = og.order_code "
+					+ "INNER JOIN goods g "
+					+ "ON og.goods_code = g.goods_code "
+					+ "INNER JOIN goods_img gi "
+					+ "ON g.goods_code = gi.goods_code "
+					+ "WHERE o.order_code = ? AND og.goods_code = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, orderGoods.getOrderCode());
+		stmt.setInt(2, orderGoods.getGoodsCode());
+		
+		rs = stmt.executeQuery();
+		
+		if(rs.next()) {
+			orderGoodsOne = new HashMap<String, Object>();
+			orderGoodsOne.put("orderCode", rs.getInt("orderCode"));
+			orderGoodsOne.put("goodsCode", rs.getInt("goodsCode"));
+			orderGoodsOne.put("filename", rs.getString("filename"));
+			orderGoodsOne.put("goodsName", rs.getString("goodsName"));
+			orderGoodsOne.put("orderGoodsPrice", rs.getInt("orderGoodsPrice"));
+			orderGoodsOne.put("orderGoodsQuantity", rs.getInt("orderGoodsQuantity"));
+		}
+		
+		return orderGoodsOne;
 	}
 	
 	// 주문상태 변경

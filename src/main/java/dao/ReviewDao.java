@@ -6,7 +6,46 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import vo.Review;
+
 public class ReviewDao {
+	// 구매확정시 리뷰등록
+	public int insertReviewByCustomer(Connection conn, Review review) throws Exception {
+		int row = 0;
+		String sql = "INSERT INTO review(order_code, goods_code, review_memo, createdate) VALUES(?, ?, ?, NOW())";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, review.getOrderCode());
+		stmt.setInt(2, review.getGoodsCode());
+		stmt.setString(3, review.getReviewMemo());
+		
+		row = stmt.executeUpdate();
+		
+		stmt.close();
+		
+		return row;
+	}
+	
+	// 리뷰등록하면 리뷰쓰기 버튼 비활성화
+	public String selectReview(Connection conn, Review review) throws Exception {
+		String result = null;
+		ResultSet rs = null;
+		String sql = "SELECT review_memo reviewMemo FROM review WHERE order_code = ? AND goods_code = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, review.getOrderCode());
+		stmt.setInt(2, review.getGoodsCode());
+		
+		rs = stmt.executeQuery();
+		
+		if(rs.next()) {
+			result = rs.getString("reviewMemo");
+		}
+		
+		rs.close();
+		stmt.close();
+		
+		return result; // 리뷰가 있으면 리뷰내용을 리턴하고 없으면 null 리턴
+	}
+	
 	// 리뷰 페이징
 	public int selectCountByReview(Connection conn) throws Exception {
 		// 객체 생성
@@ -24,6 +63,7 @@ public class ReviewDao {
 		rs.close();
 		return row;
 	}
+	
 	// goodsOne에 리뷰 출력
 	public ArrayList<HashMap<String, Object>> selectReview(Connection conn, int beginRow, int rowPerPage) throws Exception {
 		// 객체 생성

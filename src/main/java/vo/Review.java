@@ -1,32 +1,42 @@
 package vo;
 
 public class Review {
-	private int orderCod;
+	private int orderCode;
+	private int goodsCode;
 	private String reviewMemo;
 	private String createdate;
 	
 	public Review() {}
 
-	public Review(int orderCod, String reviewMemo, String createdate) {
+	public Review(int orderCode, int goodsCode, String reviewMemo, String createdate) {
 		super();
-		this.orderCod = orderCod;
+		this.orderCode = orderCode;
+		this.goodsCode = goodsCode;
 		this.reviewMemo = reviewMemo;
 		this.createdate = createdate;
 	}
 
 	@Override
 	public String toString() {
-		return "Review [orderCod=" + orderCod + ", reviewMemo=" + reviewMemo + ", createdate=" + createdate
-				+ ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString()
-				+ "]";
+		return "Review [orderCode=" + orderCode + ", goodsCode=" + goodsCode + ", reviewMemo=" + reviewMemo
+				+ ", createdate=" + createdate + ", getClass()=" + getClass() + ", hashCode()=" + hashCode()
+				+ ", toString()=" + super.toString() + "]";
 	}
 
-	public int getOrderCod() {
-		return orderCod;
+	public int getOrderCode() {
+		return orderCode;
 	}
 
-	public void setOrderCod(int orderCod) {
-		this.orderCod = orderCod;
+	public void setOrderCode(int orderCode) {
+		this.orderCode = orderCode;
+	}
+
+	public int getGoodsCode() {
+		return goodsCode;
+	}
+
+	public void setGoodsCode(int goodsCode) {
+		this.goodsCode = goodsCode;
 	}
 
 	public String getReviewMemo() {
@@ -44,5 +54,4 @@ public class Review {
 	public void setCreatedate(String createdate) {
 		this.createdate = createdate;
 	}
-	
 }

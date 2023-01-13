@@ -1,15 +1,54 @@
 package service;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import dao.PointHistoryDao;
 import dao.ReviewDao;
 import util.DBUtil;
+import vo.PointHistory;
+import vo.Review;
 
 public class ReviewService {
 	private ReviewDao reviewDao;
-	
+	private PointHistoryDao pointHistoryDao;
+	// 리뷰 작성시 포인트 적립
+	public int getInsertReview(Review review, PointHistory pointHistory) {
+		int row = 0;
+		Connection conn = null;
+		
+		try {
+			conn = DBUtil.getConnection();
+			this.reviewDao = new ReviewDao();
+			int result = reviewDao.insertReviewByCustomer(conn, review);
+			if(result == 0) {
+				throw new Exception();
+			} else { // 리뷰가 등록이되면
+				this.pointHistoryDao = new PointHistoryDao();
+				row = pointHistoryDao.insertPointByReview(conn, pointHistory); // 포인트 등록
+				if(row == 0) {
+					throw new Exception(); // 포인트도 등록이안되면 예외발생
+				}
+			}
+			conn.commit();
+		} catch (Exception e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return row;
+	}
+
 	// 리뷰 페이징
 	public int getReviewCount() {
 		// 객체 초기화

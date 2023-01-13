@@ -10,14 +10,14 @@ import dao.OrderDao;
 import dao.OrderGoodsDao;
 import util.DBUtil;
 import vo.Customer;
+import vo.OrderGoods;
 import vo.Orders;
 
 public class OrderService {
 	private OrderDao orderDao;
 	private OrderGoodsDao orderGoodsDao;
 	private CartDao cartDao;
-	// 주문하기 : OrderDao -> OrderGoodsDao
-	
+	// 주문하기 : OrderDao -> OrderGoodsDao -> cartDao
 	public int getInsertOrder(Orders orders, ArrayList<HashMap<String, Object>> list) {
 		int row = 0;
 		int orderCode = 0;
@@ -108,6 +108,29 @@ public class OrderService {
 		}
 		
 		return list;
+	}
+	
+	// 리뷰페이지에서 보여줄 상품 구매 내역
+	public HashMap<String, Object> getSelectOrderGoodsOne(OrderGoods orderGoods) {
+		HashMap<String, Object> orderGoodsOne = null;
+		Connection conn = null;
+		
+		try {
+			conn = DBUtil.getConnection();
+			this.orderDao = new OrderDao();
+			orderGoodsOne = orderDao.selectOrderGoodsOne(conn, orderGoods);
+			conn.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return orderGoodsOne;
 	}
 	
 	// 관리자용 모든 주문 리스트

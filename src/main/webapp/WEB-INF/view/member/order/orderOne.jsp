@@ -9,8 +9,8 @@
 	<body>
 		<div>주문 코드 : ${customerOne.orderCode}</div>
 		<table>
-			<tr>
-				<c:forEach var="g" items="${goodsList}">
+			<c:forEach var="g" items="${goodsList}">
+				<tr>
 					<td><img src="${pageContext.request.contextPath}/upload/${g.filename}" width="100" height="100"></td>
 					<td>상품 이름 : <a href="${pageContext.request.contextPath}/member/goodsOne?goodsCode=${g.goodsCode}">${g.goodsName}</a></td>
 					<td>상품 가격 : ${g.orderGoodsPrice}</td>
@@ -22,11 +22,11 @@
 							${o.orderState}
 						</c:if>
 						<c:if test="${g.orderState eq '구매확정'}">
-							<a href="${pageContext.request.contextPath}/member/addReview">리뷰쓰기</a>
+							<a href="${pageContext.request.contextPath}/member/addReview?orderCode=${g.orderCode}&goodsCode=${g.goodsCode}">리뷰쓰기</a>
 						</c:if>
 					</td>
-					</tr><tr>
-				</c:forEach>
+				</tr>
+			</c:forEach>
 		</table>
 		<table>
 			<tr><td>주문자 아이디 : ${customerOne.customerId}</td></tr>

@@ -12,7 +12,7 @@
 <body>
 	<!-- include -->
 	<h3>장바구니</h3>
-	<form action="${pageContext.request.contextPath}/member/ModifyCartList" method="post" class="modifyCartList">	
+	<form action="${pageContext.request.contextPath}/member/ModifyCartList" method="post" id="modifyCartList">	
 		<c:forEach var="m" items="${list}">	
 			<c:set var="totalPrice" value="${totalPrice + (m.goodsPrice * m.cartQuantity)}"></c:set>
 			<!-- totalPrice 구하기 -->
@@ -31,16 +31,16 @@
 					<tr>
 					<tr>
 						<td>구매수량</td>
-						<td><input type="button" value=" - " name="minus" id="minusBtn" class="minusBtn"> 
-							<input type="text"name="orderQuantity" value="${m.cartQuantity}" id="orderQuantity" class="orderQuantity" min="1"> 
-							<input type="button" value=" + "name="plus" id="plusBtn" class="plusBtn">
+						<td><input type="button" value=" - " name="minus" class="minusBtn"> 
+							<input type="text"name="orderQuantity" value="${m.cartQuantity}" class="orderQuantity" min="1"> 
+							<input type="button" value=" + " name="plus" class="plusBtn">
 						</td>
 					<tr>
 					<tr>
 						<!-- 구매수량이 바뀔떄마다 가격도 바뀌게 -->
 						<td>가격</td>
 						<td>
-							<input type="text" name="goodsPrice" id="goodsPrice" class="goodsPrice" value="${m.goodsPrice*m.cartQuantity}"readonly="readonly">
+							<input type="text" name="goodsPrice" class="goodsPrice" value="${m.goodsPrice*m.cartQuantity}"readonly="readonly">
 						</td>
 					<tr>
 					<tr>
@@ -58,7 +58,7 @@
 		</c:forEach>
 	</form>	
 		<div>
-			총 가격 <input type="text" name="totalPrice" id="totalPrice" class="totalPrice" value="${totalPrice}">
+			총 가격 <input type="text" name="totalPrice" class="totalPrice" value="${totalPrice}">
 		</div>
 		<form action="${pageContext.request.contextPath}/member/goodsPayMent" method="get">
 			<button type="submit">구매하기</button>
@@ -74,7 +74,7 @@
 			let minusBtn = document.querySelectorAll('.minusBtn');
 			let goodsPrice = document.querySelectorAll('.goodsPrice');
 			let totalPrice = document.querySelectorAll('.totalPrice');
-			let modifyCartList = document.querySelector('.modifyCartList');
+			let modifyCartList = document.querySelector('#modifyCartList');
 		
 			for (let i = 0; i < orderQuantity.length; i++) {
 				plusBtn[i].addEventListener('click',function() {

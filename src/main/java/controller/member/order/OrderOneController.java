@@ -21,7 +21,6 @@ public class OrderOneController extends HttpServlet {
 		
 		int orderCode = Integer.parseInt(request.getParameter("orderCode"));
 		
-		
 		// Model
 		this.orderService = new OrderService();
 		ArrayList<HashMap<String, Object>> goodsList = orderService.getSelectOrderByGoodsList(orderCode);

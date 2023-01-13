@@ -1,16 +1,16 @@
 package vo;
 
 public class PointHistory {
-	private int orderCode;
+	private int goodsCode;
 	private String pointKind;
 	private int point;
 	private int createdate;
 	
 	public PointHistory() {}
 
-	public PointHistory(int orderCode, String pointKind, int point, int createdate) {
+	public PointHistory(int goodsCode, String pointKind, int point, int createdate) {
 		super();
-		this.orderCode = orderCode;
+		this.goodsCode = goodsCode;
 		this.pointKind = pointKind;
 		this.point = point;
 		this.createdate = createdate;
@@ -18,17 +18,17 @@ public class PointHistory {
 
 	@Override
 	public String toString() {
-		return "PointHistory [orderCode=" + orderCode + ", pointKind=" + pointKind + ", point=" + point
+		return "PointHistory [goodsCode=" + goodsCode + ", pointKind=" + pointKind + ", point=" + point
 				+ ", createdate=" + createdate + ", getClass()=" + getClass() + ", hashCode()=" + hashCode()
 				+ ", toString()=" + super.toString() + "]";
 	}
 
-	public int getOrderCode() {
-		return orderCode;
+	public int getGoodsCode() {
+		return goodsCode;
 	}
 
-	public void setOrderCode(int orderCode) {
-		this.orderCode = orderCode;
+	public void setGoodsCode(int goodsCode) {
+		this.goodsCode = goodsCode;
 	}
 
 	public String getPointKind() {
@@ -54,6 +54,4 @@ public class PointHistory {
 	public void setCreatedate(int createdate) {
 		this.createdate = createdate;
 	}
-	
-	
 }
