@@ -13,14 +13,40 @@ import vo.Cart;
 public class CartService {
 	private CartDao cartDao;
 	
+	// 장바구니에 담긴 수량 중복체크 checkCartList
+	public boolean checkCartList(Cart cart) {
+		boolean checkCart = false;
+		Connection conn = null;
+		try {
+			conn = DBUtil.getConnection();
+			this.cartDao = new CartDao();
+			checkCart = cartDao.checkCartList(conn, cart);
+			conn.commit();
+		} catch(Exception e) {
+			try {
+				conn.rollback();
+			} catch(SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch(SQLException e) {
+				e.printStackTrace();
+			}
+		} 	
+		return checkCart;
+	}
+	
 	// modifyCartList
-	public int modifyCartList(Cart cart) {
+	public int modifyCartList(ArrayList<Cart> list) {
 		int row = 0;
 		Connection conn = null;
 		try {
 			conn = DBUtil.getConnection();
 			this.cartDao = new CartDao();
-			row = cartDao.modifyCartList(conn, cart);
+			row = cartDao.modifyCartList(conn, list);
 			conn.commit();
 		} catch(Exception e) {
 			try {

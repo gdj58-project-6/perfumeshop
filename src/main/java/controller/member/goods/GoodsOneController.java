@@ -1,6 +1,7 @@
 package controller.member.goods;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -122,15 +123,24 @@ public class GoodsOneController extends HttpServlet {
 		cart.setCustomerId(customerId);
 		cart.setCartQuantity(cartQuantity);
 		
-		this.cartService = new CartService();
-		int row = cartService.addCart(cart);
+		int row = 0;
+		// 컨트롤러에서 alert 띄우기
+		response.setContentType("text/html; charset=UTF-8");
+		PrintWriter writer = response.getWriter();
 		
-		// 디버깅
-		if(row != 1) {
+		this.cartService = new CartService();
+		boolean checkCart = cartService.checkCartList(cart);
+		if(checkCart == false) { // 카트에 없는 물건일경우
+			row = cartService.addCart(cart);
+			// System.out.println("장바구니 담기 성공");
+			writer.println("<script>alert('장바구니 담기 성공');history.go(-1);</script>"); 
+			writer.close();
+		} else { // 카트에 같은물건이 이미 있는경우 
 			System.out.println("장바구니 담기 실패");
-		} else {
-			System.out.println("장바구니 담기 성공");
+			writer.println("<script>alert('이미 장바구니에 담긴 상품입니다');history.go(-1);</script>"); 
+			writer.close();
 		}
+
 		response.sendRedirect(request.getContextPath()+"/member/goodsOne?goodsCode="+cart.getGoodsCode());
 	}
 }

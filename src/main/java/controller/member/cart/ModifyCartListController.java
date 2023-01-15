@@ -1,6 +1,8 @@
 package controller.member.cart;
 
 import java.io.IOException;
+import java.sql.PreparedStatement;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -19,22 +21,32 @@ public class ModifyCartListController extends HttpServlet {
 	private Cart cart;
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	
 		String customerId = request.getParameter("customerId");
-		int goodsCode = Integer.parseInt(request.getParameter("goodsCode"));
-		int cartQuantity = Integer.parseInt(request.getParameter("orderQuantity"));
-		System.out.println(customerId);
-		System.out.println(goodsCode);
-		System.out.println(cartQuantity);
+
+		String[] goodsCode1 = request.getParameterValues("goodsCode");
+		int[] goodsCode = new int[goodsCode1.length];
+		for(int i = 0; i < goodsCode1.length; i++) {
+			goodsCode[i] = Integer.parseInt(goodsCode1[i]);
+		}
 		
-		this.cart = new Cart();
-		cart.setCustomerId(customerId);
-		cart.setGoodsCode(goodsCode);
-		cart.setCartQuantity(cartQuantity);
-		System.out.println(cart);
+		String[] cartQuantity1 = request.getParameterValues("orderQuantity");
+		int[] cartQuantity = new int[cartQuantity1.length];
+		for(int i = 0; i < cartQuantity1.length; i++) {
+			cartQuantity[i] = Integer.parseInt(cartQuantity1[i]);
+		}
 		
+		ArrayList<Cart> list = new ArrayList<>();
+		for(int i = 0; i < goodsCode.length; i++) {
+			this.cart = new Cart();
+			cart.setCustomerId(customerId);
+			cart.setGoodsCode(goodsCode[i]);
+			cart.setCartQuantity(cartQuantity[i]);
+			list.add(cart);
+		}
 		
 		this.cartService = new CartService();
-		int row = cartService.modifyCartList(cart);
+		int row  = cartService.modifyCartList(list);
 		
 		if(row != 1) {
 			System.out.println("장바구니 수정 실패");

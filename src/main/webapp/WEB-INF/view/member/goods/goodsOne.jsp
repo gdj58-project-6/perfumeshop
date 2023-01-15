@@ -111,14 +111,16 @@
 		                submenu.slideDown();
 		            }
 		        });
-				// 장바구니 담기 버튼 누르면 성공했다는 창 하나 나오게
+				
+				
+				/* 장바구니 담기 버튼 누르면 성공했다는 창 하나 나오게
 				let cartAddBtn = document.querySelector('#cartAddBtn');
 				
 				cartAddBtn.addEventListener('click', function(){
 					// console.log('장바구니 추가 클릭!');
 					alert('장바구니 담기 성공!');
 				});
-				
+				*/
 		    });
 			
 		</script>
