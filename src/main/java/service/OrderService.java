@@ -8,23 +8,34 @@ import java.util.HashMap;
 import dao.CartDao;
 import dao.OrderDao;
 import dao.OrderGoodsDao;
+import dao.PointHistoryDao;
 import util.DBUtil;
 import vo.Customer;
 import vo.OrderGoods;
 import vo.Orders;
+import vo.PointHistory;
 
 public class OrderService {
 	private OrderDao orderDao;
 	private OrderGoodsDao orderGoodsDao;
 	private CartDao cartDao;
+	private PointHistoryDao pointHistoryDao;
 	// 주문하기 : OrderDao -> OrderGoodsDao -> cartDao
-	public int getInsertOrder(Orders orders, ArrayList<HashMap<String, Object>> list) {
+	public int getInsertOrder(Orders orders, ArrayList<HashMap<String, Object>> list, PointHistory pointHistory) {
 		int row = 0;
 		int orderCode = 0;
 		Connection conn = null;
 		
 		try {
 			conn = DBUtil.getConnection();
+			if(pointHistory != null) {
+				this.pointHistoryDao = new PointHistoryDao();
+				int result = pointHistoryDao.insertPoint(conn, null);
+				if(result == 0) {
+					throw new Exception();
+				}
+				
+			}
 			this.orderDao = new OrderDao();
 			HashMap<String, Integer> map = orderDao.insertOrderByCustomer(conn, orders);
 			orderCode = (int)map.get("autoKey");

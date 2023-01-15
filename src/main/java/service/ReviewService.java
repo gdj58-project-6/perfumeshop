@@ -27,7 +27,7 @@ public class ReviewService {
 				throw new Exception();
 			} else { // 리뷰가 등록이되면
 				this.pointHistoryDao = new PointHistoryDao();
-				row = pointHistoryDao.insertPointByReview(conn, pointHistory); // 포인트 등록
+				row = pointHistoryDao.insertPoint(conn, pointHistory); // 포인트 등록
 				if(row == 0) {
 					throw new Exception(); // 포인트도 등록이안되면 예외발생
 				}

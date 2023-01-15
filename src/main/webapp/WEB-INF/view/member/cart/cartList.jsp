@@ -91,7 +91,7 @@
 				<span>총가격 :${totalPrice}원</span>
 			</div>
 		</form>	
-			<form action="${pageContext.request.contextPath}/member/goodsPayMent" method="get">
+			<form action="${pageContext.request.contextPath}/member/goodsPayMentCart" method="get">
 				<button type="submit">구매하기</button>
 			</form>
 		<div>

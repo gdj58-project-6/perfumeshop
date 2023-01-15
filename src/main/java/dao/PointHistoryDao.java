@@ -10,7 +10,7 @@ import vo.PointHistory;
 
 public class PointHistoryDao {
 	// 리뷰작성시 포인트 적립
-	public int insertPointByReview(Connection conn, PointHistory pointHistory) throws Exception {
+	public int insertPoint(Connection conn, PointHistory pointHistory) throws Exception {
 		int row = 0;
 		String sql = "INSERT INTO point_history(order_code, goods_code, customer_id, point_kind, POINT, createdate) VALUES(?, ?, ?, ?, ?, NOW())";
 		PreparedStatement stmt = conn.prepareStatement(sql);

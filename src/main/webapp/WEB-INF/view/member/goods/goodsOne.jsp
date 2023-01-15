@@ -171,7 +171,7 @@
 			<!-- 장바구니, 결제창 이동-->
 			<a href='${pageContext.request.contextPath}/member/cart'>장바구니로 이동</a>
 			<!-- 일단 값 뒤에 전부 보내기 더 좋은방법 생기면 변경 예정 -->
-			<a href='${pageContext.request.contextPath}/member/goodsPayMent'>바로 구매</a>
+			<a href='${pageContext.request.contextPath}/member/goodsPayMent?goodsCode=${m.goodsCode}'>바로 구매</a>
 		</c:forEach>
 		<div id="wrapper">    
 		    <!--탭 메뉴 영역 -->

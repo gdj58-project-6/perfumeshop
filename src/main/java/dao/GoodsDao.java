@@ -108,10 +108,7 @@ public class GoodsDao {
 			
 		}
 		
-		
-		
 		ResultSet rs = stmt.executeQuery();
-		
 		
 		if(rs.next()) {
 			cnt = rs.getInt("cnt");
@@ -184,6 +181,38 @@ public class GoodsDao {
 		rs.close();
 		stmt.close();
 		return map;
+	}
+	
+	// 바로구매시 보여줄 굿즈 상세
+	public HashMap<String, Object> goodsOneByOrder(Connection conn, Goods goods) throws Exception {
+		HashMap<String, Object> goodsOne = null;
+		ResultSet rs = null;
+		String sql = "SELECT "
+					+ "g.goods_code goodsCode "
+					+ ", gi.filename filename "
+					+ ", g.goods_name goodsName "
+					+ ", g.goods_price goodsPrice "
+					+ "FROM goods g INNER JOIN goods_img gi "
+					+ "ON g.goods_code = gi.goods_code "
+					+ "WHERE g.goods_code = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, goods.getGoodsCode());
+		
+		rs = stmt.executeQuery();
+		
+		if(rs.next()) {
+			goodsOne = new HashMap<String, Object>();
+			goodsOne.put("goodsCode", rs.getInt("goodsCode"));
+			goodsOne.put("filename", rs.getString("filename"));
+			goodsOne.put("goodsName", rs.getString("goodsName"));
+			goodsOne.put("goodsPrice", rs.getInt("goodsPrice"));
+		}
+		
+		rs.close();
+		stmt.close();
+		
+		return goodsOne;
+		
 	}
 		
 }

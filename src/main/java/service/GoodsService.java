@@ -226,4 +226,27 @@ public class GoodsService {
 		}
 	}
 	
+	// 바로구매시 보여줄 굿즈 상세
+	public HashMap<String, Object> getGoodsOneByOrder(Goods goods) {
+		HashMap<String, Object> goodsOne = null;
+		Connection conn = null;
+		
+		try {
+			conn = DBUtil.getConnection();
+			this.goodsDao = new GoodsDao();
+			goodsOne = goodsDao.goodsOneByOrder(conn, goods);
+			conn.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return goodsOne;
+	}
+	
 }

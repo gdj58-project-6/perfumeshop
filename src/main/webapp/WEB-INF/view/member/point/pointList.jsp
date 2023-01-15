@@ -9,7 +9,7 @@
 	<body>
 		<div>적립 포인트 : ${savePoint}</div>
 		<div>사용 포인트 : ${usePoint}</div>
-		<div>사용 포인트 : ${savePoint - usePoint}</div>
+		<div>사용 가능 포인트 : ${savePoint - usePoint}</div>
 		<h1>포인트 적립 내역</h1>
 		<table border="1">
 			<tr>
