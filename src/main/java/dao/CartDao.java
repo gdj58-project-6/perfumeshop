@@ -17,7 +17,6 @@ public class CartDao {
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, cart.getGoodsCode());
 		stmt.setString(2, cart.getCustomerId());
-
 		ResultSet rs = stmt.executeQuery();
 		if(rs.next()) {
 			checkCart = true;

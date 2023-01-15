@@ -13,7 +13,7 @@ import vo.Cart;
 public class CartService {
 	private CartDao cartDao;
 	
-	// 장바구니에 담긴 수량 중복체크 checkCartList
+	// 장바구니에 담긴 수량 중복 체크 checkCartList
 	public boolean checkCartList(Cart cart) {
 		boolean checkCart = false;
 		Connection conn = null;

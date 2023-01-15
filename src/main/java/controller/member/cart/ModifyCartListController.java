@@ -48,6 +48,7 @@ public class ModifyCartListController extends HttpServlet {
 		this.cartService = new CartService();
 		int row  = cartService.modifyCartList(list);
 		
+		// 디버깅
 		if(row != 1) {
 			System.out.println("장바구니 수정 실패");
 		} else {

@@ -76,7 +76,6 @@
 								<input type="text" name="goodsPrice" class="goodsPrice" value="${m.goodsPrice*m.cartQuantity}"readonly="readonly">
 							</td>
 						<tr>
-						<tr>
 							<!-- 장바구니에 담긴 상품 삭제하는 버튼 만들기, 상품을 여러게 담았을경우 각 상품마다 X표시 혹은 삭제버튼 따로따로 나오게  -->
 							<td colspan="2">
 								<a href='${pageContext.request.contextPath}/member/RemoveCartList?goodsCode=${m.goodsCode}'>장바구니에서삭제</a>

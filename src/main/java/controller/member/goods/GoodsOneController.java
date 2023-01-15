@@ -130,7 +130,7 @@ public class GoodsOneController extends HttpServlet {
 		
 		this.cartService = new CartService();
 		boolean checkCart = cartService.checkCartList(cart);
-		if(checkCart == false) { // 카트에 없는 물건일경우
+		if(checkCart == false) { // 카트에 없는 물건일 경우
 			row = cartService.addCart(cart);
 			// System.out.println("장바구니 담기 성공");
 			writer.println("<script>alert('장바구니 담기 성공');history.go(-1);</script>"); 
