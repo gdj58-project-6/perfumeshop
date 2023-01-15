@@ -30,7 +30,7 @@
 	</c:if>
 	<!-- 직원 7등급 팀장 다 가능(고객,직원 등급수정 팀장만 가능), 상품등록, 문의(답글,수정,삭제), 리뷰 삭제 -->
 	<c:if test="${loginMember.getAuthCode() == 7}">
-		<a href="${pageContext.request.contextPath}/admin/comment">문의답변</a> <!-- 미구현 -->
+		<a href="${pageContext.request.contextPath}/admin/goodsComment">문의답변</a> <!-- 미구현 -->
 		<a>문의수정</a> <!-- 미구현 -->
 		<a>문의삭제</a> <!-- 미구현 -->
 		<a>리뷰삭제</a> <!-- 미구현 -->

@@ -14,11 +14,8 @@ import javax.servlet.http.HttpSession;
 import service.CommentService;
 import vo.Customer;
 
-/**
- * Servlet implementation class CommentController
- */
-@WebServlet("/admin/comment")
-public class CommentController extends HttpServlet {
+@WebServlet("/admin/goodsComment")
+public class GoodsCommentController extends HttpServlet {
 	private CommentService commentService;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
@@ -56,7 +53,7 @@ public class CommentController extends HttpServlet {
 		request.setAttribute("lastPage", lastPage);
 		request.setAttribute("goodsList", goodsList);
 		
-		request.getRequestDispatcher("/WEB-INF/view/emp/comment/commentList.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/view/emp/comment/goodsCommentList.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

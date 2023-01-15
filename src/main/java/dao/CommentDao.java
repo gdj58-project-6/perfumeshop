@@ -10,6 +10,22 @@ import vo.GoodsQuestionComment;
 
 
 public class CommentDao {
+	// 상품문의 답변삭제
+	public int deleteGoodsQuestionCommentByAdmin(Connection conn, int goodsCommentCode) throws Exception {
+		// 객체 초기화
+		int row = 0;
+		// 쿼리문 작성
+		String sql = "DELETE FROM goods_question_comment WHERE goods_comment_code=?";
+		// 쿼리 객체 생성
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		// 쿼리문 ?값 지정
+		stmt.setInt(1, goodsCommentCode);
+		// 쿼리 실행
+		row = stmt.executeUpdate();
+		
+		stmt.close();
+		return row;
+	}
 	// 상품문의 답변달기
 	public int insertGoodsQuestionCommentByAdmin(Connection conn, GoodsQuestionComment goodsQuestionComment) throws Exception {
 		// 객체 초기화
@@ -45,7 +61,7 @@ public class CommentDao {
 		return row;
 	}
 	// 상품문의
-	public ArrayList<HashMap<String, Object>> selectGoodsQuestionListByAdmin(Connection conn, int beginRow, int goodsRowPerPage) throws Exception {
+	public ArrayList<HashMap<String, Object>> selectGoodsQuestionListByAdmin(Connection conn, int beginRow, int rowPerPage) throws Exception {
 		// 객체 초기화
 		ArrayList<HashMap<String, Object>> list = null;
 		// 쿼리문 작성
@@ -56,6 +72,7 @@ public class CommentDao {
 				+ "		, gq.goods_question_memo goodsQuestionMemo"
 				+ "		, gq.createdate gqCreatedate"
 				+ "		, g.goods_name goodsName"
+				+ "		, gqc.goods_comment_code goodsCommentCode"
 				+ "		, gqc.goods_comment_memo goodsCommentMemo"
 				+ "		, gqc.createdate gqcCreatedate"
 				+ "		FROM goods_question gq INNER JOIN goods g"
@@ -67,7 +84,7 @@ public class CommentDao {
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		// 쿼리문 ?값 지정
 		stmt.setInt(1, beginRow);
-		stmt.setInt(2, goodsRowPerPage);
+		stmt.setInt(2, rowPerPage);
 		// 쿼리 실행
 		ResultSet rs = stmt.executeQuery();
 		list = new ArrayList<HashMap<String, Object>>();
@@ -79,6 +96,7 @@ public class CommentDao {
 			m.put("goodsQuestionMemo", rs.getString("goodsQuestionMemo"));
 			m.put("gqCreatedate", rs.getString("gqCreatedate"));
 			m.put("goodsName", rs.getString("goodsName"));
+			m.put("goodsCommentCode", rs.getInt("goodsCommentCode"));
 			m.put("goodsCommentMemo", rs.getString("goodsCommentMemo"));
 			m.put("gqcCreatedate", rs.getString("gqcCreatedate"));
 			list.add(m);
