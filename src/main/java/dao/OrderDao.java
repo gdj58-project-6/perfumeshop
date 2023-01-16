@@ -148,7 +148,7 @@ public class OrderDao {
 					+ "INNER JOIN customer_address ca "
 					+ "ON c.customer_id = ca.customer_id "
 					+ "INNER JOIN orders o "
-					+ "ON o.customer_id = c.customer_id n"
+					+ "ON o.customer_id = c.customer_id "
 					+ "WHERE o.order_code = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, orderCode);
@@ -204,7 +204,7 @@ public class OrderDao {
 		
 		while(rs.next()) {
 			HashMap<String, Object> m = new HashMap<String, Object>();
-			m.put("orderCode", rs.getString("orderCode"));
+			m.put("orderCode", rs.getInt("orderCode"));
 			m.put("goodsCode", rs.getInt("goodsCode"));
 			m.put("customerId", rs.getString("customerId"));
 			m.put("filename", rs.getString("filename"));

@@ -87,7 +87,7 @@ public class GoodsPaymentCartController extends HttpServlet {
 		int orderCode = orderService.getInsertOrderByCart(orders, list);
 		if(orderCode != 0) {
 			System.out.println("주문 성공"); // 주문성공하면 포인트 차감
-			if(point != 0 || request.getParameter("point") != null) {
+			if(point != 0 && !request.getParameter("point").equals("0") && request.getParameter("point") != null) {
 				PointHistory pointHistory = new PointHistory();
 				pointHistory.setPoint(point);
 				pointHistory.setPointKind("사용");

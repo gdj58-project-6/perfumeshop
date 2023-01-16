@@ -10,7 +10,7 @@ import vo.PointHistory;
 
 public class PointHistoryService {
 	private PointHistoryDao pointHistoryDao;
-	// 리뷰작성시 포인트 적립
+	// 리뷰작성시 포인트 적립, 구매시 포인트 사용, 주문취소시 포인트 취소
 	public int getInsertPoint(PointHistory pointHistory) {
 		int row = 0;
 		Connection conn = null;

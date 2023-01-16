@@ -9,7 +9,7 @@ import vo.Customer;
 import vo.PointHistory;
 
 public class PointHistoryDao {
-	// 리뷰작성시 포인트 적립, 주문시 포인트 사용
+	// 리뷰작성시 포인트 적립, 구매시 포인트 사용, 주문취소시 포인트 취소
 	public int insertPoint(Connection conn, PointHistory pointHistory) throws Exception {
 		int row = 0;
 		String sql = "INSERT INTO point_history(order_code, goods_code, customer_id, point_kind, POINT, createdate) VALUES(?, ?, ?, ?, ?, NOW())";

@@ -31,7 +31,7 @@
 					<td>${o.goodsPrice}</td>
 					<td>
 						<c:if test="${o.orderState eq '결제' || o.orderState eq '배송전'}">
-							${o.orderState} <a href="${pageContext.request.contextPath}/member/modifyOrderState?orderCode=${o.orderCode}&orderState=취소">취소신청</a>
+							${o.orderState}
 						</c:if>
 						<a href="${pageContext.request.contextPath}/member/addQuestion?orderCode=${o.orderCode}">문의작성</a>
 						<c:if test="${o.orderState eq '배송중' || o.orderState eq '배송완료'}">
