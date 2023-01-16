@@ -16,6 +16,9 @@
 			상품가격 : <input type="number" name="goodsPrice">
 		</div>	
 		<div>
+			상품종류 : <input type="number" name="goodsCategory">
+		</div>
+		<div>
 			상품설명 : 
 		</div>
 		<div>

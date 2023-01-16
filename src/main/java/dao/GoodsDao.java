@@ -29,7 +29,7 @@ public class GoodsDao {
 	// ModifyGoodsForm 
 	public ArrayList<HashMap<String, Object>> modifyGoodsForm(Connection conn, int goodsCode) throws Exception {
 		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
-		String sql = "SELECT g.goods_code goodsCode, g.goods_name goodsName, g.goods_price goodsPrice, g.goods_memo goodsMemo, g.soldout soldout, g.emp_id empId, g.hit hit, gi.filename fileName, gi.origin_name originName, gi.content_type contentType FROM goods g INNER JOIN goods_img gi ON g.goods_code = gi.goods_code WHERE g.goods_code = ?";
+		String sql = "SELECT g.goods_code goodsCode, g.goods_name goodsName, g.goods_price goodsPrice, g.goods_category goodsCategory, g.goods_memo goodsMemo, g.soldout soldout, g.emp_id empId, g.hit hit, gi.filename fileName, gi.origin_name originName, gi.content_type contentType FROM goods g INNER JOIN goods_img gi ON g.goods_code = gi.goods_code WHERE g.goods_code = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, goodsCode);
 		ResultSet rs = stmt.executeQuery();
@@ -38,6 +38,7 @@ public class GoodsDao {
 			m.put("goodsCode", rs.getInt("goodsCode"));
 			m.put("goodsName", rs.getString("goodsName"));
 			m.put("goodsPrice", rs.getString("goodsPrice"));
+			m.put("goodsCategory", rs.getString("goodsCategory"));
 			m.put("goodsMemo", rs.getString("goodsMemo"));
 			m.put("soldout", rs.getString("soldout"));
 			m.put("empId", rs.getString("empId"));
@@ -157,15 +158,16 @@ public class GoodsDao {
 	
 	// AddGoods
 	public HashMap<String, Integer> addGoods(Connection conn, Goods goods) throws Exception {
-		String sql ="INSERT INTO goods(goods_name, goods_price, goods_memo, soldout, emp_id, hit, createdate) VALUES(?, ?, ?, ?, ?, ?, NOW())";
+		String sql ="INSERT INTO goods(goods_name, goods_price, goods_category, goods_memo, soldout, emp_id, hit, createdate) VALUES(?, ?, ?, ?, ?, ?, ?, NOW())";
 		PreparedStatement stmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 		// PreparedStatement.RETURN_GENERATED_KEYS 쿼리실행 후 생성된 auto_increment값을 ResultSet에 반환
 		stmt.setString(1, goods.getGoodsName());
 		stmt.setInt(2, goods.getGoodsPrice());
-		stmt.setString(3, goods.getGoodsMemo());
-		stmt.setString(4, goods.getSoldout());
-		stmt.setString(5, goods.getEmpId());
-		stmt.setInt(6, goods.getHit());
+		stmt.setString(3, goods.getGoodsCategory());
+		stmt.setString(4, goods.getGoodsMemo());
+		stmt.setString(5, goods.getSoldout());
+		stmt.setString(6, goods.getEmpId());
+		stmt.setInt(7, goods.getHit());
 		
 		int row = stmt.executeUpdate();
 		ResultSet rs = stmt.getGeneratedKeys();

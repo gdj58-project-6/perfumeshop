@@ -140,7 +140,5 @@ public class GoodsOneController extends HttpServlet {
 			writer.println("<script>alert('이미 장바구니에 담긴 상품입니다');history.go(-1);</script>"); 
 			writer.close();
 		}
-
-		response.sendRedirect(request.getContextPath()+"/member/goodsOne?goodsCode="+cart.getGoodsCode());
 	}
 }

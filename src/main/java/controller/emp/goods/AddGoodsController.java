@@ -62,6 +62,7 @@ public class AddGoodsController extends HttpServlet {
 		if(contentType.equals("image/jpeg") || contentType.equals("image/png")) {
 			String goodsName = mreq.getParameter("goodsName");
 			int goodsPrice = Integer.parseInt(mreq.getParameter("goodsPrice"));
+			String goodsCategory = mreq.getParameter("goodsCategory");
 			String goodsMemo = mreq.getParameter("goodsMemo");
 			String soldout = mreq.getParameter("soldout");
 			int hit = Integer.parseInt(mreq.getParameter("hit"));
@@ -70,6 +71,7 @@ public class AddGoodsController extends HttpServlet {
 			Goods goods = new Goods();	
 			goods.setGoodsName(goodsName);
 			goods.setGoodsPrice(goodsPrice);
+			goods.setGoodsCategory(goodsCategory);
 			goods.setGoodsMemo(goodsMemo);
 			goods.setSoldout(soldout);
 			goods.setHit(hit);
