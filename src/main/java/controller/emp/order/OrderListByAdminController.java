@@ -28,10 +28,24 @@ public class OrderListByAdminController extends HttpServlet {
 			return;
 		}
 		
+		// 검색
+		String orderState = null;
+		String customerId = null;
+		String createdate = request.getParameter("createdate");
+		
+		if(request.getParameter("orderState") == null || request.getParameter("orderState").equals("")
+			|| request.getParameter("customerId") == null || request.getParameter("customerId").equals("")) {
+			orderState = "";
+			customerId = "";
+		}
+		
+		orderState = request.getParameter("orderState");
+		customerId = request.getParameter("customerId");
+		
 		// 로그인이되어있으면
 		// Model
 		this.orderService = new OrderService();
-		ArrayList<HashMap<String, Object>> list = orderService.getSelectAllOrderList();
+		ArrayList<HashMap<String, Object>> list = orderService.getSelectAllOrderList(orderState, customerId, createdate);
 		
 		request.setAttribute("list", list);
 		request.getRequestDispatcher("/WEB-INF/view/emp/order/orderListByAdmin.jsp").forward(request, response);

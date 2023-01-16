@@ -41,6 +41,7 @@
 			<tr><td>주문 메모 : ${customerOne.orderMemo}</td></tr>
 			<tr><td>주문일자 : ${customerOne.createdtae}</td></tr>
 		</table>
+		<a href="${pageContext.request.contextPath}/member/addQuestion?orderCode=${o.orderCode}">문의작성</a>
 		<c:if test="${customerOne.orderState eq '결제' || customerOne.orderState eq '배송전'}">
 			${o.orderState} <a href="${pageContext.request.contextPath}/member/modifyOrderState?orderCode=${customerOne.orderCode}&point=${customerOne.point}&goodsCode=${goodsCode}">취소신청</a>
 		</c:if>

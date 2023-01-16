@@ -41,10 +41,12 @@ public class OrderDao {
 	}
 	
 	// 관리자용 모든 주문 리스트
-	public ArrayList<HashMap<String, Object>> selectAllOrderList(Connection conn) throws Exception {
+	public ArrayList<HashMap<String, Object>> selectAllOrderList(Connection conn, String orderState, String customerId, String createdate) throws Exception {
 		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
 		ResultSet rs = null;
-		String sql = "SELECT "
+		PreparedStatement stmt = null;
+		if(orderState == null || orderState.equals("") || customerId == null || customerId.equals("") || createdate == null || createdate.equals("")) {
+			String sql = "SELECT "
 					+ "o.order_code orderCode"
 					+ ", gi.filename filename "
 					+ ", g.goods_name goodsName "
@@ -60,9 +62,34 @@ public class OrderDao {
 					+ "ON t.goodsCode = g.goods_code "
 					+ "INNER JOIN goods_img gi "
 					+ "ON g.goods_code = gi.goods_code "
-					+ "GROUP BY o.order_code";
-		PreparedStatement stmt = conn.prepareStatement(sql);
-		
+					+ "GROUP BY o.order_code "
+					+ "ORDER BY o.createdate DESC ";
+			stmt = conn.prepareStatement(sql);
+			
+			
+		} else {
+			String sql = "SELECT "
+					+ "o.order_code orderCode"
+					+ ", gi.filename filename "
+					+ ", g.goods_name goodsName "
+					+ ", t.cnt cnt "
+					+ ", o.customer_id customerId "
+					+ ", o.order_price orderPrice "
+					+ ", o.order_state orderState "
+					+ ", o.createdate createdate "
+					+ "FROM orders o "
+					+ "INNER JOIN (SELECT order_code orderCode, goods_code goodsCode, (COUNT(*)-1) cnt FROM order_goods GROUP BY order_code) t "
+					+ "ON o.order_code = t.orderCode "
+					+ "INNER JOIN goods g "
+					+ "ON t.goodsCode = g.goods_code "
+					+ "INNER JOIN goods_img gi "
+					+ "ON g.goods_code = gi.goods_code "
+					+ "WHERE o.order_state LIKE ? "
+					+ "GROUP BY o.order_code "
+					+ "ORDER BY o.createdate DESC ";
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, "%" + orderState + "%");
+		}
 		rs = stmt.executeQuery();
 		
 		while(rs.next()) {

@@ -33,7 +33,6 @@
 						<c:if test="${o.orderState eq '결제' || o.orderState eq '배송전'}">
 							${o.orderState}
 						</c:if>
-						<a href="${pageContext.request.contextPath}/member/addQuestion?orderCode=${o.orderCode}">문의작성</a>
 						<c:if test="${o.orderState eq '배송중' || o.orderState eq '배송완료'}">
 							${o.orderState} <a href="${pageContext.request.contextPath}/member/addReturnByOrder?orderCode=${o.orderCode}">환불신청</a>
 						</c:if>

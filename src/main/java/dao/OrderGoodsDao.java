@@ -19,7 +19,7 @@ public class OrderGoodsDao {
 			stmt.setInt(1, orderCode);
 			stmt.setInt(2, (int)m.get("goodsCode"));
 			stmt.setInt(3, (int)m.get("goodsPrice"));
-			stmt.setInt(4, (int)m.get(""));
+			stmt.setInt(4, (int)m.get("cartQuantity"));
 			
 			row = stmt.executeUpdate();
 		}

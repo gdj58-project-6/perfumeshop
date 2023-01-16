@@ -34,10 +34,12 @@ public class PointHistoryListController extends HttpServlet {
 		ArrayList<PointHistory> list = pointHistoryService.getSelectPointList(id);
 		int usePoint = pointHistoryService.getSelectPoint(id, "사용");
 		int savePoint = pointHistoryService.getSelectPoint(id, "적립");
+		int cancelPoint = pointHistoryService.getSelectPoint(id, "취소");
 		
 		request.setAttribute("list", list);
 		request.setAttribute("usePoint", usePoint);
 		request.setAttribute("savePoint", savePoint);
+		request.setAttribute("cancelPoint", cancelPoint);
 		
 		request.getRequestDispatcher("/WEB-INF/view/member/point/pointList.jsp").forward(request, response);
 	}
