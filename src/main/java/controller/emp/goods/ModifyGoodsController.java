@@ -1,5 +1,6 @@
 package controller.emp.goods;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -72,6 +73,7 @@ public class ModifyGoodsController extends HttpServlet {
 			int goodsCode = Integer.parseInt(mreq.getParameter("goodsCode"));
 			String goodsName =  mreq.getParameter("goodsName");
 			int goodsPrice = Integer.parseInt(mreq.getParameter("goodsPrice"));
+			String goodsCategory = mreq.getParameter("goodsCategory");
 			String goodsMemo = mreq.getParameter("goodsMemo");
 			String soldout = mreq.getParameter("soldout");
 			int hit = Integer.parseInt(mreq.getParameter("hit"));
@@ -80,6 +82,7 @@ public class ModifyGoodsController extends HttpServlet {
 			goods.setGoodsCode(goodsCode);
 			goods.setGoodsName(goodsName);
 			goods.setGoodsPrice(goodsPrice);
+			goods.setGoodsCategory(goodsCategory);
 			goods.setGoodsMemo(goodsMemo);
 			goods.setSoldout(soldout);
 			goods.setHit(hit);
@@ -99,6 +102,12 @@ public class ModifyGoodsController extends HttpServlet {
 				System.out.println("수정실패");
 			} else {
 				System.out.println("수정성공");
+			}
+		} else {
+			System.out.println("*.jpg, *.png파일만 업로드가능");
+			File f = new File(dir+"\\"+mreq.getFilesystemName("goodsImg"));
+			if(f.exists()) {
+				f.delete();
 			}
 		}
 		response.sendRedirect(request.getContextPath()+"/member/goodsList");

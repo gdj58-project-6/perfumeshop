@@ -23,37 +23,35 @@
 			<a href="">향수</a>
 			<a href="">헤어</a>
 		</div>
-			
-		<form id ="pageForm" method="get" action="${pageContext.request.contextPath}/member/goodsList">
-			<!--  필터, 검색, 페이징 -->
-			<select name="rowPerPage" id="rowPerPage">
-				<c:if test="${rowPerPage == 10}">
-					<option value="10" selected="selected">10</option>
-					<option value="20">20</option>
-					<option value="30">30</option>
-				</c:if>
-				<c:if test="${rowPerPage == 20}">
-					<option value="10">10</option>
-					<option value="20" selected="selected">20</option>
-					<option value="30">30</option>
-				</c:if>
-				<c:if test="${rowPerPage == 30}">
-					<option value="10">10</option>
-					<option value="20">20</option>
-					<option value="30" selected="selected">30</option>
-				</c:if>		
-			</select>		
-			<select>
-				<option>신상품순</option>
-				<option>인기상품순</option>
-				<option>낮은가격순</option>
-				<option>높은가격순</option>
-			</select>	
-			<span>
-				<input type="text" name="word">
-				<button type ="submit">검색</button>
-			</span>
-		</form>
+		<div>	
+			<form id ="pageForm" method="get" action="${pageContext.request.contextPath}/member/goodsList">
+				<!--  필터, 검색, 페이징 -->
+				<select name="rowPerPage" id="rowPerPage">
+					<c:if test="${rowPerPage == 10}">
+						<option value="10" selected="selected">10</option>
+						<option value="20">20</option>
+						<option value="30">30</option>
+					</c:if>
+					<c:if test="${rowPerPage == 20}">
+						<option value="10">10</option>
+						<option value="20" selected="selected">20</option>
+						<option value="30">30</option>
+					</c:if>
+					<c:if test="${rowPerPage == 30}">
+						<option value="10">10</option>
+						<option value="20">20</option>
+						<option value="30" selected="selected">30</option>
+					</c:if>		
+				</select>		
+			</form>
+		</div>	
+		<!-- 정렬기능 만들기 -->
+		<div>
+			<a href="${pageContext.request.contextPath}/member/goodsList?col=createdate&sort=${paramSort}">신상품순</a>
+			<a href="${pageContext.request.contextPath}/member/goodsList?col=hit&sort=${paramSort}">인기상품순</a>
+			<a href="${pageContext.request.contextPath}/member/goodsList?col=goodsPrice&sort=${sort}">높은가격순</a>
+			<a href="${pageContext.request.contextPath}/member/goodsList?col=goodsPrice&sort=${paramSort}">낮은가격순</a>
+		</div>
 		<!-- 사진, 제품이름, 가격 등등등.... -->
 		<table border="1">
 			<tr>
@@ -80,6 +78,13 @@
 				</c:forEach>
 			</tr>
 		</table>
+		<!-- 검색기능 -->
+		<form action="${pageContext.request.contextPath}/member/goodsList" method="get">
+			<span>
+				<input type="text" name="word">
+				<button type ="submit">검색</button>
+			</span>
+		</form>
 		<div>
 			<!-- 아직 검색 결과물 페이징은 안됨 -->
 			<!-- 현재 페이지가 1보다 클때만 이전버튼 나오게 -->

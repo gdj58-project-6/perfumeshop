@@ -29,7 +29,22 @@ public class GoodsDao {
 	// ModifyGoodsForm 
 	public ArrayList<HashMap<String, Object>> modifyGoodsForm(Connection conn, int goodsCode) throws Exception {
 		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
-		String sql = "SELECT g.goods_code goodsCode, g.goods_name goodsName, g.goods_price goodsPrice, g.goods_category goodsCategory, g.goods_memo goodsMemo, g.soldout soldout, g.emp_id empId, g.hit hit, gi.filename fileName, gi.origin_name originName, gi.content_type contentType FROM goods g INNER JOIN goods_img gi ON g.goods_code = gi.goods_code WHERE g.goods_code = ?";
+		String sql = "SELECT" 
+					+ " g.goods_code goodsCode"
+					+ ", g.goods_name goodsName"
+					+ ", g.goods_price goodsPrice"
+					+ ", g.goods_category goodsCategory"
+					+ ", g.goods_memo goodsMemo"
+					+ ", g.soldout soldout"
+					+ ", g.emp_id empId"
+					+ ", g.hit hit"
+					+ ", gi.filename fileName"
+					+ ", gi.origin_name originName"
+					+ ", gi.content_type contentType"
+					+ " FROM goods g "
+					+ " INNER JOIN goods_img gi "
+					+ " ON g.goods_code = gi.goods_code "
+					+ " WHERE g.goods_code = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, goodsCode);
 		ResultSet rs = stmt.executeQuery();
@@ -57,14 +72,15 @@ public class GoodsDao {
 	// ModifyGoodsAction 
 	public int modifyGoodsAction(Connection conn, Goods goods) throws Exception {	
 		int row = 0;
-		String sql = "UPDATE goods SET goods_name=?, goods_price=?, goods_memo=?, soldout=?, hit=? WHERE goods_code=?";
+		String sql = "UPDATE goods SET goods_name=?, goods_price=?, goods_category =?, goods_memo=?, soldout=?, hit=? WHERE goods_code=?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, goods.getGoodsName());
 		stmt.setInt(2, goods.getGoodsPrice());
-		stmt.setString(3, goods.getGoodsMemo());
-		stmt.setString(4, goods.getSoldout());
-		stmt.setInt(5, goods.getHit());
-		stmt.setInt(6, goods.getGoodsCode());
+		stmt.setString(3, goods.getGoodsCategory());
+		stmt.setString(4, goods.getGoodsMemo());
+		stmt.setString(5, goods.getSoldout());
+		stmt.setInt(6, goods.getHit());
+		stmt.setInt(7, goods.getGoodsCode());
 		
 		row = stmt.executeUpdate();
 		
@@ -76,7 +92,15 @@ public class GoodsDao {
 	// GoodsOne
 	public ArrayList<HashMap<String, Object>> goodsOne(Connection conn, int goodsCode) throws Exception {
 		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
-		String sql = "SELECT g.goods_code goodsCode, g.goods_name goodsName, g.goods_price goodsPrice, g.goods_memo goodsMemo, gi.filename fileName FROM goods g INNER JOIN goods_img gi ON g.goods_code = gi.goods_code WHERE g.goods_code = ?";
+		String sql = "SELECT"
+					+ " g.goods_code goodsCode"
+					+ ", g.goods_name goodsName"
+					+ ", g.goods_price goodsPrice"
+					+ ", g.goods_memo goodsMemo"
+					+ ", gi.filename fileName"
+					+ " FROM goods g INNER JOIN goods_img gi "
+					+ " ON g.goods_code = gi.goods_code "
+					+ " WHERE g.goods_code = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, goodsCode);
 		ResultSet rs = stmt.executeQuery();
@@ -122,17 +146,41 @@ public class GoodsDao {
 	
 	
 	// GoodsList 검색기능 추가해야 됨.. 
-	public ArrayList<HashMap<String, Object>> selectGoodsList(Connection conn, int beginRow, int rowPerPage, String word) throws Exception {
+	public ArrayList<HashMap<String, Object>> selectGoodsList(Connection conn, int beginRow, int rowPerPage, String word, String col, String sort) throws Exception {
 		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();		
 		PreparedStatement stmt = null;
 		String sql = null;
-		if(word == null || word.equals("")) {
-			sql = "SELECT g.goods_code goodsCode, g.goods_name goodsName, g.goods_price goodsPrice, g.goods_memo goodsMemo, gi.filename fileName FROM goods g INNER JOIN goods_img gi ON g.goods_code = gi.goods_code LIMIT ?, ?";
+		if(word == null || word.equals("")) {	
+			sql = "SELECT"
+				+ " g.goods_code goodsCode"
+				+ ", g.goods_name goodsName"
+				+ ", g.goods_price goodsPrice"
+				+ ", g.goods_category goodsCategory"
+				+ ", g.goods_memo goodsMemo"
+				+ ", g.hit hit"
+				+ ", g.createdate createdate"
+				+ ", gi.filename fileName"
+				+ " FROM goods g INNER JOIN goods_img gi "
+				+ " ON g.goods_code = gi.goods_code "
+				+ " ORDER BY goodsCode ASC "
+				+ " LIMIT ?, ?";
 			stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, beginRow);
 			stmt.setInt(2, rowPerPage);
 		} else {
-			sql = "SELECT g.goods_code goodsCode, g.goods_name goodsName, g.goods_price goodsPrice, g.goods_memo goodsMemo, gi.filename fileName FROM goods g INNER JOIN goods_img gi ON g.goods_code = gi.goods_code WHERE goods_name LIKE ? LIMIT ?, ?";
+			sql = "SELECT"
+				+ " g.goods_code goodsCode"
+				+ ", g.goods_name goodsName"
+				+ ", g.goods_price goodsPrice"
+				+ ", g.goods_category goodsCategory"
+				+ ", g.goods_memo goodsMemo"
+				+ ", g.hit hit"
+				+ ", g.createdate createdate"
+				+ ", gi.filename fileName"
+				+ " FROM goods g INNER JOIN goods_img gi"
+				+ " ON g.goods_code = gi.goods_code"
+				+ " WHERE goods_name LIKE ? "
+				+ " LIMIT ?, ?";
 			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, "%"+word+"%");
 			stmt.setInt(2, beginRow);
@@ -145,7 +193,10 @@ public class GoodsDao {
 			m.put("goodsCode", rs.getInt("goodsCode"));
 			m.put("goodsName", rs.getString("goodsName"));
 			m.put("goodsPrice", rs.getString("goodsPrice"));
+			m.put("goodsCategory", rs.getString("goodsCategory"));
 			m.put("goodsMemo", rs.getString("goodsMemo"));
+			m.put("hit", rs.getInt("hit"));
+			m.put("createdate", rs.getString("createdate"));
 			m.put("fileName", rs.getString("fileName"));
 			list.add(m);
 		}

@@ -24,6 +24,12 @@
 				상품가격 : <input type="number" name="goodsPrice" value="${b.goodsPrice}">
 			</div>	
 			<div>
+				상품종류 : <select name="goodsCategory">
+							<option value="향수">향수</option>
+							<option value="헤어">헤어</option>
+						</select>
+			</div>
+			<div>
 				상품설명 : 
 			</div>
 			<div>

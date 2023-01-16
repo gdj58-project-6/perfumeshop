@@ -165,14 +165,14 @@ public class GoodsService {
 		return row;
 	}
 	// GoodsList
-	public ArrayList<HashMap<String, Object>> getGoodsList(int currentPage, int rowPerPage, String word) {
+	public ArrayList<HashMap<String, Object>> getGoodsList(int currentPage, int rowPerPage, String word, String sort, String col) {
 		ArrayList<HashMap<String, Object>> list = null;
 		Connection conn = null;
 		try {
 			conn = DBUtil.getConnection();
 			int beginRow = (currentPage-1)*rowPerPage;
 			this.goodsDao = new GoodsDao();
-			list = goodsDao.selectGoodsList(conn, beginRow, rowPerPage, word);
+			list = goodsDao.selectGoodsList(conn, beginRow, rowPerPage, word, sort, col);
 			conn.commit();
 		} catch(Exception e) {
 			try {

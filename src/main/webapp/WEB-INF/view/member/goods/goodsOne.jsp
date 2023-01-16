@@ -143,16 +143,16 @@
 		<h3>goodsOne</h3>
 		<!-- 가격, 수량조절, 장바구니로 갈지 결제창으로 갈지, 제품소개 등등.... -->
 		<c:forEach var="m" items="${list}">
-			<form action="${pageContext.request.contextPath}/member/goodsOne?goodsCode=${m.goodsCode}" method="post" id="goodsOne">
+			<form action="${pageContext.request.contextPath}/member/goodsOne?goodsCode=${m.goodsCode}&filename=${m.fileName}" method="post" id="goodsOne">
 				<table border="1">
 					<tr>
 						<td colspan="2">
-							<img src="${pageContext.request.contextPath}/upload/${m.fileName}" width="200" height="200">
+							<img src="${pageContext.request.contextPath}/upload/${m.fileName}"  width="200" height="200">
 						</td>
 					</tr>
 					<tr>
 						<td>상품 이름</td>
-						<td>${m.goodsName}</td>
+						<td><input type="text" value="${m.goodsName}" name="goodsName" readonly="readonly"></td>
 					</tr>
 					<tr>
 						<td>상품 가격</td>
@@ -173,8 +173,7 @@
 				<!-- customerId값 히든으로 넘김 -->
 				<c:if test="${loginMember.getAuthCode() < 4}">
 					<input type="hidden" name="customerId" value="${loginMember.customerId}">
-				</c:if>
-				
+				</c:if>	
 				<!-- 나중에 장바구니 버튼 누르면 장바구니에 담겼다는 창 한개 띄우기 -->
 				<button type="submit" id="cartAddBtn">장바구니 담기</button>
 			</form>	

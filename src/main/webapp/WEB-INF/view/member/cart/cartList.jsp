@@ -44,10 +44,8 @@
 		<h3>장바구니</h3>
 		<form action="${pageContext.request.contextPath}/member/ModifyCartList" method="post" id="modifyCartList">	
 			<c:forEach var="m" items="${list}">	
+				<!-- totalPrice 구하기 --> 
 				<c:set var="totalPrice" value="${totalPrice + (m.goodsPrice * m.cartQuantity)}"></c:set>
-				<!-- totalPrice 구하기 -->
-				<!-- loginMember.customerId == m.customerId일 경우에만 장바구니에 담긴 상품을 볼 수 있음  -->
-				<c:if test="${loginMember.customerId == m.customerId}">
 					<input type="hidden" name="goodsCode" value="${m.goodsCode}">
 					<input type="hidden" name="totalPrice" class="totalPrice" value="${totalPrice}">
 					<table border="1">
@@ -82,7 +80,6 @@
 							</td>
 						</tr>
 					</table>
-				</c:if>
 			</c:forEach>
 			<div>
 				<span>총가격 :${totalPrice}원</span>

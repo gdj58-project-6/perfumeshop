@@ -108,37 +108,82 @@ public class GoodsOneController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 장바구니 담기 버튼 누르면 장바구니로 내역 이동
 		request.setCharacterEncoding("utf-8"); // 인코딩
+		// 컨트롤러에서 alert 띄우기
+		response.setContentType("text/html; charset=UTF-8");
+		PrintWriter writer = response.getWriter();
+		
+		// 로그인 장바구니 담기
+		HttpSession session =  request.getSession();
+		Customer loginCustomer = (Customer)session.getAttribute("loginMember");
 		
 		// 값 받아오기
 		int goodsCode = Integer.parseInt(request.getParameter("goodsCode"));
 		String customerId = request.getParameter("customerId");
 		int cartQuantity = Integer.parseInt(request.getParameter("cartQuantity"));
-		
+		/*
 		System.out.println(goodsCode);
 		System.out.println(customerId);
 		System.out.println(cartQuantity);
+		*/
+		if(loginCustomer != null) {
+			this.cart = new Cart();
+			cart.setGoodsCode(goodsCode);
+			cart.setCustomerId(customerId);
+			cart.setCartQuantity(cartQuantity);
+			
+			int row = 0;
+			
+			this.cartService = new CartService();
+			boolean checkCart = cartService.checkCartList(cart);
+			if(checkCart == false) { // 카트에 없는 물건일 경우
+				row = cartService.addCart(cart);
+				// System.out.println("장바구니 담기 성공");
+				writer.println("<script>alert('장바구니 담기 성공');history.go(-1);</script>"); 
+				writer.close();
+			} else { // 카트에 같은물건이 이미 있는경우 
+				System.out.println("장바구니 담기 실패");
+				writer.println("<script>alert('이미 장바구니에 담긴 상품입니다');history.go(-1);</script>"); 
+				writer.close();
+			}
+		}
+		// 비로그인 장바구니 담기 
 		
-		this.cart = new Cart();
-		cart.setGoodsCode(goodsCode);
-		cart.setCustomerId(customerId);
-		cart.setCartQuantity(cartQuantity);
-		
-		int row = 0;
-		// 컨트롤러에서 alert 띄우기
-		response.setContentType("text/html; charset=UTF-8");
-		PrintWriter writer = response.getWriter();
-		
-		this.cartService = new CartService();
-		boolean checkCart = cartService.checkCartList(cart);
-		if(checkCart == false) { // 카트에 없는 물건일 경우
-			row = cartService.addCart(cart);
-			// System.out.println("장바구니 담기 성공");
+		if(loginCustomer == null) {
+			System.out.println("비로그인 장바구니 담기");
+			ArrayList<HashMap<String, Object>> list = null;
+			ArrayList<HashMap<String, Object>> cart = (ArrayList<HashMap<String,Object>>)session.getAttribute("cart");
+			
+			if(cart == null) { // 장바구니에 물건이 없을 경우
+				list = new ArrayList<HashMap<String, Object>>();
+			} else {
+				int goodsNo = 0;
+				for(HashMap<String, Object> c : cart) {
+						goodsNo = Integer.parseInt(String.valueOf(c.get("goodsCode")));
+						System.out.println(goodsNo);
+						if(goodsNo == goodsCode) {
+							System.out.println("장바구니 담기 실패");
+							writer.println("<script>alert('이미 장바구니에 담긴 상품입니다');history.go(-1);</script>"); 
+							writer.close();
+							return;
+						} else {
+							System.out.println("장바구니 추가 가능");
+						}
+					}
+					list = cart;
+			}
+			HashMap<String, Object> m = new HashMap<String, Object>();
+			m.put("goodsCode", request.getParameter("goodsCode"));
+			m.put("goodsName", request.getParameter("goodsName"));
+			m.put("goodsPrice", request.getParameter("goodsPrice"));
+			m.put("cartQuantity", request.getParameter("cartQuantity"));
+			m.put("filename", request.getParameter("filename"));
+			list.add(m);
+			// System.out.println(list);
+			session.setAttribute("cart", list);
 			writer.println("<script>alert('장바구니 담기 성공');history.go(-1);</script>"); 
 			writer.close();
-		} else { // 카트에 같은물건이 이미 있는경우 
-			System.out.println("장바구니 담기 실패");
-			writer.println("<script>alert('이미 장바구니에 담긴 상품입니다');history.go(-1);</script>"); 
-			writer.close();
 		}
+					
 	}
+
 }

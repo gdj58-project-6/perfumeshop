@@ -70,7 +70,7 @@ public class CartDao {
 		return row;
 	}
 	
-	// 장바구니 리스트 AddCartList
+	// 장바구니 리스트 CartList
 	public ArrayList<HashMap<String, Object>> selectCartList(Connection conn, String id) throws Exception {
 		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
 		String sql = "SELECT"

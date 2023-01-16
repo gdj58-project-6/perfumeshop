@@ -24,7 +24,29 @@ public class GoodsListController extends HttpServlet {
 		// 로그인 비로그인 상관없이 볼 수 있음
 		
 		// 검색 및 페이징
+		String col = "goodsCode";
+		String sort = "asc";
+		
+		if(request.getParameter("col") != null) {
+			col = request.getParameter("col");
+		}
+		
+		if(request.getParameter("sort") != null) {
+			sort = request.getParameter("sort");
+		}
+		
+		String paramSort = "asc"; // 제목클릭시 넘겨질 sort값(sort변수의 반대값)
+		if(sort.equals("asc")) { 
+			paramSort = "desc";
+		}
+		
 		String word = request.getParameter("word");
+		
+		/*
+		System.out.println(col);
+		System.out.println(sort);
+		System.out.println(paramSort);
+		*/
 		
 		int currentPage = 1;
 		if(request.getParameter("currentPage") != null) {
@@ -40,13 +62,16 @@ public class GoodsListController extends HttpServlet {
 		int count = goodsService.goodsCount(word);
 		int lastPage = (int)Math.ceil((double)count / (double)rowPerPage);
 		
-		ArrayList<HashMap<String, Object>> list = goodsService.getGoodsList(currentPage, rowPerPage, word);
+		ArrayList<HashMap<String, Object>> list = goodsService.getGoodsList(currentPage, rowPerPage, word, col, sort);
 		// System.out.println(list);
 		request.setAttribute("list", list);
 		request.setAttribute("currentPage", currentPage);
 		request.setAttribute("rowPerPage", rowPerPage);
 		request.setAttribute("word", word);
 		request.setAttribute("lastPage", lastPage);
+		request.setAttribute("col", col);
+		request.setAttribute("sort", sort);
+		request.setAttribute("paramSort", paramSort);
 		
 
 		// View 연결

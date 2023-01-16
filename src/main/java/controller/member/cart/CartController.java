@@ -26,23 +26,23 @@ public class CartController extends HttpServlet {
 		
 		Customer loginCustomer = null;
 		Emp loginEmp = null;
-		this.cartService = new CartService();
-		ArrayList<HashMap<String, Object>> list = null;
 		HttpSession session =  request.getSession();
+		loginCustomer = (Customer)session.getAttribute("loginMember");
 		
-		// customerId값 불러오기
-		if(session.getAttribute("loginMember") instanceof Customer) {
-			loginCustomer = (Customer)session.getAttribute("loginMember");
-			list = cartService.getCartList(loginCustomer.getCustomerId());
-			request.setAttribute("loginMember", loginCustomer);
-		} else if(session.getAttribute("loginMember") instanceof Emp) {
-			response.sendRedirect(request.getContextPath() + "/home");
-			return;
-		} 
-				
-		// System.out.println(list);
-		request.setAttribute("list", list);
-		
+		// 비로그인
+		if(loginCustomer == null) {
+			System.out.println("로그인 X");
+			ArrayList<HashMap<String, Object>> list = (ArrayList<HashMap<String, Object>>)session.getAttribute("cart");
+			System.out.println(list);
+			request.getSession().setAttribute("list", list);
+		} else {
+			// 로그인 한 상태
+			System.out.println("로그인 O");
+			String id = loginCustomer.getCustomerId();
+			this.cartService = new CartService();
+			ArrayList<HashMap<String, Object>> list = cartService.getCartList(id);
+			request.setAttribute("list", list);
+		}	
 		// View 연결
 		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/view/member/cart/cartList.jsp");
 		rd.forward(request, response);
