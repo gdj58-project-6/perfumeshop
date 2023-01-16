@@ -39,12 +39,34 @@ public class CommentController extends HttpServlet {
 		if(request.getParameter("rowPerPage") != null) {
 			rowPerPage = Integer.parseInt(request.getParameter("rowPerPage"));
 		}
+		// 검색어
+		String word = null;
+		if(request.getParameter("word") != null) {
+			word = request.getParameter("word");
+			// System.out.println(word +"<--word");
+		}
+		// 검색분류
+		String search = "";
+		if(request.getParameter("search") != "") {
+			search = request.getParameter("search");
+			// System.out.println(search + "<-- search");
+		}
 		
+		String sort = "";
+		if(request.getParameter("sort") != "") {
+			sort = request.getParameter("sort");
+			// System.out.println(sort + "<-- sort");
+		}
 		
+		String category = "";
+		if(request.getParameter("category") != "") {
+			sort = request.getParameter("category");
+			// System.out.println(category + "<-- category");
+		}
 		// 메서드 호출
 		this.commentService = new CommentService();
-		ArrayList<HashMap<String, Object>> list = commentService.getQuestionListByAdmin(currentPage, rowPerPage);
-		int count = commentService.getQuestionCountByAdmin();
+		ArrayList<HashMap<String, Object>> list = commentService.getQuestionListByAdmin(search, word, currentPage, rowPerPage);
+		int count = commentService.getQuestionCountByAdmin(search, word);
 		int lastPage = 0;
 		if(count % rowPerPage == 0) {
 			lastPage = count / rowPerPage;
@@ -55,6 +77,11 @@ public class CommentController extends HttpServlet {
 		request.setAttribute("rowPerPage", rowPerPage);
 		request.setAttribute("lastPage", lastPage);
 		request.setAttribute("list", list);
+		request.setAttribute("word", word);
+		request.setAttribute("search", search);
+		request.setAttribute("sort", sort);
+		request.setAttribute("category", category);
+		
 		
 		request.getRequestDispatcher("/WEB-INF/view/emp/comment/commentList.jsp").forward(request, response);
 	}

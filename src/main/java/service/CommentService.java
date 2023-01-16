@@ -7,11 +7,79 @@ import java.util.HashMap;
 import dao.CommentDao;
 import util.DBUtil;
 import vo.GoodsQuestionComment;
+import vo.QuestionComment;
 
 public class CommentService {
 	private CommentDao commentDao;
+	// 주문문의 답변 삭제
+	public int removeQuestionComment(int commentCode) {
+		// 객체 초기화
+		int row = 0;
+		// 드라이버 초기화
+		Connection conn = null;
+		
+		try {
+			// 드라이버 연결
+			conn = DBUtil.getConnection();
+			// dao초기화 & 호출
+			this.commentDao = new CommentDao();
+			row = commentDao.deleteQuestionCommentByAdmin(conn, commentCode);
+			// 커밋
+			conn.commit();
+		} catch(Exception e) {
+			// 실패시 롤백
+			try {
+				conn.rollback();
+			} catch(Exception e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			// 성공시 자원반납
+			try {
+				conn.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return row;
+	}
+	// 주문문의 답변 등록
+	public int addQuestionComment(QuestionComment questionComment) {
+		// 객체 초기화
+		int row = 0;
+		// 드라이버 초기화
+		Connection conn = null;
+		
+		try {
+			// 드라이버 연결
+			conn = DBUtil.getConnection();
+			// dao초기화 호출
+			this.commentDao = new CommentDao();
+			row = commentDao.insertQuestionCommentByAdmin(conn, questionComment);
+			// 커밋
+			conn.commit();
+		} catch(Exception e) {
+			// 실패시 롤백
+			try {
+				conn.rollback();
+			} catch(Exception e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			// 성공시 자원반납
+			try {
+				conn.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return row;
+	}
 	// 상품문의 목록수
-	public int getQuestionCountByAdmin() {
+	public int getQuestionCountByAdmin(String search, String word) {
 		// 객체 생성
 		int row = 0;
 		// 드라이버 초기화
@@ -22,7 +90,7 @@ public class CommentService {
 			conn = DBUtil.getConnection();
 			// dao초기화 호출
 			this.commentDao = new CommentDao();
-			row = commentDao.selectQuestionCountByAdmin(conn);
+			row = commentDao.selectQuestionCountByAdmin(conn, search, word);
 			// 커밋
 			conn.commit();
 		} catch(Exception e) {
@@ -38,7 +106,7 @@ public class CommentService {
 		return row;
 	}
 	// 주문문의
-	public ArrayList<HashMap<String, Object>> getQuestionListByAdmin(int currentPage, int rowPerPage) {
+	public ArrayList<HashMap<String, Object>> getQuestionListByAdmin(String search, String word, int currentPage, int rowPerPage) {
 		// 객체 초기화
 		ArrayList<HashMap<String, Object>> list = null;
 		// 드라이버 초기화
@@ -51,7 +119,7 @@ public class CommentService {
 			conn = DBUtil.getConnection();
 			// dao초기화 & 호출
 			this.commentDao = new CommentDao();
-			list = commentDao.selectQuestionListByAdmin(conn, beginRow, rowPerPage);
+			list = commentDao.selectQuestionListByAdmin(conn, search, word, beginRow, rowPerPage);
 			// 커밋
 			conn.commit();
 		} catch(Exception e) {
