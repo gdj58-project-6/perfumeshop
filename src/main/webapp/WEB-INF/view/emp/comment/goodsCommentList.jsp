@@ -12,7 +12,7 @@
 		</script>
 	</head>
 	<body>
-		<h1>답변</h1>
+		<h1>상품문의 답변</h1>
 		<form action="${pageContext.request.contextPath}/admin/goodsComment" method="get" id="goodsForm">
 			<!-- 목록수 변경 -->
 			<select name="rowPerPage" id="rowPerPage">
@@ -33,7 +33,6 @@
 				</c:if>
 			</select>
 		</form>
-		<h2>상품문의</h2>
 		<table class="tabale table-bordered">
 			<tr>
 				<th>문의번호</th>

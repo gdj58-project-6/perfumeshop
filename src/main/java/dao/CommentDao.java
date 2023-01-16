@@ -10,6 +10,70 @@ import vo.GoodsQuestionComment;
 
 
 public class CommentDao {
+	// 주문문의 목록수
+	public int selectQuestionCountByAdmin(Connection conn) throws Exception {
+		// 객체 초기화
+		int row = 0;
+		// 쿼리문 작성
+		String sql = "SELECT COUNT(*) FROM question";
+		// 쿼리 객체 생성
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		// 쿼리 실행
+		ResultSet rs = stmt.executeQuery();
+		if(rs.next()) {
+			row = rs.getInt("COUNT(*)");
+		}
+		stmt.close();
+		rs.close();
+		return row;
+	}
+	// 주문문의
+	public ArrayList<HashMap<String, Object>> selectQuestionListByAdmin(Connection conn, int beginRow, int rowPerPage) throws Exception {
+		// 객체 초기화
+		ArrayList<HashMap<String, Object>> list = null;
+		// 쿼리문 작성
+		String sql = "SELECT"
+				+ "		q.question_code questionCode"
+				+ "		, q.orders_code orderCode"
+				+ "		, q.category category"
+				+ "		, q.question_memo questionMemo"
+				+ "		, q.createdate qCreatedate"
+				+ "		, o.order_state orderState"
+				+ "		, g.goods_name goodsName"
+				+ "		, qc.comment_code commentCode"
+				+ "		, qc.comment_memo commentMemo"
+				+ "		, qc.createdate qcCreatedate"
+				+ "		FROM question q INNER JOIN orders o ON q.orders_code = o.order_code"
+				+ "		INNER JOIN order_goods og ON q.orders_code = og.order_code"
+				+ "		INNER JOIN goods g ON og.goods_code = g.goods_code"
+				+ "		LEFT JOIN question_comment qc ON q.question_code = qc.question_code"
+				+ "		ORDER BY q.question_code DESC LIMIT ?, ?";
+		// 쿼리 객체 생성
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		// 쿼리문 ?값 지정
+		stmt.setInt(1, beginRow);
+		stmt.setInt(2, rowPerPage);
+		// 쿼리 실행
+		ResultSet rs = stmt.executeQuery();
+		list = new ArrayList<HashMap<String, Object>>();
+		while(rs.next()) {
+			HashMap<String, Object> m = new HashMap<String, Object>();
+			m.put("questionCode", rs.getInt("questionCode"));
+			m.put("orderCode", rs.getInt("orderCode"));
+			m.put("category", rs.getString("category"));
+			m.put("questionMemo", rs.getString("questionMemo"));
+			m.put("qCreatedate", rs.getString("qCreatedate"));
+			m.put("orderState", rs.getString("orderState"));
+			m.put("goodsName", rs.getString("goodsName"));
+			m.put("commentCode", rs.getInt("commentCode"));
+			m.put("commentMemo", rs.getString("commentMemo"));
+			m.put("qcCreatedate", rs.getString("qcCreatedate"));
+			list.add(m);
+		}
+		stmt.close();
+		rs.close();
+		return list;
+	}
 	// 상품문의 답변삭제
 	public int deleteGoodsQuestionCommentByAdmin(Connection conn, int goodsCommentCode) throws Exception {
 		// 객체 초기화

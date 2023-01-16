@@ -43,18 +43,18 @@ public class CommentController extends HttpServlet {
 		
 		// 메서드 호출
 		this.commentService = new CommentService();
-		ArrayList<HashMap<String, Object>> goodsList = commentService.getGoodsQuestionListByAdmin(currentPage, rowPerPage);
-		int goodsListCount = commentService.getGoodsQuestionCountByAdmin();
+		ArrayList<HashMap<String, Object>> list = commentService.getQuestionListByAdmin(currentPage, rowPerPage);
+		int count = commentService.getQuestionCountByAdmin();
 		int lastPage = 0;
-		if(goodsListCount % rowPerPage == 0) {
-			lastPage = goodsListCount / rowPerPage;
-		} else if(goodsListCount % rowPerPage != 0) {
-			lastPage = (goodsListCount / rowPerPage) + 1;
+		if(count % rowPerPage == 0) {
+			lastPage = count / rowPerPage;
+		} else if(count % rowPerPage != 0) {
+			lastPage = (count / rowPerPage) + 1;
 		}
 		request.setAttribute("currentPage", currentPage);
 		request.setAttribute("rowPerPage", rowPerPage);
 		request.setAttribute("lastPage", lastPage);
-		request.setAttribute("goodsList", goodsList);
+		request.setAttribute("list", list);
 		
 		request.getRequestDispatcher("/WEB-INF/view/emp/comment/commentList.jsp").forward(request, response);
 	}
