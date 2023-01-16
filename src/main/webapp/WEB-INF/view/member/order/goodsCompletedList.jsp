@@ -9,16 +9,19 @@
 	<body>
 		<h1>주문완료</h1>
 			<table>
-			<tr>
 				<c:forEach var="g" items="${list}">
-					<td><img src="${pageContext.request.contextPath}/upload/${g.filename}" width="100" height="100"></td>
-					<td>상품 이름 : <a href="${pageContext.request.contextPath}/member/goodsOne?goodsCode=${g.goodsCode}">${g.goodsName}</a></td>
-					<td>상품 가격 : ${g.orderGoodsPrice}</td>
-					<td>상품 개수 : ${g.orderGoodsQuantity}</td>
-					<c:set var="totalPrice"  value="${totalPrice + (g.orderGoodsPrice * g.orderGoodsQuantity)}" ></c:set>
-					<td>상품 총 가격 : ${totalPrice}</td>
-					</tr><tr>
+					<tr>
+						<td><img src="${pageContext.request.contextPath}/upload/${g.filename}" width="100" height="100"></td>
+						<td>상품 이름 : <a href="${pageContext.request.contextPath}/member/goodsOne?goodsCode=${g.goodsCode}">${g.goodsName}</a></td>
+						<td>상품 가격 : ${g.orderGoodsPrice}</td>
+						<td>상품 개수 : ${g.orderGoodsQuantity}</td>
+						<td>상품 총 개수 : ${g.orderGoodsPrice * g.orderGoodsQuantity}</td>
+						<c:set var="totalPrice"  value="${g.orderPrice}" ></c:set>
+					</tr>
 				</c:forEach>
+				<tr>
+					<td>주문 총 가격 : ${totalPrice}</td>
+				</tr>
 		</table>
 	</body>
 </html>

@@ -10,6 +10,29 @@ import vo.PointHistory;
 
 public class PointHistoryService {
 	private PointHistoryDao pointHistoryDao;
+	// 리뷰작성시 포인트 적립
+	public int getInsertPoint(PointHistory pointHistory) {
+		int row = 0;
+		Connection conn = null;
+		
+		try {
+			conn = DBUtil.getConnection();
+			this.pointHistoryDao = new PointHistoryDao();
+			row = pointHistoryDao.insertPoint(conn, pointHistory);
+			conn.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return row;
+	}
+
 	// 회원의 포인트 적립, 사용내역 출력
 	public ArrayList<PointHistory> getSelectPointList(String id) {
 		ArrayList<PointHistory> list = null;
@@ -34,15 +57,15 @@ public class PointHistoryService {
 	}
 	
 	// 현재 사용할 수 있는 포인트 집계용
-	// 회원이 사용한 포인트
-	public int getSelectUsePoint(String id) {
+	// 회원이 사용, 적립한 포인트
+	public int getSelectPoint(String id, String kind) {
 		int usePoint = 0;
 		Connection conn = null;
 		
 		try {
 			conn = DBUtil.getConnection();
 			this.pointHistoryDao = new PointHistoryDao();
-			usePoint = pointHistoryDao.selectUsePoint(conn, id);
+			usePoint = pointHistoryDao.selectPoint(conn, id, kind);
 			conn.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -55,28 +78,5 @@ public class PointHistoryService {
 		}
 		
 		return usePoint;
-	}
-	
-	// 회원이 적립한 포인트
-	public int getSelectSavePoint(String id) {
-		int savePoint = 0;
-		Connection conn = null;
-		
-		try {
-			conn = DBUtil.getConnection();
-			this.pointHistoryDao = new PointHistoryDao();
-			savePoint = pointHistoryDao.selectSavePoint(conn, id);
-			conn.commit();
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				conn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		
-		return savePoint;
 	}
 }

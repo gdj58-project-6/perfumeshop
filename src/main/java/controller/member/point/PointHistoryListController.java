@@ -32,8 +32,8 @@ public class PointHistoryListController extends HttpServlet {
 		// Model
 		this.pointHistoryService = new PointHistoryService();
 		ArrayList<PointHistory> list = pointHistoryService.getSelectPointList(id);
-		int usePoint = pointHistoryService.getSelectUsePoint(id);
-		int savePoint = pointHistoryService.getSelectSavePoint(id);
+		int usePoint = pointHistoryService.getSelectPoint(id, "사용");
+		int savePoint = pointHistoryService.getSelectPoint(id, "적립");
 		
 		request.setAttribute("list", list);
 		request.setAttribute("usePoint", usePoint);

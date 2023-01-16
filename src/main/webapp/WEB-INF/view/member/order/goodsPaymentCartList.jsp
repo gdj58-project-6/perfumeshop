@@ -10,7 +10,7 @@
 	</head>
 	<body>
 		<h2>결제 페이지</h2>
-		<form action="${pageContext.request.contextPath}/member/goodsPayMent" method="post">
+		<form action="${pageContext.request.contextPath}/member/goodsPayMentCart" method="post">
 			<table>
 				<tr>
 					<th>상품</th>
@@ -22,7 +22,7 @@
 				<c:forEach var="g" items="${list}">
 					<tr>
 						<td><img src="${pageContext.request.contextPath}/upload/${g.fileName}" width="150" height="150"></td>
-						<td>${g.goodsName}</td>
+						<td><input type="hidden" name="goodsCode" value="${g.goodsCode}"> ${g.goodsName}</td>
 						<td>${g.goodsPrice}</td>
 						<td>${g.cartQuantity}</td>
 						<td>${g.goodsPrice * g.cartQuantity}</td>
@@ -56,7 +56,10 @@
 				</tr>
 				<tr>
 					<td>포인트 사용</td>
-					<td><input type="text" name="orderPrice" value="${totalPrice}"></td>
+					<td>
+						<input type="text" name="point" value="0">
+						사용 가능 포인트 : ${savePoint - usePoint}
+					</td>
 				</tr>
 				<tr>
 					<td>총 가격</td>

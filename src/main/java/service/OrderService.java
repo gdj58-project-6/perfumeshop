@@ -20,22 +20,14 @@ public class OrderService {
 	private OrderGoodsDao orderGoodsDao;
 	private CartDao cartDao;
 	private PointHistoryDao pointHistoryDao;
-	// 주문하기 : OrderDao -> OrderGoodsDao -> cartDao
-	public int getInsertOrder(Orders orders, ArrayList<HashMap<String, Object>> list, PointHistory pointHistory) {
+	// 카트에서 주문하기 : OrderDao -> OrderGoodsDao -> cartDao
+	public int getInsertOrderByCart(Orders orders, ArrayList<HashMap<String, Object>> list) {
 		int row = 0;
 		int orderCode = 0;
 		Connection conn = null;
 		
 		try {
 			conn = DBUtil.getConnection();
-			if(pointHistory != null) {
-				this.pointHistoryDao = new PointHistoryDao();
-				int result = pointHistoryDao.insertPoint(conn, null);
-				if(result == 0) {
-					throw new Exception();
-				}
-				
-			}
 			this.orderDao = new OrderDao();
 			HashMap<String, Integer> map = orderDao.insertOrderByCustomer(conn, orders);
 			orderCode = (int)map.get("autoKey");
@@ -43,7 +35,7 @@ public class OrderService {
 				throw new Exception();
 			} else {
 				this.orderGoodsDao = new OrderGoodsDao();
-				int result = orderGoodsDao.insertOrderGoods(conn, list, orderCode);
+				int result = orderGoodsDao.insertOrderGoodsByCart(conn, list, orderCode);
 				if(result == 0) {
 					throw new Exception();
 				} else {
@@ -52,6 +44,46 @@ public class OrderService {
 					if(row == 0) {
 						throw new Exception();
 					}
+				}
+			}
+			conn.commit();
+		} catch (Exception e) {
+			try {
+				orderCode = 0;
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return orderCode;
+	}
+	
+	// 바로구매하기
+	public int getInsertOrder(Orders orders, HashMap<String, Object> goodsOne) {
+		int row = 0;
+		int orderCode = 0;
+		Connection conn = null;
+		
+		try {
+			conn = DBUtil.getConnection();
+			this.orderDao = new OrderDao();
+			HashMap<String, Integer> map = orderDao.insertOrderByCustomer(conn, orders);
+			orderCode = (int)map.get("autoKey");
+			if(map == null) {
+				throw new Exception();
+			} else {
+				this.orderGoodsDao = new OrderGoodsDao();
+				int result = orderGoodsDao.insertOrderGoods(conn, orderCode, goodsOne);
+				if(result == 0) {
+					throw new Exception();
 				}
 			}
 			conn.commit();

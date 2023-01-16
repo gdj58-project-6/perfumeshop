@@ -33,6 +33,7 @@
 			<tr><td>주문자 이름 : ${customerOne.customerName}</td></tr>
 			<tr><td>주문자 번호 : ${customerOne.customerPhone}</td></tr>
 			<tr><td>주문자 주소 : ${customerOne.address}</td></tr>
+			<tr><td>사용한 포인트 : ${customerOne.point}</td></tr>
 			<tr><td>총 가격 : ${customerOne.orderPrice}</td></tr>
 			<tr><td>현재 상태 : ${customerOne.orderState}</td></tr>
 			<tr><td>주문 메모 : ${customerOne.orderMemo}</td></tr>

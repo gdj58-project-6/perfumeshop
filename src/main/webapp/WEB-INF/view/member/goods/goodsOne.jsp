@@ -112,7 +112,6 @@
 		            }
 		        });
 				
-				
 				/*
 				장바구니 담기 버튼 누르면 성공했다는 창 하나 나오게
 				let cartAddBtn = document.querySelector('#cartAddBtn');
@@ -122,6 +121,14 @@
 					alert('장바구니 담기 성공!');
 				});
 				*/
+				
+				// 바로구매시 넘길 수량
+				$('#order').click(function() {
+					var cartQuantity = $('#cartQuantity').val();
+					$('#goodsQuantity').val(cartQuantity);
+					console.log(cartQuantity);
+					$('#goodsPayMent').submit();
+				})
 		    });
 			
 		</script>
@@ -154,7 +161,7 @@
 					<tr>
 					<!--  수량이 변경되면 상품가격이 변경되야 함 -->
 						<td>수량</td>
-						<td><input type="number" value="1" name="cartQuantity" min="1"></td>
+						<td><input type="number" value="1" name="cartQuantity" min="1" id="cartQuantity"><div id='result'></div></td>
 					</tr>
 					<!-- 제품설명? 개별적인 설명이 나오게 하려면 어떻게?? -->
 					<tr>
@@ -174,7 +181,11 @@
 			<!-- 장바구니, 결제창 이동-->
 			<a href='${pageContext.request.contextPath}/member/cart'>장바구니로 이동</a>
 			<!-- 일단 값 뒤에 전부 보내기 더 좋은방법 생기면 변경 예정 -->
-			<a href='${pageContext.request.contextPath}/member/goodsPayMent?goodsCode=${m.goodsCode}'>바로 구매</a>
+			<form action="${pageContext.request.contextPath}/member/goodsPayMent" method="get" id="goodsPayMent">
+				<input type="hidden" name="goodsCode" value="${m.goodsCode}">
+				<input type="hidden" name="goodsQuantity" id="goodsQuantity">
+				<button type="button" id="order">바로 구매</button>
+			</form>
 		</c:forEach>
 		<div id="wrapper">    
 		    <!--탭 메뉴 영역 -->

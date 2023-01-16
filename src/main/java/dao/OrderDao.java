@@ -143,12 +143,16 @@ public class OrderDao {
 					+ ", o.order_state orderState "
 					+ ", o.order_memo orderMemo "
 					+ ", o.createdate createdtae "
+					+ ", IFNULL((SELECT POINT FROM point_history WHERE order_code = ? AND point_kind = '사용'), 0) point "
 					+ "FROM customer c "
-					+ "INNER JOIN customer_address ca ON c.customer_id = ca.customer_id "
-					+ "INNER JOIN orders o ON o.customer_id = c.customer_id "
+					+ "INNER JOIN customer_address ca "
+					+ "ON c.customer_id = ca.customer_id "
+					+ "INNER JOIN orders o "
+					+ "ON o.customer_id = c.customer_id n"
 					+ "WHERE o.order_code = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, orderCode);
+		stmt.setInt(2, orderCode);
 		
 		rs = stmt.executeQuery();
 		
@@ -163,6 +167,7 @@ public class OrderDao {
 			customerByOrder.put("orderState", rs.getString("orderState"));
 			customerByOrder.put("orderMemo", rs.getString("orderMemo"));
 			customerByOrder.put("createdtae", rs.getString("createdtae"));
+			customerByOrder.put("point", rs.getInt("point"));
 		}
 		
 		rs.close();
@@ -184,6 +189,7 @@ public class OrderDao {
 					+ ", og.order_goods_price orderGoodsPrice"
 					+ ", og.order_goods_quantity orderGoodsQuantity "
 					+ ", o.order_state orderState "
+					+ ", o.order_price orderPrice "
 					+ "FROM orders o INNER JOIN order_goods og "
 					+ "ON o.order_code = og.order_code "
 					+ "INNER JOIN goods g "
@@ -206,6 +212,7 @@ public class OrderDao {
 			m.put("orderGoodsPrice", rs.getInt("orderGoodsPrice"));
 			m.put("orderGoodsQuantity", rs.getInt("orderGoodsQuantity"));
 			m.put("orderState", rs.getString("orderState"));
+			m.put("orderPrice", rs.getInt("orderPrice"));
 			list.add(m);
 		}
 		

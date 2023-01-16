@@ -16,7 +16,7 @@
 						<input type="hidden" name="orderCode" value="${orderOne.orderCode}">
 						<input type="hidden" name="goodsCode" value="${orderOne.goodsCode}">
 						<input type="hidden" name="id" value="${orderOne.customerId}">
-						<c:set var="point" value="${(orderOne.orderGoodsPrice * orderOne.orderGoodsQuantity) * 0.01}"></c:set>
+						<c:set var="point" value="${(orderOne.orderGoodsPrice * orderOne.orderGoodsQuantity) * 0.005}"></c:set>
 						<img src="${pageContext.request.contextPath}/upload/${orderOne.filename}" width="100" height="100">
 						${orderOne.goodsName}
 					</td>

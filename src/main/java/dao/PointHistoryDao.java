@@ -9,7 +9,7 @@ import vo.Customer;
 import vo.PointHistory;
 
 public class PointHistoryDao {
-	// 리뷰작성시 포인트 적립
+	// 리뷰작성시 포인트 적립, 주문시 포인트 사용
 	public int insertPoint(Connection conn, PointHistory pointHistory) throws Exception {
 		int row = 0;
 		String sql = "INSERT INTO point_history(order_code, goods_code, customer_id, point_kind, POINT, createdate) VALUES(?, ?, ?, ?, ?, NOW())";
@@ -63,12 +63,13 @@ public class PointHistoryDao {
 	
 	// 현재 사용할 수 있는 포인트 집계용
 	// 회원이 사용한 포인트
-	public int selectUsePoint(Connection conn, String id) throws Exception {
+	public int selectPoint(Connection conn, String id, String kind) throws Exception {
 		int usePoint = 0;
 		ResultSet rs = null;
-		String sql = "SELECT IFNULL(SUM(POINT), 0) point FROM point_history WHERE customer_id = ? AND point_kind = '사용'";
+		String sql = "SELECT IFNULL(SUM(POINT), 0) point FROM point_history WHERE customer_id = ? AND point_kind = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, id);
+		stmt.setString(2, kind);
 		
 		rs = stmt.executeQuery();
 		
@@ -80,26 +81,6 @@ public class PointHistoryDao {
 		stmt.close();
 		
 		return usePoint;
-	}
-	
-	// 회원이 적립한 포인트
-	public int selectSavePoint(Connection conn, String id) throws Exception {
-		int savePoint = 0;
-		ResultSet rs = null;
-		String sql = "SELECT IFNULL(SUM(POINT), 0) point FROM point_history WHERE customer_id = ? AND point_kind = '적립'";
-		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setString(1, id);
-		
-		rs = stmt.executeQuery();
-		
-		if(rs.next()) {
-			savePoint = rs.getInt("point");
-		}
-		
-		rs.close();
-		stmt.close();
-		
-		return savePoint;
 	}
 	
 	// 탈퇴시 point history 지우고 탈퇴
