@@ -41,55 +41,199 @@ public class OrderDao {
 	}
 	
 	// 관리자용 모든 주문 리스트
-	public ArrayList<HashMap<String, Object>> selectAllOrderList(Connection conn, String orderState, String customerId, String createdate) throws Exception {
+	public ArrayList<HashMap<String, Object>> selectAllOrderList(Connection conn, String stateSearch, String customerId, String sort) throws Exception {
 		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
+		String sql = null;
 		ResultSet rs = null;
 		PreparedStatement stmt = null;
-		if(orderState == null || orderState.equals("") || customerId == null || customerId.equals("") || createdate == null || createdate.equals("")) {
-			String sql = "SELECT "
-					+ "o.order_code orderCode"
-					+ ", gi.filename filename "
-					+ ", g.goods_name goodsName "
-					+ ", t.cnt cnt "
-					+ ", o.customer_id customerId "
-					+ ", o.order_price orderPrice "
-					+ ", o.order_state orderState "
-					+ ", o.createdate createdate "
-					+ "FROM orders o "
-					+ "INNER JOIN (SELECT order_code orderCode, goods_code goodsCode, (COUNT(*)-1) cnt FROM order_goods GROUP BY order_code) t "
-					+ "ON o.order_code = t.orderCode "
-					+ "INNER JOIN goods g "
-					+ "ON t.goodsCode = g.goods_code "
-					+ "INNER JOIN goods_img gi "
-					+ "ON g.goods_code = gi.goods_code "
-					+ "GROUP BY o.order_code "
-					+ "ORDER BY o.createdate DESC ";
-			stmt = conn.prepareStatement(sql);
-			
-			
-		} else {
-			String sql = "SELECT "
-					+ "o.order_code orderCode"
-					+ ", gi.filename filename "
-					+ ", g.goods_name goodsName "
-					+ ", t.cnt cnt "
-					+ ", o.customer_id customerId "
-					+ ", o.order_price orderPrice "
-					+ ", o.order_state orderState "
-					+ ", o.createdate createdate "
-					+ "FROM orders o "
-					+ "INNER JOIN (SELECT order_code orderCode, goods_code goodsCode, (COUNT(*)-1) cnt FROM order_goods GROUP BY order_code) t "
-					+ "ON o.order_code = t.orderCode "
-					+ "INNER JOIN goods g "
-					+ "ON t.goodsCode = g.goods_code "
-					+ "INNER JOIN goods_img gi "
-					+ "ON g.goods_code = gi.goods_code "
-					+ "WHERE o.order_state LIKE ? "
-					+ "GROUP BY o.order_code "
-					+ "ORDER BY o.createdate DESC ";
-			stmt = conn.prepareStatement(sql);
-			stmt.setString(1, "%" + orderState + "%");
+		if(sort.equals("DESC")) {
+			if(stateSearch == null || stateSearch.equals("")) {
+				if(customerId == null || customerId.equals("")) {
+					sql = "SELECT "
+							+ "o.order_code orderCode"
+							+ ", gi.filename filename "
+							+ ", g.goods_name goodsName "
+							+ ", t.cnt cnt "
+							+ ", o.customer_id customerId "
+							+ ", o.order_price orderPrice "
+							+ ", o.order_state orderState "
+							+ ", o.createdate createdate "
+							+ "FROM orders o "
+							+ "INNER JOIN (SELECT order_code orderCode, goods_code goodsCode, (COUNT(*)-1) cnt FROM order_goods GROUP BY order_code) t "
+							+ "ON o.order_code = t.orderCode "
+							+ "INNER JOIN goods g "
+							+ "ON t.goodsCode = g.goods_code "
+							+ "INNER JOIN goods_img gi "
+							+ "ON g.goods_code = gi.goods_code "
+							+ "GROUP BY o.order_code "
+							+ "ORDER BY o.createdate DESC ";
+						stmt = conn.prepareStatement(sql);
+				} else {
+					sql = "SELECT "
+							+ "o.order_code orderCode"
+							+ ", gi.filename filename "
+							+ ", g.goods_name goodsName "
+							+ ", t.cnt cnt "
+							+ ", o.customer_id customerId "
+							+ ", o.order_price orderPrice "
+							+ ", o.order_state orderState "
+							+ ", o.createdate createdate "
+							+ "FROM orders o "
+							+ "INNER JOIN (SELECT order_code orderCode, goods_code goodsCode, (COUNT(*)-1) cnt FROM order_goods GROUP BY order_code) t "
+							+ "ON o.order_code = t.orderCode "
+							+ "INNER JOIN goods g "
+							+ "ON t.goodsCode = g.goods_code "
+							+ "INNER JOIN goods_img gi "
+							+ "ON g.goods_code = gi.goods_code "
+							+ "WHERE o.customer_id LIKE ? "
+							+ "GROUP BY o.order_code "
+							+ "ORDER BY o.createdate DESC ";
+						stmt = conn.prepareStatement(sql);
+						stmt.setString(1, "%" + customerId + "%");
+				}
+			} else {
+				if(customerId == null || customerId.equals("")) {
+					sql = "SELECT "
+							+ "o.order_code orderCode"
+							+ ", gi.filename filename "
+							+ ", g.goods_name goodsName "
+							+ ", t.cnt cnt "
+							+ ", o.customer_id customerId "
+							+ ", o.order_price orderPrice "
+							+ ", o.order_state orderState "
+							+ ", o.createdate createdate "
+							+ "FROM orders o "
+							+ "INNER JOIN (SELECT order_code orderCode, goods_code goodsCode, (COUNT(*)-1) cnt FROM order_goods GROUP BY order_code) t "
+							+ "ON o.order_code = t.orderCode "
+							+ "INNER JOIN goods g "
+							+ "ON t.goodsCode = g.goods_code "
+							+ "INNER JOIN goods_img gi "
+							+ "ON g.goods_code = gi.goods_code "
+							+ "WHERE o.order_state LIKE ? "
+							+ "GROUP BY o.order_code "
+							+ "ORDER BY o.createdate DESC ";
+						stmt = conn.prepareStatement(sql);
+						stmt.setString(1, "%" + stateSearch + "%");
+				} else {
+					sql = "SELECT "
+							+ "o.order_code orderCode"
+							+ ", gi.filename filename "
+							+ ", g.goods_name goodsName "
+							+ ", t.cnt cnt "
+							+ ", o.customer_id customerId "
+							+ ", o.order_price orderPrice "
+							+ ", o.order_state orderState "
+							+ ", o.createdate createdate "
+							+ "FROM orders o "
+							+ "INNER JOIN (SELECT order_code orderCode, goods_code goodsCode, (COUNT(*)-1) cnt FROM order_goods GROUP BY order_code) t "
+							+ "ON o.order_code = t.orderCode "
+							+ "INNER JOIN goods g "
+							+ "ON t.goodsCode = g.goods_code "
+							+ "INNER JOIN goods_img gi "
+							+ "ON g.goods_code = gi.goods_code "
+							+ "WHERE o.order_state LIKE ? AND o.customer_id LIKE ? "
+							+ "GROUP BY o.order_code "
+							+ "ORDER BY o.createdate DESC ";
+						stmt = conn.prepareStatement(sql);
+						stmt.setString(1, "%" + stateSearch + "%");
+						stmt.setString(2, "%" + customerId + "%");
+				}
+			}
+		} else if (sort.equals("ASC")) {
+			if(stateSearch == null || stateSearch.equals("")) {
+				if(customerId == null || customerId.equals("")) {
+					sql = "SELECT "
+							+ "o.order_code orderCode"
+							+ ", gi.filename filename "
+							+ ", g.goods_name goodsName "
+							+ ", t.cnt cnt "
+							+ ", o.customer_id customerId "
+							+ ", o.order_price orderPrice "
+							+ ", o.order_state orderState "
+							+ ", o.createdate createdate "
+							+ "FROM orders o "
+							+ "INNER JOIN (SELECT order_code orderCode, goods_code goodsCode, (COUNT(*)-1) cnt FROM order_goods GROUP BY order_code) t "
+							+ "ON o.order_code = t.orderCode "
+							+ "INNER JOIN goods g "
+							+ "ON t.goodsCode = g.goods_code "
+							+ "INNER JOIN goods_img gi "
+							+ "ON g.goods_code = gi.goods_code "
+							+ "GROUP BY o.order_code "
+							+ "ORDER BY o.createdate ASC ";
+						stmt = conn.prepareStatement(sql);
+				} else {
+					sql = "SELECT "
+							+ "o.order_code orderCode"
+							+ ", gi.filename filename "
+							+ ", g.goods_name goodsName "
+							+ ", t.cnt cnt "
+							+ ", o.customer_id customerId "
+							+ ", o.order_price orderPrice "
+							+ ", o.order_state orderState "
+							+ ", o.createdate createdate "
+							+ "FROM orders o "
+							+ "INNER JOIN (SELECT order_code orderCode, goods_code goodsCode, (COUNT(*)-1) cnt FROM order_goods GROUP BY order_code) t "
+							+ "ON o.order_code = t.orderCode "
+							+ "INNER JOIN goods g "
+							+ "ON t.goodsCode = g.goods_code "
+							+ "INNER JOIN goods_img gi "
+							+ "ON g.goods_code = gi.goods_code "
+							+ "WHERE o.customer_id LIKE ? "
+							+ "GROUP BY o.order_code "
+							+ "ORDER BY o.createdate ASC ";
+						stmt = conn.prepareStatement(sql);
+						stmt.setString(1, "%" + customerId + "%");
+				}
+			} else {
+				if(customerId == null || customerId.equals("")) {
+					sql = "SELECT "
+							+ "o.order_code orderCode"
+							+ ", gi.filename filename "
+							+ ", g.goods_name goodsName "
+							+ ", t.cnt cnt "
+							+ ", o.customer_id customerId "
+							+ ", o.order_price orderPrice "
+							+ ", o.order_state orderState "
+							+ ", o.createdate createdate "
+							+ "FROM orders o "
+							+ "INNER JOIN (SELECT order_code orderCode, goods_code goodsCode, (COUNT(*)-1) cnt FROM order_goods GROUP BY order_code) t "
+							+ "ON o.order_code = t.orderCode "
+							+ "INNER JOIN goods g "
+							+ "ON t.goodsCode = g.goods_code "
+							+ "INNER JOIN goods_img gi "
+							+ "ON g.goods_code = gi.goods_code "
+							+ "WHERE o.order_state LIKE ? "
+							+ "GROUP BY o.order_code "
+							+ "ORDER BY o.createdate ASC ";
+						stmt = conn.prepareStatement(sql);
+						stmt.setString(1, "%" + stateSearch + "%");
+				} else {
+					sql = "SELECT "
+							+ "o.order_code orderCode"
+							+ ", gi.filename filename "
+							+ ", g.goods_name goodsName "
+							+ ", t.cnt cnt "
+							+ ", o.customer_id customerId "
+							+ ", o.order_price orderPrice "
+							+ ", o.order_state orderState "
+							+ ", o.createdate createdate "
+							+ "FROM orders o "
+							+ "INNER JOIN (SELECT order_code orderCode, goods_code goodsCode, (COUNT(*)-1) cnt FROM order_goods GROUP BY order_code) t "
+							+ "ON o.order_code = t.orderCode "
+							+ "INNER JOIN goods g "
+							+ "ON t.goodsCode = g.goods_code "
+							+ "INNER JOIN goods_img gi "
+							+ "ON g.goods_code = gi.goods_code "
+							+ "WHERE o.order_state LIKE ? AND o.customer_id LIKE ? "
+							+ "GROUP BY o.order_code "
+							+ "ORDER BY o.createdate ASC ";
+						stmt = conn.prepareStatement(sql);
+						stmt.setString(1, "%" + stateSearch + "%");
+						stmt.setString(2, "%" + customerId + "%");
+				}
+			}
 		}
+		
 		rs = stmt.executeQuery();
 		
 		while(rs.next()) {

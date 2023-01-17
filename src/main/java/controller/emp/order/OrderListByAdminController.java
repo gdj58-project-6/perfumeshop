@@ -23,29 +23,37 @@ public class OrderListByAdminController extends HttpServlet {
 		Emp loginMember = (Emp)(session.getAttribute("loginMember"));
 		
 		// 로그인이 안되어있으면
-		if(loginMember == null) {
+		/*if(loginMember == null) {
 			response.sendRedirect(request.getContextPath() + "/member/login");
 			return;
-		}
+		}*/
 		
 		// 검색
-		String orderState = null;
-		String customerId = null;
-		String createdate = request.getParameter("createdate");
+		String stateSearch = "";
+		String customerId = "";
+		String sort = "DESC";
 		
-		if(request.getParameter("orderState") == null || request.getParameter("orderState").equals("")
-			|| request.getParameter("customerId") == null || request.getParameter("customerId").equals("")) {
-			orderState = "";
-			customerId = "";
+		if(request.getParameter("stateSearch") != null && !request.getParameter("stateSearch").equals("")) {
+			stateSearch = request.getParameter("stateSearch");
 		}
 		
-		orderState = request.getParameter("orderState");
-		customerId = request.getParameter("customerId");
+		if(request.getParameter("customerId") != null && !request.getParameter("customerId").equals("")) {
+			customerId = request.getParameter("customerId");
+		}
+		
+		if(request.getParameter("sort") != null && request.getParameter("sort").equals("ASC")) {
+			sort = "ASC";
+		}
+		
+		System.out.println(stateSearch);
 		
 		// 로그인이되어있으면
 		// Model
 		this.orderService = new OrderService();
-		ArrayList<HashMap<String, Object>> list = orderService.getSelectAllOrderList(orderState, customerId, createdate);
+		ArrayList<HashMap<String, Object>> list = orderService.getSelectAllOrderList(stateSearch, customerId, sort);
+		
+		session.setAttribute("state", stateSearch);
+		session.setAttribute("sort", sort);
 		
 		request.setAttribute("list", list);
 		request.getRequestDispatcher("/WEB-INF/view/emp/order/orderListByAdmin.jsp").forward(request, response);

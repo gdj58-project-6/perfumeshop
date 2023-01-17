@@ -52,14 +52,14 @@ public class ReturnHistoryService {
 	}
 	
 	// 관리자용 반품 리스트
-	public ArrayList<HashMap<String, Object>> getSelectReturnHistoryList() {
+	public ArrayList<HashMap<String, Object>> getSelectReturnHistoryList(String sort, String returnState, String customerId) {
 		ArrayList<HashMap<String, Object>> list = null;
 		Connection conn = null;
 		
 		try {
 			conn = DBUtil.getConnection();
 			this.returnHistoryDao = new ReturnHistoryDao();
-			list = returnHistoryDao.selectReturnHistoryList(conn);
+			list = returnHistoryDao.selectReturnHistoryList(conn, sort, returnState, customerId);
 			conn.commit();
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -177,14 +177,14 @@ public class OrderService {
 	}
 	
 	// 관리자용 모든 주문 리스트
-	public ArrayList<HashMap<String, Object>> getSelectAllOrderList(String orderState, String customerId, String createdate) {
+	public ArrayList<HashMap<String, Object>> getSelectAllOrderList(String stateSearch, String customerId, String createdate) {
 		ArrayList<HashMap<String, Object>> list = null;
 		Connection conn = null;
 		
 		 try {
 			 conn = DBUtil.getConnection();
 			 this.orderDao = new OrderDao();
-			 list = orderDao.selectAllOrderList(conn, orderState, customerId, createdate);
+			 list = orderDao.selectAllOrderList(conn, stateSearch, customerId, createdate);
 			 conn.commit();
 		 } catch (Exception e) {
 			 e.printStackTrace();

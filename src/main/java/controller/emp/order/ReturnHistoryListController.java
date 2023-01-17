@@ -29,9 +29,29 @@ public class ReturnHistoryListController extends HttpServlet {
 		}
 		
 		// 로그인되어있으면
-		this.returnHistoryService = new ReturnHistoryService();
-		ArrayList<HashMap<String, Object>> list = returnHistoryService.getSelectReturnHistoryList();
 		
+		// 검색
+		String returnState = "";
+		String customerId = "";
+		String sort = "DESC";
+		
+		if(request.getParameter("returnState") != null && !request.getParameter("returnState").equals("")) {
+			returnState = request.getParameter("returnState");
+		}
+		
+		if(request.getParameter("customerId") != null && !request.getParameter("customerId").equals("")) {
+			customerId = request.getParameter("customerId");
+		}
+		
+		if(request.getParameter("sort") != null && request.getParameter("sort").equals("ASC")) {
+			sort = "ASC";
+		}
+		
+		this.returnHistoryService = new ReturnHistoryService();
+		ArrayList<HashMap<String, Object>> list = returnHistoryService.getSelectReturnHistoryList(sort, returnState, customerId);
+		
+		session.setAttribute("state", returnState);
+		session.setAttribute("sort", sort);
 		
 		request.setAttribute("list", list);
 		request.getRequestDispatcher("/WEB-INF/view/emp/order/returnHistoryList.jsp").forward(request, response);

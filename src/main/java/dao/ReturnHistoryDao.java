@@ -25,21 +25,143 @@ public class ReturnHistoryDao {
 	}
 	
 	// 관리자용 반품 리스트
-	public ArrayList<HashMap<String, Object>> selectReturnHistoryList(Connection conn) throws Exception {
+	public ArrayList<HashMap<String, Object>> selectReturnHistoryList(Connection conn, String sort, String returnState, String customerId) throws Exception {
 		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
 		ResultSet rs = null;
-		String sql = "SELECT "
-					+ "	o.order_code orderCode "
-					+ ", o.customer_id customerId "
-					+ ", o.order_price orderPrice "
-					+ ", o.order_state orderState "
-					+ ", rh.return_memo returnMemo "
-					+ ", rh.return_state returnState "
-					+ ", rh.createdate createdate "
-					+ "FROM return_history rh INNER JOIN orders o "
-					+ "ON rh.order_code = o.order_code ";
-					// + "WHERE rh.return_state LIKE '%?%'" 검색 기능 구현 예정
-		PreparedStatement stmt = conn.prepareStatement(sql);
+		String sql = null;
+		PreparedStatement stmt = null;
+		
+		if(sort.equals("DESC")) {
+			if(returnState == null || returnState.equals("")) {
+				if(customerId == null || customerId.equals("")) {
+					sql = "SELECT "
+							+ "	o.order_code orderCode "
+							+ ", o.customer_id customerId "
+							+ ", o.order_price orderPrice "
+							+ ", o.order_state orderState "
+							+ ", rh.return_memo returnMemo "
+							+ ", rh.return_state returnState "
+							+ ", rh.createdate createdate "
+							+ "FROM return_history rh INNER JOIN orders o "
+							+ "ON rh.order_code = o.order_code "
+							+ "ORDER BY o.createdate DESC ";
+						stmt = conn.prepareStatement(sql);
+				} else {
+					sql = "SELECT "
+							+ "	o.order_code orderCode "
+							+ ", o.customer_id customerId "
+							+ ", o.order_price orderPrice "
+							+ ", o.order_state orderState "
+							+ ", rh.return_memo returnMemo "
+							+ ", rh.return_state returnState "
+							+ ", rh.createdate createdate "
+							+ "FROM return_history rh INNER JOIN orders o "
+							+ "ON rh.order_code = o.order_code "
+							+ "WHERE o.customer_id LIKE ? "
+							+ "ORDER BY o.createdate DESC ";
+						stmt = conn.prepareStatement(sql);
+						stmt.setString(1, "%" + customerId + "%");
+				}
+			} else {
+				if(customerId == null || customerId.equals("")) {
+					sql = "SELECT "
+							+ "	o.order_code orderCode "
+							+ ", o.customer_id customerId "
+							+ ", o.order_price orderPrice "
+							+ ", o.order_state orderState "
+							+ ", rh.return_memo returnMemo "
+							+ ", rh.return_state returnState "
+							+ ", rh.createdate createdate "
+							+ "FROM return_history rh INNER JOIN orders o "
+							+ "ON rh.order_code = o.order_code "
+							+ "WHERE rh.return_state LIKE ? "
+							+ "ORDER BY o.createdate DESC ";
+						stmt = conn.prepareStatement(sql);
+						stmt.setString(1, "%" + returnState + "%");
+				} else {
+					sql = "SELECT "
+							+ "	o.order_code orderCode "
+							+ ", o.customer_id customerId "
+							+ ", o.order_price orderPrice "
+							+ ", o.order_state orderState "
+							+ ", rh.return_memo returnMemo "
+							+ ", rh.return_state returnState "
+							+ ", rh.createdate createdate "
+							+ "FROM return_history rh INNER JOIN orders o "
+							+ "ON rh.order_code = o.order_code "
+							+ "WHERE rh.return_state LIKE ? AND o.customer_id LIKE ? "
+							+ "ORDER BY o.createdate DESC ";
+						stmt = conn.prepareStatement(sql);
+						stmt.setString(1, "%" + returnState + "%");
+						stmt.setString(2, "%" + customerId + "%");
+				}
+			}
+		} else if (sort.equals("ASC")) {
+			if(returnState == null || returnState.equals("")) {
+				if(customerId == null || customerId.equals("")) {
+					sql = "SELECT "
+							+ "	o.order_code orderCode "
+							+ ", o.customer_id customerId "
+							+ ", o.order_price orderPrice "
+							+ ", o.order_state orderState "
+							+ ", rh.return_memo returnMemo "
+							+ ", rh.return_state returnState "
+							+ ", rh.createdate createdate "
+							+ "FROM return_history rh INNER JOIN orders o "
+							+ "ON rh.order_code = o.order_code "
+							+ "ORDER BY o.createdate ASC ";
+						stmt = conn.prepareStatement(sql);
+				} else {
+					sql = "SELECT "
+							+ "	o.order_code orderCode "
+							+ ", o.customer_id customerId "
+							+ ", o.order_price orderPrice "
+							+ ", o.order_state orderState "
+							+ ", rh.return_memo returnMemo "
+							+ ", rh.return_state returnState "
+							+ ", rh.createdate createdate "
+							+ "FROM return_history rh INNER JOIN orders o "
+							+ "ON rh.order_code = o.order_code "
+							+ "WHERE o.customer_id LIKE ? "
+							+ "ORDER BY o.createdate ASC ";
+						stmt = conn.prepareStatement(sql);
+						stmt.setString(1, "%" + customerId + "%");
+				}
+			} else {
+				if(customerId == null || customerId.equals("")) {
+					sql = "SELECT "
+							+ "	o.order_code orderCode "
+							+ ", o.customer_id customerId "
+							+ ", o.order_price orderPrice "
+							+ ", o.order_state orderState "
+							+ ", rh.return_memo returnMemo "
+							+ ", rh.return_state returnState "
+							+ ", rh.createdate createdate "
+							+ "FROM return_history rh INNER JOIN orders o "
+							+ "ON rh.order_code = o.order_code "
+							+ "WHERE rh.return_state LIKE ? "
+							+ "ORDER BY o.createdate ASC ";
+						stmt = conn.prepareStatement(sql);
+						stmt.setString(1, "%" + returnState + "%");
+				} else {
+					sql = "SELECT "
+							+ "	o.order_code orderCode "
+							+ ", o.customer_id customerId "
+							+ ", o.order_price orderPrice "
+							+ ", o.order_state orderState "
+							+ ", rh.return_memo returnMemo "
+							+ ", rh.return_state returnState "
+							+ ", rh.createdate createdate "
+							+ "FROM return_history rh INNER JOIN orders o "
+							+ "ON rh.order_code = o.order_code "
+							+ "WHERE rh.return_state LIKE ? AND o.customer_id LIKE ? "
+							+ "ORDER BY o.createdate ASC ";
+						stmt = conn.prepareStatement(sql);
+						stmt.setString(1, "%" + returnState + "%");
+						stmt.setString(2, "%" + customerId + "%");
+				}
+			}
+		}
 		
 		rs = stmt.executeQuery();
 		
