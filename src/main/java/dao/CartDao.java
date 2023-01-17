@@ -71,7 +71,7 @@ public class CartDao {
 	}
 	
 	// 장바구니 리스트 CartList
-	public ArrayList<HashMap<String, Object>> selectCartList(Connection conn, String id) throws Exception {
+	public ArrayList<HashMap<String, Object>> selectCartList(Connection conn, String customerId) throws Exception {
 		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
 		String sql = "SELECT"
 					+ "	g.goods_code goodsCode "
@@ -86,7 +86,7 @@ public class CartDao {
 					+ "ON c.goods_code = gi.goods_code "
 					+ "WHERE c.customer_id = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setString(1, id);
+		stmt.setString(1, customerId);
 		ResultSet rs = stmt.executeQuery();
 		while(rs.next()) {
 			HashMap<String, Object> m = new HashMap<String, Object>();

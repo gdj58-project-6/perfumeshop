@@ -1,6 +1,8 @@
 package controller.member.cart;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,14 +20,18 @@ public class RemoveAllCartListController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 장바구니 전부 비우기
 		// loginMember id값 받기
-		
+		HttpSession session =  request.getSession();
 		String customerId = request.getParameter("customerId");
 		// System.out.println("customerId");
 		
-		this.cartService = new CartService();
-		
-		int row = cartService.removeAllCartList(customerId);
-
+		if(customerId != null) {
+			this.cartService = new CartService();
+			cartService.removeAllCartList(customerId);
+		} else {
+			ArrayList<HashMap<String, Object>> list = (ArrayList<HashMap<String, Object>>)session.getAttribute("cart");
+			// System.out.println(list);
+			request.getSession().invalidate();
+		}
 		
 		response.sendRedirect(request.getContextPath()+"/member/cart");	
 	}

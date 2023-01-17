@@ -106,16 +106,15 @@ public class GoodsOneController extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		// 장바구니 담기 버튼 누르면 장바구니로 내역 이동
 		request.setCharacterEncoding("utf-8"); // 인코딩
 		// 컨트롤러에서 alert 띄우기
 		response.setContentType("text/html; charset=UTF-8");
 		PrintWriter writer = response.getWriter();
 		
-		// 로그인 장바구니 담기
 		HttpSession session =  request.getSession();
 		Customer loginCustomer = (Customer)session.getAttribute("loginMember");
-		
 		// 값 받아오기
 		int goodsCode = Integer.parseInt(request.getParameter("goodsCode"));
 		String customerId = request.getParameter("customerId");
@@ -161,6 +160,7 @@ public class GoodsOneController extends HttpServlet {
 						goodsNo = Integer.parseInt(String.valueOf(c.get("goodsCode")));
 						System.out.println(goodsNo);
 						if(goodsNo == goodsCode) {
+							session.setAttribute("cart", cart);
 							System.out.println("장바구니 담기 실패");
 							writer.println("<script>alert('이미 장바구니에 담긴 상품입니다');history.go(-1);</script>"); 
 							writer.close();
@@ -182,8 +182,8 @@ public class GoodsOneController extends HttpServlet {
 			session.setAttribute("cart", list);
 			writer.println("<script>alert('장바구니 담기 성공');history.go(-1);</script>"); 
 			writer.close();
+			return;
 		}
-					
 	}
 
 }

@@ -75,9 +75,11 @@
 							</td>
 						<tr>
 							<!-- 장바구니에 담긴 상품 삭제하는 버튼 만들기, 상품을 여러게 담았을경우 각 상품마다 X표시 혹은 삭제버튼 따로따로 나오게  -->
-							<td colspan="2">
-								<a href='${pageContext.request.contextPath}/member/RemoveCartList?goodsCode=${m.goodsCode}'>장바구니에서삭제</a>
-							</td>
+							<c:if test="${loginCustomer != null }">
+								<td colspan="2">
+									<a href='${pageContext.request.contextPath}/member/RemoveCartList?goodsCode=${m.goodsCode}'>장바구니에서삭제</a>
+								</td>
+							</c:if>
 						</tr>
 					</table>
 			</c:forEach>
@@ -85,12 +87,22 @@
 				<span>총가격 :${totalPrice}원</span>
 			</div>
 		</form>	
+		<c:if test="${loginCustomer != null }">
 			<form action="${pageContext.request.contextPath}/member/goodsPayMentCart" method="get">
-				<button type="submit">구매하기</button>
+			<button type="submit">구매하기</button>
 			</form>
-		<div>
-			<a href='${pageContext.request.contextPath}/member/RemoveAllCartList?customerId=${loginMember.getCustomerId()}'>장바구니 전부 비우기</a>
-		</div>
+		</c:if>				
+		<c:if test="${loginCustomer == null }">
+			<a href='${pageContext.request.contextPath}/member/login'>로그인</a>	
+		</c:if>		
+		<c:if test="${loginCustomer != null }">	
+			<div>
+				<a href='${pageContext.request.contextPath}/member/RemoveAllCartList?customerId=${loginMember.getCustomerId()}'>장바구니 전부 비우기</a>
+			</div>
+		</c:if>
+		<c:if test="${loginCustomer == null}">
+			<a href='${pageContext.request.contextPath}/member/RemoveAllCartList'>장바구니 전부 비우기</a>
+		</c:if>
 		<a href='${pageContext.request.contextPath}/home'>홈</a>
 	</body>
 </html>

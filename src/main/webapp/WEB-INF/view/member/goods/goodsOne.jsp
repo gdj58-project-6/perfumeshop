@@ -143,7 +143,9 @@
 		<h3>goodsOne</h3>
 		<!-- 가격, 수량조절, 장바구니로 갈지 결제창으로 갈지, 제품소개 등등.... -->
 		<c:forEach var="m" items="${list}">
-			<form action="${pageContext.request.contextPath}/member/goodsOne?goodsCode=${m.goodsCode}&filename=${m.fileName}" method="post" id="goodsOne">
+			<form action="${pageContext.request.contextPath}/member/goodsOne" method="post" id="goodsOne">
+				<input type="hidden" name="goodsCode" value="${m.goodsCode}">
+				<input type="hidden" name="filename" value="${m.fileName}">
 				<table border="1">
 					<tr>
 						<td colspan="2">

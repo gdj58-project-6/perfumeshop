@@ -120,13 +120,13 @@ public class CartService {
 	
 	
 	// CartList
-	public ArrayList<HashMap<String, Object>> getCartList(String id) {
+	public ArrayList<HashMap<String, Object>> getCartList(String customerId) {
 		ArrayList<HashMap<String, Object>> list = null;
 		Connection conn = null;
 		try {
 			conn = DBUtil.getConnection();
 			this.cartDao = new CartDao();
-			list = cartDao.selectCartList(conn, id);
+			list = cartDao.selectCartList(conn, customerId);
 			conn.commit();
 		} catch(Exception e) {
 			try {
