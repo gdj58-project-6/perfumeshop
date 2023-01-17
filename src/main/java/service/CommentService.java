@@ -79,7 +79,7 @@ public class CommentService {
 		return row;
 	}
 	// 상품문의 목록수
-	public int getQuestionCountByAdmin(String search, String word) {
+	public int getQuestionCountByAdmin(String category, String sort, String word) {
 		// 객체 생성
 		int row = 0;
 		// 드라이버 초기화
@@ -90,7 +90,7 @@ public class CommentService {
 			conn = DBUtil.getConnection();
 			// dao초기화 호출
 			this.commentDao = new CommentDao();
-			row = commentDao.selectQuestionCountByAdmin(conn, search, word);
+			row = commentDao.selectQuestionCountByAdmin(conn, category, sort, word);
 			// 커밋
 			conn.commit();
 		} catch(Exception e) {
@@ -106,7 +106,7 @@ public class CommentService {
 		return row;
 	}
 	// 주문문의
-	public ArrayList<HashMap<String, Object>> getQuestionListByAdmin(String search, String word, int currentPage, int rowPerPage) {
+	public ArrayList<HashMap<String, Object>> getQuestionListByAdmin(String category, String sort, String word, int currentPage, int rowPerPage) {
 		// 객체 초기화
 		ArrayList<HashMap<String, Object>> list = null;
 		// 드라이버 초기화
@@ -119,7 +119,7 @@ public class CommentService {
 			conn = DBUtil.getConnection();
 			// dao초기화 & 호출
 			this.commentDao = new CommentDao();
-			list = commentDao.selectQuestionListByAdmin(conn, search, word, beginRow, rowPerPage);
+			list = commentDao.selectQuestionListByAdmin(conn, category, sort, word, beginRow, rowPerPage);
 			// 커밋
 			conn.commit();
 		} catch(Exception e) {

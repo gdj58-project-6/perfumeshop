@@ -29,20 +29,9 @@
 	</head>
 	<body>
 		<form id ="pageForm" method="get" action="${pageContext.request.contextPath}/admin/comment">
-			<!-- 검색어분류 -->
-			<select name="search">
-				<c:if test="${empty search}">
-					<option value="" selected="selected">==선택==</option>
-					<option value="orderCode">주문번호</option>
-				</c:if>
-				<c:if test="${search eq 'orderCode'}">
-					<option value="">==선택==</option>
-					<option value="orderCode" selected="selected">주문번호</option>
-				</c:if>
-			</select>
 			<!-- 검색 -->
 			<span>
-				<input type="text" name="word" value="${word}">
+				<input type="text" name="word" placeholder="주문번호를 입력해주세요." style="width:200px;">
 				<button type ="submit">검색</button>
 			</span>
 			<!-- 목록수 -->
@@ -89,21 +78,21 @@
 							</c:if>
 							<c:if test="${category eq '포인트'}">
 								<option value="">분류</option>
-								<option value="할인">포인트</option>
+								<option value="할인">할인</option>
 								<option value="포인트" selected="selected">포인트</option>
 								<option value="구매">구매</option>
 								<option value="결제">결제</option>
 							</c:if>
 							<c:if test="${category eq '구매'}">
 								<option value="">분류</option>
-								<option value="할인">구매</option>
+								<option value="할인">할인</option>
 								<option value="포인트">포인트</option>
 								<option value="구매" selected="selected">구매</option>
 								<option value="결제">결제</option>
 							</c:if>
 							<c:if test="${category eq '결제'}">
 								<option value="">분류</option>
-								<option value="할인">결제</option>
+								<option value="할인">할인</option>
 								<option value="포인트">포인트</option>
 								<option value="구매">구매</option>
 								<option value="결제" selected="selected">결제</option>
@@ -116,19 +105,19 @@
 						<!-- 정렬 답변전은 문의일자로(qCreatedate로 desc 정렬) 답변후는 답변일자로(qcCreatedate desc 정렬) -->
 						<select name="sort" id="sort">
 							<c:if test="${empty sort}">
-								<option value="" selected="selected">답변</option>
+								<option value="" selected>답변</option>
 								<option value="asc">답변전</option>
 								<option value="desc">답변완료</option>
 							</c:if>
 							<c:if test="${sort eq 'asc'}">
-								<option value="">==선택==</option>
-								<option value="asc" selected="selected">답변전</option>
+								<option value="">답변</option>
+								<option value="asc" selected>답변전</option>
 								<option value="desc">답변완료</option>
 							</c:if>
 							<c:if test="${sort eq 'desc'}">
-								<option value="">==선택==</option>
+								<option value="">답변</option>
 								<option value="asc">답변전</option>
-								<option value="desc" selected="selected">답변완료</option>
+								<option value="desc" selected>답변완료</option>
 							</c:if>
 						</select>
 					</th>
@@ -172,31 +161,40 @@
 					</tr>
 				</c:forEach>
 			</table>
+			<!-- 페이징 -->
 			<div>
-				<c:if test="${currentPage != 1 && word == null && empty search}">
+				<!-- 검색어x -->
+				<c:if test="${currentPage != 1 && word == null}">
 					<a href="${pageContext.request.contextPath}/admin/comment?rowPerPage=${rowPerPage}&currentPage=1">처음</a>
 				</c:if>
-				<c:if test="${currentPage != 1 && word != null && not empty search}">
-					<a href="${pageContext.request.contextPath}/admin/comment?rowPerPage=${rowPerPage}&currentPage=1&word=${word}&search=${search}">처음</a>
+				<!-- 검색어o -->
+				<c:if test="${currentPage != 1 && word != null}">
+					<a href="${pageContext.request.contextPath}/admin/comment?rowPerPage=${rowPerPage}&currentPage=1&word=${word}">처음</a>
 				</c:if>
-				<c:if test="${currentPage > 1 && word == null && empty search}">
+				<!-- 검색어x -->
+				<c:if test="${currentPage > 1 && word == null}">
 					<a href="${pageContext.request.contextPath}/admin/comment?rowPerPage=${rowPerPage}&currentPage=${currentPage-1}">이전</a>
 				</c:if>
-				<c:if test="${currentPage > 1 && word != null && not empty search}">
-					<a href="${pageContext.request.contextPath}/admin/comment?rowPerPage=${rowPerPage}&currentPage=${currentPage-1}&word=${word}&search=${search}">이전</a>
+				<!-- 검색어o -->
+				<c:if test="${currentPage > 1 && word != null}">
+					<a href="${pageContext.request.contextPath}/admin/comment?rowPerPage=${rowPerPage}&currentPage=${currentPage-1}&word=${word}">이전</a>
 				</c:if>
 				${currentPage}
-				<c:if test="${currentPage < lastPage && word == null && empty search}">
+				<!-- 검색어x -->
+				<c:if test="${currentPage < lastPage && word == null}">
 					<a href="${pageContext.request.contextPath}/admin/comment?rowPerPage=${rowPerPage}&currentPage=${currentPage+1}">다음</a>
 				</c:if>
-				<c:if test="${currentPage < lastPage && word != null && not empty search}">
-					<a href="${pageContext.request.contextPath}/admin/comment?rowPerPage=${rowPerPage}&currentPage=${currentPage+1}&word=${word}&search=${search}">다음</a>
+				<!-- 검색어o -->
+				<c:if test="${currentPage < lastPage && word != null}">
+					<a href="${pageContext.request.contextPath}/admin/comment?rowPerPage=${rowPerPage}&currentPage=${currentPage+1}&word=${word}">다음</a>
 				</c:if>
-				<c:if test="${currentPage != lastPage && word == null && empty search}">
+				<!-- 검색어x -->
+				<c:if test="${currentPage != lastPage && word == null}">
 					<a href="${pageContext.request.contextPath}/admin/comment?rowPerPage=${rowPerPage}&currentPage=${lastPage}">마지막</a>				
 				</c:if>
-				<c:if test="${currentPage != lastPage && word != null && not empty search}">
-					<a href="${pageContext.request.contextPath}/admin/comment?rowPerPage=${rowPerPage}&currentPage=${lastPage}&word=${word}&search=${search}">마지막</a>				
+				<!-- 검색어o -->
+				<c:if test="${currentPage != lastPage && word != null}">
+					<a href="${pageContext.request.contextPath}/admin/comment?rowPerPage=${rowPerPage}&currentPage=${lastPage}&word=${word}">마지막</a>				
 				</c:if>
 			</div>
 		</form>

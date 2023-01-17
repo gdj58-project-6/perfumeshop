@@ -46,26 +46,282 @@ public class CommentDao {
 	}
 	
 	// 주문문의 목록수
-	public int selectQuestionCountByAdmin(Connection conn, String search, String word) throws Exception {
+	public int selectQuestionCountByAdmin(Connection conn, String category, String sort, String word) throws Exception {
 		// 객체 초기화
 		int row = 0;
-		if(search == null || search.equals("")) {
-			search = "";
-		}
+		// 검색어 null이나 공백이 넘어오면 공백처리
 		if(word == null || word.equals("")) {
 			word = "";
+		}
+		// 정렬 null이나 공백이 넘어오면 공백처리
+		if(sort == null || sort.equals("")) {
+			sort = "";
+		}
+		// 분류 null이나 공백이 넘어오면 공백처리
+		if(category == null || category.equals("")) {
+			category = "";
 		}
 		// 쿼리문 작성
 		String sql = "";
 		// 쿼리 객체 생성
 		PreparedStatement stmt = null;
-		if(search == null || search.equals("")) {
-			sql = "SELECT COUNT(*) FROM question";
-			stmt = conn.prepareStatement(sql);
-		} else if(search.equals("orderCode")) {
-			sql = "SELECT COUNT(*) FROM question WHERE orders_code LIKE ?";
-			stmt = conn.prepareStatement(sql);
-			stmt.setString(1, word);
+		// 검색어x
+		if(word.equals("")) {
+			// 검색어x, 정렬x
+			if(sort.equals("")) {
+				// 검색어x, 정렬x, 카테고리x
+				if(category.equals("")) {
+					sql = "SELECT COUNT(*) FROM question";
+					stmt = conn.prepareStatement(sql);
+				// 검색어x, 정렬x, 카테고리 할인
+				} else if(category.equals("할인")) {
+					sql = "SELECT COUNT(*) FROM question WHERE category=?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, category);
+				// 검색어x, 정렬x, 카테고리 포인트
+				} else if(category.equals("포인트")) {
+					sql = "SELECT COUNT(*) FROM question WHERE category=?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, category);
+				// 검색어x, 정렬x, 카테고리 구매
+				} else if(category.equals("구매")) {
+					sql = "SELECT COUNT(*) FROM question WHERE category=?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, category);
+				// 검색어x, 정렬x, 카테고리 결제
+				} else if(category.equals("결제")) {
+					sql = "SELECT COUNT(*) FROM question WHERE category=?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, category);
+				}
+			// 검색어x, 정렬o(답변전 행의수)
+			} else if(sort.equals("asc")) {
+				// 검색어x, 답변전, 카테고리x
+				if(category.equals("")) {
+					sql = "SELECT COUNT(*)"
+						+ "		FROM question q LEFT JOIN question_comment qc"
+						+ "		ON q.question_code = qc.question_code"
+						+ "		WHERE qc.comment_memo IS NULL";
+					stmt = conn.prepareStatement(sql);
+				// 검색어x, 답변전, 카테고리 할인
+				} else if(category.equals("할인")) {
+					sql = "SELECT COUNT(*)"
+						+ "		FROM question q LEFT JOIN question_comment qc"
+						+ "		ON q.question_code = qc.question_code"
+						+ "		WHERE qc.comment_memo IS NULL AND q.category=?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, category);
+				// 검색어x, 답변전, 카테고리 포인트
+				} else if(category.equals("포인트")) {
+					sql = "SELECT COUNT(*)"
+						+ "		FROM question q LEFT JOIN question_comment qc"
+						+ "		ON q.question_code = qc.question_code"
+						+ "		WHERE qc.comment_memo IS NULL AND q.category=?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, category);
+				// 검색어x, 답변전, 카테고리 구매
+				} else if(category.equals("구매")) {
+					sql = "SELECT COUNT(*)"
+						+ "		FROM question q LEFT JOIN question_comment qc"
+						+ "		ON q.question_code = qc.question_code"
+						+ "		WHERE qc.comment_memo IS NULL AND q.category=?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, category);
+				// 검색어x, 답변전, 카테고리 결제
+				} else if(category.equals("결제")) {
+					sql = "SELECT COUNT(*)"
+						+ "		FROM question q LEFT JOIN question_comment qc"
+						+ "		ON q.question_code = qc.question_code"
+						+ "		WHERE qc.comment_memo IS NULL AND q.category=?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, category);
+				}
+			// 검색어x, 정렬o(답변후 행의수)
+			} else if(sort.equals("desc")) {
+				// 검색어x, 답변후, 카테고리x
+				if(category.equals("")) {
+					sql = "SELECT COUNT(*)"
+						+ "		FROM question q INNER JOIN question_comment qc"
+						+ "		ON q.question_code = qc.question_code";
+					stmt = conn.prepareStatement(sql);
+				// 검색어x, 답변후, 카테고리 할인
+				} else if(category.equals("할인")) {
+					sql = "SELECT COUNT(*)"
+						+ "		FROM question q INNER JOIN question_comment qc"
+						+ "		ON q.question_code = qc.question_code"
+						+ "		WHERE q.category=?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, category);
+				// 검색어x, 답변후, 카테고리 포인트
+				} else if(category.equals("포인트")) {
+					sql = "SELECT COUNT(*)"
+						+ "		FROM question q INNER JOIN question_comment qc"
+						+ "		ON q.question_code = qc.question_code"
+						+ "		WHERE q.category=?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, category);
+				// 검색어x, 답변후, 카테고리 구매
+				} else if(category.equals("구매")) {
+					sql = "SELECT COUNT(*)"
+						+ "		FROM question q INNER JOIN question_comment qc"
+						+ "		ON q.question_code = qc.question_code"
+						+ "		WHERE q.category=?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, category);
+				// 검색어x, 답변후, 카테고리 결제
+				} else if(category.equals("결제")) {
+					sql = "SELECT COUNT(*)"
+						+ "		FROM question q INNER JOIN question_comment qc"
+						+ "		ON q.question_code = qc.question_code"
+						+ "		WHERE q.category=?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, category);
+				}
+			}
+		// 검색어o
+		} else {
+			// 검색어o, 정렬x(답변전or답변후 둘다아님)
+			if(sort.equals("")) {
+				// 검색어o, 정렬x, 카테고리x
+				if(category.equals("")) {
+					sql = "SELECT COUNT(*)"
+						+ "		FROM question q LEFT JOIN question_comment qc"
+						+ "		ON q.question_code = qc.question_code"
+						+ "		WHERE q.orders_code LIKE ?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, word);
+				// 검색어o, 정렬x, 카테고리 할인
+				} else if(category.equals("할인")) {
+					sql = "SELECT COUNT(*)"
+						+ "		FROM question q LEFT JOIN question_comment qc"
+						+ "		ON q.question_code = qc.question_code"
+						+ "		WHERE q.orders_code LIKE ? AND q.category=?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, word);
+					stmt.setString(2, category);
+				// 검색어o, 정렬x, 카테고리 포인트
+				} else if(category.equals("포인트")) {
+					sql = "SELECT COUNT(*)"
+						+ "		FROM question q LEFT JOIN question_comment qc"
+						+ "		ON q.question_code = qc.question_code"
+						+ "		WHERE q.orders_code LIKE ? AND q.category=?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, word);
+					stmt.setString(2, category);
+				// 검색어o, 정렬x, 카테고리 구매
+				} else if(category.equals("구매")) {
+					sql = "SELECT COUNT(*)"
+						+ "		FROM question q LEFT JOIN question_comment qc"
+						+ "		ON q.question_code = qc.question_code"
+						+ "		WHERE q.orders_code LIKE ? AND q.category=?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, word);
+					stmt.setString(2, category);
+				// 검색어o, 정렬x, 카테고리 결제
+				} else if(category.equals("결제")) {
+					sql = "SELECT COUNT(*)"
+						+ "		FROM question q LEFT JOIN question_comment qc"
+						+ "		ON q.question_code = qc.question_code"
+						+ "		WHERE q.orders_code LIKE ? AND q.category=?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, word);
+					stmt.setString(2, category);
+				}
+			// 검색어o, 정렬o(답변전 행의수)	
+			} else if(sort.equals("asc")) {
+				// 검색어o, 답변전, 카테고리x
+				if(category.equals("")) {
+					sql = "SELECT COUNT(*)"
+						+ "		FROM question q LEFT JOIN question_comment qc"
+						+ "		ON q.question_code = qc.question_code"
+						+ "		WHERE q.orders_code LIKE ? AND qc.comment_memo IS NULL";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, word);
+				// 검색어o, 답변전, 카테고리 할인
+				} else if(category.equals("할인")) {
+					sql = "SELECT COUNT(*)"
+						+ "		FROM question q LEFT JOIN question_comment qc"
+						+ "		ON q.question_code = qc.question_code"
+						+ "		WHERE q.orders_code LIKE ? AND q.category=? AND qc.comment_memo IS NULL";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, word);
+					stmt.setString(2, category);
+				// 검색어o, 답변전, 카테고리 포인트
+				} else if(category.equals("포인트")) {
+					sql = "SELECT COUNT(*)"
+						+ "		FROM question q LEFT JOIN question_comment qc"
+						+ "		ON q.question_code = qc.question_code"
+						+ "		WHERE q.orders_code LIKE ? AND q.category=? AND qc.comment_memo IS NULL";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, word);
+					stmt.setString(2, category);
+				// 검색어o, 답변전, 카테고리 구매
+				} else if(category.equals("구매")) {
+					sql = "SELECT COUNT(*)"
+						+ "		FROM question q LEFT JOIN question_comment qc"
+						+ "		ON q.question_code = qc.question_code"
+						+ "		WHERE q.orders_code LIKE ? AND q.category=? AND qc.comment_memo IS NULL";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, word);
+					stmt.setString(2, category);
+				// 검색어o, 답변전, 카테고리 결제
+				} else if(category.equals("결제")) {
+					sql = "SELECT COUNT(*)"
+						+ "		FROM question q LEFT JOIN question_comment qc"
+						+ "		ON q.question_code = qc.question_code"
+						+ "		WHERE q.orders_code LIKE ? AND q.category=? AND qc.comment_memo IS NULL";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, word);
+					stmt.setString(2, category);
+				}
+			// 검색어o, 정렬o(답변후 행의수)
+			} else if(sort.equals("desc")) {
+				// 검색어o, 답변후, 카테고리x
+				if(category.equals("")) {
+					sql = "SELECT COUNT(*)"
+						+ "		FROM question q INNER JOIN question_comment qc"
+						+ "		ON q.question_code = qc.question_code"
+						+ "		WHERE q.orders_code LIKE ?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, word);
+				// 검색어o, 답변후, 카테고리 할인
+				} else if(category.equals("할인")) {
+					sql = "SELECT COUNT(*)"
+						+ "		FROM question q INNER JOIN question_comment qc"
+						+ "		ON q.question_code = qc.question_code"
+						+ "		WHERE q.orders_code LIKE ? AND q.category=?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, word);
+					stmt.setString(2, category);
+				// 검색어o, 답변후, 카테고리 포인트
+				} else if(category.equals("포인트")) {
+					sql = "SELECT COUNT(*)"
+						+ "		FROM question q INNER JOIN question_comment qc"
+						+ "		ON q.question_code = qc.question_code"
+						+ "		WHERE q.orders_code LIKE ? AND q.category=?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, word);
+					stmt.setString(2, category);
+				// 검색어o, 답변후, 카테고리 구매
+				} else if(category.equals("구매")) {
+					sql = "SELECT COUNT(*)"
+						+ "		FROM question q INNER JOIN question_comment qc"
+						+ "		ON q.question_code = qc.question_code"
+						+ "		WHERE q.orders_code LIKE ? AND q.category=?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, word);
+					stmt.setString(2, category);
+				// 검색어o, 답변후, 카테고리 결제
+				} else if(category.equals("결제")) {
+					sql = "SELECT COUNT(*)"
+						+ "		FROM question q INNER JOIN question_comment qc"
+						+ "		ON q.question_code = qc.question_code"
+						+ "		WHERE q.orders_code LIKE ? AND q.category=?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, word);
+					stmt.setString(2, category);
+				}
+			}
 		}
 		// 쿼리 실행
 		ResultSet rs = stmt.executeQuery();
@@ -77,53 +333,673 @@ public class CommentDao {
 		return row;
 	}
 	// 주문문의
-	public ArrayList<HashMap<String, Object>> selectQuestionListByAdmin(Connection conn, String search, String word, int beginRow, int rowPerPage) throws Exception {
+	public ArrayList<HashMap<String, Object>> selectQuestionListByAdmin(Connection conn, String category, String sort, String word, int beginRow, int rowPerPage) throws Exception {
 		// 객체 초기화
 		ArrayList<HashMap<String, Object>> list = null;
-		if(search == null || search.equals("")) {
-			search = "";
-		}
+		// 검색어 null이나 공백이 넘어오면 공백처리
 		if(word == null || word.equals("")) {
 			word = "";
+		}
+		// 정렬 null이나 공백이 넘어오면 공백처리
+		if(sort == null || sort.equals("")) {
+			sort = "";
+		}
+		
+		// 분류 null이나 공백이 넘어오면 공백처리
+		if(category == null || category.equals("")) {
+			category = "";
 		}
 		// 쿼리문
 		String sql = "";
 		// 쿼리 객체 생성
 		PreparedStatement stmt = null;
 		
-		// 검색어 없을때
-		if(search == null || search.equals("")) {
-			// 검색어 없을때 쿼리문
+		// 검색어x
+		if(word.equals("")) {
+			// 검색어x, 정렬x q.question_code desc
+			if(sort.equals("")) {
+				// 검색어x, 정렬x, 카테고리x 
+				if(category.equals("")) {
+					sql = "SELECT"
+						+ "		q.question_code questionCode, q.orders_code orderCode, q.category category"
+						+ "		, q.question_memo questionMemo, q.createdate qCreatedate, qc.comment_code commentCode"
+						+ "		, qc.comment_memo commentMemo, qc.createdate qcCreatedate, o.customer_id customerId"
+						+ "		, o.order_state orderState, og.goods_code goodsCode, g.goods_name goodsName"
+						+ "		FROM question q LEFT JOIN question_comment qc ON q.question_code = qc.question_code"
+						+ "		INNER JOIN orders o ON q.orders_code = o.order_code"
+						+ "		INNER JOIN order_goods og ON q.orders_code = og.order_code"
+						+ "		INNER JOIN goods g ON og.goods_code = g.goods_code"
+						+ "		GROUP BY q.question_code"
+						+ "		ORDER BY q.question_code DESC LIMIT ?, ?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setInt(1, beginRow);
+					stmt.setInt(2, rowPerPage);
+				// 검색어x, 정렬x, 카테고리 할인
+				} else if(category.equals("할인")) {
+					sql = "SELECT"
+						+ "		q.question_code questionCode, q.orders_code orderCode, q.category category"
+						+ "		, q.question_memo questionMemo, q.createdate qCreatedate, qc.comment_code commentCode"
+						+ "		, qc.comment_memo commentMemo, qc.createdate qcCreatedate, o.customer_id customerId"
+						+ "		, o.order_state orderState, og.goods_code goodsCode, g.goods_name goodsName"
+						+ "		FROM question q LEFT JOIN question_comment qc ON q.question_code = qc.question_code"
+						+ "		INNER JOIN orders o ON q.orders_code = o.order_code"
+						+ "		INNER JOIN order_goods og ON q.orders_code = og.order_code"
+						+ "		INNER JOIN goods g ON og.goods_code = g.goods_code"
+						+ "		WHERE q.category=?"
+						+ "		GROUP BY q.question_code"
+						+ "		ORDER BY q.question_code DESC LIMIT ?, ?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, category);
+					stmt.setInt(2, beginRow);
+					stmt.setInt(3, rowPerPage);
+				// 검색어x, 정렬x, 카테고리 포인트
+				} else if(category.equals("포인트")) {
+					sql = "SELECT"
+						+ "		q.question_code questionCode, q.orders_code orderCode, q.category category"
+						+ "		, q.question_memo questionMemo, q.createdate qCreatedate, qc.comment_code commentCode"
+						+ "		, qc.comment_memo commentMemo, qc.createdate qcCreatedate, o.customer_id customerId"
+						+ "		, o.order_state orderState, og.goods_code goodsCode, g.goods_name goodsName"
+						+ "		FROM question q LEFT JOIN question_comment qc ON q.question_code = qc.question_code"
+						+ "		INNER JOIN orders o ON q.orders_code = o.order_code"
+						+ "		INNER JOIN order_goods og ON q.orders_code = og.order_code"
+						+ "		INNER JOIN goods g ON og.goods_code = g.goods_code"
+						+ "		WHERE q.category=?"
+						+ "		GROUP BY q.question_code"
+						+ "		ORDER BY q.question_code DESC LIMIT ?, ?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, category);
+					stmt.setInt(2, beginRow);
+					stmt.setInt(3, rowPerPage);
+				// 검색어x, 정렬x, 카테고리 구매
+				} else if(category.equals("구매")) {
+					sql = "SELECT"
+						+ "		q.question_code questionCode, q.orders_code orderCode, q.category category"
+						+ "		, q.question_memo questionMemo, q.createdate qCreatedate, qc.comment_code commentCode"
+						+ "		, qc.comment_memo commentMemo, qc.createdate qcCreatedate, o.customer_id customerId"
+						+ "		, o.order_state orderState, og.goods_code goodsCode, g.goods_name goodsName"
+						+ "		FROM question q LEFT JOIN question_comment qc ON q.question_code = qc.question_code"
+						+ "		INNER JOIN orders o ON q.orders_code = o.order_code"
+						+ "		INNER JOIN order_goods og ON q.orders_code = og.order_code"
+						+ "		INNER JOIN goods g ON og.goods_code = g.goods_code"
+						+ "		WHERE q.category=?"
+						+ "		GROUP BY q.question_code"
+						+ "		ORDER BY q.question_code DESC LIMIT ?, ?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, category);
+					stmt.setInt(2, beginRow);
+					stmt.setInt(3, rowPerPage);
+				// 검색어x, 정렬x, 카테고리 결제	
+				} else if(category.equals("결제")) {
+					sql = "SELECT"
+						+ "		q.question_code questionCode, q.orders_code orderCode, q.category category"
+						+ "		, q.question_memo questionMemo, q.createdate qCreatedate, qc.comment_code commentCode"
+						+ "		, qc.comment_memo commentMemo, qc.createdate qcCreatedate, o.customer_id customerId"
+						+ "		, o.order_state orderState, og.goods_code goodsCode, g.goods_name goodsName"
+						+ "		FROM question q LEFT JOIN question_comment qc ON q.question_code = qc.question_code"
+						+ "		INNER JOIN orders o ON q.orders_code = o.order_code"
+						+ "		INNER JOIN order_goods og ON q.orders_code = og.order_code"
+						+ "		INNER JOIN goods g ON og.goods_code = g.goods_code"
+						+ "		WHERE q.category=?"
+						+ "		GROUP BY q.question_code"
+						+ "		ORDER BY q.question_code DESC LIMIT ?, ?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, category);
+					stmt.setInt(2, beginRow);
+					stmt.setInt(3, rowPerPage);
+				}
+				
+			// 검색어x, 답변전으로 정렬 q.createdate desc
+			} else if(sort.equals("asc")) {
+				// 검색어x, 답변전, 카테고리x
+				if(category.equals("")) {
+					sql = "SELECT"
+						+ "		q.question_code questionCode, q.orders_code orderCode, q.category category"
+						+ "		, q.question_memo questionMemo, q.createdate qCreatedate, qc.comment_code commentCode"
+						+ "		, qc.comment_memo commentMemo, qc.createdate qcCreatedate, o.customer_id customerId"
+						+ "		, o.order_state orderState, og.goods_code goodsCode, g.goods_name goodsName"
+						+ "		FROM question q LEFT JOIN question_comment qc ON q.question_code = qc.question_code"
+						+ "		INNER JOIN orders o ON q.orders_code = o.order_code"
+						+ "		INNER JOIN order_goods og ON q.orders_code = og.order_code"
+						+ "		INNER JOIN goods g ON og.goods_code = g.goods_code"
+						+ "		WHERE qc.comment_memo IS NULL"
+						+ "		GROUP BY q.question_code"
+						+ "		ORDER BY q.createdate DESC LIMIT ?, ?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setInt(1, beginRow);
+					stmt.setInt(2, rowPerPage);
+				// 검색어x, 답변전, 카테고리 할인	
+				} else if(category.equals("할인")) {
+					sql = "SELECT"
+						+ "		q.question_code questionCode, q.orders_code orderCode, q.category category"
+						+ "		, q.question_memo questionMemo, q.createdate qCreatedate, qc.comment_code commentCode"
+						+ "		, qc.comment_memo commentMemo, qc.createdate qcCreatedate, o.customer_id customerId"
+						+ "		, o.order_state orderState, og.goods_code goodsCode, g.goods_name goodsName"
+						+ "		FROM question q LEFT JOIN question_comment qc ON q.question_code = qc.question_code"
+						+ "		INNER JOIN orders o ON q.orders_code = o.order_code"
+						+ "		INNER JOIN order_goods og ON q.orders_code = og.order_code"
+						+ "		INNER JOIN goods g ON og.goods_code = g.goods_code"
+						+ "		WHERE qc.comment_memo IS NULL AND q.category=?"
+						+ "		GROUP BY q.question_code"
+						+ "		ORDER BY q.createdate DESC LIMIT ?, ?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, category);
+					stmt.setInt(2, beginRow);
+					stmt.setInt(3, rowPerPage);
+				// 검색어x, 답변전, 카테고리 포인트	
+				} else if(category.equals("포인트")) {
+					sql = "SELECT"
+						+ "		q.question_code questionCode, q.orders_code orderCode, q.category category"
+						+ "		, q.question_memo questionMemo, q.createdate qCreatedate, qc.comment_code commentCode"
+						+ "		, qc.comment_memo commentMemo, qc.createdate qcCreatedate, o.customer_id customerId"
+						+ "		, o.order_state orderState, og.goods_code goodsCode, g.goods_name goodsName"
+						+ "		FROM question q LEFT JOIN question_comment qc ON q.question_code = qc.question_code"
+						+ "		INNER JOIN orders o ON q.orders_code = o.order_code"
+						+ "		INNER JOIN order_goods og ON q.orders_code = og.order_code"
+						+ "		INNER JOIN goods g ON og.goods_code = g.goods_code"
+						+ "		WHERE qc.comment_memo IS NULL AND q.category=?"
+						+ "		GROUP BY q.question_code"
+						+ "		ORDER BY q.createdate DESC LIMIT ?, ?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, category);
+					stmt.setInt(2, beginRow);
+					stmt.setInt(3, rowPerPage);
+				// 검색어x, 답변전, 카테고리 구매	
+				} else if(category.equals("구매")) {
+					sql = "SELECT"
+						+ "		q.question_code questionCode, q.orders_code orderCode, q.category category"
+						+ "		, q.question_memo questionMemo, q.createdate qCreatedate, qc.comment_code commentCode"
+						+ "		, qc.comment_memo commentMemo, qc.createdate qcCreatedate, o.customer_id customerId"
+						+ "		, o.order_state orderState, og.goods_code goodsCode, g.goods_name goodsName"
+						+ "		FROM question q LEFT JOIN question_comment qc ON q.question_code = qc.question_code"
+						+ "		INNER JOIN orders o ON q.orders_code = o.order_code"
+						+ "		INNER JOIN order_goods og ON q.orders_code = og.order_code"
+						+ "		INNER JOIN goods g ON og.goods_code = g.goods_code"
+						+ "		WHERE qc.comment_memo IS NULL AND q.category=?"
+						+ "		GROUP BY q.question_code"
+						+ "		ORDER BY q.createdate DESC LIMIT ?, ?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, category);
+					stmt.setInt(2, beginRow);
+					stmt.setInt(3, rowPerPage);
+				// 검색어x, 답변전, 카테고리 결제
+				} else if(category.equals("결제")) {
+					sql = "SELECT"
+						+ "		q.question_code questionCode, q.orders_code orderCode, q.category category"
+						+ "		, q.question_memo questionMemo, q.createdate qCreatedate, qc.comment_code commentCode"
+						+ "		, qc.comment_memo commentMemo, qc.createdate qcCreatedate, o.customer_id customerId"
+						+ "		, o.order_state orderState, og.goods_code goodsCode, g.goods_name goodsName"
+						+ "		FROM question q LEFT JOIN question_comment qc ON q.question_code = qc.question_code"
+						+ "		INNER JOIN orders o ON q.orders_code = o.order_code"
+						+ "		INNER JOIN order_goods og ON q.orders_code = og.order_code"
+						+ "		INNER JOIN goods g ON og.goods_code = g.goods_code"
+						+ "		WHERE qc.comment_memo IS NULL AND q.category=?"
+						+ "		GROUP BY q.question_code"
+						+ "		ORDER BY q.createdate DESC LIMIT ?, ?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, category);
+					stmt.setInt(2, beginRow);
+					stmt.setInt(3, rowPerPage);
+				}
+			// 검색어x, 답변후로 정렬 qc.createdate desc
+			} else if(sort.equals("desc")) {
+				// 검색어x, 답변후, 카테고리x
+				if(category.equals("")) {
+					sql = "SELECT"
+						+ "		q.question_code questionCode, q.orders_code orderCode, q.category category"
+						+ "		, q.question_memo questionMemo, q.createdate qCreatedate, qc.comment_code commentCode"
+						+ "		, qc.comment_memo commentMemo, qc.createdate qcCreatedate, o.customer_id customerId"
+						+ "		, o.order_state orderState, og.goods_code goodsCode, g.goods_name goodsName"
+						+ "		FROM question q INNER JOIN question_comment qc ON q.question_code = qc.question_code"
+						+ "		INNER JOIN orders o ON q.orders_code = o.order_code"
+						+ "		INNER JOIN order_goods og ON q.orders_code = og.order_code"
+						+ "		INNER JOIN goods g ON og.goods_code = g.goods_code"
+						+ "		GROUP BY q.question_code"
+						+ "		ORDER BY qc.createdate DESC LIMIT ?, ?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setInt(1, beginRow);
+					stmt.setInt(2, rowPerPage);
+				// 검색어x, 답변후, 카테고리 할인
+				} else if(category.equals("할인")) {
+					sql = "SELECT"
+						+ "		q.question_code questionCode, q.orders_code orderCode, q.category category"
+						+ "		, q.question_memo questionMemo, q.createdate qCreatedate, qc.comment_code commentCode"
+						+ "		, qc.comment_memo commentMemo, qc.createdate qcCreatedate, o.customer_id customerId"
+						+ "		, o.order_state orderState, og.goods_code goodsCode, g.goods_name goodsName"
+						+ "		FROM question q INNER JOIN question_comment qc ON q.question_code = qc.question_code"
+						+ "		INNER JOIN orders o ON q.orders_code = o.order_code"
+						+ "		INNER JOIN order_goods og ON q.orders_code = og.order_code"
+						+ "		INNER JOIN goods g ON og.goods_code = g.goods_code"
+						+ "		WHERE q.category=?"
+						+ "		GROUP BY q.question_code"
+						+ "		ORDER BY qc.createdate DESC LIMIT ?, ?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, category);
+					stmt.setInt(2, beginRow);
+					stmt.setInt(3, rowPerPage);
+				// 검색어x, 답변후, 카테고리 포인트
+				} else if(category.equals("포인트")) {
+					sql = "SELECT"
+						+ "		q.question_code questionCode, q.orders_code orderCode, q.category category"
+						+ "		, q.question_memo questionMemo, q.createdate qCreatedate, qc.comment_code commentCode"
+						+ "		, qc.comment_memo commentMemo, qc.createdate qcCreatedate, o.customer_id customerId"
+						+ "		, o.order_state orderState, og.goods_code goodsCode, g.goods_name goodsName"
+						+ "		FROM question q INNER JOIN question_comment qc ON q.question_code = qc.question_code"
+						+ "		INNER JOIN orders o ON q.orders_code = o.order_code"
+						+ "		INNER JOIN order_goods og ON q.orders_code = og.order_code"
+						+ "		INNER JOIN goods g ON og.goods_code = g.goods_code"
+						+ "		WHERE q.category=?"
+						+ "		GROUP BY q.question_code"
+						+ "		ORDER BY qc.createdate DESC LIMIT ?, ?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, category);
+					stmt.setInt(2, beginRow);
+					stmt.setInt(3, rowPerPage);
+				// 검색어x, 답변후, 카테고리 구매
+				} else if(category.equals("구매")) {
+					sql = "SELECT"
+						+ "		q.question_code questionCode, q.orders_code orderCode, q.category category"
+						+ "		, q.question_memo questionMemo, q.createdate qCreatedate, qc.comment_code commentCode"
+						+ "		, qc.comment_memo commentMemo, qc.createdate qcCreatedate, o.customer_id customerId"
+						+ "		, o.order_state orderState, og.goods_code goodsCode, g.goods_name goodsName"
+						+ "		FROM question q INNER JOIN question_comment qc ON q.question_code = qc.question_code"
+						+ "		INNER JOIN orders o ON q.orders_code = o.order_code"
+						+ "		INNER JOIN order_goods og ON q.orders_code = og.order_code"
+						+ "		INNER JOIN goods g ON og.goods_code = g.goods_code"
+						+ "		WHERE q.category=?"
+						+ "		GROUP BY q.question_code"
+						+ "		ORDER BY qc.createdate DESC LIMIT ?, ?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, category);
+					stmt.setInt(2, beginRow);
+					stmt.setInt(3, rowPerPage);
+				// 검색어x, 답변후, 카테고리 결제
+				} else if(category.equals("결제")) {
+					sql = "SELECT"
+						+ "		q.question_code questionCode, q.orders_code orderCode, q.category category"
+						+ "		, q.question_memo questionMemo, q.createdate qCreatedate, qc.comment_code commentCode"
+						+ "		, qc.comment_memo commentMemo, qc.createdate qcCreatedate, o.customer_id customerId"
+						+ "		, o.order_state orderState, og.goods_code goodsCode, g.goods_name goodsName"
+						+ "		FROM question q INNER JOIN question_comment qc ON q.question_code = qc.question_code"
+						+ "		INNER JOIN orders o ON q.orders_code = o.order_code"
+						+ "		INNER JOIN order_goods og ON q.orders_code = og.order_code"
+						+ "		INNER JOIN goods g ON og.goods_code = g.goods_code"
+						+ "		WHERE q.category=?"
+						+ "		GROUP BY q.question_code"
+						+ "		ORDER BY qc.createdate DESC LIMIT ?, ?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, category);
+					stmt.setInt(2, beginRow);
+					stmt.setInt(3, rowPerPage);
+				}
+			}
+		// 검색어o
+		} else {
+			// 검색어o, 정렬x q.question_code desc
+			if(sort.equals("")) {
+				// 검색어o, 정렬x, 카테고리x
+				if(category.equals("")) {
+					sql = "SELECT"
+						+ "		q.question_code questionCode, q.orders_code orderCode, q.category category"
+						+ "		, q.question_memo questionMemo, q.createdate qCreatedate, qc.comment_code commentCode"
+						+ "		, qc.comment_memo commentMemo, qc.createdate qcCreatedate, o.customer_id customerId"
+						+ "		, o.order_state orderState, og.goods_code goodsCode, g.goods_name goodsName"
+						+ "		FROM question q LEFT JOIN question_comment qc ON q.question_code = qc.question_code"
+						+ "		INNER JOIN orders o ON q.orders_code = o.order_code"
+						+ "		INNER JOIN order_goods og ON q.orders_code = og.order_code"
+						+ "		INNER JOIN goods g ON og.goods_code = g.goods_code"
+						+ "		WHERE q.orders_code LIKE ?"
+						+ "		GROUP BY q.question_code"
+						+ "		ORDER BY q.question_code DESC LIMIT ?, ?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, word);
+					stmt.setInt(2, beginRow);
+					stmt.setInt(3, rowPerPage);
+				// 검색어o, 정렬x, 카테고리 할인
+				} else if(category.equals("할인")) {
+					sql = "SELECT"
+						+ "		q.question_code questionCode, q.orders_code orderCode, q.category category"
+						+ "		, q.question_memo questionMemo, q.createdate qCreatedate, qc.comment_code commentCode"
+						+ "		, qc.comment_memo commentMemo, qc.createdate qcCreatedate, o.customer_id customerId"
+						+ "		, o.order_state orderState, og.goods_code goodsCode, g.goods_name goodsName"
+						+ "		FROM question q LEFT JOIN question_comment qc ON q.question_code = qc.question_code"
+						+ "		INNER JOIN orders o ON q.orders_code = o.order_code"
+						+ "		INNER JOIN order_goods og ON q.orders_code = og.order_code"
+						+ "		INNER JOIN goods g ON og.goods_code = g.goods_code"
+						+ "		WHERE q.orders_code LIKE ? AND q.category=?"
+						+ "		GROUP BY q.question_code"
+						+ "		ORDER BY q.question_code DESC LIMIT ?, ?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, word);
+					stmt.setString(2, category);
+					stmt.setInt(3, beginRow);
+					stmt.setInt(4, rowPerPage);
+				// 검색어o, 정렬x, 카테고리 포인트
+				} else if(category.equals("포인트")) {
+					sql = "SELECT"
+						+ "		q.question_code questionCode, q.orders_code orderCode, q.category category"
+						+ "		, q.question_memo questionMemo, q.createdate qCreatedate, qc.comment_code commentCode"
+						+ "		, qc.comment_memo commentMemo, qc.createdate qcCreatedate, o.customer_id customerId"
+						+ "		, o.order_state orderState, og.goods_code goodsCode, g.goods_name goodsName"
+						+ "		FROM question q LEFT JOIN question_comment qc ON q.question_code = qc.question_code"
+						+ "		INNER JOIN orders o ON q.orders_code = o.order_code"
+						+ "		INNER JOIN order_goods og ON q.orders_code = og.order_code"
+						+ "		INNER JOIN goods g ON og.goods_code = g.goods_code"
+						+ "		WHERE q.orders_code LIKE ? AND q.category=?"
+						+ "		GROUP BY q.question_code"
+						+ "		ORDER BY q.question_code DESC LIMIT ?, ?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, word);
+					stmt.setString(2, category);
+					stmt.setInt(3, beginRow);
+					stmt.setInt(4, rowPerPage);
+				// 검색어o, 정렬x, 카테고리 구매
+				} else if(category.equals("구매")) {
+					sql = "SELECT"
+						+ "		q.question_code questionCode, q.orders_code orderCode, q.category category"
+						+ "		, q.question_memo questionMemo, q.createdate qCreatedate, qc.comment_code commentCode"
+						+ "		, qc.comment_memo commentMemo, qc.createdate qcCreatedate, o.customer_id customerId"
+						+ "		, o.order_state orderState, og.goods_code goodsCode, g.goods_name goodsName"
+						+ "		FROM question q LEFT JOIN question_comment qc ON q.question_code = qc.question_code"
+						+ "		INNER JOIN orders o ON q.orders_code = o.order_code"
+						+ "		INNER JOIN order_goods og ON q.orders_code = og.order_code"
+						+ "		INNER JOIN goods g ON og.goods_code = g.goods_code"
+						+ "		WHERE q.orders_code LIKE ? AND q.category=?"
+						+ "		GROUP BY q.question_code"
+						+ "		ORDER BY q.question_code DESC LIMIT ?, ?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, word);
+					stmt.setString(2, category);
+					stmt.setInt(3, beginRow);
+					stmt.setInt(4, rowPerPage);
+				// 검색어o, 정렬x, 카테고리 결제
+				} else if(category.equals("결제")) {
+					sql = "SELECT"
+						+ "		q.question_code questionCode, q.orders_code orderCode, q.category category"
+						+ "		, q.question_memo questionMemo, q.createdate qCreatedate, qc.comment_code commentCode"
+						+ "		, qc.comment_memo commentMemo, qc.createdate qcCreatedate, o.customer_id customerId"
+						+ "		, o.order_state orderState, og.goods_code goodsCode, g.goods_name goodsName"
+						+ "		FROM question q LEFT JOIN question_comment qc ON q.question_code = qc.question_code"
+						+ "		INNER JOIN orders o ON q.orders_code = o.order_code"
+						+ "		INNER JOIN order_goods og ON q.orders_code = og.order_code"
+						+ "		INNER JOIN goods g ON og.goods_code = g.goods_code"
+						+ "		WHERE q.orders_code LIKE ? AND q.category=?"
+						+ "		GROUP BY q.question_code"
+						+ "		ORDER BY q.question_code DESC LIMIT ?, ?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, word);
+					stmt.setString(2, category);
+					stmt.setInt(3, beginRow);
+					stmt.setInt(4, rowPerPage);
+				}
+			// 검색어o, 답변전 q.createdate desc
+			} else if(sort.equals("asc")) {
+				// 검색어o, 답변전, 카테고리x
+				if(category.equals("")) {
+					sql = "SELECT"
+						+ "		q.question_code questionCode, q.orders_code orderCode, q.category category"
+						+ "		, q.question_memo questionMemo, q.createdate qCreatedate, qc.comment_code commentCode"
+						+ "		, qc.comment_memo commentMemo, qc.createdate qcCreatedate, o.customer_id customerId"
+						+ "		, o.order_state orderState, og.goods_code goodsCode, g.goods_name goodsName"
+						+ "		FROM question q left JOIN question_comment qc ON q.question_code = qc.question_code"
+						+ "		INNER JOIN orders o ON q.orders_code = o.order_code"
+						+ "		INNER JOIN order_goods og ON q.orders_code = og.order_code"
+						+ "		INNER JOIN goods g ON og.goods_code = g.goods_code"
+						+ "		WHERE q.orders_code LIKE ? AND qc.comment_memo IS NULL"
+						+ "		GROUP BY q.question_code"
+						+ "		ORDER BY q.createdate DESC LIMIT ?, ?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, word);
+					stmt.setInt(2, beginRow);
+					stmt.setInt(3, rowPerPage);
+				// 검색어o, 답변전, 카테고리 할인
+				} else if(category.equals("할인")) {
+					sql = "SELECT"
+						+ "		q.question_code questionCode, q.orders_code orderCode, q.category category"
+						+ "		, q.question_memo questionMemo, q.createdate qCreatedate, qc.comment_code commentCode"
+						+ "		, qc.comment_memo commentMemo, qc.createdate qcCreatedate, o.customer_id customerId"
+						+ "		, o.order_state orderState, og.goods_code goodsCode, g.goods_name goodsName"
+						+ "		FROM question q left JOIN question_comment qc ON q.question_code = qc.question_code"
+						+ "		INNER JOIN orders o ON q.orders_code = o.order_code"
+						+ "		INNER JOIN order_goods og ON q.orders_code = og.order_code"
+						+ "		INNER JOIN goods g ON og.goods_code = g.goods_code"
+						+ "		WHERE q.orders_code LIKE ? AND q.category=? AND qc.comment_memo IS NULL"
+						+ "		GROUP BY q.question_code"
+						+ "		ORDER BY q.createdate DESC LIMIT ?, ?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, word);
+					stmt.setString(2, category);
+					stmt.setInt(3, beginRow);
+					stmt.setInt(4, rowPerPage);
+				// 검색어o, 답변전, 카테고리 포인트
+				} else if(category.equals("포인트")) {
+					sql = "SELECT"
+						+ "		q.question_code questionCode, q.orders_code orderCode, q.category category"
+						+ "		, q.question_memo questionMemo, q.createdate qCreatedate, qc.comment_code commentCode"
+						+ "		, qc.comment_memo commentMemo, qc.createdate qcCreatedate, o.customer_id customerId"
+						+ "		, o.order_state orderState, og.goods_code goodsCode, g.goods_name goodsName"
+						+ "		FROM question q left JOIN question_comment qc ON q.question_code = qc.question_code"
+						+ "		INNER JOIN orders o ON q.orders_code = o.order_code"
+						+ "		INNER JOIN order_goods og ON q.orders_code = og.order_code"
+						+ "		INNER JOIN goods g ON og.goods_code = g.goods_code"
+						+ "		WHERE q.orders_code LIKE ? AND q.category=? AND qc.comment_memo IS NULL"
+						+ "		GROUP BY q.question_code"
+						+ "		ORDER BY q.createdate DESC LIMIT ?, ?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, word);
+					stmt.setString(2, category);
+					stmt.setInt(3, beginRow);
+					stmt.setInt(4, rowPerPage);
+				// 검색어o, 답변전, 카테고리 구매
+				} else if(category.equals("구매")) {
+					sql = "SELECT"
+						+ "		q.question_code questionCode, q.orders_code orderCode, q.category category"
+						+ "		, q.question_memo questionMemo, q.createdate qCreatedate, qc.comment_code commentCode"
+						+ "		, qc.comment_memo commentMemo, qc.createdate qcCreatedate, o.customer_id customerId"
+						+ "		, o.order_state orderState, og.goods_code goodsCode, g.goods_name goodsName"
+						+ "		FROM question q left JOIN question_comment qc ON q.question_code = qc.question_code"
+						+ "		INNER JOIN orders o ON q.orders_code = o.order_code"
+						+ "		INNER JOIN order_goods og ON q.orders_code = og.order_code"
+						+ "		INNER JOIN goods g ON og.goods_code = g.goods_code"
+						+ "		WHERE q.orders_code LIKE ? AND q.category=? AND qc.comment_memo IS NULL"
+						+ "		GROUP BY q.question_code"
+						+ "		ORDER BY q.createdate DESC LIMIT ?, ?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, word);
+					stmt.setString(2, category);
+					stmt.setInt(3, beginRow);
+					stmt.setInt(4, rowPerPage);
+				// 검색어o, 답변전, 카테고리 결제
+				} else if(category.equals("결제")) {
+					sql = "SELECT"
+						+ "		q.question_code questionCode, q.orders_code orderCode, q.category category"
+						+ "		, q.question_memo questionMemo, q.createdate qCreatedate, qc.comment_code commentCode"
+						+ "		, qc.comment_memo commentMemo, qc.createdate qcCreatedate, o.customer_id customerId"
+						+ "		, o.order_state orderState, og.goods_code goodsCode, g.goods_name goodsName"
+						+ "		FROM question q left JOIN question_comment qc ON q.question_code = qc.question_code"
+						+ "		INNER JOIN orders o ON q.orders_code = o.order_code"
+						+ "		INNER JOIN order_goods og ON q.orders_code = og.order_code"
+						+ "		INNER JOIN goods g ON og.goods_code = g.goods_code"
+						+ "		WHERE q.orders_code LIKE ? AND q.category=? AND qc.comment_memo IS NULL"
+						+ "		GROUP BY q.question_code"
+						+ "		ORDER BY q.createdate DESC LIMIT ?, ?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, word);
+					stmt.setString(2, category);
+					stmt.setInt(3, beginRow);
+					stmt.setInt(4, rowPerPage);
+				}
+			// 검색어o, 답변후
+			} else if(sort.equals("desc")) {
+				// 검색어o, 답변후, 카테고리x
+				if(category.equals("")) {
+					sql = "SELECT"
+						+ "		q.question_code questionCode, q.orders_code orderCode, q.category category"
+						+ "		, q.question_memo questionMemo, q.createdate qCreatedate, qc.comment_code commentCode"
+						+ "		, qc.comment_memo commentMemo, qc.createdate qcCreatedate, o.customer_id customerId"
+						+ "		, o.order_state orderState, og.goods_code goodsCode, g.goods_name goodsName"
+						+ "		FROM question q INNER JOIN question_comment qc ON q.question_code = qc.question_code"
+						+ "		INNER JOIN orders o ON q.orders_code = o.order_code"
+						+ "		INNER JOIN order_goods og ON q.orders_code = og.order_code"
+						+ "		INNER JOIN goods g ON og.goods_code = g.goods_code"
+						+ "		WHERE q.orders_code LIKE ?"
+						+ "		GROUP BY q.question_code"
+						+ "		ORDER BY q.createdate DESC LIMIT ?, ?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, word);
+					stmt.setInt(2, beginRow);
+					stmt.setInt(3, rowPerPage);
+				// 검색어o, 답변후, 카테고리 할인
+				} else if(category.equals("할인")) {
+					sql = "SELECT"
+						+ "		q.question_code questionCode, q.orders_code orderCode, q.category category"
+						+ "		, q.question_memo questionMemo, q.createdate qCreatedate, qc.comment_code commentCode"
+						+ "		, qc.comment_memo commentMemo, qc.createdate qcCreatedate, o.customer_id customerId"
+						+ "		, o.order_state orderState, og.goods_code goodsCode, g.goods_name goodsName"
+						+ "		FROM question q INNER JOIN question_comment qc ON q.question_code = qc.question_code"
+						+ "		INNER JOIN orders o ON q.orders_code = o.order_code"
+						+ "		INNER JOIN order_goods og ON q.orders_code = og.order_code"
+						+ "		INNER JOIN goods g ON og.goods_code = g.goods_code"
+						+ "		WHERE q.orders_code LIKE ? AND q.category=?"
+						+ "		GROUP BY q.question_code"
+						+ "		ORDER BY q.createdate DESC LIMIT ?, ?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, word);
+					stmt.setString(2, category);
+					stmt.setInt(3, beginRow);
+					stmt.setInt(4, rowPerPage);
+				// 검색어o, 답변후, 카테고리 포인트
+				} else if(category.equals("포인트")) {
+					sql = "SELECT"
+						+ "		q.question_code questionCode, q.orders_code orderCode, q.category category"
+						+ "		, q.question_memo questionMemo, q.createdate qCreatedate, qc.comment_code commentCode"
+						+ "		, qc.comment_memo commentMemo, qc.createdate qcCreatedate, o.customer_id customerId"
+						+ "		, o.order_state orderState, og.goods_code goodsCode, g.goods_name goodsName"
+						+ "		FROM question q INNER JOIN question_comment qc ON q.question_code = qc.question_code"
+						+ "		INNER JOIN orders o ON q.orders_code = o.order_code"
+						+ "		INNER JOIN order_goods og ON q.orders_code = og.order_code"
+						+ "		INNER JOIN goods g ON og.goods_code = g.goods_code"
+						+ "		WHERE q.orders_code LIKE ? AND q.category=?"
+						+ "		GROUP BY q.question_code"
+						+ "		ORDER BY q.createdate DESC LIMIT ?, ?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, word);
+					stmt.setString(2, category);
+					stmt.setInt(3, beginRow);
+					stmt.setInt(4, rowPerPage);
+				// 검색어o, 답변후, 카테고리 구매
+				} else if(category.equals("구매")) {
+					sql = "SELECT"
+						+ "		q.question_code questionCode, q.orders_code orderCode, q.category category"
+						+ "		, q.question_memo questionMemo, q.createdate qCreatedate, qc.comment_code commentCode"
+						+ "		, qc.comment_memo commentMemo, qc.createdate qcCreatedate, o.customer_id customerId"
+						+ "		, o.order_state orderState, og.goods_code goodsCode, g.goods_name goodsName"
+						+ "		FROM question q INNER JOIN question_comment qc ON q.question_code = qc.question_code"
+						+ "		INNER JOIN orders o ON q.orders_code = o.order_code"
+						+ "		INNER JOIN order_goods og ON q.orders_code = og.order_code"
+						+ "		INNER JOIN goods g ON og.goods_code = g.goods_code"
+						+ "		WHERE q.orders_code LIKE ? AND q.category=?"
+						+ "		GROUP BY q.question_code"
+						+ "		ORDER BY q.createdate DESC LIMIT ?, ?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, word);
+					stmt.setString(2, category);
+					stmt.setInt(3, beginRow);
+					stmt.setInt(4, rowPerPage);
+				// 검색어o, 답변후, 카테고리 결제
+				} else if(category.equals("결제")) {
+					sql = "SELECT"
+						+ "		q.question_code questionCode, q.orders_code orderCode, q.category category"
+						+ "		, q.question_memo questionMemo, q.createdate qCreatedate, qc.comment_code commentCode"
+						+ "		, qc.comment_memo commentMemo, qc.createdate qcCreatedate, o.customer_id customerId"
+						+ "		, o.order_state orderState, og.goods_code goodsCode, g.goods_name goodsName"
+						+ "		FROM question q INNER JOIN question_comment qc ON q.question_code = qc.question_code"
+						+ "		INNER JOIN orders o ON q.orders_code = o.order_code"
+						+ "		INNER JOIN order_goods og ON q.orders_code = og.order_code"
+						+ "		INNER JOIN goods g ON og.goods_code = g.goods_code"
+						+ "		WHERE q.orders_code LIKE ? AND q.category=?"
+						+ "		GROUP BY q.question_code"
+						+ "		ORDER BY q.createdate DESC LIMIT ?, ?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, word);
+					stmt.setString(2, category);
+					stmt.setInt(3, beginRow);
+					stmt.setInt(4, rowPerPage);
+				}
+			}
+		}
+		/*
+		// 정렬 , 검색 전부X
+		if(sort.equals("") && word.equals("")) {
 			sql = "SELECT"
-					+ "		q.question_code questionCode, q.orders_code orderCode, q.category category"
-					+ "		, q.question_memo questionMemo, q.createdate qCreatedate, qc.comment_code commentCode"
-					+ "		, qc.comment_memo commentMemo, qc.createdate qcCreatedate, o.customer_id customerId"
-					+ "		, o.order_state orderState, og.goods_code goodsCode, g.goods_name goodsName"
-					+ "		FROM question q LEFT JOIN question_comment qc ON q.question_code = qc.question_code"
-					+ "		inner JOIN orders o ON q.orders_code = o.order_code"
-					+ "		inner JOIN order_goods og ON q.orders_code = og.order_code"
-					+ "		inner JOIN goods g ON og.goods_code = g.goods_code"
-					+ "		GROUP BY q.question_code"
-					+ "		ORDER BY q.question_code DESC LIMIT ?, ?";
+				+ "		q.question_code questionCode, q.orders_code orderCode, q.category category"
+				+ "		, q.question_memo questionMemo, q.createdate qCreatedate, qc.comment_code commentCode"
+				+ "		, qc.comment_memo commentMemo, qc.createdate qcCreatedate, o.customer_id customerId"
+				+ "		, o.order_state orderState, og.goods_code goodsCode, g.goods_name goodsName"
+				+ "		FROM question q LEFT JOIN question_comment qc ON q.question_code = qc.question_code"
+				+ "		inner JOIN orders o ON q.orders_code = o.order_code"
+				+ "		inner JOIN order_goods og ON q.orders_code = og.order_code"
+				+ "		inner JOIN goods g ON og.goods_code = g.goods_code"
+				+ "		GROUP BY q.question_code"
+				+ "		ORDER BY q.question_code DESC LIMIT ?, ?";
 			// 쿼리 객체 생성
 			stmt = conn.prepareStatement(sql);
 			// 쿼리문 ?값 지정
 			stmt.setInt(1, beginRow);
 			stmt.setInt(2, rowPerPage);
-		} else if(search.equals("orderCode")) {
+		// 정렬X, 검색o
+		} else if(sort.equals("") && !word.equals("")) {
 			// 주문번호로 검색
 			sql = "SELECT"
-					+ "		q.question_code questionCode, q.orders_code orderCode, q.category category"
-					+ "		, q.question_memo questionMemo, q.createdate qCreatedate, qc.comment_code commentCode"
-					+ "		, qc.comment_memo commentMemo, qc.createdate qcCreatedate, o.customer_id customerId"
-					+ "		, o.order_state orderState, og.goods_code goodsCode, g.goods_name goodsName"
-					+ "		FROM question q LEFT JOIN question_comment qc ON q.question_code = qc.question_code"
-					+ "		inner JOIN orders o ON q.orders_code = o.order_code"
-					+ "		inner JOIN order_goods og ON q.orders_code = og.order_code"
-					+ "		inner JOIN goods g ON og.goods_code = g.goods_code"
-					+ "		WHERE q.orders_code LIKE ?"
-					+ "		GROUP BY q.question_code"
-					+ "		ORDER BY q.question_code DESC LIMIT ?, ?";
+				+ "		q.question_code questionCode, q.orders_code orderCode, q.category category"
+				+ "		, q.question_memo questionMemo, q.createdate qCreatedate, qc.comment_code commentCode"
+				+ "		, qc.comment_memo commentMemo, qc.createdate qcCreatedate, o.customer_id customerId"
+				+ "		, o.order_state orderState, og.goods_code goodsCode, g.goods_name goodsName"
+				+ "		FROM question q LEFT JOIN question_comment qc ON q.question_code = qc.question_code"
+				+ "		inner JOIN orders o ON q.orders_code = o.order_code"
+				+ "		inner JOIN order_goods og ON q.orders_code = og.order_code"
+				+ "		inner JOIN goods g ON og.goods_code = g.goods_code"
+				+ "		WHERE q.orders_code LIKE ?"
+				+ "		GROUP BY q.question_code"
+				+ "		ORDER BY q.question_code DESC LIMIT ?, ?";
+			// 쿼리 객체 생성
+			stmt = conn.prepareStatement(sql);
+			// 쿼리문 ?값 지정
+			stmt.setString(1, word);
+			stmt.setInt(2, beginRow);
+			stmt.setInt(3, rowPerPage);
+		// 정렬(답변전)o, 검색x
+		} else if(sort.equals("asc") && word.equals("")) {
+			sql = "SELECT"
+				+ "		q.question_code questionCode, q.orders_code orderCode, q.category category"
+				+ "		, q.question_memo questionMemo, q.createdate qCreatedate, qc.comment_code commentCode"
+				+ "		, qc.comment_memo commentMemo, qc.createdate qcCreatedate, o.customer_id customerId"
+				+ "		, o.order_state orderState, og.goods_code goodsCode, g.goods_name goodsName"
+				+ "		FROM question q LEFT JOIN question_comment qc ON q.question_code = qc.question_code"
+				+ "		inner JOIN orders o ON q.orders_code = o.order_code"
+				+ "		inner JOIN order_goods og ON q.orders_code = og.order_code"
+				+ "		inner JOIN goods g ON og.goods_code = g.goods_code"
+				+ "		WHERE qc.comment_memo IS null"
+				+ "		GROUP BY q.question_code"
+				+ "		ORDER BY q.createdate DESC LIMIT ?, ?";
+			// 쿼리 객체 생성
+			stmt = conn.prepareStatement(sql);
+			// 쿼리문 ?값 지정
+			stmt.setInt(1, beginRow);
+			stmt.setInt(2, rowPerPage);
+		// 정렬(답변전)o, 검색o
+		} else if(sort.equals("asc") && !word.equals("")) {
+			sql = "SELECT"
+				+ "		q.question_code questionCode, q.orders_code orderCode, q.category category"
+				+ "		, q.question_memo questionMemo, q.createdate qCreatedate, qc.comment_code commentCode"
+				+ "		, qc.comment_memo commentMemo, qc.createdate qcCreatedate, o.customer_id customerId"
+				+ "		, o.order_state orderState, og.goods_code goodsCode, g.goods_name goodsName"
+				+ "		FROM question q LEFT JOIN question_comment qc ON q.question_code = qc.question_code"
+				+ "		inner JOIN orders o ON q.orders_code = o.order_code"
+				+ "		inner JOIN order_goods og ON q.orders_code = og.order_code"
+				+ "		inner JOIN goods g ON og.goods_code = g.goods_code"
+				+ "		WHERE qc.comment_memo IS null AND q.orders_code LIKE ?"
+				+ "		GROUP BY q.question_code"
+				+ "		ORDER BY q.createdate DESC LIMIT ?, ?";
 			// 쿼리 객체 생성
 			stmt = conn.prepareStatement(sql);
 			// 쿼리문 ?값 지정
@@ -131,6 +1007,7 @@ public class CommentDao {
 			stmt.setInt(2, beginRow);
 			stmt.setInt(3, rowPerPage);
 		}
+		*/
 		// 쿼리 실행
 		ResultSet rs = stmt.executeQuery();
 		list = new ArrayList<HashMap<String, Object>>();
