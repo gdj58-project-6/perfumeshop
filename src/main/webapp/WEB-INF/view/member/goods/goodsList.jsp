@@ -12,6 +12,11 @@
 					$('#pageForm').submit();
 					alert('change');
 				})
+				
+				$('#sort').change(function() {
+					$('#pageForm').submit();
+					alert('change');
+				})
 			});
 		</script>
 	</head>
@@ -19,39 +24,29 @@
 		<h3>goodsList</h3>
 		<div>
 		<!-- 남성, 여성등등등... include? -->
-			<a href="">모든상품</a>
-			<a href="">향수</a>
-			<a href="">헤어</a>
+			<a href="${pageContext.request.contextPath}/member/goodsList">모든상품</a>
+			<a href="${pageContext.request.contextPath}/member/goodsList?category=향수&sort=${sort}&word=${word}">향수</a>
+			<a href="${pageContext.request.contextPath}/member/goodsList?category=헤어">헤어</a>
+			<a href="${pageContext.request.contextPath}/member/goodsList?category=바디">바디</a>
 		</div>
 		<div>	
 			<form id ="pageForm" method="get" action="${pageContext.request.contextPath}/member/goodsList">
 				<!--  필터, 검색, 페이징 -->
 				<select name="rowPerPage" id="rowPerPage">
-					<c:if test="${rowPerPage == 10}">
-						<option value="10" selected="selected">10</option>
-						<option value="20">20</option>
-						<option value="30">30</option>
-					</c:if>
-					<c:if test="${rowPerPage == 20}">
-						<option value="10">10</option>
-						<option value="20" selected="selected">20</option>
-						<option value="30">30</option>
-					</c:if>
-					<c:if test="${rowPerPage == 30}">
-						<option value="10">10</option>
-						<option value="20">20</option>
-						<option value="30" selected="selected">30</option>
-					</c:if>		
-				</select>		
+					<option value="10" <c:out value="${rowPerPage == '10' ? 'selected':'' }"/>>10</option>
+					<option value="20" <c:out value="${rowPerPage == '20' ? 'selected':'' }"/>>20</option>
+					<option value="30" <c:out value="${rowPerPage == '30' ? 'selected':'' }"/>>30</option>	
+				</select>	
+				<select name="sort" id="sort">
+					<option value="createdate" <c:out value="${sort == 'createdate' ? 'selected':'' }"/>>신상품순</option>
+					<option value="hit" <c:out value="${sort == 'hit' ? 'selected':'' }"/>>인기상품순</option>
+					<option value="lowPrice" <c:out value="${sort == 'lowPrice' ? 'selected':'' }"/>>낮은가격순</option>
+					<option value="highPrice" <c:out value="${sort == 'highPrice' ? 'selected':'' }"/>>높은가격순</option>
+				</select>
 			</form>
 		</div>	
 		<!-- 정렬기능 만들기 -->
-		<div>
-			<a href="${pageContext.request.contextPath}/member/goodsList?col=createdate&sort=${paramSort}">신상품순</a>
-			<a href="${pageContext.request.contextPath}/member/goodsList?col=hit&sort=${paramSort}">인기상품순</a>
-			<a href="${pageContext.request.contextPath}/member/goodsList?col=goodsPrice&sort=${sort}">높은가격순</a>
-			<a href="${pageContext.request.contextPath}/member/goodsList?col=goodsPrice&sort=${paramSort}">낮은가격순</a>
-		</div>
+
 		<!-- 사진, 제품이름, 가격 등등등.... -->
 		<table border="1">
 			<tr>

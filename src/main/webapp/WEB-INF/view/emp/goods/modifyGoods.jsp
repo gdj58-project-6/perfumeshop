@@ -27,6 +27,7 @@
 				상품종류 : <select name="goodsCategory">
 							<option value="향수">향수</option>
 							<option value="헤어">헤어</option>
+							<option value="바디">바디</option>
 						</select>
 			</div>
 			<div>
