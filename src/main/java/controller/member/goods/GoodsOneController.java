@@ -73,7 +73,7 @@ public class GoodsOneController extends HttpServlet {
 		this.reviewService = new ReviewService();
 		ArrayList<HashMap<String, Object>> list = goodsService.goodsOne(goodsCode);
 		ArrayList<HashMap<String, Object>> questionList = questionService.getGoodsQuestionList(currentPage, rowPerPage);
-		ArrayList<HashMap<String, Object>> reviewList = reviewService.getReviewList(currentPage2, rowPerPage);
+		ArrayList<HashMap<String, Object>> reviewList = reviewService.getReviewListByCustomer(currentPage2, rowPerPage);
 		int cnt = questionService.getQuestionCountByGoodsQuestion();
 		int count = reviewService.getReviewCount();
 		int lastPage = 0;
@@ -100,6 +100,7 @@ public class GoodsOneController extends HttpServlet {
 		request.setAttribute("currentPage", currentPage);
 		request.setAttribute("currentPage2", currentPage2);
 		request.setAttribute("lastPage", lastPage);
+		request.setAttribute("lastPage2", lastPage2);
 		// View 연결
 		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/view/member/goods/goodsOne.jsp");
 		rd.forward(request, response);

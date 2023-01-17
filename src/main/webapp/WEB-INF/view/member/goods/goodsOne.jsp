@@ -284,6 +284,7 @@
 		         		<c:if test="${currentPage > 1}">
 		         			<a href="${pageContext.request.contextPath}/member/goodsOne?currentPage=${currentPage-1}&goodsCode=${goodsCode}">이전</a>
 		         		</c:if>
+		         		${currentPage}
 		         		<c:if test="${currentPage < lastPage}">
 		         			<a href="${pageContext.request.contextPath}/member/goodsOne?currentPage=${currentPage+1}&goodsCode=${goodsCode}">다음</a>
 		         		</c:if>
@@ -297,13 +298,17 @@
 		         	<h1>상품리뷰</h1>
 		         	<table class="table table-bordered">
 		         		<tr>
-		         			<th>orderCode</th>
-		         			<th>reviewMemo</th>
+		         			<th>주문번호</th>
+		         			<th>상품명</th>
+		         			<th>리뷰내용</th>
+		         			<th>리뷰작성일</th>
 		         		</tr>
 		         		<c:forEach var="m3" items="${reviewList}">
 		         			<tr>
 		         				<td>${m3.orderCode}</td>
+		         				<td>${m3.goodsName}</td>
 		         				<td>${m3.reviewMemo}</td>
+		         				<td>${m3.createdate}</td>
 		         			</tr>
 		         		</c:forEach>
 		         	</table>
@@ -315,6 +320,7 @@
 		         		<c:if test="${currentPage2 > 1}">
 		         			<a href="${pageContext.request.contextPath}/member/goodsOne?currentPage2=${currentPage2-1}&goodsCode=${goodsCode}">이전</a>
 		         		</c:if>
+		         		${currentPage2}
 		         		<c:if test="${currentPage2 < lastPage2}">
 		         			<a href="${pageContext.request.contextPath}/member/goodsOne?currentPage2=${currentPage2+1}&goodsCode=${goodsCode}">다음</a>
 		         		</c:if>

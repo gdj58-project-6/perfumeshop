@@ -77,7 +77,7 @@ public class ReviewService {
 	}
 	
 	// 리뷰 출력
-	public ArrayList<HashMap<String, Object>> getReviewList(int currentPage2, int rowPerPage) {
+	public ArrayList<HashMap<String, Object>> getReviewListByCustomer(int currentPage2, int rowPerPage) {
 		// 객체 초기화
 		ArrayList<HashMap<String, Object>> list = null;
 		// 드라이버 초기화
@@ -90,7 +90,7 @@ public class ReviewService {
 			conn = DBUtil.getConnection();
 			// dao호출
 			this.reviewDao = new ReviewDao();
-			list = reviewDao.selectReview(conn, beginRow, rowPerPage);
+			list = reviewDao.selectReviewByCustomer(conn, beginRow, rowPerPage);
 			// 커밋
 			conn.commit();
 		} catch(Exception e) {

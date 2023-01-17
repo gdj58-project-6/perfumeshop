@@ -165,36 +165,36 @@
 			<div>
 				<!-- 검색어x -->
 				<c:if test="${currentPage != 1 && word == null}">
-					<a href="${pageContext.request.contextPath}/admin/comment?rowPerPage=${rowPerPage}&currentPage=1">처음</a>
+					<a href="${pageContext.request.contextPath}/admin/comment?rowPerPage=${rowPerPage}&currentPage=1&sort=${sort}&category=${category}">처음</a>
 				</c:if>
 				<!-- 검색어o -->
 				<c:if test="${currentPage != 1 && word != null}">
-					<a href="${pageContext.request.contextPath}/admin/comment?rowPerPage=${rowPerPage}&currentPage=1&word=${word}">처음</a>
+					<a href="${pageContext.request.contextPath}/admin/comment?rowPerPage=${rowPerPage}&currentPage=1&word=${word}&sort=${sort}&category=${category}">처음</a>
 				</c:if>
 				<!-- 검색어x -->
 				<c:if test="${currentPage > 1 && word == null}">
-					<a href="${pageContext.request.contextPath}/admin/comment?rowPerPage=${rowPerPage}&currentPage=${currentPage-1}">이전</a>
+					<a href="${pageContext.request.contextPath}/admin/comment?rowPerPage=${rowPerPage}&currentPage=${currentPage-1}&sort=${sort}&category=${category}">이전</a>
 				</c:if>
 				<!-- 검색어o -->
 				<c:if test="${currentPage > 1 && word != null}">
-					<a href="${pageContext.request.contextPath}/admin/comment?rowPerPage=${rowPerPage}&currentPage=${currentPage-1}&word=${word}">이전</a>
+					<a href="${pageContext.request.contextPath}/admin/comment?rowPerPage=${rowPerPage}&currentPage=${currentPage-1}&word=${word}&sort=${sort}&category=${category}">이전</a>
 				</c:if>
 				${currentPage}
 				<!-- 검색어x -->
 				<c:if test="${currentPage < lastPage && word == null}">
-					<a href="${pageContext.request.contextPath}/admin/comment?rowPerPage=${rowPerPage}&currentPage=${currentPage+1}">다음</a>
+					<a href="${pageContext.request.contextPath}/admin/comment?rowPerPage=${rowPerPage}&currentPage=${currentPage+1}&sort=${sort}&category=${category}">다음</a>
 				</c:if>
 				<!-- 검색어o -->
 				<c:if test="${currentPage < lastPage && word != null}">
-					<a href="${pageContext.request.contextPath}/admin/comment?rowPerPage=${rowPerPage}&currentPage=${currentPage+1}&word=${word}">다음</a>
+					<a href="${pageContext.request.contextPath}/admin/comment?rowPerPage=${rowPerPage}&currentPage=${currentPage+1}&word=${word}&sort=${sort}&category=${category}">다음</a>
 				</c:if>
 				<!-- 검색어x -->
 				<c:if test="${currentPage != lastPage && word == null}">
-					<a href="${pageContext.request.contextPath}/admin/comment?rowPerPage=${rowPerPage}&currentPage=${lastPage}">마지막</a>				
+					<a href="${pageContext.request.contextPath}/admin/comment?rowPerPage=${rowPerPage}&currentPage=${lastPage}&sort=${sort}&category=${category}">마지막</a>				
 				</c:if>
 				<!-- 검색어o -->
 				<c:if test="${currentPage != lastPage && word != null}">
-					<a href="${pageContext.request.contextPath}/admin/comment?rowPerPage=${rowPerPage}&currentPage=${lastPage}&word=${word}">마지막</a>				
+					<a href="${pageContext.request.contextPath}/admin/comment?rowPerPage=${rowPerPage}&currentPage=${lastPage}&word=${word}&sort=${sort}&category=${category}">마지막</a>				
 				</c:if>
 			</div>
 		</form>
