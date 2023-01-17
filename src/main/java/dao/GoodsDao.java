@@ -327,6 +327,170 @@ public class GoodsDao {
 					stmt.setInt(4, rowPerPage);
 				}
 			}
+		// 정렬 lowPrice 카테고리 X 검색 X
+		} else if(sort.equals("lowPrice")) {
+			if(category.equals("")) {
+				if(word.equals("")) {
+					sql = "SELECT"
+							+ " g.goods_code goodsCode"
+							+ ", g.goods_name goodsName"
+							+ ", g.goods_price goodsPrice"
+							+ ", g.goods_category goodsCategory"
+							+ ", g.goods_memo goodsMemo"
+							+ ", g.hit hit"
+							+ ", g.createdate createdate"
+							+ ", gi.filename fileName"
+							+ " FROM goods g INNER JOIN goods_img gi "
+							+ " ON g.goods_code = gi.goods_code "
+							+ " ORDER BY g.goods_price ASC "
+							+ " LIMIT ?, ?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setInt(1, beginRow);
+					stmt.setInt(2, rowPerPage);
+				} else { // 정렬 lowPrice 카테고리 X 검색 O
+					sql = "SELECT"
+							+ " g.goods_code goodsCode"
+							+ ", g.goods_name goodsName"
+							+ ", g.goods_price goodsPrice"
+							+ ", g.goods_category goodsCategory"
+							+ ", g.goods_memo goodsMemo"
+							+ ", g.hit hit"
+							+ ", g.createdate createdate"
+							+ ", gi.filename fileName"
+							+ " FROM goods g INNER JOIN goods_img gi "
+							+ " ON g.goods_code = gi.goods_code "
+							+ " WHERE goods_name LIKE ? "
+							+ " ORDER BY g.goods_price ASC "
+							+ " LIMIT ?, ?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, "%"+word+"%");
+					stmt.setInt(2, beginRow);
+					stmt.setInt(3, rowPerPage);
+				}
+			} else { // 정렬 lowPrice 카테고리 O 검색 X
+				if(word.equals("")) {
+					sql = "SELECT"
+							+ " g.goods_code goodsCode"
+							+ ", g.goods_name goodsName"
+							+ ", g.goods_price goodsPrice"
+							+ ", g.goods_category goodsCategory"
+							+ ", g.goods_memo goodsMemo"
+							+ ", g.hit hit"
+							+ ", g.createdate createdate"
+							+ ", gi.filename fileName"
+							+ " FROM goods g INNER JOIN goods_img gi "
+							+ " ON g.goods_code = gi.goods_code "
+							+ " WHERE goods_category = ? "
+							+ " ORDER BY g.goods_price ASC "
+							+ " LIMIT ?, ?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, category);
+					stmt.setInt(2, beginRow);
+					stmt.setInt(3, rowPerPage);
+				} else { // 정렬 lowPrice 카테고리 O 검색 O
+					sql = "SELECT"
+							+ " g.goods_code goodsCode"
+							+ ", g.goods_name goodsName"
+							+ ", g.goods_price goodsPrice"
+							+ ", g.goods_category goodsCategory"
+							+ ", g.goods_memo goodsMemo"
+							+ ", g.hit hit"
+							+ ", g.createdate createdate"
+							+ ", gi.filename fileName"
+							+ " FROM goods g INNER JOIN goods_img gi "
+							+ " ON g.goods_code = gi.goods_code "
+							+ " WHERE goods_category = ? AND goods_name LIKE ? "
+							+ " ORDER BY g.goods_price ASC "
+							+ " LIMIT ?, ?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, category);
+					stmt.setString(2, "%"+word+"%");
+					stmt.setInt(3, beginRow);
+					stmt.setInt(4, rowPerPage);
+				}
+			}
+		// 정렬 highPrice 카테고리 X 검색 X	
+		} else if(sort.equals("highPrice")) {
+			if(category.equals("")) {
+				if(word.equals("")) {
+					sql = "SELECT"
+							+ " g.goods_code goodsCode"
+							+ ", g.goods_name goodsName"
+							+ ", g.goods_price goodsPrice"
+							+ ", g.goods_category goodsCategory"
+							+ ", g.goods_memo goodsMemo"
+							+ ", g.hit hit"
+							+ ", g.createdate createdate"
+							+ ", gi.filename fileName"
+							+ " FROM goods g INNER JOIN goods_img gi "
+							+ " ON g.goods_code = gi.goods_code "
+							+ " ORDER BY g.goods_price DESC "
+							+ " LIMIT ?, ?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setInt(1, beginRow);
+					stmt.setInt(2, rowPerPage);
+				} else { // 정렬 highPrice 카테고리 X 검색 O
+					sql = "SELECT"
+							+ " g.goods_code goodsCode"
+							+ ", g.goods_name goodsName"
+							+ ", g.goods_price goodsPrice"
+							+ ", g.goods_category goodsCategory"
+							+ ", g.goods_memo goodsMemo"
+							+ ", g.hit hit"
+							+ ", g.createdate createdate"
+							+ ", gi.filename fileName"
+							+ " FROM goods g INNER JOIN goods_img gi "
+							+ " ON g.goods_code = gi.goods_code "
+							+ " WHERE goods_name LIKE ? "
+							+ " ORDER BY g.goods_price DESC "
+							+ " LIMIT ?, ?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, "%"+word+"%");
+					stmt.setInt(2, beginRow);
+					stmt.setInt(3, rowPerPage);
+				}
+			} else { // 정렬 highPrice 카테고리 O 검색 X
+				if(word.equals("")) {
+					sql = "SELECT"
+							+ " g.goods_code goodsCode"
+							+ ", g.goods_name goodsName"
+							+ ", g.goods_price goodsPrice"
+							+ ", g.goods_category goodsCategory"
+							+ ", g.goods_memo goodsMemo"
+							+ ", g.hit hit"
+							+ ", g.createdate createdate"
+							+ ", gi.filename fileName"
+							+ " FROM goods g INNER JOIN goods_img gi "
+							+ " ON g.goods_code = gi.goods_code "
+							+ " WHERE goods_category = ? "
+							+ " ORDER BY g.goods_price DESC "
+							+ " LIMIT ?, ?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, category);
+					stmt.setInt(2, beginRow);
+					stmt.setInt(3, rowPerPage);
+				} else { // 정렬 highPrice 카테고리 O 검색 O
+					sql = "SELECT"
+							+ " g.goods_code goodsCode"
+							+ ", g.goods_name goodsName"
+							+ ", g.goods_price goodsPrice"
+							+ ", g.goods_category goodsCategory"
+							+ ", g.goods_memo goodsMemo"
+							+ ", g.hit hit"
+							+ ", g.createdate createdate"
+							+ ", gi.filename fileName"
+							+ " FROM goods g INNER JOIN goods_img gi "
+							+ " ON g.goods_code = gi.goods_code "
+							+ " WHERE goods_category = ? AND goods_name LIKE ? "
+							+ " ORDER BY g.goods_price DESC "
+							+ " LIMIT ?, ?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, category);
+					stmt.setString(2, "%"+word+"%");
+					stmt.setInt(3, beginRow);
+					stmt.setInt(4, rowPerPage);
+				}
+			}
 		}
 		
 		ResultSet rs = stmt.executeQuery();
