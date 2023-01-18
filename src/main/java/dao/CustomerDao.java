@@ -144,10 +144,23 @@ public class CustomerDao {
 	public HashMap<String, Object> selectCustomerOne(Connection conn, Customer customer) throws Exception {
 		HashMap<String, Object> memberOne = null;
 		ResultSet rs = null;
-		String sql = "SELECT c.customer_code customerCode, c.customer_id customerId, c.customer_pw customerPw, c.customer_name customerName, c.customer_phone customerPhone, c.point point, c.auth_code authCode, ca.address_code addressCode, ca.address address, c.createdate createdate "
-					+"FROM customer c INNER JOIN customer_address ca "
-					+"ON c.customer_id = ca.customer_id "
-					+"WHERE c.customer_id = ? AND ca.customer_id = ?";
+		String sql = "SELECT"
+					+ "		c.customer_code customerCode"
+					+ "		, c.customer_id customerId"
+					+ "		, c.customer_pw customerPw"
+					+ "		, c.customer_name customerName"
+					+ "		, c.customer_phone customerPhone"
+					+ "		, ph.point point"
+					+ "		, c.auth_code authCode"
+					+ "		, ca.address_code addressCode"
+					+ "		, ca.address address"
+					+ "		, c.createdate createdate"
+					+ "		FROM 	customer c"
+					+ "		INNER JOIN customer_address ca"
+					+ "		ON c.customer_id = ca.customer_id"
+					+ "		INNER JOIN point_history ph"
+					+ "		ON c.customer_id = ph.customer_id"
+					+ "		WHERE c.customer_id=?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, customer.getCustomerId());
 		stmt.setString(2, customer.getCustomerId());
