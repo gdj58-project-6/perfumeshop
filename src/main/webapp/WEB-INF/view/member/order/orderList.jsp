@@ -37,7 +37,7 @@
 							${o.orderState} <a href="${pageContext.request.contextPath}/member/addReturnByOrder?orderCode=${o.orderCode}">환불신청</a>
 						</c:if>
 						<c:if test="${o.orderState eq '배송완료'}">
-							<a href="${pageContext.request.contextPath}/member/modifyOrderState?orderCode=${o.orderCode}&orderState=구매확정">구매확정</a>
+							<a href="${pageContext.request.contextPath}/member/modifyOrderState?orderCode=${o.orderCode}">구매확정</a>
 						</c:if>
 						<c:if test="${o.orderState ne '결제' && o.orderState ne '배송전' && o.orderState ne '배송중' && o.orderState ne '배송완료'}">
 							${o.orderState}
