@@ -573,5 +573,47 @@ public class GoodsDao {
 		return goodsOne;
 		
 	}
+	
+	// 통계
+	// 상품별 총 매출
+	public ArrayList<HashMap<String, Object>> selectGoodsSumList(Connection conn) throws Exception {
+		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
+		ResultSet rs = null;
+		String sql = "SELECT "
+					+ "	t.goodsCode goodsCode " // 상품 코드
+					+ ", gi.filename filename " // 상품 이미지
+					+ ", g.goods_name goodsName " // 상품 이름
+					+ ", g.goods_price goodsPrice " // 상품 가격
+					+ ", t.quantitySum quantitySum " // 총 판매 개수
+					+ ", t.sum sum " // 상품별 총 매출
+					+ "FROM (SELECT "
+					+ "		goods_code goodsCode "
+					+ "		, (order_goods_price * order_goods_quantity) sum "
+					+ "		, SUM(order_goods_quantity) quantitySum "
+					+ "		FROM order_goods "
+					+ "		GROUP BY goods_code) t "
+					+ "INNER JOIN goods g "
+					+ "ON t.goodsCode = g.goods_code "
+					+ "INNER JOIN goods_img gi "
+					+ "ON g.goods_code = gi.goods_code";
+		PreparedStatement stmt = conn.prepareStatement(sql);
 		
+		rs = stmt.executeQuery();
+		
+		while(rs.next()) {
+			HashMap<String, Object> m = new HashMap<String, Object>();
+			m.put("goodsCode", rs.getInt("goodsCode"));
+			m.put("filename", rs.getString("filename"));
+			m.put("goodsName", rs.getString("goodsName"));
+			m.put("goodsPrice", rs.getInt("goodsPrice"));
+			m.put("quantitySum", rs.getInt("quantitySum"));
+			m.put("sum", rs.getInt("sum"));
+			list.add(m);
+		}
+		
+		rs.close();
+		stmt.close();
+		
+		return list;
+	}
 }

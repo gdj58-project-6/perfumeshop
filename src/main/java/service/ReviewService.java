@@ -14,7 +14,29 @@ import vo.Review;
 public class ReviewService {
 	private ReviewDao reviewDao;
 	private PointHistoryDao pointHistoryDao;
+	// 직원용 리뷰리스트 출력
+	public ArrayList<HashMap<String, Object>> getSelectReviewListByAdmin() {
+		ArrayList<HashMap<String, Object>> list = null;
+		Connection conn = null;
 
+		try {
+			conn = DBUtil.getConnection();
+			this.reviewDao = new ReviewDao();
+			list = reviewDao.selectReviewListByAdmin(conn);
+			conn.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return list;
+	}
+	
 	// 로그인한 회원이 작성한 리뷰리스트, 리뷰 내용까지 한 번에 출력
 	public ArrayList<HashMap<String, Object>> getSelectReviewList(String id) {
 		ArrayList<HashMap<String, Object>> list = null;

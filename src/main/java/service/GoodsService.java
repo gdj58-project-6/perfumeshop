@@ -249,4 +249,27 @@ public class GoodsService {
 		return goodsOne;
 	}
 	
+	// 통계
+	// 상품별 총 매출
+	public ArrayList<HashMap<String, Object>> getSelectGoodsSumList() {
+		ArrayList<HashMap<String, Object>> list = null;
+		Connection conn = null;
+		
+		try {
+			conn = DBUtil.getConnection();
+			this.goodsDao = new GoodsDao();
+			list = goodsDao.selectGoodsSumList(conn);
+			conn.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return list;
+	}
 }
