@@ -25,18 +25,18 @@
 		<div>
 		<!-- 남성, 여성등등등... include? -->
 			<a href="${pageContext.request.contextPath}/member/goodsList">모든상품</a>
-			<a href="${pageContext.request.contextPath}/member/goodsList?category=EDT&sort=${sort}&word=${word}">EDT</a>
-			<a href="${pageContext.request.contextPath}/member/goodsList?category=EDP&sort=${sort}&word=${word}">EDP</a>
-			<a href="${pageContext.request.contextPath}/member/goodsList?category=기타향수&sort=${sort}&word=${word}">기타향수</a>
-			<a href="${pageContext.request.contextPath}/member/goodsList?category=헤어퍼퓸&sort=${sort}&word=${word}">헤어퍼퓸</a>
-			<a href="${pageContext.request.contextPath}/member/goodsList?category=바디워시/스크럽&sort=${sort}&word=${word}">바디워시/스크럽</a>
-			<a href="${pageContext.request.contextPath}/member/goodsList?category=바디로션/오일&sort=${sort}&word=${word}">바디로션/오일</a>
-			<a href="${pageContext.request.contextPath}/member/goodsList?category=핸드케어/풋 케어&sort=${sort}&word=${word}">핸드케어/풋 케어</a>
-			<a href="${pageContext.request.contextPath}/member/goodsList?category=캔들&sort=${sort}&word=${word}">캔들</a>
-			<a href="${pageContext.request.contextPath}/member/goodsList?category=디퓨저&sort=${sort}&word=${word}">디퓨저</a>
-			<a href="${pageContext.request.contextPath}/member/goodsList?category=방향제&sort=${sort}&word=${word}">방향제</a>
-			<a href="${pageContext.request.contextPath}/member/goodsList?category=PERSONAL CARE&sort=${sort}&word=${word}">PERSONAL CARE</a>
-			<a href="${pageContext.request.contextPath}/member/goodsList?category=기타&sort=${sort}&word=${word}">기타</a>
+			<a href="${pageContext.request.contextPath}/member/goodsList?category=EDT&sort=${sort}">EDT</a>
+			<a href="${pageContext.request.contextPath}/member/goodsList?category=EDP&sort=${sort}">EDP</a>
+			<a href="${pageContext.request.contextPath}/member/goodsList?category=기타향수&sort=${sort}">기타향수</a>
+			<a href="${pageContext.request.contextPath}/member/goodsList?category=헤어퍼퓸&sort=${sort}">헤어퍼퓸</a>
+			<a href="${pageContext.request.contextPath}/member/goodsList?category=바디워시/스크럽&sort=${sort}">바디워시/스크럽</a>
+			<a href="${pageContext.request.contextPath}/member/goodsList?category=바디로션/오일&sort=${sort}">바디로션/오일</a>
+			<a href="${pageContext.request.contextPath}/member/goodsList?category=핸드케어/풋 케어&sort=${sort}">핸드케어/풋 케어</a>
+			<a href="${pageContext.request.contextPath}/member/goodsList?category=캔들&sort=${sort}">캔들</a>
+			<a href="${pageContext.request.contextPath}/member/goodsList?category=디퓨저&sort=${sort}">디퓨저</a>
+			<a href="${pageContext.request.contextPath}/member/goodsList?category=방향제&sort=${sort}">방향제</a>
+			<a href="${pageContext.request.contextPath}/member/goodsList?category=PERSONAL CARE&sort=${sort}">PERSONAL CARE</a>
+			<a href="${pageContext.request.contextPath}/member/goodsList?category=기타&sort=${sort}">기타</a>
 			
 
 		</div>
@@ -55,6 +55,7 @@
 					<option value="highPrice" <c:out value="${sort == 'highPrice' ? 'selected':'' }"/>>높은가격순</option>
 				</select>
 				<input type="hidden" name="category" value="${category}">
+				<input type="hidden" name="word" value="${word}">
 			</form>
 		</div>	
 		<!-- 정렬기능 만들기 -->

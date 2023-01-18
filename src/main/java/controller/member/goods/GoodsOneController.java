@@ -177,7 +177,7 @@ public class GoodsOneController extends HttpServlet {
 			m.put("goodsName", request.getParameter("goodsName"));
 			m.put("goodsPrice", request.getParameter("goodsPrice"));
 			m.put("cartQuantity", request.getParameter("cartQuantity"));
-			m.put("filename", request.getParameter("filename"));
+			m.put("fileName", request.getParameter("filename"));
 			list.add(m);
 			// System.out.println(list);
 			session.setAttribute("cart", list);

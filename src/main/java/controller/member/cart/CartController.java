@@ -30,8 +30,8 @@ public class CartController extends HttpServlet {
 		Emp loginEmp = null;
 		HttpSession session =  request.getSession();
 		loginCustomer = (Customer)session.getAttribute("loginMember");
+		loginEmp = (Emp)session.getAttribute("loginMember");
 		request.setAttribute("loginCustomer", loginCustomer);
-		
 		// 컨트롤러에서 alert 띄우기
 		response.setContentType("text/html; charset=UTF-8");
 		PrintWriter writer = response.getWriter();
@@ -46,7 +46,7 @@ public class CartController extends HttpServlet {
 			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/view/member/cart/cartList.jsp");
 			rd.forward(request, response);
 			return;
-		} else {
+		} else { // 비로그인 
 			System.out.println("로그인 X");
 			ArrayList<HashMap<String, Object>> list = (ArrayList<HashMap<String, Object>>)session.getAttribute("cart");
 			// System.out.println(list);

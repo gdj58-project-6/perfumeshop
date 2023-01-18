@@ -15,9 +15,21 @@
 				let totalPrice = document.querySelectorAll('.totalPrice');
 				let modifyCartList = document.querySelector('#modifyCartList');
 				
+				let plusBtn2 = document.querySelectorAll('.plusBtn2');
+				let minusBtn2 = document.querySelectorAll('.minusBtn2');
+				
+				// 비로그인 상태
+				$('.plusBtn2').click(function() {
+					 alert('수량변경은 로그인 후 하실 수 있습니다');
+				})
+				
+				$('.minusBtn2').click(function() {
+					 alert('수량변경은 로그인 후 하실 수 있습니다');
+				})
+			
 				// console.log(orderQuantity.length);
 		
-		
+				// 로그인 상태 
 				for (let i = 0; i < orderQuantity.length; i++) {
 					plusBtn[i].addEventListener('click',function() {
 						let quantity = parseInt(document.querySelectorAll('.orderQuantity')[i].value);
@@ -36,36 +48,68 @@
 						}
 					});
 				}
+			
+						
 			});
 		</script>
 	</head>
 	<body>
 		<!-- include -->
-		<h3>장바구니</h3>
+		<a href='${pageContext.request.contextPath}/home'>홈</a>
+		<div>
+			<h3>장바구니</h3>
+		</div>
+		<div>
+			<c:if test="${loginCustomer != null }">
+				<span>구매자 ${loginCustomer.customerId}</span>
+			</c:if>
+		</div>	
+		<div>
+			<c:if test="${loginCustomer == null }">
+				<span>구매하실려면 로그인을 해주세요</span>
+			</c:if>
+		</div>	
+		<div>
+			<c:if test="${list.size() == null}">
+				<div>
+					<img src="${pageContext.request.contextPath}/upload/장바구니X.png" width="300" height="300">
+				</div>
+				<a href='${pageContext.request.contextPath}/member/goodsList'>쇼핑하러 가기</a>
+			</c:if>
+		</div>
 		<form action="${pageContext.request.contextPath}/member/ModifyCartList" method="post" id="modifyCartList">	
 			<c:forEach var="m" items="${list}">	
 				<!-- totalPrice 구하기 --> 
 				<c:set var="totalPrice" value="${totalPrice + (m.goodsPrice * m.cartQuantity)}"></c:set>
 					<input type="hidden" name="goodsCode" value="${m.goodsCode}">
 					<input type="hidden" name="totalPrice" class="totalPrice" value="${totalPrice}">
+					<input type="hidden" name="customerId" value="${m.customerId}">
 					<table border="1">
 						<tr>
-							<td>구매자</td>
-							<td><input type="text" name="customerId" value="${m.customerId}" readonly="readonly"></td>
-						<tr>
 							<!-- 이름위에 상품사진 나오게?  -->
-							<td colspan="2"><img src="${pageContext.request.contextPath}/upload/${m.fileName}" width="100" height="100"></td>
+							<td colspan="2">
+								<img src="${pageContext.request.contextPath}/upload/${m.fileName}" width="100" height="100">
+							</td>
 						<tr>
 							<td>상품이름</td>
 							<td><input type="text" name="goodsName" value="${m.goodsName}" readonly="readonly"></td>
 						<tr>
 						<tr>
 							<td>구매수량</td>
-							<td>
-								<input type="button" value=" - " name="minus" class="minusBtn"> 
-								<input type="text"name="orderQuantity" class="orderQuantity" value="${m.cartQuantity}" min="1" readonly="readonly"> 
-								<input type="button" value=" + " name="plus" class="plusBtn">
-							</td>
+							<c:if test="${loginCustomer != null }">
+								<td>
+									<input type="button" value=" - " name="minus" class="minusBtn"> 
+									<input type="text"name="orderQuantity" class="orderQuantity" value="${m.cartQuantity}" min="1" readonly="readonly"> 
+									<input type="button" value=" + " name="plus" class="plusBtn">
+								</td>
+							</c:if>
+							<c:if test="${loginCustomer == null}">
+								<td>
+									<input type="button" value=" - " name="minus2" class="minusBtn2"> 
+									<input type="text"name="orderQuantity" class="orderQuantity" value="${m.cartQuantity}" min="1" readonly="readonly"> 
+									<input type="button" value=" + " name="plus2" class="plusBtn2">
+								</td>
+							</c:if>
 						<tr>
 						<tr>
 							<!-- 구매수량이 바뀔떄마다 가격도 바뀌게 -->
@@ -87,22 +131,23 @@
 				<span>총가격 :${totalPrice}원</span>
 			</div>
 		</form>	
+		<div>
+			<c:if test="${loginCustomer != null }">	
+				<a href='${pageContext.request.contextPath}/member/RemoveAllCartList?customerId=${loginMember.getCustomerId()}'>장바구니 전부 비우기</a>
+			</c:if>
+		</div>
+		<div>
+			<c:if test="${loginCustomer == null}">
+				<a href='${pageContext.request.contextPath}/member/RemoveAllCartList'>장바구니 전부 비우기</a>
+			</c:if>
+		</div>	
 		<c:if test="${loginCustomer != null }">
 			<form action="${pageContext.request.contextPath}/member/goodsPayMentCart" method="get">
 			<button type="submit">구매하기</button>
 			</form>
-		</c:if>				
-		<c:if test="${loginCustomer == null }">
-			<a href='${pageContext.request.contextPath}/member/login'>로그인</a>	
 		</c:if>		
-		<c:if test="${loginCustomer != null }">	
-			<div>
-				<a href='${pageContext.request.contextPath}/member/RemoveAllCartList?customerId=${loginMember.getCustomerId()}'>장바구니 전부 비우기</a>
-			</div>
-		</c:if>
-		<c:if test="${loginCustomer == null}">
-			<a href='${pageContext.request.contextPath}/member/RemoveAllCartList'>장바구니 전부 비우기</a>
-		</c:if>
-		<a href='${pageContext.request.contextPath}/home'>홈</a>
+		<c:if test="${loginCustomer == null }">
+			<a href='${pageContext.request.contextPath}/member/login'>로그인 후 구매</a>	
+		</c:if>	
 	</body>
 </html>
