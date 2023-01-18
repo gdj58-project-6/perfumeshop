@@ -9,6 +9,55 @@ import java.util.HashMap;
 import vo.Review;
 
 public class ReviewDao {
+	// 로그인한 회원이 작성한 리뷰리스트, 리뷰 내용까지 한 번에 출력
+	public ArrayList<HashMap<String, Object>> selectReviewList(Connection conn, String id) throws Exception {
+		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
+		ResultSet rs = null;
+		String sql = "SELECT " 
+					+ "r.order_code orderCode " 
+					+ ", r.goods_code goodsCode "
+					+ ", g.goods_name goodsName " 
+					+ ", gi.filename filename " 
+					+ ", o.customer_id customerId"
+					+ ", r.review_memo reviewMemo "
+					+ ", ph.point point " 
+					+ ", r.createdate createdate " 
+					+ "FROM review r INNER JOIN orders o "
+					+ "ON r.order_code = o.order_code " 
+					+ "INNER JOIN order_goods og "
+					+ "ON o.order_code = og.order_code " 
+					+ "INNER JOIN goods g " 
+					+ "ON og.goods_code = g.goods_code "
+					+ "INNER JOIN goods_img gi " 
+					+ "ON g.goods_code = gi.goods_code " 
+					+ "INNER JOIN point_history ph "
+					+ "ON o.order_code = ph.order_code " 
+					+ "WHERE o.customer_id = ? AND ph.point_kind = '적립'";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, id);
+
+		rs = stmt.executeQuery();
+
+		while (rs.next()) {
+			HashMap<String, Object> m = new HashMap<String, Object>();
+			m.put("orderCode", rs.getInt("orderCode"));
+			m.put("goodsCode", rs.getInt("goodsCode"));
+			m.put("goodsName", rs.getString("goodsName"));
+			m.put("filename", rs.getString("filename"));
+			m.put("customerId", rs.getString("customerId"));
+			m.put("reviewMemo", rs.getString("reviewMemo"));
+			m.put("point", rs.getInt("point"));
+			m.put("createdate", rs.getString("createdate"));
+			list.add(m);
+		}
+
+		rs.close();
+		stmt.close();
+
+		return list;
+	}
+
+	
 	// 구매확정시 리뷰등록
 	public int insertReviewByCustomer(Connection conn, Review review) throws Exception {
 		int row = 0;
@@ -97,4 +146,36 @@ public class ReviewDao {
 		rs.close();
 		return list;
 	}
+
+	// 리뷰 수정
+	public int updateReview(Connection conn, Review review) throws Exception {
+		int row = 0;
+		String sql = "UPDATE review SET review_memo = ? WHERE order_code = ? AND goods_code = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, review.getReviewMemo());
+		stmt.setInt(2, review.getOrderCode());
+		stmt.setInt(3, review.getGoodsCode());
+		  
+		row = stmt.executeUpdate();
+		
+		stmt.close();
+		  
+		return row;
+	}
+	   
+	// 리뷰 삭제
+	public int deleteReview(Connection conn, Review review) throws Exception {
+		int row = 0;
+		String sql = "DELETE from review WHERE order_code = ? AND goods_code = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, review.getOrderCode());
+		stmt.setInt(2, review.getGoodsCode());
+
+		row = stmt.executeUpdate();
+
+		stmt.close();
+
+		return row;
+	}
+
 }

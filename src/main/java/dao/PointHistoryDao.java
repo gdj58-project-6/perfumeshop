@@ -12,13 +12,14 @@ public class PointHistoryDao {
 	// 리뷰작성시 포인트 적립, 구매시 포인트 사용, 주문취소시 포인트 취소
 	public int insertPoint(Connection conn, PointHistory pointHistory) throws Exception {
 		int row = 0;
-		String sql = "INSERT INTO point_history(order_code, goods_code, customer_id, point_kind, POINT, createdate) VALUES(?, ?, ?, ?, ?, NOW())";
+		String sql = "INSERT INTO point_history(order_code, goods_code, customer_id, point_kind, point, memo, createdate) VALUES(?, ?, ?, ?, ?, ?, NOW())";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, pointHistory.getOrderCode());
 		stmt.setInt(2, pointHistory.getGoodsCode());
 		stmt.setString(3, pointHistory.getCustomerId());
 		stmt.setString(4, pointHistory.getPointKind());
 		stmt.setInt(5, pointHistory.getPoint());
+		stmt.setString(6, pointHistory.getMemo());
 		
 		row = stmt.executeUpdate();
 		
@@ -36,6 +37,7 @@ public class PointHistoryDao {
 					+ ", goods_code goodsCode "
 					+ ", point_kind pointKind "
 					+ ", point "
+					+ ", memo "
 					+ ", createdate "
 					+ "FROM point_history "
 					+ "WHERE customer_id = ?";
@@ -50,6 +52,7 @@ public class PointHistoryDao {
 			p.setGoodsCode(rs.getInt("goodsCode"));
 			p.setPointKind(rs.getString("pointKind"));
 			p.setPoint(rs.getInt("point"));
+			p.setMemo(rs.getString("memo"));
 			p.setCreatedate(rs.getString("createdate"));
 			list.add(p);
 		}

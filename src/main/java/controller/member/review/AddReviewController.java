@@ -38,26 +38,34 @@ public class AddReviewController extends HttpServlet {
 		request.getRequestDispatcher("/WEB-INF/view/member/review/addReview.jsp").forward(request, response);
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// 포인트에 생성되는 콤마 제거, 콤마가 있으면 String으로 인식해서 int타입인 포인트 적립이 안됌
+		String result = request.getParameter("point");
+		String result2 = result.replaceAll(",", "");
+		
 		// 리뷰를 남길 주문코드, 상품코드, 리뷰내용 등록 후 포인트 적립
 		int orderCode = Integer.parseInt(request.getParameter("orderCode"));
 		int goodsCode = Integer.parseInt(request.getParameter("goodsCode"));
-		int point = Integer.parseInt(request.getParameter("point"));
+		int point = Integer.parseInt(result2);
 		String reviewMemo = request.getParameter("reviewMemo");
 		String id = request.getParameter("id");
 		String pointKind = request.getParameter("pointKind");
 		
+		
 		// 바인딩
+		// 리뷰
 		Review review = new Review();
 		review.setOrderCode(orderCode);
 		review.setGoodsCode(goodsCode);
 		review.setReviewMemo(reviewMemo);
 		
+		// 포인트 적립
 		PointHistory pointHistory = new PointHistory();
 		pointHistory.setOrderCode(orderCode);
 		pointHistory.setGoodsCode(goodsCode);
 		pointHistory.setCustomerId(id);
 		pointHistory.setPointKind(pointKind);
 		pointHistory.setPoint(point);
+		pointHistory.setMemo("리뷰 등록");
 		
 		// Model
 		this.reviewService = new ReviewService();

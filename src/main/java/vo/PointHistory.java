@@ -6,11 +6,12 @@ public class PointHistory {
 	private String customerId;
 	private String pointKind;
 	private int point;
+	private String memo;
 	private String createdate;
 	
 	public PointHistory() {}
 
-	public PointHistory(int orderCode, int goodsCode, String customerId, String pointKind, int point,
+	public PointHistory(int orderCode, int goodsCode, String customerId, String pointKind, int point, String memo,
 			String createdate) {
 		super();
 		this.orderCode = orderCode;
@@ -18,14 +19,16 @@ public class PointHistory {
 		this.customerId = customerId;
 		this.pointKind = pointKind;
 		this.point = point;
+		this.memo = memo;
 		this.createdate = createdate;
 	}
 
 	@Override
 	public String toString() {
 		return "PointHistory [orderCode=" + orderCode + ", goodsCode=" + goodsCode + ", customerId=" + customerId
-				+ ", pointKind=" + pointKind + ", point=" + point + ", createdate=" + createdate + ", getClass()="
-				+ getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
+				+ ", pointKind=" + pointKind + ", point=" + point + ", memo=" + memo + ", createdate=" + createdate
+				+ ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString()
+				+ "]";
 	}
 
 	public int getOrderCode() {
@@ -66,6 +69,14 @@ public class PointHistory {
 
 	public void setPoint(int point) {
 		this.point = point;
+	}
+
+	public String getMemo() {
+		return memo;
+	}
+
+	public void setMemo(String memo) {
+		this.memo = memo;
 	}
 
 	public String getCreatedate() {

@@ -42,7 +42,7 @@
 				<tr>
 					<td>적립받을 포인트</td>
 					<td>
-						<fmt:formatNumber var="point" type="number" maxFractionDigits="0"  value="${point}" />
+						<fmt:formatNumber var="point" type="number" maxFractionDigits="3"  value="${point}" />
 						<input type="text" name="point" value="${point}">
 					</td>
 				</tr>
