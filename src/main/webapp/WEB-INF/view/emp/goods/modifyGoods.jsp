@@ -24,11 +24,21 @@
 				상품가격 : <input type="number" name="goodsPrice" value="${b.goodsPrice}">
 			</div>	
 			<div>
-				상품종류 : <select name="goodsCategory">
-							<option value="향수">향수</option>
-							<option value="헤어">헤어</option>
-							<option value="바디">바디</option>
-						</select>
+				상품종류 :
+				 <select name="goodsCategory">
+					<option value="EDT">EDT</option>
+					<option value="EDP">EDP</option>
+					<option value="기타향수">기타향수</option>
+					<option value="헤어퍼퓸">헤어퍼퓸</option>
+					<option value="바디워시/스크럽">바디워시/스크럽</option>
+					<option value="바디로션/오일">바디로션/오일</option>
+					<option value="핸드케어/풋 케어">핸드케어/풋 케어</option>
+					<option value="캔들">캔들</option>
+					<option value="디퓨저">디퓨저</option>
+					<option value="방향제">방향제</option>
+					<option value="PERSONAL CARE">PERSONAL CARE</option>
+					<option value="기타">기타</option>
+				</select>
 			</div>
 			<div>
 				상품설명 : 
