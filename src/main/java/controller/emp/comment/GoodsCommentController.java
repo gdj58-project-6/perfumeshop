@@ -36,12 +36,34 @@ public class GoodsCommentController extends HttpServlet {
 		if(request.getParameter("rowPerPage") != null) {
 			rowPerPage = Integer.parseInt(request.getParameter("rowPerPage"));
 		}
+		// 검색어 분류
+		String search = "";
+		if(request.getParameter("search") != null) {
+			search = request.getParameter("search");
+			System.out.println(search + "<-- search 디버깅");
+		}
+		// 검색어
+		String word = null;
+		if(request.getParameter("word") != null) {
+			word = request.getParameter("word");
+			System.out.println(word + "<-- word 디버깅");
+		}
 		
+		String category = "";
+		if(request.getParameter("category") != "") {
+			category = request.getParameter("category");
+			System.out.println(category + "<-- category 디버깅");
+		}
 		
+		String sort = "";
+		if(request.getParameter("sort") != "") {
+			sort = request.getParameter("sort");
+			System.out.println(sort + "<-- sort 디버깅");
+		}
 		// 메서드 호출
 		this.commentService = new CommentService();
-		ArrayList<HashMap<String, Object>> goodsList = commentService.getGoodsQuestionListByAdmin(currentPage, rowPerPage);
-		int goodsListCount = commentService.getGoodsQuestionCountByAdmin();
+		ArrayList<HashMap<String, Object>> goodsList = commentService.getGoodsQuestionListByAdmin(word, category, search, sort, currentPage, rowPerPage);
+		int goodsListCount = commentService.getGoodsQuestionCountByAdmin(word, category, search, sort);
 		int lastPage = 0;
 		if(goodsListCount % rowPerPage == 0) {
 			lastPage = goodsListCount / rowPerPage;
@@ -52,6 +74,10 @@ public class GoodsCommentController extends HttpServlet {
 		request.setAttribute("rowPerPage", rowPerPage);
 		request.setAttribute("lastPage", lastPage);
 		request.setAttribute("goodsList", goodsList);
+		request.setAttribute("word", word);
+		request.setAttribute("search", search);
+		request.setAttribute("category", category);
+		request.setAttribute("sort", sort);
 		
 		request.getRequestDispatcher("/WEB-INF/view/emp/comment/goodsCommentList.jsp").forward(request, response);
 	}

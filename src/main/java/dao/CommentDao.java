@@ -927,87 +927,6 @@ public class CommentDao {
 				}
 			}
 		}
-		/*
-		// 정렬 , 검색 전부X
-		if(sort.equals("") && word.equals("")) {
-			sql = "SELECT"
-				+ "		q.question_code questionCode, q.orders_code orderCode, q.category category"
-				+ "		, q.question_memo questionMemo, q.createdate qCreatedate, qc.comment_code commentCode"
-				+ "		, qc.comment_memo commentMemo, qc.createdate qcCreatedate, o.customer_id customerId"
-				+ "		, o.order_state orderState, og.goods_code goodsCode, g.goods_name goodsName"
-				+ "		FROM question q LEFT JOIN question_comment qc ON q.question_code = qc.question_code"
-				+ "		inner JOIN orders o ON q.orders_code = o.order_code"
-				+ "		inner JOIN order_goods og ON q.orders_code = og.order_code"
-				+ "		inner JOIN goods g ON og.goods_code = g.goods_code"
-				+ "		GROUP BY q.question_code"
-				+ "		ORDER BY q.question_code DESC LIMIT ?, ?";
-			// 쿼리 객체 생성
-			stmt = conn.prepareStatement(sql);
-			// 쿼리문 ?값 지정
-			stmt.setInt(1, beginRow);
-			stmt.setInt(2, rowPerPage);
-		// 정렬X, 검색o
-		} else if(sort.equals("") && !word.equals("")) {
-			// 주문번호로 검색
-			sql = "SELECT"
-				+ "		q.question_code questionCode, q.orders_code orderCode, q.category category"
-				+ "		, q.question_memo questionMemo, q.createdate qCreatedate, qc.comment_code commentCode"
-				+ "		, qc.comment_memo commentMemo, qc.createdate qcCreatedate, o.customer_id customerId"
-				+ "		, o.order_state orderState, og.goods_code goodsCode, g.goods_name goodsName"
-				+ "		FROM question q LEFT JOIN question_comment qc ON q.question_code = qc.question_code"
-				+ "		inner JOIN orders o ON q.orders_code = o.order_code"
-				+ "		inner JOIN order_goods og ON q.orders_code = og.order_code"
-				+ "		inner JOIN goods g ON og.goods_code = g.goods_code"
-				+ "		WHERE q.orders_code LIKE ?"
-				+ "		GROUP BY q.question_code"
-				+ "		ORDER BY q.question_code DESC LIMIT ?, ?";
-			// 쿼리 객체 생성
-			stmt = conn.prepareStatement(sql);
-			// 쿼리문 ?값 지정
-			stmt.setString(1, word);
-			stmt.setInt(2, beginRow);
-			stmt.setInt(3, rowPerPage);
-		// 정렬(답변전)o, 검색x
-		} else if(sort.equals("asc") && word.equals("")) {
-			sql = "SELECT"
-				+ "		q.question_code questionCode, q.orders_code orderCode, q.category category"
-				+ "		, q.question_memo questionMemo, q.createdate qCreatedate, qc.comment_code commentCode"
-				+ "		, qc.comment_memo commentMemo, qc.createdate qcCreatedate, o.customer_id customerId"
-				+ "		, o.order_state orderState, og.goods_code goodsCode, g.goods_name goodsName"
-				+ "		FROM question q LEFT JOIN question_comment qc ON q.question_code = qc.question_code"
-				+ "		inner JOIN orders o ON q.orders_code = o.order_code"
-				+ "		inner JOIN order_goods og ON q.orders_code = og.order_code"
-				+ "		inner JOIN goods g ON og.goods_code = g.goods_code"
-				+ "		WHERE qc.comment_memo IS null"
-				+ "		GROUP BY q.question_code"
-				+ "		ORDER BY q.createdate DESC LIMIT ?, ?";
-			// 쿼리 객체 생성
-			stmt = conn.prepareStatement(sql);
-			// 쿼리문 ?값 지정
-			stmt.setInt(1, beginRow);
-			stmt.setInt(2, rowPerPage);
-		// 정렬(답변전)o, 검색o
-		} else if(sort.equals("asc") && !word.equals("")) {
-			sql = "SELECT"
-				+ "		q.question_code questionCode, q.orders_code orderCode, q.category category"
-				+ "		, q.question_memo questionMemo, q.createdate qCreatedate, qc.comment_code commentCode"
-				+ "		, qc.comment_memo commentMemo, qc.createdate qcCreatedate, o.customer_id customerId"
-				+ "		, o.order_state orderState, og.goods_code goodsCode, g.goods_name goodsName"
-				+ "		FROM question q LEFT JOIN question_comment qc ON q.question_code = qc.question_code"
-				+ "		inner JOIN orders o ON q.orders_code = o.order_code"
-				+ "		inner JOIN order_goods og ON q.orders_code = og.order_code"
-				+ "		inner JOIN goods g ON og.goods_code = g.goods_code"
-				+ "		WHERE qc.comment_memo IS null AND q.orders_code LIKE ?"
-				+ "		GROUP BY q.question_code"
-				+ "		ORDER BY q.createdate DESC LIMIT ?, ?";
-			// 쿼리 객체 생성
-			stmt = conn.prepareStatement(sql);
-			// 쿼리문 ?값 지정
-			stmt.setString(1, word);
-			stmt.setInt(2, beginRow);
-			stmt.setInt(3, rowPerPage);
-		}
-		*/
 		// 쿼리 실행
 		ResultSet rs = stmt.executeQuery();
 		list = new ArrayList<HashMap<String, Object>>();
@@ -1065,13 +984,256 @@ public class CommentDao {
 		return row;
 	}
 	// 상품문의 목록수
-	public int selectGoodsQuestionCountByAdmin(Connection conn) throws Exception {
+	public int selectGoodsQuestionCountByAdmin(Connection conn, String word, String category, String search, String sort) throws Exception {
 		// 객체 초기화
 		int row = 0;
-		// 쿼리문 작성
-		String sql = "SELECT COUNT(*) FROM goods_question";
-		// 쿼리 객체 생성
-		PreparedStatement stmt = conn.prepareStatement(sql);
+		// 검색어
+		if(word == null || word.equals("")) {
+			word = "";
+		}
+		// 검색어분류
+		if(search == null || search.equals("")) {
+			search = "";
+		}
+		// 분류
+		if(category == null || category.equals("")) {
+			category = "";
+		}
+		// 정렬
+		if(sort == null || sort.equals("")) {
+			sort = "";
+		}
+		String sql ="";
+		PreparedStatement stmt = null;
+		// 검색 x
+		if(search.equals("")) {
+			// 검색x, 정렬 x
+			if(sort.equals("")) {
+				// 검색x, 정렬x, 분류x
+				if(category.equals("")) {
+					// 쿼리문 작성
+					sql = "SELECT COUNT(*) FROM goods_question";
+					// 쿼리 객체 생성
+					stmt = conn.prepareStatement(sql);
+				// 검색x, 정렬x, 분류o
+				} else if(!category.equals("")) {
+					// 쿼리문 작성
+					sql = "SELECT COUNT(*) FROM goods_question WHERE category=?";
+					// 쿼리 객체 생성
+					stmt = conn.prepareStatement(sql);
+					// 쿼리문 ?값 지정
+					stmt.setString(1, category);
+				}
+			// 검색x, 정렬(답변전)
+			} else if(sort.equals("asc")) {
+				// 검색x, 정렬(답변전), 분류x
+				if(category.equals("")) {
+					// 쿼리문 작성
+					sql = "SELECT COUNT(*)"
+						+ "		FROM goods_question gq LEFT JOIN goods_question_comment gqc"
+						+ "		ON gq.goods_question_code = gqc.goods_question_code"
+						+ "		WHERE gqc.goods_comment_memo IS NULL";
+					// 쿼리 객체 생성
+					stmt = conn.prepareStatement(sql);
+				// 검색x, 정렬(답변전), 분류o
+				} else if(!category.equals("")) {
+					// 쿼리문 작성
+					sql = "SELECT COUNT(*)"
+						+ "		FROM goods_question gq LEFT JOIN goods_question_comment gqc"
+						+ "		ON gq.goods_question_code = gqc.goods_question_code"
+						+ "		WHERE gq.category=? AND gqc.goods_comment_memo IS NULL";
+					// 쿼리 객체 생성
+					stmt = conn.prepareStatement(sql);
+					// 쿼리문 ?값 지정
+					stmt.setString(1, category);
+				}
+			// 검색x 정렬(답변후)
+			} else if(sort.equals("desc")) {
+				// 검색x, 정렬(답변후), 분류x
+				if(category.equals("")) {
+					// 쿼리문 작성
+					sql = "SELECT COUNT(*)"
+						+ "		FROM goods_question gq INNER JOIN goods_question_comment gqc"
+						+ "		ON gq.goods_question_code = gqc.goods_question_code";
+					// 쿼리 객체 생성
+					stmt = conn.prepareStatement(sql);
+				// 검색x, 정렬(답변후), 분류o
+				} else if(!category.equals("")) {
+					// 쿼리문 작성
+					sql = "SELECT COUNT(*)"
+						+ "		FROM goods_question gq INNER JOIN goods_question_comment gqc"
+						+ "		ON gq.goods_question_code = gqc.goods_question_code"
+						+ "		WHERE gq.category=?";
+					// 쿼리 객체 생성
+					stmt = conn.prepareStatement(sql);
+					// 쿼리문 ?값 지정
+					stmt.setString(1, category);
+				}
+			}
+		// 검색 : 상품명
+		} else if(search.equals("상품명")) {
+			// 검색 : 상품명, 정렬 x
+			if(sort.equals("")) {
+				// 검색 : 상품명, 정렬x, 분류x
+				if(category.equals("")) {
+					// 쿼리문 작성
+					sql = "SELECT COUNT(*) FROM goods_question gq INNER JOIN goods g ON gq.goods_code = g.goods_code WHERE g.goods_name LIKE ?";
+					// 쿼리 객체 생성
+					stmt = conn.prepareStatement(sql);
+					// 쿼리문 ?값 지정
+					stmt.setString(1, "%"+word+"%");
+				// 검색 : 상품명, 정렬x, 분류o
+				} else if(!category.equals("")) {
+					// 쿼리문 작성
+					sql = "SELECT COUNT(*) "
+						+ "		FROM goods_question gq INNER JOIN goods g "
+						+ "		ON gq.goods_code = g.goods_code "
+						+ "		WHERE g.goods_name LIKE ? AND gq.category=?";
+					// 쿼리 객체 생성
+					stmt = conn.prepareStatement(sql);
+					// 쿼리문 ?값 지정
+					stmt.setString(1, "%"+word+"%");
+					stmt.setString(2, category);
+				}
+			// 검색 : 상품명, 정렬(답변전)
+			} else if(sort.equals("asc")) {
+				// 검색 : 상품명, 정렬(답변전), 분류x
+				if(category.equals("")) {
+					// 쿼리문 작성
+					sql = "SELECT COUNT(*)"
+						+ "		FROM goods_question gq INNER JOIN goods g"
+						+ "		ON gq.goods_code = g.goods_code"
+						+ "		LEFT JOIN goods_question_comment gqc"
+						+ "		ON gq.goods_question_code = gqc.goods_question_code"
+						+ "		WHERE g.goods_name LIKE ? AND gqc.goods_comment_memo IS NULL";
+					// 쿼리 객체 생성
+					stmt = conn.prepareStatement(sql);
+					// 쿼리문 ?값 지정
+					stmt.setString(1, "%"+word+"%");
+				// 검색 : 상품명, 정렬(답변전), 분류o
+				} else if(!category.equals("")) {
+					// 쿼리문 작성
+					sql = "SELECT COUNT(*)"
+						+ "		FROM goods_question gq INNER JOIN goods g"
+						+ "		ON gq.goods_code = g.goods_code"
+						+ "		LEFT JOIN goods_question_comment gqc"
+						+ "		ON gq.goods_question_code = gqc.goods_question_code"
+						+ "		WHERE g.goods_name LIKE ? AND gq.category=? AND gqc.goods_comment_memo IS NULL";
+					// 쿼리 객체 생성
+					stmt = conn.prepareStatement(sql);
+					// 쿼리문 ?값 지정
+					stmt.setString(1, "%"+word+"%");
+					stmt.setString(2, category);
+				}
+			// 검색 : 상품명 정렬(답변후)
+			} else if(sort.equals("desc")) {
+				// 검색 : 상품명, 정렬(답변후), 분류x
+				if(category.equals("")) {
+					// 쿼리문 작성
+					sql = "SELECT COUNT(*)"
+						+ "		FROM goods_question gq INNER JOIN goods g"
+						+ "		ON gq.goods_code = g.goods_code"
+						+ "		INNER JOIN goods_question_comment gqc"
+						+ "		ON gq.goods_question_code = gqc.goods_question_code"
+						+ "		WHERE g.goods_name LIKE ?";
+					// 쿼리 객체 생성
+					stmt = conn.prepareStatement(sql);
+					// 쿼리문 ?값 지정
+					stmt.setString(1, "%"+word+"%");
+				// 검색 : 상품명, 정렬(답변후), 분류o
+				} else if(!category.equals("")) {
+					// 쿼리문 작성
+					sql = "SELECT COUNT(*)"
+						+ "		FROM goods_question gq INNER JOIN goods g"
+						+ "		ON gq.goods_code = g.goods_code"
+						+ "		INNER JOIN goods_question_comment gqc"
+						+ "		ON gq.goods_question_code = gqc.goods_question_code"
+						+ "		WHERE g.goods_name LIKE ? AND gq.category=?";
+					// 쿼리 객체 생성
+					stmt = conn.prepareStatement(sql);
+					// 쿼리문 ?값 지정
+					stmt.setString(1, "%"+word+"%");
+					stmt.setString(2, category);
+				}
+			}
+		// 검색 : 고객ID
+		} else if(search.equals("고객ID")) {
+			// 검색 : 고객ID, 정렬 x
+			if(sort.equals("")) {
+				// 검색 : 고객ID, 정렬x, 분류x
+				if(category.equals("")) {
+					// 쿼리문 작성
+					sql = "SELECT COUNT(*)"
+						+ "		FROM goods_question WHERE customer_id LIKE ?";
+					// 쿼리 객체 생성
+					stmt = conn.prepareStatement(sql);
+					// 쿼리문 ?값 지정
+					stmt.setString(1, "%"+word+"%");
+				// 검색 : 고객ID, 정렬x, 분류o
+				} else if(!category.equals("")) {
+					// 쿼리문 작성
+					sql = "SELECT COUNT(*)"
+						+ "		FROM goods_question WHERE customer_id LIKE ? AND category=?";
+					// 쿼리 객체 생성
+					stmt = conn.prepareStatement(sql);
+					// 쿼리문 ?값 지정
+					stmt.setString(1, "%"+word+"%");
+					stmt.setString(2, category);
+				}
+			// 검색 : 고객ID, 정렬(답변전)
+			} else if(sort.equals("asc")) {
+				// 검색 : 고객ID, 정렬(답변전), 분류x
+				if(category.equals("")) {
+					// 쿼리문 작성
+					sql = "SELECT COUNT(*)"
+						+ "		FROM goods_question gq LEFT JOIN goods_question_comment gqc"
+						+ "		ON gq.goods_question_code = gqc.goods_question_code"
+						+ "		WHERE gq.customer_id LIKE ? AND gqc.goods_comment_memo IS NULL";
+					// 쿼리 객체 생성
+					stmt = conn.prepareStatement(sql);
+					// 쿼리문 ?값 지정
+					stmt.setString(1, "%"+word+"%");
+				// 검색 : 고객ID, 정렬(답변전), 분류o
+				} else if(!category.equals("")) {
+					// 쿼리문 작성
+					sql = "SELECT COUNT(*)"
+						+ "		FROM goods_question gq LEFT JOIN goods_question_comment gqc"
+						+ "		ON gq.goods_question_code = gqc.goods_question_code"
+						+ "		WHERE gq.customer_id LIKE ? AND gq.category=? AND gqc.goods_comment_memo IS NULL";
+					// 쿼리 객체 생성
+					stmt = conn.prepareStatement(sql);
+					// 쿼리문 ?값 지정
+					stmt.setString(1, "%"+word+"%");
+					stmt.setString(2, category);
+				}
+			// 검색 : 고객ID 정렬(답변후)
+			} else if(sort.equals("desc")) {
+				// 검색 : 고객ID, 정렬(답변후), 분류x
+				if(category.equals("")) {
+					// 쿼리문 작성
+					sql = "SELECT COUNT(*)"
+						+ "		FROM goods_question gq INNER JOIN goods_question_comment gqc"
+						+ "		ON gq.goods_question_code = gqc.goods_question_code"
+						+ "		WHERE gq.customer_id LIKE ?";
+					// 쿼리 객체 생성
+					stmt = conn.prepareStatement(sql);
+					// 쿼리문 ?값 지정
+					stmt.setString(1, "%"+word+"%");
+				// 검색 : 고객ID, 정렬(답변후), 분류o
+				} else if(!category.equals("")) {
+					// 쿼리문 작성
+					sql = "SELECT COUNT(*)"
+						+ "		FROM goods_question gq INNER JOIN goods_question_comment gqc"
+						+ "		ON gq.goods_question_code = gqc.goods_question_code"
+						+ "		WHERE gq.customer_id LIKE ? AND gq.category=?";
+					// 쿼리 객체 생성
+					stmt = conn.prepareStatement(sql);
+					// 쿼리문 ?값 지정
+					stmt.setString(1, "%"+word+"%");
+					stmt.setString(2, category);
+				}
+			}
+		}
 		// 쿼리 실행
 		ResultSet rs = stmt.executeQuery();
 		if(rs.next()) {
@@ -1082,30 +1244,534 @@ public class CommentDao {
 		return row;
 	}
 	// 상품문의
-	public ArrayList<HashMap<String, Object>> selectGoodsQuestionListByAdmin(Connection conn, int beginRow, int rowPerPage) throws Exception {
+	public ArrayList<HashMap<String, Object>> selectGoodsQuestionListByAdmin(Connection conn, String word, String category, String search, String sort, int beginRow, int rowPerPage) throws Exception {
 		// 객체 초기화
 		ArrayList<HashMap<String, Object>> list = null;
-		// 쿼리문 작성
-		String sql= "SELECT gq.goods_question_code goodsQuestionCode"
-				+ "		, gq.goods_code goodsCode"
-				+ "		, gq.customer_id customerId"
-				+ "		, gq.category category"
-				+ "		, gq.goods_question_memo goodsQuestionMemo"
-				+ "		, gq.createdate gqCreatedate"
-				+ "		, g.goods_name goodsName"
-				+ "		, gqc.goods_comment_code goodsCommentCode"
-				+ "		, gqc.goods_comment_memo goodsCommentMemo"
-				+ "		, gqc.createdate gqcCreatedate"
-				+ "		FROM goods_question gq INNER JOIN goods g"
-				+ "		ON gq.goods_code = g.goods_code"
-				+ "		left JOIN goods_question_comment gqc"
-				+ "		ON gq.goods_question_code = gqc.goods_question_code"
-				+ "		ORDER BY gq.goods_question_code DESC LIMIT ?, ?";
-		// 쿼리 객체 생성
-		PreparedStatement stmt = conn.prepareStatement(sql);
-		// 쿼리문 ?값 지정
-		stmt.setInt(1, beginRow);
-		stmt.setInt(2, rowPerPage);
+		// 검색어
+		if(word == null || word.equals("")) {
+			word = "";
+		}
+		// 검색어분류
+		if(search == null || search.equals("")) {
+			search = "";
+		}
+		// 분류
+		if(category == null || category.equals("")) {
+			category = "";
+		}
+		// 정렬
+		if(sort == null || sort.equals("")) {
+			sort = "";
+		}
+
+		String sql ="";
+		PreparedStatement stmt = null;
+		// 검색 x
+		if(search.equals("")) {
+			// 검색x, 정렬 x
+			if(sort.equals("")) {
+				// 검색x, 정렬x, 분류x
+				if(category.equals("")) {
+					// 쿼리문 작성
+					sql = "SELECT"
+						+ "		gq.goods_question_code goodsQuestionCode"
+						+ "		, gq.goods_code goodsCode"
+						+ "		, gq.customer_id customerId"
+						+ "		, gq.category category"
+						+ "		, gq.goods_question_memo goodsQuestionMemo"
+						+ "		, gq.createdate gqCreatedate"
+						+ "		, g.goods_name goodsName"
+						+ "		, gqc.goods_comment_code goodsCommentCode"
+						+ "		, gqc.goods_comment_memo goodsCommentMemo"
+						+ "		, gqc.createdate gqcCreatedate"
+						+ "		FROM goods_question gq INNER JOIN goods g"
+						+ "		ON gq.goods_code = g.goods_code"
+						+ "		LEFT JOIN goods_question_comment gqc"
+						+ "		ON gq.goods_question_code = gqc.goods_question_code"
+						+ "		ORDER BY gq.goods_question_code DESC LIMIT ?, ?";
+					// 쿼리 객체 생성
+					stmt = conn.prepareStatement(sql);
+					// 쿼리문 ?값 지정
+					stmt.setInt(1, beginRow);
+					stmt.setInt(2, rowPerPage);
+				// 검색x, 정렬x, 분류o
+				} else if(!category.equals("")) {
+					// 쿼리문 작성
+					sql = "SELECT"
+						+ "		gq.goods_question_code goodsQuestionCode"
+						+ "		, gq.goods_code goodsCode"
+						+ "		, gq.customer_id customerId"
+						+ "		, gq.category category"
+						+ "		, gq.goods_question_memo goodsQuestionMemo"
+						+ "		, gq.createdate gqCreatedate"
+						+ "		, g.goods_name goodsName"
+						+ "		, gqc.goods_comment_code goodsCommentCode"
+						+ "		, gqc.goods_comment_memo goodsCommentMemo"
+						+ "		, gqc.createdate gqcCreatedate"
+						+ "		FROM goods_question gq INNER JOIN goods g"
+						+ "		ON gq.goods_code = g.goods_code"
+						+ "		LEFT JOIN goods_question_comment gqc"
+						+ "		ON gq.goods_question_code = gqc.goods_question_code"
+						+ "		WHERE gq.category=?"
+						+ "		ORDER BY gq.goods_question_code DESC LIMIT ?, ?";
+					// 쿼리 객체 생성
+					stmt = conn.prepareStatement(sql);
+					// 쿼리문 ?값 지정
+					stmt.setString(1, category);
+					stmt.setInt(2, beginRow);
+					stmt.setInt(3, rowPerPage);
+				}
+			// 검색x, 정렬(답변전)
+			} else if(sort.equals("asc")) {
+				// 검색x, 정렬(답변전), 분류x
+				if(category.equals("")) {
+					// 쿼리문 작성
+					sql = "SELECT"
+						+ "		gq.goods_question_code goodsQuestionCode"
+						+ "		, gq.goods_code goodsCode"
+						+ "		, gq.customer_id customerId"
+						+ "		, gq.category category"
+						+ "		, gq.goods_question_memo goodsQuestionMemo"
+						+ "		, gq.createdate gqCreatedate"
+						+ "		, g.goods_name goodsName"
+						+ "		, gqc.goods_comment_code goodsCommentCode"
+						+ "		, gqc.goods_comment_memo goodsCommentMemo"
+						+ "		, gqc.createdate gqcCreatedate"
+						+ "		FROM goods_question gq INNER JOIN goods g"
+						+ "		ON gq.goods_code = g.goods_code"
+						+ "		LEFT JOIN goods_question_comment gqc"
+						+ "		ON gq.goods_question_code = gqc.goods_question_code"
+						+ "		WHERE gqc.goods_comment_memo IS NULL"
+						+ "		ORDER BY gq.createdate DESC LIMIT ?, ?";
+					// 쿼리 객체 생성
+					stmt = conn.prepareStatement(sql);
+					// 쿼리문 ?값 지정
+					stmt.setInt(1, beginRow);
+					stmt.setInt(2, rowPerPage);
+				// 검색x, 정렬(답변전), 분류o
+				} else if(!category.equals("")) {
+					// 쿼리문 작성
+					sql = "SELECT"
+						+ "		gq.goods_question_code goodsQuestionCode"
+						+ "		, gq.goods_code goodsCode"
+						+ "		, gq.customer_id customerId"
+						+ "		, gq.category category"
+						+ "		, gq.goods_question_memo goodsQuestionMemo"
+						+ "		, gq.createdate gqCreatedate"
+						+ "		, g.goods_name goodsName"
+						+ "		, gqc.goods_comment_code goodsCommentCode"
+						+ "		, gqc.goods_comment_memo goodsCommentMemo"
+						+ "		, gqc.createdate gqcCreatedate"
+						+ "		FROM goods_question gq INNER JOIN goods g"
+						+ "		ON gq.goods_code = g.goods_code"
+						+ "		LEFT JOIN goods_question_comment gqc"
+						+ "		ON gq.goods_question_code = gqc.goods_question_code"
+						+ "		WHERE gq.category=? AND gqc.goods_comment_memo IS NULL"
+						+ "		ORDER BY gq.createdate DESC LIMIT ?, ?";
+					// 쿼리 객체 생성
+					stmt = conn.prepareStatement(sql);
+					// 쿼리문 ?값 지정
+					stmt.setString(1, category);
+					stmt.setInt(2, beginRow);
+					stmt.setInt(3, rowPerPage);
+				}
+			// 검색x 정렬(답변후)
+			} else if(sort.equals("desc")) {
+				// 검색x, 정렬(답변후), 분류x
+				if(category.equals("")) {
+					// 쿼리문 작성
+					sql = "SELECT"
+						+ "		gq.goods_question_code goodsQuestionCode"
+						+ "		, gq.goods_code goodsCode"
+						+ "		, gq.customer_id customerId"
+						+ "		, gq.category category"
+						+ "		, gq.goods_question_memo goodsQuestionMemo"
+						+ "		, gq.createdate gqCreatedate"
+						+ "		, g.goods_name goodsName"
+						+ "		, gqc.goods_comment_code goodsCommentCode"
+						+ "		, gqc.goods_comment_memo goodsCommentMemo"
+						+ "		, gqc.createdate gqcCreatedate"
+						+ "		FROM goods_question gq INNER JOIN goods g"
+						+ "		ON gq.goods_code = g.goods_code"
+						+ "		INNER JOIN goods_question_comment gqc"
+						+ "		ON gq.goods_question_code = gqc.goods_question_code"
+						+ "		ORDER BY gqc.createdate DESC LIMIT ?, ?";
+					// 쿼리 객체 생성
+					stmt = conn.prepareStatement(sql);
+					// 쿼리문 ?값 지정
+					stmt.setInt(1, beginRow);
+					stmt.setInt(2, rowPerPage);
+				// 검색x, 정렬(답변후), 분류o
+				} else if(!category.equals("")) {
+					// 쿼리문 작성
+					sql = "SELECT"
+						+ "		gq.goods_question_code goodsQuestionCode"
+						+ "		, gq.goods_code goodsCode"
+						+ "		, gq.customer_id customerId"
+						+ "		, gq.category category"
+						+ "		, gq.goods_question_memo goodsQuestionMemo"
+						+ "		, gq.createdate gqCreatedate"
+						+ "		, g.goods_name goodsName"
+						+ "		, gqc.goods_comment_code goodsCommentCode"
+						+ "		, gqc.goods_comment_memo goodsCommentMemo"
+						+ "		, gqc.createdate gqcCreatedate"
+						+ "		FROM goods_question gq INNER JOIN goods g"
+						+ "		ON gq.goods_code = g.goods_code"
+						+ "		INNER JOIN goods_question_comment gqc"
+						+ "		ON gq.goods_question_code = gqc.goods_question_code"
+						+ "		WHERE gq.category=?"
+						+ "		ORDER BY gqc.createdate DESC LIMIT ?, ?";
+					// 쿼리 객체 생성
+					stmt = conn.prepareStatement(sql);
+					// 쿼리문 ?값 지정
+					stmt.setString(1, category);
+					stmt.setInt(2, beginRow);
+					stmt.setInt(3, rowPerPage);
+				}
+			}
+		// 검색 : 상품명
+		} else if(search.equals("상품명")) {
+			// 검색 : 상품명, 정렬 x
+			if(sort.equals("")) {
+				// 검색 : 상품명, 정렬x, 분류x
+				if(category.equals("")) {
+					// 쿼리문 작성
+					sql = "SELECT"
+						+ "		gq.goods_question_code goodsQuestionCode"
+						+ "		, gq.goods_code goodsCode"
+						+ "		, gq.customer_id customerId"
+						+ "		, gq.category category"
+						+ "		, gq.goods_question_memo goodsQuestionMemo"
+						+ "		, gq.createdate gqCreatedate"
+						+ "		, g.goods_name goodsName"
+						+ "		, gqc.goods_comment_code goodsCommentCode"
+						+ "		, gqc.goods_comment_memo goodsCommentMemo"
+						+ "		, gqc.createdate gqcCreatedate"
+						+ "		FROM goods_question gq INNER JOIN goods g"
+						+ "		ON gq.goods_code = g.goods_code"
+						+ "		LEFT JOIN goods_question_comment gqc"
+						+ "		ON gq.goods_question_code = gqc.goods_question_code"
+						+ "		WHERE g.goods_name LIKE ?"
+						+ "		ORDER BY gq.goods_question_code DESC LIMIT ?, ?";
+					// 쿼리 객체 생성
+					stmt = conn.prepareStatement(sql);
+					// 쿼리문 ?값 지정
+					stmt.setString(1, "%"+word+"%");
+					stmt.setInt(2, beginRow);
+					stmt.setInt(3, rowPerPage);
+				// 검색 : 상품명, 정렬x, 분류o
+				} else if(!category.equals("")) {
+					// 쿼리문 작성
+					sql = "SELECT"
+						+ "		gq.goods_question_code goodsQuestionCode"
+						+ "		, gq.goods_code goodsCode"
+						+ "		, gq.customer_id customerId"
+						+ "		, gq.category category"
+						+ "		, gq.goods_question_memo goodsQuestionMemo"
+						+ "		, gq.createdate gqCreatedate"
+						+ "		, g.goods_name goodsName"
+						+ "		, gqc.goods_comment_code goodsCommentCode"
+						+ "		, gqc.goods_comment_memo goodsCommentMemo"
+						+ "		, gqc.createdate gqcCreatedate"
+						+ "		FROM goods_question gq INNER JOIN goods g"
+						+ "		ON gq.goods_code = g.goods_code"
+						+ "		LEFT JOIN goods_question_comment gqc"
+						+ "		ON gq.goods_question_code = gqc.goods_question_code"
+						+ "		WHERE g.goods_name LIKE ? AND gq.category=?"
+						+ "		ORDER BY gq.goods_question_code DESC LIMIT ?, ?";
+					// 쿼리 객체 생성
+					stmt = conn.prepareStatement(sql);
+					// 쿼리문 ?값 지정
+					stmt.setString(1, "%"+word+"%");
+					stmt.setString(2, category);
+					stmt.setInt(3, beginRow);
+					stmt.setInt(4, rowPerPage);
+				}
+			// 검색 : 상품명, 정렬(답변전)
+			} else if(sort.equals("asc")) {
+				// 검색 : 상품명, 정렬(답변전), 분류x
+				if(category.equals("")) {
+					// 쿼리문 작성
+					sql = "SELECT"
+						+ "		gq.goods_question_code goodsQuestionCode"
+						+ "		, gq.goods_code goodsCode"
+						+ "		, gq.customer_id customerId"
+						+ "		, gq.category category"
+						+ "		, gq.goods_question_memo goodsQuestionMemo"
+						+ "		, gq.createdate gqCreatedate"
+						+ "		, g.goods_name goodsName"
+						+ "		, gqc.goods_comment_code goodsCommentCode"
+						+ "		, gqc.goods_comment_memo goodsCommentMemo"
+						+ "		, gqc.createdate gqcCreatedate"
+						+ "		FROM goods_question gq INNER JOIN goods g"
+						+ "		ON gq.goods_code = g.goods_code"
+						+ "		LEFT JOIN goods_question_comment gqc"
+						+ "		ON gq.goods_question_code = gqc.goods_question_code"
+						+ "		WHERE g.goods_name LIKE ? AND gqc.goods_comment_memo IS NULL"
+						+ "		ORDER BY gq.createdate DESC LIMIT ?, ?";
+					// 쿼리 객체 생성
+					stmt = conn.prepareStatement(sql);
+					// 쿼리문 ?값 지정
+					stmt.setString(1, "%"+word+"%");
+					stmt.setInt(2, beginRow);
+					stmt.setInt(3, rowPerPage);
+				// 검색 : 상품명, 정렬(답변전), 분류o
+				} else if(!category.equals("")) {
+					// 쿼리문 작성
+					sql = "SELECT"
+						+ "		gq.goods_question_code goodsQuestionCode"
+						+ "		, gq.goods_code goodsCode"
+						+ "		, gq.customer_id customerId"
+						+ "		, gq.category category"
+						+ "		, gq.goods_question_memo goodsQuestionMemo"
+						+ "		, gq.createdate gqCreatedate"
+						+ "		, g.goods_name goodsName"
+						+ "		, gqc.goods_comment_code goodsCommentCode"
+						+ "		, gqc.goods_comment_memo goodsCommentMemo"
+						+ "		, gqc.createdate gqcCreatedate"
+						+ "		FROM goods_question gq INNER JOIN goods g"
+						+ "		ON gq.goods_code = g.goods_code"
+						+ "		LEFT JOIN goods_question_comment gqc"
+						+ "		ON gq.goods_question_code = gqc.goods_question_code"
+						+ "		WHERE g.goods_name LIKE ? AND gq.category=? AND gqc.goods_comment_memo IS NULL"
+						+ "		ORDER BY gq.createdate DESC LIMIT ?, ?";
+					// 쿼리 객체 생성
+					stmt = conn.prepareStatement(sql);
+					// 쿼리문 ?값 지정
+					stmt.setString(1, "%"+word+"%");
+					stmt.setString(2, category);
+					stmt.setInt(3, beginRow);
+					stmt.setInt(4, rowPerPage);
+				}
+			// 검색 : 상품명 정렬(답변후)
+			} else if(sort.equals("desc")) {
+				// 검색 : 상품명, 정렬(답변후), 분류x
+				if(category.equals("")) {
+					// 쿼리문 작성
+					sql = "SELECT"
+						+ "		gq.goods_question_code goodsQuestionCode"
+						+ "		, gq.goods_code goodsCode"
+						+ "		, gq.customer_id customerId"
+						+ "		, gq.category category"
+						+ "		, gq.goods_question_memo goodsQuestionMemo"
+						+ "		, gq.createdate gqCreatedate"
+						+ "		, g.goods_name goodsName"
+						+ "		, gqc.goods_comment_code goodsCommentCode"
+						+ "		, gqc.goods_comment_memo goodsCommentMemo"
+						+ "		, gqc.createdate gqcCreatedate"
+						+ "		FROM goods_question gq INNER JOIN goods g"
+						+ "		ON gq.goods_code = g.goods_code"
+						+ "		INNER JOIN goods_question_comment gqc"
+						+ "		ON gq.goods_question_code = gqc.goods_question_code"
+						+ "		WHERE g.goods_name LIKE ?"
+						+ "		ORDER BY gqc.createdate DESC LIMIT ?, ?";
+					// 쿼리 객체 생성
+					stmt = conn.prepareStatement(sql);
+					// 쿼리문 ?값 지정
+					stmt.setString(1, "%"+word+"%");
+					stmt.setInt(2, beginRow);
+					stmt.setInt(3, rowPerPage);
+				// 검색 : 상품명, 정렬(답변후), 분류o
+				} else if(!category.equals("")) {
+					// 쿼리문 작성
+					sql = "SELECT"
+						+ "		gq.goods_question_code goodsQuestionCode"
+						+ "		, gq.goods_code goodsCode"
+						+ "		, gq.customer_id customerId"
+						+ "		, gq.category category"
+						+ "		, gq.goods_question_memo goodsQuestionMemo"
+						+ "		, gq.createdate gqCreatedate"
+						+ "		, g.goods_name goodsName"
+						+ "		, gqc.goods_comment_code goodsCommentCode"
+						+ "		, gqc.goods_comment_memo goodsCommentMemo"
+						+ "		, gqc.createdate gqcCreatedate"
+						+ "		FROM goods_question gq INNER JOIN goods g"
+						+ "		ON gq.goods_code = g.goods_code"
+						+ "		INNER JOIN goods_question_comment gqc"
+						+ "		ON gq.goods_question_code = gqc.goods_question_code"
+						+ "		WHERE g.goods_name LIKE ? AND gq.category=?"
+						+ "		ORDER BY gqc.createdate DESC LIMIT ?, ?";
+					// 쿼리 객체 생성
+					stmt = conn.prepareStatement(sql);
+					// 쿼리문 ?값 지정
+					stmt.setString(1, "%"+word+"%");
+					stmt.setString(2, category);
+					stmt.setInt(3, beginRow);
+					stmt.setInt(4, rowPerPage);
+				}
+			}
+		// 검색 : 고객ID
+		} else if(search.equals("고객ID")) {
+			// 검색 : 고객ID, 정렬 x
+			if(sort.equals("")) {
+				// 검색 : 고객ID, 정렬x, 분류x
+				if(category.equals("")) {
+					// 쿼리문 작성
+					sql = "SELECT"
+						+ "		gq.goods_question_code goodsQuestionCode"
+						+ "		, gq.goods_code goodsCode"
+						+ "		, gq.customer_id customerId"
+						+ "		, gq.category category"
+						+ "		, gq.goods_question_memo goodsQuestionMemo"
+						+ "		, gq.createdate gqCreatedate"
+						+ "		, g.goods_name goodsName"
+						+ "		, gqc.goods_comment_code goodsCommentCode"
+						+ "		, gqc.goods_comment_memo goodsCommentMemo"
+						+ "		, gqc.createdate gqcCreatedate"
+						+ "		FROM goods_question gq INNER JOIN goods g"
+						+ "		ON gq.goods_code = g.goods_code"
+						+ "		LEFT JOIN goods_question_comment gqc"
+						+ "		ON gq.goods_question_code = gqc.goods_question_code"
+						+ "		WHERE gq.customer_id LIKE ?"
+						+ "		ORDER BY gq.goods_question_code DESC LIMIT ?, ?";
+					// 쿼리 객체 생성
+					stmt = conn.prepareStatement(sql);
+					// 쿼리문 ?값 지정
+					stmt.setString(1, "%"+word+"%");
+					stmt.setInt(2, beginRow);
+					stmt.setInt(3, rowPerPage);
+				// 검색 : 고객ID, 정렬x, 분류o
+				} else if(!category.equals("")) {
+					// 쿼리문 작성
+					sql = "SELECT"
+						+ "		gq.goods_question_code goodsQuestionCode"
+						+ "		, gq.goods_code goodsCode"
+						+ "		, gq.customer_id customerId"
+						+ "		, gq.category category"
+						+ "		, gq.goods_question_memo goodsQuestionMemo"
+						+ "		, gq.createdate gqCreatedate"
+						+ "		, g.goods_name goodsName"
+						+ "		, gqc.goods_comment_code goodsCommentCode"
+						+ "		, gqc.goods_comment_memo goodsCommentMemo"
+						+ "		, gqc.createdate gqcCreatedate"
+						+ "		FROM goods_question gq INNER JOIN goods g"
+						+ "		ON gq.goods_code = g.goods_code"
+						+ "		LEFT JOIN goods_question_comment gqc"
+						+ "		ON gq.goods_question_code = gqc.goods_question_code"
+						+ "		WHERE gq.customer_id LIKE ? AND gq.category=?"
+						+ "		ORDER BY gq.goods_question_code DESC LIMIT ?, ?";
+					// 쿼리 객체 생성
+					stmt = conn.prepareStatement(sql);
+					// 쿼리문 ?값 지정
+					stmt.setString(1, "%"+word+"%");
+					stmt.setString(2, category);
+					stmt.setInt(3, beginRow);
+					stmt.setInt(4, rowPerPage);
+				}
+			// 검색 : 고객ID, 정렬(답변전)
+			} else if(sort.equals("asc")) {
+				// 검색 : 고객ID, 정렬(답변전), 분류x
+				if(category.equals("")) {
+					// 쿼리문 작성
+					sql = "SELECT"
+						+ "		gq.goods_question_code goodsQuestionCode"
+						+ "		, gq.goods_code goodsCode"
+						+ "		, gq.customer_id customerId"
+						+ "		, gq.category category"
+						+ "		, gq.goods_question_memo goodsQuestionMemo"
+						+ "		, gq.createdate gqCreatedate"
+						+ "		, g.goods_name goodsName"
+						+ "		, gqc.goods_comment_code goodsCommentCode"
+						+ "		, gqc.goods_comment_memo goodsCommentMemo"
+						+ "		, gqc.createdate gqcCreatedate"
+						+ "		FROM goods_question gq INNER JOIN goods g"
+						+ "		ON gq.goods_code = g.goods_code"
+						+ "		LEFT JOIN goods_question_comment gqc"
+						+ "		ON gq.goods_question_code = gqc.goods_question_code"
+						+ "		WHERE gq.customer_id LIKE ? AND gqc.goods_comment_memo IS NULL"
+						+ "		ORDER BY gq.createdate DESC LIMIT ?, ?";
+					// 쿼리 객체 생성
+					stmt = conn.prepareStatement(sql);
+					// 쿼리문 ?값 지정
+					stmt.setString(1, "%"+word+"%");
+					stmt.setInt(2, beginRow);
+					stmt.setInt(3, rowPerPage);
+				// 검색 : 고객ID, 정렬(답변전), 분류o
+				} else if(!category.equals("")) {
+					// 쿼리문 작성
+					sql = "SELECT"
+						+ "		gq.goods_question_code goodsQuestionCode"
+						+ "		, gq.goods_code goodsCode"
+						+ "		, gq.customer_id customerId"
+						+ "		, gq.category category"
+						+ "		, gq.goods_question_memo goodsQuestionMemo"
+						+ "		, gq.createdate gqCreatedate"
+						+ "		, g.goods_name goodsName"
+						+ "		, gqc.goods_comment_code goodsCommentCode"
+						+ "		, gqc.goods_comment_memo goodsCommentMemo"
+						+ "		, gqc.createdate gqcCreatedate"
+						+ "		FROM goods_question gq INNER JOIN goods g"
+						+ "		ON gq.goods_code = g.goods_code"
+						+ "		LEFT JOIN goods_question_comment gqc"
+						+ "		ON gq.goods_question_code = gqc.goods_question_code"
+						+ "		WHERE gq.customer_id LIKE ? AND gq.category=? AND gqc.goods_comment_memo IS NULL"
+						+ "		ORDER BY gq.createdate DESC LIMIT ?, ?";
+					// 쿼리 객체 생성
+					stmt = conn.prepareStatement(sql);
+					// 쿼리문 ?값 지정
+					stmt.setString(1, "%"+word+"%");
+					stmt.setString(2, category);
+					stmt.setInt(3, beginRow);
+					stmt.setInt(4, rowPerPage);
+				}
+			// 검색 : 고객ID 정렬(답변후)
+			} else if(sort.equals("desc")) {
+				// 검색 : 고객ID, 정렬(답변후), 분류x
+				if(category.equals("")) {
+					// 쿼리문 작성
+					sql = "SELECT"
+						+ "		gq.goods_question_code goodsQuestionCode"
+						+ "		, gq.goods_code goodsCode"
+						+ "		, gq.customer_id customerId"
+						+ "		, gq.category category"
+						+ "		, gq.goods_question_memo goodsQuestionMemo"
+						+ "		, gq.createdate gqCreatedate"
+						+ "		, g.goods_name goodsName"
+						+ "		, gqc.goods_comment_code goodsCommentCode"
+						+ "		, gqc.goods_comment_memo goodsCommentMemo"
+						+ "		, gqc.createdate gqcCreatedate"
+						+ "		FROM goods_question gq INNER JOIN goods g"
+						+ "		ON gq.goods_code = g.goods_code"
+						+ "		INNER JOIN goods_question_comment gqc"
+						+ "		ON gq.goods_question_code = gqc.goods_question_code"
+						+ "		WHERE gq.customer_id LIKE ?"
+						+ "		ORDER BY gqc.createdate DESC LIMIT ?, ?";
+					// 쿼리 객체 생성
+					stmt = conn.prepareStatement(sql);
+					// 쿼리문 ?값 지정
+					stmt.setString(1, "%"+word+"%");
+					stmt.setInt(2, beginRow);
+					stmt.setInt(3, rowPerPage);
+				// 검색 : 고객ID, 정렬(답변후), 분류o
+				} else if(!category.equals("")) {
+					// 쿼리문 작성
+					sql = "SELECT"
+						+ "		gq.goods_question_code goodsQuestionCode"
+						+ "		, gq.goods_code goodsCode"
+						+ "		, gq.customer_id customerId"
+						+ "		, gq.category category"
+						+ "		, gq.goods_question_memo goodsQuestionMemo"
+						+ "		, gq.createdate gqCreatedate"
+						+ "		, g.goods_name goodsName"
+						+ "		, gqc.goods_comment_code goodsCommentCode"
+						+ "		, gqc.goods_comment_memo goodsCommentMemo"
+						+ "		, gqc.createdate gqcCreatedate"
+						+ "		FROM goods_question gq INNER JOIN goods g"
+						+ "		ON gq.goods_code = g.goods_code"
+						+ "		INNER JOIN goods_question_comment gqc"
+						+ "		ON gq.goods_question_code = gqc.goods_question_code"
+						+ "		WHERE gq.customer_id LIKE ? AND gq.category=?"
+						+ "		ORDER BY gq.createdate DESC LIMIT ?, ?";
+					// 쿼리 객체 생성
+					stmt = conn.prepareStatement(sql);
+					// 쿼리문 ?값 지정
+					stmt.setString(1, "%"+word+"%");
+					stmt.setString(2, category);
+					stmt.setInt(3, beginRow);
+					stmt.setInt(4, rowPerPage);
+				}
+			}
+		}
 		// 쿼리 실행
 		ResultSet rs = stmt.executeQuery();
 		list = new ArrayList<HashMap<String, Object>>();

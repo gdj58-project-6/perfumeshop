@@ -12,17 +12,14 @@
 			$(document).ready(function() {
 				$('#rowPerPage').change(function() {
 					$('#pageForm').submit();
-					alert('change');
 				})
 				
 				$('#category').change(function() {
 					$('#pageForm').submit();
-					alert('change');
 				})
 				
 				$('#sort').change(function() {
 					$('#pageForm').submit();
-					alert('change');
 				})
 			});
 		</script>
