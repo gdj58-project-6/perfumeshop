@@ -140,13 +140,13 @@ public class GoodsService {
 	}
 	
 	// 상품 전체 수
-	public int goodsCount(String word) {
+	public int goodsCount(String word, String sort, String category) {
 		int row = 0;
 		Connection conn = null;
 		try {
 			conn = DBUtil.getConnection();
 			this.goodsDao = new GoodsDao();
-			row = goodsDao.goodsCount(conn, word);
+			row = goodsDao.goodsCount(conn, word, sort, category);
 			conn.commit();
 		} catch(Exception e) {
 			try {

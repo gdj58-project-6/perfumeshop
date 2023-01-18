@@ -70,7 +70,7 @@
 			</c:if>
 		</div>	
 		<div>
-			<c:if test="${list.size() == null}">
+			<c:if test="${list.size() == 0 || list.size() == null}">
 				<div>
 					<img src="${pageContext.request.contextPath}/upload/장바구니X.png" width="300" height="300">
 				</div>

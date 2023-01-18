@@ -24,17 +24,22 @@ public class CartController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 담긴 상품, 총 가격, 선택삭제, 옵션 수정, 총 가격으로 동적으로 바뀌게
 		
-		// 로그인 하지않아도 장바구니에 들어올 수는 있음
+		// 로그인 하지않아도 장바구니에 상품을 담을 수 있음
+
+		// 컨트롤러에서 alert 띄우기
+		response.setContentType("text/html; charset=UTF-8");
+		PrintWriter writer = response.getWriter();
 
 		Customer loginCustomer = null;
 		Emp loginEmp = null;
 		HttpSession session =  request.getSession();
-		loginCustomer = (Customer)session.getAttribute("loginMember");
-		loginEmp = (Emp)session.getAttribute("loginMember");
-		request.setAttribute("loginCustomer", loginCustomer);
-		// 컨트롤러에서 alert 띄우기
-		response.setContentType("text/html; charset=UTF-8");
-		PrintWriter writer = response.getWriter();
+		if(session.getAttribute("loginMember") instanceof Customer) {
+			loginCustomer = (Customer)session.getAttribute("loginMember");
+			session.setAttribute("loginCustomer", loginCustomer);
+		} else if(session.getAttribute("loginMember") instanceof Emp) {
+			writer.println("<script>alert('직원은 접근할 수 없습니다');history.go(-1);</script>"); 
+			writer.close();
+		}
 		
 		if(loginCustomer != null) {
 			// 로그인 한 상태

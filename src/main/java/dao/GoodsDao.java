@@ -119,20 +119,117 @@ public class GoodsDao {
 		return list;
 	}
 	// 상품 전체 수 구하기
-	public int goodsCount(Connection conn, String word) throws Exception {
+	public int goodsCount(Connection conn, String word, String sort, String category) throws Exception {
 		int cnt = 0;
 		String sql = null;
 		PreparedStatement stmt = null;
+		// 검색어 null이나 공백이 넘어오면 공백처리
 		if(word == null || word.equals("")) {
-			sql = "SELECT COUNT(*) cnt FROM goods";
-			stmt = conn.prepareStatement(sql);
-		} else {
-			sql = "SELECT COUNT(*) cnt FROM goods WHERE goods_name LIKE ?";
-			stmt = conn.prepareStatement(sql);
-			stmt.setString(1, "%"+word+"%");
-			
+			word = "";
 		}
-		
+		if(sort == null || sort.equals("")) {
+			sort = "";
+		}
+		if(category == null || category.equals("")) {
+			category = "";
+		}
+		// 정렬 createdate 
+		if(sort.equals("createdate")) {
+			// 정렬 O 카테고리 X
+			if(category.equals("")) {
+				// 정렬 O 카테고리 X 검색 X
+				if(word.equals("")) {
+					// 전체 GoodsList 신상품순 정렬
+					sql = "SELECT COUNT(*) cnt FROM goods";
+					stmt = conn.prepareStatement(sql);		
+				} else { // 정렬 createdate 카테고리 X 검색 O
+					sql = "SELECT COUNT(*) cnt FROM goods WHERE goods_name LIKE ?";					
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, "%"+word+"%");
+				}
+			} else { // 정렬 createdate 카테고리 O 검색 X
+				if(word.equals("")) {
+					sql = "SELECT COUNT(*) cnt FROM goods WHERE goods_category = ?";	
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, category);
+				} else { // 정렬 createdate 카테고리 O 검색 O
+					sql = "SELECT COUNT(*) cnt FROM goods WHERE goods_category = ? AND goods_name LIKE ?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, category);
+					stmt.setString(2, "%"+word+"%");
+				}
+			}
+		// 정렬 hit 카테고리 X 검색 X
+		} else if(sort.equals("hit")) {
+			if(category.equals("")) {
+				if(word.equals("")) {
+					sql = "SELECT COUNT(*) cnt FROM goods";
+					stmt = conn.prepareStatement(sql);
+				} else { // 정렬 hit 카테고리 X 검색 O
+					sql = "SELECT COUNT(*) cnt FROM goods WHERE goods_name LIKE ?";	
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, "%"+word+"%");
+				}
+			} else { // 정렬 hit 카테고리 O 검색 X
+				if(word.equals("")) {
+					sql = "SELECT COUNT(*) cnt FROM goods WHERE goods_category = ?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, category);
+				} else { // 정렬 hit 카테고리 O 검색 O
+					sql = "SELECT COUNT(*) cnt FROM goods WHERE goods_category = ? AND goods_name LIKE ?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, category);
+					stmt.setString(2, "%"+word+"%");
+				}
+			}
+		// 정렬 lowPrice 카테고리 X 검색 X
+		} else if(sort.equals("lowPrice")) {
+			if(category.equals("")) {
+				if(word.equals("")) {
+					sql = "SELECT COUNT(*) cnt FROM goods";
+					stmt = conn.prepareStatement(sql);
+				} else { // 정렬 lowPrice 카테고리 X 검색 O
+					sql ="SELECT COUNT(*) cnt FROM goods WHERE goods_name LIKE ?";	
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, "%"+word+"%");
+				}
+			} else { // 정렬 lowPrice 카테고리 O 검색 X
+				if(word.equals("")) {
+					sql = "SELECT COUNT(*) cnt FROM goods WHERE goods_category = ?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, category);
+				} else { // 정렬 lowPrice 카테고리 O 검색 O
+					sql = "SELECT COUNT(*) cnt FROM goods WHERE goods_category = ? AND goods_name LIKE ?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, category);
+					stmt.setString(2, "%"+word+"%");
+				}
+			}
+		// 정렬 highPrice 카테고리 X 검색 X	
+		} else if(sort.equals("highPrice")) {
+			if(category.equals("")) {
+				if(word.equals("")) {
+					sql = "SELECT COUNT(*) cnt FROM goods";
+					stmt = conn.prepareStatement(sql);
+				} else { // 정렬 highPrice 카테고리 X 검색 O
+					sql = "SELECT COUNT(*) cnt FROM goods WHERE goods_name LIKE ?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, "%"+word+"%");
+				}
+			} else { // 정렬 highPrice 카테고리 O 검색 X
+				if(word.equals("")) {
+					sql = "SELECT COUNT(*) cnt FROM goods WHERE goods_category = ?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, category);
+
+				} else { // 정렬 highPrice 카테고리 O 검색 O
+					sql = "SELECT COUNT(*) cnt FROM goods WHERE goods_category = ? AND goods_name LIKE ?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, category);
+					stmt.setString(2, "%"+word+"%");
+				}
+			}
+		}
 		ResultSet rs = stmt.executeQuery();
 		
 		if(rs.next()) {
