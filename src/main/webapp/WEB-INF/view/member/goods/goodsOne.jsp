@@ -142,23 +142,22 @@
 		<!-- 맨위에 include  -->
 		<h3>goodsOne</h3>
 		<!-- 가격, 수량조절, 장바구니로 갈지 결제창으로 갈지, 제품소개 등등.... -->
-		<c:forEach var="m" items="${list}">
 			<form action="${pageContext.request.contextPath}/member/goodsOne" method="post" id="goodsOne">
-				<input type="hidden" name="goodsCode" value="${m.goodsCode}">
-				<input type="hidden" name="filename" value="${m.fileName}">
+				<input type="hidden" name="goodsCode" value="${goodsOne.goodsCode}">
+				<input type="hidden" name="filename" value="${goodsOne.fileName}">
 				<table border="1">
 					<tr>
 						<td colspan="2">
-							<img src="${pageContext.request.contextPath}/upload/${m.fileName}"  width="200" height="200">
+							<img src="${pageContext.request.contextPath}/upload/${goodsOne.fileName}"  width="200" height="200">
 						</td>
 					</tr>
 					<tr>
 						<td>상품 이름</td>
-						<td><input type="text" value="${m.goodsName}" name="goodsName" readonly="readonly"></td>
+						<td><input type="text" value="${goodsOne.goodsName}" name="goodsName" readonly="readonly"></td>
 					</tr>
 					<tr>
 						<td>상품 가격</td>
-						<td><input type="text" value="${m.goodsPrice}" name="goodsPrice" readonly="readonly"></td>
+						<td><input type="text" value="${goodsOne.goodsPrice}" name="goodsPrice" readonly="readonly"></td>
 					</tr>
 					<tr>
 					<!--  수량이 변경되면 상품가격이 변경되야 함 -->
@@ -168,7 +167,7 @@
 					<!-- 제품설명? 개별적인 설명이 나오게 하려면 어떻게?? -->
 					<tr>
 						<td>제품 설명</td>
-						<td>${m.goodsMemo}</td>
+						<td>${goodsOne.goodsMemo}</td>
 					</tr>
 					<!-- 또 추가할게 있으면 추가 -->
 				</table>
@@ -183,11 +182,10 @@
 			<a href='${pageContext.request.contextPath}/member/cart'>장바구니로 이동</a>
 			<!-- 일단 값 뒤에 전부 보내기 더 좋은방법 생기면 변경 예정 -->
 			<form action="${pageContext.request.contextPath}/member/goodsPayMent" method="get" id="goodsPayMent">
-				<input type="hidden" name="goodsCode" value="${m.goodsCode}">
+				<input type="hidden" name="goodsCode" value="${goodsOne.goodsCode}">
 				<input type="hidden" name="goodsQuantity" id="goodsQuantity">
 				<button type="button" id="order">바로 구매</button>
 			</form>
-		</c:forEach>
 		<div id="wrapper">    
 		    <!--탭 메뉴 영역 -->
 		    <ul class="tabs">

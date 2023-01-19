@@ -166,13 +166,13 @@ public class GoodsService {
 		return goodsRow+goodsImgRow;
 	}
 	// GoodsOne
-	public ArrayList<HashMap<String, Object>> goodsOne(int goodsCode) {
-		ArrayList<HashMap<String, Object>> list = null;
+	public HashMap<String, Object> goodsOne(Goods goods) {
+	HashMap<String, Object> goodsOne = null;
 		Connection conn = null;
 		try {
 			conn = DBUtil.getConnection();
 			this.goodsDao = new GoodsDao();
-			list = goodsDao.goodsOne(conn, goodsCode);
+			goodsOne = goodsDao.goodsOne(conn, goods);
 			conn.commit();
 		} catch (Exception e) {
 			try {
@@ -188,7 +188,7 @@ public class GoodsService {
 				e.printStackTrace();
 			}
 		}
-		return list;
+		return goodsOne;
 	}
 	
 	// 상품 전체 수

@@ -20,6 +20,7 @@ import service.ReviewService;
 import vo.Cart;
 import vo.Customer;
 import vo.Emp;
+import vo.Goods;
 
 @WebServlet("/member/goodsOne")
 public class GoodsOneController extends HttpServlet {
@@ -68,10 +69,14 @@ public class GoodsOneController extends HttpServlet {
 		
 		
 		// System.out.println(goodsCode); 아직 lastPage는 미구현
+		Goods goods = new Goods();
+		goods.setGoodsCode(goodsCode);
+	
+		
 		this.goodsService = new GoodsService();
 		this.questionService = new QuestionService();
 		this.reviewService = new ReviewService();
-		ArrayList<HashMap<String, Object>> list = goodsService.goodsOne(goodsCode);
+		HashMap<String, Object> goodsOne = goodsService.goodsOne(goods);
 		ArrayList<HashMap<String, Object>> questionList = questionService.getGoodsQuestionList(currentPage, rowPerPage);
 		ArrayList<HashMap<String, Object>> reviewList = reviewService.getReviewListByCustomer(currentPage2, rowPerPage);
 		int cnt = questionService.getQuestionCountByGoodsQuestion();
@@ -93,7 +98,7 @@ public class GoodsOneController extends HttpServlet {
 			lastPage2 = (count / rowPerPage) + 1;
 		}
 		// System.out.println(list);
-		request.setAttribute("list", list);
+		request.setAttribute("goodsOne", goodsOne);
 		request.setAttribute("questionList", questionList);
 		request.setAttribute("reviewList", reviewList);
 		request.setAttribute("goodsCode", goodsCode);
