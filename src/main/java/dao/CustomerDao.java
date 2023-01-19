@@ -51,9 +51,17 @@ public class CustomerDao {
 		// 객체 초기화
 		ArrayList<Customer> list = null;
 		// 쿼리문 작성
-		String sql = "SELECT" + "   customer_code customerCode" + " , customer_id customerId"
-				+ " , customer_name customerName" + " , customer_phone customerPhone" + " , point"
-				+ " , auth_code authCode" + " , createdate" + " FROM customer  ORDER BY customer_code ASC LIMIT ?, ?";
+		String sql = "SELECT"
+				+ "		c.customer_code customerCode"
+				+ "		, c.customer_id customerId"
+				+ "		, c.customer_name customerName"
+				+ "		, c.customer_phone customerPhone"
+				+ "		, ph.point point"
+				+ "		, c.auth_code authCode"
+				+ "		, c.createdate createdate"
+				+ "		FROM customer c LEFT JOIN point_history ph"
+				+ "		ON c.customer_id = ph.customer_id"
+				+ "		ORDER BY customer_code ASC LIMIT ?, ?";
 		// 쿼리 객체 생성
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		// 쿼리문 ?값 지정
@@ -83,7 +91,7 @@ public class CustomerDao {
 		// 객체 초기화
 		Customer customer = null;
 		// 쿼리문 작성
-		String sql = "SELECT customer_id customerId, customer_name customerName, customer_phone customerPhone, point, auth_code authCode FROM customer WHERE customer_id=? AND customer_pw=PASSWORD(?);";
+		String sql = "SELECT customer_id customerId, customer_name customerName, customer_phone customerPhone, auth_code authCode FROM customer WHERE customer_id=? AND customer_pw=PASSWORD(?);";
 		// 쿼리 객체 생성
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		// 쿼리문 ?값 지정
@@ -96,7 +104,6 @@ public class CustomerDao {
 			customer.setCustomerId(rs.getString("customerId"));
 			customer.setCustomerName(rs.getString("customerName"));
 			customer.setCustomerPhone(rs.getString("customerPhone"));
-			customer.setPoint(rs.getInt("point"));
 			customer.setAuthCode(rs.getInt("authCode"));
 		}
 		stmt.close();
@@ -126,7 +133,7 @@ public class CustomerDao {
 	// 일반회원 회원가입
 	public int addCustomer(Connection conn, Customer customer) throws Exception {
 		int row = 0;
-		String sql = "INSERT INTO customer(customer_id, customer_pw, customer_name, customer_phone, point, auth_code, createdate) VALUES(?, PASSWORD(?), ?, ?, DEFAULT(`point`), DEFAULT(`auth_code`), CURDATE())";
+		String sql = "INSERT INTO customer(customer_id, customer_pw, customer_name, customer_phone, auth_code, createdate) VALUES(?, PASSWORD(?), ?, ?, DEFAULT(`point`), DEFAULT(`auth_code`), CURDATE())";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, customer.getCustomerId());
 		stmt.setString(2, customer.getCustomerPw());
@@ -144,9 +151,11 @@ public class CustomerDao {
 	public HashMap<String, Object> selectCustomerOne(Connection conn, Customer customer) throws Exception {
 		HashMap<String, Object> memberOne = null;
 		ResultSet rs = null;
-		String sql = "SELECT c.customer_code customerCode, c.customer_id customerId, c.customer_pw customerPw, c.customer_name customerName, c.customer_phone customerPhone, c.point point, c.auth_code authCode, ca.address_code addressCode, ca.address address, c.createdate createdate"
+		String sql = "SELECT c.customer_code customerCode, c.customer_id customerId, c.customer_pw customerPw, c.customer_name customerName, c.customer_phone customerPhone, ph.point point, c.auth_code authCode, ca.address_code addressCode, ca.address address, c.createdate createdate"
 				+ "			FROM customer c INNER JOIN customer_address ca"
 				+ "			ON c.customer_id = ca.customer_id"
+				+ "			LEFT JOIN point_history ph"
+				+ "			ON c.customer_id = ph.customer_id"
 				+ "			WHERE c.customer_id = ? AND ca.customer_id = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, customer.getCustomerId());

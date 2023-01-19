@@ -1,6 +1,7 @@
 package controller.emp.comment;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,14 +14,13 @@ import service.CommentService;
 import vo.Customer;
 import vo.QuestionComment;
 
-/**
- * Servlet implementation class AddCommentController
- */
+
 @WebServlet("/admin/addComment")
 public class AddCommentController extends HttpServlet {
 	private CommentService commentService;
 	// 답글 입력폼
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
 		int questionCode = Integer.parseInt(request.getParameter("questionCode"));
 		String questionMemo = request.getParameter("questionMemo");
 		// System.out.println(questionCode);
@@ -34,7 +34,7 @@ public class AddCommentController extends HttpServlet {
 		
 		request.setAttribute("code", questionCode);
 		request.setAttribute("memo", questionMemo);
-		
+		request.setAttribute("msg", request.getParameter("msg"));
 		
 		request.getRequestDispatcher("/WEB-INF/view/emp/comment/addComment.jsp").forward(request, response);
 	}
@@ -43,8 +43,15 @@ public class AddCommentController extends HttpServlet {
 		int questionCode = Integer.parseInt(request.getParameter("questionCode"));
 		String commentMemo = request.getParameter("commentMemo");
 		// System.out.println(goodsQuestionCode);
-		// System.out.println(goodsCommentMemo);
 		
+		// System.out.println(goodsCommentMemo);
+		if(request.getParameter("commentMemo") == null || request.getParameter("commentMemo").equals("")) {
+			String msg = URLEncoder.encode("답변 내용을 입력해주세요.", "utf-8");
+			String questionMemo = URLEncoder.encode(request.getParameter("questionMemo"), "utf-8");
+			// System.out.println(questionMemo);
+			response.sendRedirect(request.getContextPath() + "/admin/addComment?msg="+msg+"&questionCode="+questionCode+"&questionMemo="+questionMemo);
+			return;
+		}
 		// 메서드 호출에 필요한 매개값
 		QuestionComment c = new QuestionComment();
 		c.setQuestionCode(questionCode);

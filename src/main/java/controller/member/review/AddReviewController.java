@@ -41,7 +41,8 @@ public class AddReviewController extends HttpServlet {
 		// 포인트에 생성되는 콤마 제거, 콤마가 있으면 String으로 인식해서 int타입인 포인트 적립이 안됌
 		String result = request.getParameter("point");
 		String result2 = result.replaceAll(",", "");
-		
+		System.out.println(result + "<-- result");
+		System.out.println(result2 + "<-- result2");
 		// 리뷰를 남길 주문코드, 상품코드, 리뷰내용 등록 후 포인트 적립
 		int orderCode = Integer.parseInt(request.getParameter("orderCode"));
 		int goodsCode = Integer.parseInt(request.getParameter("goodsCode"));
@@ -49,7 +50,7 @@ public class AddReviewController extends HttpServlet {
 		String reviewMemo = request.getParameter("reviewMemo");
 		String id = request.getParameter("id");
 		String pointKind = request.getParameter("pointKind");
-		
+		System.out.println(point + "<-- point");
 		
 		// 바인딩
 		// 리뷰
