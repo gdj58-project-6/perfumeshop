@@ -209,6 +209,7 @@
 		         		<a class="btn btn_primary" href="${pageContext.request.contextPath}/member/login">문의하기</a>
 		         	</c:if>
 		         	<c:if test="${loginMember != null}">
+		         		${msg}
 		         		<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#memberOne">문의하기</button>
 						<form action="${pageContext.request.contextPath}/member/addGoodsQuestion" method="post">
 							<div class="modal" id="memberOne">

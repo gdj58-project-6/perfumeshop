@@ -20,6 +20,7 @@
 	<body>
 		<!-- 고객 리스트 조회 -->
 		<h1>고객 레벨수정</h1>
+		${msg}
 		${loginMember.getEmpName()}(등급:${loginMember.getAuthCode()})
 			<table border="1">
 				<tr>

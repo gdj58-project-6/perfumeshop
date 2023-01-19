@@ -1,6 +1,7 @@
 package controller.member.question;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -33,6 +34,7 @@ public class AddQuestionController extends HttpServlet {
 		}
 		
 		request.setAttribute("orderCode", orderCode);
+		request.setAttribute("msg", request.getParameter("msg"));
 		
 		request.getRequestDispatcher("/WEB-INF/view/member/question/addQuestion.jsp").forward(request, response);
 	}
@@ -42,9 +44,14 @@ public class AddQuestionController extends HttpServlet {
 		String category = request.getParameter("category");
 		String questionMemo = request.getParameter("questionMemo");
 		// System.out.println(orderCode);
-		// System.out.println(category);
-		// System.out.println(questionMemo);
-		
+		System.out.println(category + "<-- category 디버깅");
+		System.out.println(questionMemo + "<-- questionMemo 디버깅");
+		if(request.getParameter("category").equals("") || request.getParameter("questionMemo") == null
+				|| request.getParameter("questionMemo").equals("")) {
+				String msg = URLEncoder.encode("카테고리선택or문의내용을 적어주세요", "utf-8");
+				response.sendRedirect(request.getContextPath() + "/member/addQuestion?msg="+msg+"&orderCode="+orderCode);
+				return;
+		}
 		// 메서드 vo
 		Question q = new Question();
 		q.setOrderCode(orderCode);

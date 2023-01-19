@@ -14,9 +14,6 @@ import javax.servlet.http.HttpSession;
 import service.CommentService;
 import vo.Customer;
 
-/**
- * Servlet implementation class CommentController
- */
 @WebServlet("/admin/comment")
 public class CommentController extends HttpServlet {
 	private CommentService commentService;
@@ -49,13 +46,13 @@ public class CommentController extends HttpServlet {
 		String category = "";
 		if(request.getParameter("category") != "") {
 			category = request.getParameter("category");
-			System.out.println(category + "<-- category");
+			// System.out.println(category + "<-- category");
 		}
 		
 		String sort = "";
 		if(request.getParameter("sort") != "") {
 			sort = request.getParameter("sort");
-			System.out.println(sort + "<-- sort");
+			// System.out.println(sort + "<-- sort");
 		}
 		
 		// 메서드 호출
@@ -80,10 +77,4 @@ public class CommentController extends HttpServlet {
 		
 		request.getRequestDispatcher("/WEB-INF/view/emp/comment/commentList.jsp").forward(request, response);
 	}
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
-
 }

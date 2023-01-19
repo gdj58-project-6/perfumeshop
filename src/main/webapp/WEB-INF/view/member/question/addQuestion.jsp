@@ -8,6 +8,7 @@
 	</head>
 	<body>
 		<h1>문의작성</h1>
+		${msg}
 		<form action="${pageContext.request.contextPath}/member/addQuestion" method="post">
 			<table border="1">
 				<tr>

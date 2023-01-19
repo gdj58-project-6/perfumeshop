@@ -1,6 +1,7 @@
 package controller.emp.notice;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -29,12 +30,11 @@ public class AddNoticeController extends HttpServlet {
 			session.setAttribute("loginMember", loginEmp);
 		}
 		
+		request.setAttribute("msg", request.getParameter("msg"));
+		
 		request.getRequestDispatcher("/WEB-INF/view/emp/notice/addNotice.jsp").forward(request, response);
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String noticeTitle = request.getParameter("noticeTitle");
 		String noticeContent = request.getParameter("noticeContent");
@@ -43,6 +43,13 @@ public class AddNoticeController extends HttpServlet {
 		// System.out.println(noticeContent);
 		// System.out.println(empId);
 		
+		// 공지제목or내용이 null이거나 공백이면 추가폼에서 메시지 출력 
+		if(request.getParameter("noticeTitle") == null || request.getParameter("noticeTitle").equals("")
+			|| request.getParameter("noticeContent") == null || request.getParameter("noticeContent").equals("")) {
+			String msg = URLEncoder.encode("공지를 입력해주세요.", "utf-8");
+			response.sendRedirect(request.getContextPath() + "/admin/addNotice?msg="+msg);
+			return;
+		} 
 		// 메서드 호출 매개값
 		Notice notice = new Notice();
 		notice.setNoticeTitle(noticeTitle);

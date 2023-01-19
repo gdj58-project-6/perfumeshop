@@ -7,6 +7,7 @@
 	</head>
 	<body>
 		<h1>문의수정</h1>
+		${msg}
 		<form action="${pageContext.request.contextPath}/member/modifyQuestion" method="post">
 			<table border="1">
 				<tr>

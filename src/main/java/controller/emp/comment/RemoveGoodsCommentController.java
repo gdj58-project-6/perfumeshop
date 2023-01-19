@@ -20,7 +20,7 @@ public class RemoveGoodsCommentController extends HttpServlet {
 			return;
 		} else if(request.getParameter("goodsCommentCode") != null) {
 			goodsCommentCode = Integer.parseInt(request.getParameter("goodsCommentCode"));
-			System.out.println(goodsCommentCode + "<--goodsCommentCode");
+			// System.out.println(goodsCommentCode + "<--goodsCommentCode");
 		}
 		// System.out.println(goodsCommentCode);
 		

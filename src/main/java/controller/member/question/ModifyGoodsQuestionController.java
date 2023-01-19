@@ -1,6 +1,7 @@
 package controller.member.question;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -39,6 +40,7 @@ public class ModifyGoodsQuestionController extends HttpServlet {
 		GoodsQuestion goodsQuestionList = questionService.getSelectGoodsQuestionByModifyGoodsQuestion(goodsQuestionCode);
 		
 		request.setAttribute("goodsQuestion", goodsQuestionList);
+		request.setAttribute("msg", request.getParameter("msg"));
 		
 		request.getRequestDispatcher("/WEB-INF/view/member/question/modifyGoodsQuestion.jsp").forward(request, response);
 	}
@@ -49,7 +51,11 @@ public class ModifyGoodsQuestionController extends HttpServlet {
 		String goodsQuestionMemo = request.getParameter("goodsQuestionMemo");
 		// System.out.println(goodsQuestionCode);
 		// System.out.println(goodsQuestionMemo);
-		
+		if(request.getParameter("goodsQuestionMemo") == null || request.getParameter("goodsQuestionMemo").equals("")) {
+			String msg = URLEncoder.encode("문의내용을 입력해주세요.", "utf-8");
+			response.sendRedirect(request.getContextPath() + "/member/modifyGoodsQuestion?msg="+msg+"&goodsQuestionCode="+goodsQuestionCode);
+			return;
+		}
 		// 메서드 호출에 필요한 매개값
 		GoodsQuestion g = new GoodsQuestion();
 		g.setGoodsQuestionMemo(goodsQuestionMemo);

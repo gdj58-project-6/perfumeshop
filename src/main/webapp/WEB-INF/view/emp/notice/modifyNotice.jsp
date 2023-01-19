@@ -8,6 +8,7 @@
 	</head>
 	<body>
 		<h1>공지사항 수정</h1>
+		${msg}
 		<form action="${pageContext.request.contextPath}/admin/modifyNotice" method="post">
 			<input type="hidden" name="empId" value="${loginMember.getEmpId()}">
 			<input type="hidden" name="noticeCode" value="${n.noticeCode}">

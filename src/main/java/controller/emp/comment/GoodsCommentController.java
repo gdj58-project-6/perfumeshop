@@ -40,25 +40,25 @@ public class GoodsCommentController extends HttpServlet {
 		String search = "";
 		if(request.getParameter("search") != null) {
 			search = request.getParameter("search");
-			System.out.println(search + "<-- search 디버깅");
+			// System.out.println(search + "<-- search 디버깅");
 		}
 		// 검색어
 		String word = null;
 		if(request.getParameter("word") != null) {
 			word = request.getParameter("word");
-			System.out.println(word + "<-- word 디버깅");
+			// System.out.println(word + "<-- word 디버깅");
 		}
 		
 		String category = "";
 		if(request.getParameter("category") != "") {
 			category = request.getParameter("category");
-			System.out.println(category + "<-- category 디버깅");
+			// System.out.println(category + "<-- category 디버깅");
 		}
 		
 		String sort = "";
 		if(request.getParameter("sort") != "") {
 			sort = request.getParameter("sort");
-			System.out.println(sort + "<-- sort 디버깅");
+			// System.out.println(sort + "<-- sort 디버깅");
 		}
 		// 메서드 호출
 		this.commentService = new CommentService();
@@ -81,10 +81,4 @@ public class GoodsCommentController extends HttpServlet {
 		
 		request.getRequestDispatcher("/WEB-INF/view/emp/comment/goodsCommentList.jsp").forward(request, response);
 	}
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
-
 }

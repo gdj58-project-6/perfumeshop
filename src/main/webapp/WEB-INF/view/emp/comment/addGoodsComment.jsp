@@ -8,18 +8,19 @@
 	</head>
 	<body>
 		<h1>답글입력</h1>
+		${msg}
 		<form action="${pageContext.request.contextPath}/admin/addGoodsComment" method="post">
 			<table border="1">
 				<tr>
 					<td>문의번호</td>
 					<td>
-						<input type="text" name="goodsQuestionCode" value="${code}">
+						<input type="text" name="goodsQuestionCode" value="${code}" readonly="readonly">
 					</td>
 				</tr>
 				<tr>
 					<td>문의내용</td>
 					<td>
-						<textarea cols="50" rows="5" readonly="readonly">${memo}</textarea>
+						<textarea cols="50" rows="5" name="goodsQuestionMemo" readonly="readonly">${memo}</textarea>
 						
 					</td>
 				</tr>

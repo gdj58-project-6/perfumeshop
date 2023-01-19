@@ -74,7 +74,7 @@ public class ModifyEmpByAdminController extends HttpServlet {
 		int row = empService.updateEmpLevel(authCode, empId, empCode);
 		
 		if(row == 1) {
-			// System.out.println("수정완료");
+			System.out.println("수정완료");
 			response.sendRedirect(request.getContextPath()+"/admin/modifyByAdmin");
 		}
 	}

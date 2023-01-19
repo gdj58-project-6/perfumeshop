@@ -28,7 +28,7 @@ public class RemoveByAdminController extends HttpServlet {
 		
 		// 탈퇴시킬 직원 아이디
 		String empId = request.getParameter("empId");
-		System.out.println(empId +"<< empId 디버깅");
+		// System.out.println(empId +"<< empId 디버깅");
 		
 		this.empService = new EmpService();
 		int row = empService.getDeleteEmp(empId);

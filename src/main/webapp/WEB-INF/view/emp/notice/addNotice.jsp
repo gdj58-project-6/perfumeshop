@@ -7,6 +7,7 @@
 	</head>
 	<body>
 		<h1>공지글 작성</h1>
+		${msg}
 		<form action="${pageContext.request.contextPath}/admin/addNotice" method="post">
 			<table border="1">
 				<tr>
@@ -24,7 +25,7 @@
 				<tr>
 					<td>작성자</td>
 					<td>
-						<input type="text" name="empId" value="${loginMember.getEmpId()}">
+						<input type="text" name="empId" value="${loginMember.getEmpId()}" readonly="readonly">
 					</td>
 				</tr>
 			</table>

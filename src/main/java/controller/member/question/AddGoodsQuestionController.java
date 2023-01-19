@@ -1,6 +1,7 @@
 package controller.member.question;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,9 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import service.QuestionService;
 import vo.GoodsQuestion;
 
-/**
- * Servlet implementation class AddGoodsQuestionController
- */
 @WebServlet("/member/addGoodsQuestion")
 public class AddGoodsQuestionController extends HttpServlet {
 	
@@ -26,7 +24,14 @@ public class AddGoodsQuestionController extends HttpServlet {
 		// System.out.println(customerId);
 		// System.out.println(category);
 		// System.out.println(goodsQuestionMemo);
+		if(request.getParameter("category").equals("") || request.getParameter("goodsQuestionMemo") == null
+			|| request.getParameter("goodsQuestionMemo").equals("")) {
+			String msg = URLEncoder.encode("카테고리선택or문의내용을 적어주세요", "utf-8");
+			response.sendRedirect(request.getContextPath() + "/member/goodsOne?msg="+msg+"&goodsCode="+goodsCode);
+			return;
+		}
 		
+			
 		// 메서드 호출시 사용할 매개값
 		GoodsQuestion goodsQuestion  = new GoodsQuestion();
 		goodsQuestion.setGoodsCode(goodsCode);
@@ -42,10 +47,8 @@ public class AddGoodsQuestionController extends HttpServlet {
 		int row = questionService.insertGoodsQuestion(goodsQuestion);
 
 		if(row == 1) {
+			System.out.println("문의완료");
 			response.sendRedirect(request.getContextPath()+"/member/goodsOne?goodsCode="+goodsCode);
 		}
-		
-		
 	}
-
 }

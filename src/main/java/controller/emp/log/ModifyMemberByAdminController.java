@@ -19,7 +19,6 @@ import vo.Emp;
 public class ModifyMemberByAdminController extends HttpServlet {
 	private CustomerService customerService;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String msg = request.getParameter("msg");
 		// 고객리스트 출력 view
 		// 비로그인or등급 7이 아니면 접근불가 
 		HttpSession session = request.getSession();
@@ -54,7 +53,7 @@ public class ModifyMemberByAdminController extends HttpServlet {
 		request.setAttribute("lastPage", lastPage);
 		request.setAttribute("list", list);
 		request.setAttribute("loginMember", loginMember);
-		request.setAttribute("msg", msg);
+		request.setAttribute("msg", request.getParameter("msg"));
 		
 		request.getRequestDispatcher("/WEB-INF/view/emp/log/modifyMemberLevel.jsp").forward(request, response);
 	}
@@ -71,6 +70,7 @@ public class ModifyMemberByAdminController extends HttpServlet {
 		if(authCode > 4) {
 			String msg = URLEncoder.encode("고객의 최대등급은 3입니다.", "utf-8");
 			response.sendRedirect(request.getContextPath()+"/admin/modifyMember?msg="+msg);
+			return;
 		}
 		
 		// 메서드 호출
@@ -78,7 +78,7 @@ public class ModifyMemberByAdminController extends HttpServlet {
 		int row = customerService.updateMemberLevel(authCode, customerId);
 		
 		if(row == 1) {
-			// System.out.println("수정완료");
+			System.out.println("수정완료");
 			response.sendRedirect(request.getContextPath()+"/admin/modifyMember");
 		}
 		

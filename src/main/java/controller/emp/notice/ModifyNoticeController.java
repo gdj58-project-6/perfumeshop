@@ -1,6 +1,7 @@
 package controller.emp.notice;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,9 +15,6 @@ import vo.Customer;
 import vo.Emp;
 import vo.Notice;
 
-/**
- * Servlet implementation class ModifyNoticeController
- */
 @WebServlet("/admin/modifyNotice")
 public class ModifyNoticeController extends HttpServlet {
 	private NoticeService noticeService;
@@ -43,6 +41,7 @@ public class ModifyNoticeController extends HttpServlet {
 		this.noticeService = new NoticeService();
 		Notice notice = noticeService.getNoticeByModifyNotice(noticeCode);
 		request.setAttribute("n", notice);
+		request.setAttribute("msg", request.getParameter("msg"));
 		
 		request.getRequestDispatcher("/WEB-INF/view/emp/notice/modifyNotice.jsp").forward(request, response);
 	}
@@ -56,8 +55,13 @@ public class ModifyNoticeController extends HttpServlet {
 		// System.out.println(empId);
 		// System.out.println(noticeTitle);
 		// System.out.println(noticeContent);
-		
 		// 메서드 호출에 필요한 매개값
+		if(request.getParameter("noticeTitle") == null || request.getParameter("noticeTitle").equals("")
+			|| request.getParameter("noticeContent") == null || request.getParameter("noticeContent").equals("")) {
+			String msg = URLEncoder.encode("공지제목or공지내용을 입력해주세요.", "utf-8");
+			response.sendRedirect(request.getContextPath() + "/admin/modifyNotice?msg="+msg+"&noticeCode="+noticeCode);
+			return;
+		}
 		Notice n = new Notice();
 		n.setEmpId(empId);
 		n.setNoticeTitle(noticeTitle);

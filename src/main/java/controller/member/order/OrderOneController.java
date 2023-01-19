@@ -28,6 +28,7 @@ public class OrderOneController extends HttpServlet {
 		
 		request.setAttribute("goodsList", goodsList);
 		request.setAttribute("customerOne", customerByOrder);
+		request.setAttribute("orderCode", orderCode);
 		request.getRequestDispatcher("/WEB-INF/view/member/order/orderOne.jsp").forward(request, response);
 	}
 

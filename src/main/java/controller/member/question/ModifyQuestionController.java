@@ -1,6 +1,7 @@
 package controller.member.question;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -36,6 +37,7 @@ public class ModifyQuestionController extends HttpServlet {
 		this.questionService = new QuestionService();
 		Question modifyQuestion = questionService.getQuestionListByModify(questionCode);
 		request.setAttribute("modifyQuestion", modifyQuestion);
+		request.setAttribute("msg", request.getParameter("msg"));
 		
 		request.getRequestDispatcher("/WEB-INF/view/member/question/modifyQuestion.jsp").forward(request, response);
 	}
@@ -45,7 +47,11 @@ public class ModifyQuestionController extends HttpServlet {
 		String questionMemo = request.getParameter("questionMemo");
 		// System.out.println(questionCode);
 		// System.out.println(questionMemo);
-		
+		if(request.getParameter("questionMemo") == null || request.getParameter("questionMemo").equals("")) {
+			String msg = URLEncoder.encode("문의내용을 입력해주세요.", "utf-8");
+			response.sendRedirect(request.getContextPath() + "/member/modifyQuestion?msg="+msg+"&questionCode="+questionCode);
+			return;
+		}
 		// 메서드 호출시 매개값
 		Question q = new Question();
 		q.setQuestionCode(questionCode);

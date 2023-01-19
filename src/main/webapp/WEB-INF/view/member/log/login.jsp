@@ -112,6 +112,7 @@
 		        <div id="tab1" class="tab_content">
 		        	<!-- 탭1 고객 -->
 		            <h1>고객 로그인</h1>
+		            ${msg}
 					<form action="${pageContext.request.contextPath}/member/login" method="post">
 						<table border="1">
 							<tr>
@@ -136,6 +137,7 @@
 		        <div id="tab2" class="tab_content">
 		        	<!-- 탭2 직원 -->
 		         	<h1>직원 로그인</h1>
+		         	${msg}
 					<form action="${pageContext.request.contextPath}/member/login" method="post">
 						<table border="1">
 							<tr>

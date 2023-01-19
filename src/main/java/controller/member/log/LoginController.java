@@ -1,6 +1,7 @@
 package controller.member.log;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -27,6 +28,9 @@ public class LoginController extends HttpServlet {
 			response.sendRedirect(request.getContextPath()+"/home");
 			return;
 		}
+		
+		request.setAttribute("msg", request.getParameter("msg"));
+		
 		request.getRequestDispatcher("/WEB-INF/view/member/log/login.jsp").forward(request, response);
 	}
 
@@ -42,7 +46,14 @@ public class LoginController extends HttpServlet {
 		// System.out.println(customerPw + "<-- customerPw");
 		// System.out.println(empId + "<-- empId");
 		// System.out.println(empPw + "<-- empPw");
-		
+		if((request.getParameter("customerId") == null || request.getParameter("customerId").equals("")
+				|| request.getParameter("customerPw") == null || request.getParameter("customerPw").equals(""))
+				&& (request.getParameter("empId") == null || request.getParameter("empId").equals("")
+				|| request.getParameter("empPw") == null || request.getParameter("empPw").equals(""))) {
+				String msg = URLEncoder.encode("아이디나 비밀번호를 입력하지 않으셨습니다.", "utf-8");
+				response.sendRedirect(request.getContextPath() + "/member/login?msg="+msg);
+				return;
+		}
 		
 		// 메서드 호출 매개값
 		Customer paramCustomer = new Customer();
@@ -72,14 +83,18 @@ public class LoginController extends HttpServlet {
 				response.sendRedirect(request.getContextPath()+"/member/AddCartList");
 				return;
 			}
-			response.sendRedirect(request.getContextPath()+"/home");
-		} else if(paramCustomer.getCustomerId() == null && paramCustomer.getCustomerPw() == null) {
+		} else if(paramEmp.getEmpId() != null && paramEmp.getEmpPw() != null) {
 			empService = new EmpService();
 			empLogin = empService.loginEmp(paramEmp);
 			session.setAttribute("loginMember", empLogin);
-			response.sendRedirect(request.getContextPath()+"/home");
 		}
 		
 		// 실패 디버깅
+		if(customerLogin == null && empLogin == null) {
+			String msg = URLEncoder.encode("로그인 실패", "utf-8");
+			response.sendRedirect(request.getContextPath()+"/member/login?msg="+msg);
+			return;
+		}
+		response.sendRedirect(request.getContextPath()+"/home");
 	}
 }

@@ -10,9 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import service.CommentService;
 
-/**
- * Servlet implementation class RemoveCommentController
- */
 @WebServlet("/admin/removeComment")
 public class RemoveCommentController extends HttpServlet {
 	private CommentService commentService;
@@ -23,7 +20,7 @@ public class RemoveCommentController extends HttpServlet {
 			return;
 		} else if(request.getParameter("commentCode") != null) {
 			commentCode = Integer.parseInt(request.getParameter("commentCode"));
-			System.out.println(commentCode + "<--commentCode");
+			// System.out.println(commentCode + "<--commentCode");
 		}
 		
 		// 삭제 메서드 호출

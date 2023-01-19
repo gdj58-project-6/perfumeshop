@@ -21,7 +21,14 @@ public class AddCommentController extends HttpServlet {
 	// 답글 입력폼
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
-		int questionCode = Integer.parseInt(request.getParameter("questionCode"));
+		int questionCode = 0;
+		if(request.getParameter("questionCode") == null) {
+			response.sendRedirect(request.getContextPath()+"/admin/comment");
+			return;
+		} else if(request.getParameter("questionCode") != null) {
+			questionCode = Integer.parseInt(request.getParameter("questionCode"));
+		}
+		
 		String questionMemo = request.getParameter("questionMemo");
 		// System.out.println(questionCode);
 		// System.out.println(questionMemo);
@@ -43,8 +50,9 @@ public class AddCommentController extends HttpServlet {
 		int questionCode = Integer.parseInt(request.getParameter("questionCode"));
 		String commentMemo = request.getParameter("commentMemo");
 		// System.out.println(goodsQuestionCode);
-		
 		// System.out.println(goodsCommentMemo);
+		
+		// 답변내용이 null이거나 공백이면 추가폼에서 메시지 출력 
 		if(request.getParameter("commentMemo") == null || request.getParameter("commentMemo").equals("")) {
 			String msg = URLEncoder.encode("답변 내용을 입력해주세요.", "utf-8");
 			String questionMemo = URLEncoder.encode(request.getParameter("questionMemo"), "utf-8");
