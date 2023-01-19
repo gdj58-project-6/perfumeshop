@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import vo.Customer;
+import vo.Orders;
 
 public class CustomerDao {
 	// 고객 레벨 수정
@@ -51,17 +52,17 @@ public class CustomerDao {
 		// 객체 초기화
 		ArrayList<Customer> list = null;
 		// 쿼리문 작성
-		String sql = "SELECT"
-				+ "		c.customer_code customerCode"
-				+ "		, c.customer_id customerId"
-				+ "		, c.customer_name customerName"
-				+ "		, c.customer_phone customerPhone"
-				+ "		, ph.point point"
-				+ "		, c.auth_code authCode"
-				+ "		, c.createdate createdate"
-				+ "		FROM customer c LEFT JOIN point_history ph"
-				+ "		ON c.customer_id = ph.customer_id"
-				+ "		ORDER BY customer_code ASC LIMIT ?, ?";
+		String sql = "SELECT "
+					+ "	customer_code customerCode "
+					+ ", customer_id  customerId"
+					+ ", customer_name customerName "
+					+ ", customer_phone customerPhone "
+					+ ", total_price totalPrice "
+					+ ", point "
+					+ ", auth_code authCode "
+					+ ", createdate "
+					+ "FROM customer "
+					+ "ORDER BY customer_code ASC LIMIT ?, ?";
 		// 쿼리 객체 생성
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		// 쿼리문 ?값 지정
@@ -76,6 +77,7 @@ public class CustomerDao {
 			c.setCustomerId(rs.getString("customerId"));
 			c.setCustomerName(rs.getString("customerName"));
 			c.setCustomerPhone(rs.getString("customerPhone"));
+			c.setTotalPrice(rs.getInt("totalPrice"));
 			c.setPoint(rs.getInt("point"));
 			c.setAuthCode(rs.getInt("authCode"));
 			c.setCreatedate(rs.getString("createdate"));
@@ -91,7 +93,7 @@ public class CustomerDao {
 		// 객체 초기화
 		Customer customer = null;
 		// 쿼리문 작성
-		String sql = "SELECT customer_id customerId, customer_name customerName, customer_phone customerPhone, auth_code authCode FROM customer WHERE customer_id=? AND customer_pw=PASSWORD(?);";
+		String sql = "SELECT customer_id customerId, customer_name customerName, auth_code authCode FROM customer WHERE customer_id = ? AND customer_pw = PASSWORD(?)";
 		// 쿼리 객체 생성
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		// 쿼리문 ?값 지정
@@ -103,7 +105,6 @@ public class CustomerDao {
 			customer = new Customer();
 			customer.setCustomerId(rs.getString("customerId"));
 			customer.setCustomerName(rs.getString("customerName"));
-			customer.setCustomerPhone(rs.getString("customerPhone"));
 			customer.setAuthCode(rs.getInt("authCode"));
 		}
 		stmt.close();
@@ -133,7 +134,8 @@ public class CustomerDao {
 	// 일반회원 회원가입
 	public int addCustomer(Connection conn, Customer customer) throws Exception {
 		int row = 0;
-		String sql = "INSERT INTO customer(customer_id, customer_pw, customer_name, customer_phone, auth_code, createdate) VALUES(?, PASSWORD(?), ?, ?, DEFAULT(`point`), DEFAULT(`auth_code`), CURDATE())";
+		String sql = "INSERT INTO customer(customer_id, customer_pw, customer_name, customer_phone, total_price, POINT, auth_code, createdate) "
+					+ "				VALUES(?, PASSWORD(?), ?, ?, DEFAULT(`total_price`), DEFAULT(`point`), DEFAULT(`auth_code`), CURDATE())";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, customer.getCustomerId());
 		stmt.setString(2, customer.getCustomerPw());
@@ -151,12 +153,21 @@ public class CustomerDao {
 	public HashMap<String, Object> selectCustomerOne(Connection conn, Customer customer) throws Exception {
 		HashMap<String, Object> memberOne = null;
 		ResultSet rs = null;
-		String sql = "SELECT c.customer_code customerCode, c.customer_id customerId, c.customer_pw customerPw, c.customer_name customerName, c.customer_phone customerPhone, ph.point point, c.auth_code authCode, ca.address_code addressCode, ca.address address, c.createdate createdate"
-				+ "			FROM customer c INNER JOIN customer_address ca"
-				+ "			ON c.customer_id = ca.customer_id"
-				+ "			LEFT JOIN point_history ph"
-				+ "			ON c.customer_id = ph.customer_id"
-				+ "			WHERE c.customer_id = ? AND ca.customer_id = ?";
+		String sql = "SELECT "
+					+ "	c.customer_code customerCode "
+					+ ", c.customer_id customerId "
+					+ ", c.customer_pw customerPw "
+					+ ", c.customer_name customerName "
+					+ ", c.customer_phone customerPhone "
+					+ ", ca.address_code addressCode "
+					+ ", ca.address address "
+					+ ", c.total_price totalPrice "
+					+ ", c.point point "
+					+ ", c.auth_code authCode "
+					+ ", c.createdate createdate "
+					+ "FROM customer c INNER JOIN customer_address ca "
+					+ "ON c.customer_id = ca.customer_id "
+					+ "WHERE c.customer_id = ? AND ca.customer_id = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, customer.getCustomerId());
 		stmt.setString(2, customer.getCustomerId());
@@ -170,10 +181,11 @@ public class CustomerDao {
 			memberOne.put("customerPw", rs.getString("customerPw"));
 			memberOne.put("customerName", rs.getString("customerName"));
 			memberOne.put("customerPhone", rs.getString("customerPhone"));
-			memberOne.put("point", rs.getInt("point"));
-			memberOne.put("authCode", rs.getInt("authCode"));
 			memberOne.put("addressCode", rs.getInt("addressCode"));
 			memberOne.put("address", rs.getString("address"));
+			memberOne.put("totalPrice", rs.getInt("totalPrice"));
+			memberOne.put("point", rs.getInt("point"));
+			memberOne.put("authCode", rs.getInt("authCode"));
 			memberOne.put("createdate", rs.getString("createdate"));
 		}
 
@@ -181,6 +193,68 @@ public class CustomerDao {
 		rs.close();
 
 		return memberOne;
+	}
+	
+	// pointHistory에 insert될때마다 point update
+	// 포인트 취소, 사용시
+	public int updateUsePoint(Connection conn, Customer customer) throws Exception {
+		int row = 0;
+		String sql = "UPDATE customer SET POINT = POINT - ? WHERE customer_id = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, customer.getPoint());
+		stmt.setString(2, customer.getCustomerId());
+		
+		row = stmt.executeUpdate();
+		
+		stmt.close();
+		
+		return row;
+	}
+	
+	// 포인트 적립시
+	public int updateSavePoint(Connection conn, Customer customer) throws Exception {
+		int row = 0;
+		String sql = "UPDATE customer SET POINT = POINT + ? WHERE customer_id = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, customer.getPoint());
+		stmt.setString(2, customer.getCustomerId());
+		
+		row = stmt.executeUpdate();
+		
+		stmt.close();
+		
+		return row;
+	}
+	
+	// 회원등급 구분을 위한 누적 주문 금액
+	// 주문시 누적 금액 플러스
+	public int updateSaveTotalPrice(Connection conn, Orders orders) throws Exception {
+		int row = 0;
+		String sql = "UPDATE customer SET total_price = total_price + ? WHERE customer_id = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, orders.getOrderPrice());
+		stmt.setString(2, orders.getCustomerId());
+		
+		row = stmt.executeUpdate();
+		
+		stmt.close();
+		
+		return row;
+	}
+	
+	// 주문 취소, 반품시 마이너스
+	public int updateUseTotalPrice(Connection conn, Orders orders) throws Exception {
+		int row = 0;
+		String sql = "UPDATE customer SET total_price = total_price - ? WHERE customer_id = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, orders.getOrderPrice());
+		stmt.setString(2, orders.getCustomerId());
+		
+		row = stmt.executeUpdate();
+		
+		stmt.close();
+		
+		return row;
 	}
 	
 	// 회원 정보 수정 (주소는 따로)

@@ -5,14 +5,20 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import dao.CustomerDao;
 import dao.OrderDao;
+import dao.PointHistoryDao;
 import dao.ReturnHistoryDao;
 import util.DBUtil;
+import vo.Customer;
 import vo.Orders;
+import vo.PointHistory;
 import vo.ReturnHistory;
 
 public class ReturnHistoryService {
 	private ReturnHistoryDao returnHistoryDao;
+	private PointHistoryDao pointHistoryDao;
+	private CustomerDao customerDao;
 	private OrderDao orderDao;
 	// 반품신청하면 history테이블에 insert되고 환불신청으로 상태변경
 	public int getInsertCancelByOrder(ReturnHistory refundHistory, Orders orders) {
@@ -74,7 +80,7 @@ public class ReturnHistoryService {
 		return list;
 	}
 	
-	// 관리자가 반품승인하면 returnState 변경
+	// 관리자가 반품승인하면 returnState
 	public int getUpdateReturnStateByAdmin(Orders orders) {
 		int row = 0;
 		Connection conn = null;
@@ -82,13 +88,7 @@ public class ReturnHistoryService {
 		try {
 			conn = DBUtil.getConnection();
 			this.returnHistoryDao = new ReturnHistoryDao();
-			int result = returnHistoryDao.updateReturnStateByAdmin(conn, orders);
-			if(result == 0) {
-				throw new Exception();
-			} else {
-				this.orderDao = new OrderDao();
-				row = orderDao.updateOrderState(conn, orders);
-			}
+			row = returnHistoryDao.updateReturnStateByAdmin(conn, orders);
 			conn.commit();
 		} catch (Exception e) {
 			e.printStackTrace();

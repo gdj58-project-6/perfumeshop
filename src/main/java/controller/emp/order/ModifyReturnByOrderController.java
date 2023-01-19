@@ -33,15 +33,7 @@ public class ModifyReturnByOrderController extends HttpServlet {
 		Orders orders = new Orders();
 		orders.setOrderCode(orderCode);
 		orders.setOrderState(orderState);
-		
-		PointHistory pointHistory = new PointHistory();
-		pointHistory.setOrderCode(orderCode);
-		pointHistory.setGoodsCode(goodsCode);
-		pointHistory.setCustomerId(id);
-		pointHistory.setPointKind(orderState);
-		pointHistory.setPoint(point);
-		pointHistory.setMemo("주문 반품");
-		
+
 		// Model
 		this.returnHistoryService = new ReturnHistoryService();
 		int row = returnHistoryService.getUpdateReturnStateByAdmin(orders);

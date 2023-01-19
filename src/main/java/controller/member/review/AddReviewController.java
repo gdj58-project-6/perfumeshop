@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import service.OrderService;
 import service.ReviewService;
+import vo.Customer;
 import vo.OrderGoods;
 import vo.PointHistory;
 import vo.Review;
@@ -68,9 +69,13 @@ public class AddReviewController extends HttpServlet {
 		pointHistory.setPoint(point);
 		pointHistory.setMemo("리뷰 등록");
 		
+		Customer customer = new Customer();
+		customer.setPoint(point);
+		customer.setCustomerId(id);
+		
 		// Model
 		this.reviewService = new ReviewService();
-		int row = reviewService.getInsertReview(review, pointHistory);
+		int row = reviewService.getInsertReview(review, pointHistory, customer);
 		
 		if(row == 1) {
 			System.out.println("리뷰 등록 후 포인트 적립 성공");

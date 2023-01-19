@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import dao.CartDao;
+import dao.CustomerDao;
 import dao.OrderDao;
 import dao.OrderGoodsDao;
 import dao.PointHistoryDao;
@@ -19,8 +20,9 @@ public class OrderService {
 	private OrderDao orderDao;
 	private OrderGoodsDao orderGoodsDao;
 	private CartDao cartDao;
+	private CustomerDao customerDao;
 	private PointHistoryDao pointHistoryDao;
-	// 카트에서 주문하기 : OrderDao -> OrderGoodsDao -> cartDao
+	// 카트에서 주문하기 : 주문코드 생성 -> 주문코드에 상품 넣기 -> 카트 비우기 -> 누적금액 insert
 	public int getInsertOrderByCart(Orders orders, ArrayList<HashMap<String, Object>> list) {
 		int row = 0;
 		int orderCode = 0;
@@ -31,18 +33,24 @@ public class OrderService {
 			this.orderDao = new OrderDao();
 			HashMap<String, Integer> map = orderDao.insertOrderByCustomer(conn, orders);
 			orderCode = (int)map.get("autoKey");
-			if(map == null) {
+			if(map == null || map.equals("")) {
 				throw new Exception();
 			} else {
 				this.orderGoodsDao = new OrderGoodsDao();
-				int result = orderGoodsDao.insertOrderGoodsByCart(conn, list, orderCode);
-				if(result == 0) {
+				int result1 = orderGoodsDao.insertOrderGoodsByCart(conn, list, orderCode);
+				if(result1 == 0) {
 					throw new Exception();
 				} else {
 					this.cartDao = new CartDao();
-					row = cartDao.deleteCartList(conn, orders.getCustomerId());
-					if(row == 0) {
+					int result2 = cartDao.deleteCartList(conn, orders.getCustomerId());
+					if(result2 == 0) {
 						throw new Exception();
+					} else {
+						this.customerDao = new CustomerDao();
+						row = customerDao.updateSaveTotalPrice(conn, orders);
+						if(row == 0) {
+							throw new Exception();
+						}
 					}
 				}
 			}
@@ -68,7 +76,6 @@ public class OrderService {
 	
 	// 바로구매하기
 	public int getInsertOrder(Orders orders, HashMap<String, Object> goodsOne) {
-		int row = 0;
 		int orderCode = 0;
 		Connection conn = null;
 		
@@ -77,13 +84,19 @@ public class OrderService {
 			this.orderDao = new OrderDao();
 			HashMap<String, Integer> map = orderDao.insertOrderByCustomer(conn, orders);
 			orderCode = (int)map.get("autoKey");
-			if(map == null) {
+			if(map == null || map.equals("")) {
 				throw new Exception();
 			} else {
 				this.orderGoodsDao = new OrderGoodsDao();
 				int result = orderGoodsDao.insertOrderGoods(conn, orderCode, goodsOne);
 				if(result == 0) {
 					throw new Exception();
+				} else {
+					this.customerDao = new CustomerDao();
+					int row = customerDao.updateSaveTotalPrice(conn, orders);
+					if(row == 0) {
+						throw new Exception();
+					}
 				}
 			}
 			conn.commit();
@@ -268,7 +281,7 @@ public class OrderService {
 		return cnt;
 	}
 	
-	// 관리자가 주문상태 변경
+	// 관리자가 주문상태(배송) 변경
 	public int getUpdateOrderState(Orders orders) {
 		int row = 0;
 		Connection conn = null;
@@ -279,6 +292,91 @@ public class OrderService {
 			row = orderDao.updateOrderState(conn, orders);
 			conn.commit();
 		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return row;
+	}
+	
+	// 주문 취소시 사용포인트없으면 주문만 취소하고 누적 주문 금액에서 마이너스
+	public int getCancelOrderState(Orders orders) {
+		int row = 0;
+		Connection conn = null;
+		
+		try {
+			conn = DBUtil.getConnection();
+			this.orderDao = new OrderDao();
+			int result = orderDao.updateOrderState(conn, orders);
+			if(result == 0) {
+				throw new Exception();
+			} else {
+				this.customerDao = new CustomerDao();
+				row = customerDao.updateUseTotalPrice(conn, orders);
+				if(row == 0) {
+					throw new Exception();
+				}
+			}
+			conn.commit();
+		} catch (Exception e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return row;
+	}
+	
+	// 주문 취소시 사용포인트 리턴, pointHistory에 저장 흐 누적 주문 금액에서 마이너스
+	public int getCancelOrderStatePoint(Orders orders, PointHistory pointHistory, Customer customer) {
+		int row = 0;
+		Connection conn = null;
+		
+		try {
+			conn = DBUtil.getConnection();
+			this.orderDao = new OrderDao();
+			int result1 = orderDao.updateOrderState(conn, orders);
+			if(result1 == 0) {
+				throw new Exception();
+			} else {
+				this.customerDao = new CustomerDao();
+				int result2 = customerDao.updateSavePoint(conn, customer);
+				if(result2 == 0) {
+					throw new Exception();
+				} else {
+					this.pointHistoryDao = new PointHistoryDao();
+					int result3 = pointHistoryDao.insertPoint(conn, pointHistory);
+					if(result3 == 0) {
+						throw new Exception();
+					} else {
+						row = customerDao.updateUseTotalPrice(conn, orders);
+						if(row == 0) {
+							throw new Exception();
+						}
+					}
+				}
+			}
+			conn.commit();
+		} catch (Exception e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
 			e.printStackTrace();
 		} finally {
 			try {

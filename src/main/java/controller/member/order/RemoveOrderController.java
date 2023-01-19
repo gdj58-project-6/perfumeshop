@@ -27,6 +27,7 @@ public class RemoveOrderController extends HttpServlet {
 		// 값 받아오기
 		int orderCode = Integer.parseInt(request.getParameter("orderCode"));
 		int goodsCode = Integer.parseInt(request.getParameter("goodsCode"));
+		int orderPrice = Integer.parseInt(request.getParameter("orderPrice"));
 		int point = Integer.parseInt(request.getParameter("point"));
 		String orderState = "취소";
 		
@@ -34,6 +35,8 @@ public class RemoveOrderController extends HttpServlet {
 		Orders orders = new Orders();
 		orders.setOrderCode(orderCode);
 		orders.setOrderState(orderState);
+		orders.setOrderPrice(orderPrice);
+		orders.setCustomerId(id);
 		
 		PointHistory pointHistory = new PointHistory();
 		pointHistory.setOrderCode(orderCode);
@@ -43,23 +46,23 @@ public class RemoveOrderController extends HttpServlet {
 		pointHistory.setPoint(point);
 		pointHistory.setMemo("주문 취소");
 		
+		Customer customer = new Customer();
+		customer.setPoint(point);
+		customer.setCustomerId(id);
+		
 		// Model
 		this.orderService = new OrderService();
-		int row = orderService.getUpdateOrderState(orders);
-		
-		if(row == 1) {
-			if(point != 0 && !request.getParameter("point").equals("0") && request.getParameter("point") != null) {
-				this.pointHistoryService = new PointHistoryService();
-				int result = pointHistoryService.getInsertPoint(pointHistory);
-				if(result == 1) {
-					System.out.println("주문 취소 후 포인트 취소 성공");
-				} else {
-					System.out.println("주문 취소 후 포인트 취소 실패");
-				}
-			}
-			System.out.println("주문 취소 성공");
+		int row = 0;
+		if(point == 0) {
+			row = orderService.getCancelOrderState(orders);
 		} else {
+			row = orderService.getCancelOrderStatePoint(orders, pointHistory, customer);
+		}
+		
+		if(row == 0) {
 			System.out.println("주문 취소 실패");
+		} else {
+			System.out.println("주문 취소 성공");
 		}
 		response.sendRedirect(request.getContextPath() + "/member/orderList");
 	}

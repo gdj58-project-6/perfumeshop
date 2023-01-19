@@ -54,15 +54,11 @@ public class GoodsPaymentController extends HttpServlet {
 		HashMap<String, Object> customerOne = customerService.getSelectCustomerOne(customer);
 		
 		// 현재 잔여 포인트
-		this.pointHistoryService = new PointHistoryService();
-		int usePoint = pointHistoryService.getSelectPoint(id, "사용");
-		int savePoint = pointHistoryService.getSelectPoint(id, "적립");
+		
 		
 		request.setAttribute("goodsQuantity", goodsQuantity);
 		request.setAttribute("customerOne", customerOne);
 		request.setAttribute("goodsOne", goodsOne);
-		request.setAttribute("usePoint", usePoint);
-		request.setAttribute("savePoint", savePoint);
 		request.getRequestDispatcher("/WEB-INF/view/member/order/goodsPayment.jsp").forward(request, response);
 	}
 
@@ -120,11 +116,17 @@ public class GoodsPaymentController extends HttpServlet {
 				pointHistory.setPoint(point);
 				pointHistory.setMemo("상품 구매");
 
-				int row = pointHistoryService.getInsertPoint(pointHistory);
+				Customer customer = new Customer();
+				customer.setPoint(point);
+				customer.setCustomerId(id);
+				
+				// 포인트 사용
+				this.customerService = new CustomerService();
+				int row = customerService.getUsePointByOrder(customer, pointHistory);
 				if(row == 0) {
 					System.out.println("포인트 사용 실패");
 				} else {
-					System.out.println("포인트 사용 성공");
+					System.out.println("주문 성공 후 포인트 사용 성공");
 				}
 			}
 		} else {

@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import service.ReviewService;
+import vo.Customer;
 import vo.PointHistory;
 import vo.Review;
 
@@ -36,9 +37,13 @@ public class RemoveReviewController extends HttpServlet {
 		pointHistory.setPoint(point);
 		pointHistory.setMemo("리뷰 삭제");
 		
+		Customer customer = new Customer();
+		customer.setPoint(point);
+		customer.setCustomerId(id);
+		
 		// Model
 		this.reviewService = new ReviewService();
-		int row = reviewService.getDeleteReview(review, pointHistory);
+		int row = reviewService.getDeleteReview(review, pointHistory, customer);
 		
 		if(row == 1) {
 			System.out.println("리뷰 삭제 후 포인트 취소 성공");

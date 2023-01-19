@@ -58,7 +58,7 @@
 					<td>포인트 사용</td>
 					<td>
 						<input type="text" name="point" value="0">
-						사용 가능 포인트 : ${savePoint - usePoint}
+						사용 가능 포인트 : ${customerOne.point}
 					</td>
 				</tr>
 				<tr>

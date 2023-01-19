@@ -5,14 +5,17 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import dao.CustomerDao;
 import dao.PointHistoryDao;
 import dao.ReviewDao;
 import util.DBUtil;
+import vo.Customer;
 import vo.PointHistory;
 import vo.Review;
 
 public class ReviewService {
 	private ReviewDao reviewDao;
+	private CustomerDao customerDao;
 	private PointHistoryDao pointHistoryDao;
 	// 직원용 리뷰리스트 출력
 	public ArrayList<HashMap<String, Object>> getSelectReviewListByAdmin() {
@@ -60,8 +63,8 @@ public class ReviewService {
 		return list;
 	}
 	
-	// 리뷰 작성시 포인트 적립
-	public int getInsertReview(Review review, PointHistory pointHistory) {
+	// 리뷰 작성시 customer에서 point updat 후 pointHistory에 insert
+	public int getInsertReview(Review review, PointHistory pointHistory, Customer customer) {
 		int row = 0;
 		Connection conn = null;
 		
@@ -72,10 +75,16 @@ public class ReviewService {
 			if(result == 0) {
 				throw new Exception();
 			} else { // 리뷰가 등록이되면
-				this.pointHistoryDao = new PointHistoryDao();
-				row = pointHistoryDao.insertPoint(conn, pointHistory); // 포인트 등록
-				if(row == 0) {
-					throw new Exception(); // 포인트도 등록이안되면 예외발생
+				this.customerDao = new CustomerDao();
+				int result2 = customerDao.updateSavePoint(conn, customer);
+				if(result2 == 0) {
+					throw new Exception();
+				} else {
+					this.pointHistoryDao = new PointHistoryDao();
+					row = pointHistoryDao.insertPoint(conn, pointHistory);
+					if(row == 0) {
+						throw new Exception();
+					}
 				}
 			}
 			conn.commit();
@@ -174,8 +183,8 @@ public class ReviewService {
 		return row;
 	}
 
-	// 리뷰 삭제
-	public int getDeleteReview(Review review, PointHistory pointHistory) {
+	// 리뷰 삭제 : 리뷰 삭제하고 pointHistory에 insert하고 받은 포인트 회수
+	public int getDeleteReview(Review review, PointHistory pointHistory, Customer customer) {
 		int row = 0;
 		Connection conn = null;
 
@@ -187,9 +196,15 @@ public class ReviewService {
 				throw new Exception();
 			} else {
 				this.pointHistoryDao = new PointHistoryDao();
-				row = pointHistoryDao.insertPoint(conn, pointHistory);
-				if (row == 0) {
+				int result2 = pointHistoryDao.insertPoint(conn, pointHistory);
+				if (result2 == 0) {
 					throw new Exception();
+				} else {
+					this.customerDao = new CustomerDao();
+					row = customerDao.updateUsePoint(conn, customer);
+					if(row == 0) {
+						throw new Exception();
+					}
 				}
 			}
 			conn.commit();

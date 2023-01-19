@@ -6,30 +6,33 @@ public class Customer {
 	private String customerPw;
 	private String customerName;
 	private String customerPhone;
+	private int totalPrice;
 	private int point;
 	private int authCode;
 	private String createdate;
 	
 	public Customer() {}
 
-	@Override
-	public String toString() {
-		return "Customer [customerCode=" + customerCode + ", customerId=" + customerId + ", customerPw=" + customerPw
-				+ ", customerName=" + customerName + ", customerPhone=" + customerPhone + ", point=" + point
-				+ ", authCode=" + authCode + ", createdate=" + createdate + "]";
-	}
-
 	public Customer(int customerCode, String customerId, String customerPw, String customerName, String customerPhone,
-			int point, int authCode, String createdate) {
+			int totalPrice, int point, int authCode, String createdate) {
 		super();
 		this.customerCode = customerCode;
 		this.customerId = customerId;
 		this.customerPw = customerPw;
 		this.customerName = customerName;
 		this.customerPhone = customerPhone;
+		this.totalPrice = totalPrice;
 		this.point = point;
 		this.authCode = authCode;
 		this.createdate = createdate;
+	}
+
+	@Override
+	public String toString() {
+		return "Customer [customerCode=" + customerCode + ", customerId=" + customerId + ", customerPw=" + customerPw
+				+ ", customerName=" + customerName + ", customerPhone=" + customerPhone + ", totalPrice=" + totalPrice
+				+ ", point=" + point + ", authCode=" + authCode + ", createdate=" + createdate + ", getClass()="
+				+ getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
 	}
 
 	public int getCustomerCode() {
@@ -72,6 +75,14 @@ public class Customer {
 		this.customerPhone = customerPhone;
 	}
 
+	public int getTotalPrice() {
+		return totalPrice;
+	}
+
+	public void setTotalPrice(int totalPrice) {
+		this.totalPrice = totalPrice;
+	}
+
 	public int getPoint() {
 		return point;
 	}
@@ -95,5 +106,4 @@ public class Customer {
 	public void setCreatedate(String createdate) {
 		this.createdate = createdate;
 	}
-
 }

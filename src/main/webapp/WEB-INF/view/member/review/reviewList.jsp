@@ -13,7 +13,7 @@
 						`<textarea rows="5" cols="30" name="reviewMemo"></textarea>
 						<button type="submit">수정하기</button>`
 					$(this.form).children('div').html(html);
-					// form안에 있는 div를 찾아서 html 넣는 ㅋ
+					// form안에 있는 div를 찾아서 html 넣는 코드
 				})
 			})
 		</script>

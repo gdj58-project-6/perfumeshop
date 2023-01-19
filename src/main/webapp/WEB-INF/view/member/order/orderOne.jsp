@@ -43,7 +43,7 @@
 		</table>
 		<a href="${pageContext.request.contextPath}/member/addQuestion?orderCode=${o.orderCode}">문의작성</a>
 		<c:if test="${customerOne.orderState eq '결제' || customerOne.orderState eq '배송전'}">
-			${o.orderState} <a href="${pageContext.request.contextPath}/member/removeOrder?orderCode=${customerOne.orderCode}&point=${customerOne.point}&goodsCode=${goodsCode}">취소신청</a>
+			${o.orderState} <a href="${pageContext.request.contextPath}/member/removeOrder?orderCode=${customerOne.orderCode}&point=${customerOne.point}&goodsCode=${goodsCode}&orderPrice=${customerOne.orderPrice}">취소신청</a>
 		</c:if>
 	</body>
 </html>

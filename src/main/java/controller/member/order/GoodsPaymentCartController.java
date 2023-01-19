@@ -47,16 +47,9 @@ public class GoodsPaymentCartController extends HttpServlet {
 		this.customerService = new CustomerService();
 		HashMap<String, Object> customerOne = customerService.getSelectCustomerOne(customer);
 		
-		// 현재 잔여 포인트
-		this.pointHistoryService = new PointHistoryService();
-		int usePoint = pointHistoryService.getSelectPoint(id, "사용");
-		int savePoint = pointHistoryService.getSelectPoint(id, "적립");
-		
 		// 값 저장해서 view로 넘김
 		request.setAttribute("list", list);
 		request.setAttribute("customerOne", customerOne);
-		request.setAttribute("usePoint", usePoint);
-		request.setAttribute("savePoint", savePoint);
 		
 		// View 연결
 		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/view/member/order/goodsPaymentCartList.jsp");
@@ -108,11 +101,18 @@ public class GoodsPaymentCartController extends HttpServlet {
 				pointHistory.setPoint(point);
 				pointHistory.setMemo("상품 구매");
 				
+				Customer customer = new Customer();
+				customer.setPoint(point);
+				customer.setCustomerId(id);
+				
 				// 포인트 사용
-				pointHistoryService.getInsertPoint(pointHistory);
-				System.out.println("포인트 사용 성공");
-			} else {
-				System.out.println("포인트 사용 실패");
+				this.customerService = new CustomerService();
+				int row = customerService.getUsePointByOrder(customer, pointHistory);
+				if(row == 0) {
+					System.out.println("포인트 사용 실패");
+				} else {
+					System.out.println("주문 성공 후 포인트 사용 성공");
+				}
 			}
 		} else {
 			System.out.println("주문 실패");

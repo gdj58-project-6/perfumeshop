@@ -13,6 +13,7 @@ import dao.PwHistoryDao;
 import util.DBUtil;
 import vo.Customer;
 import vo.CustomerAddress;
+import vo.PointHistory;
 
 public class CustomerService {
 	private CustomerDao customerDao;
@@ -215,6 +216,7 @@ public class CustomerService {
 			}
 		}
 		return memberOne;
+
 	}
 	
 	// 회원 정보 수정 (주소 따로)
@@ -334,6 +336,43 @@ public class CustomerService {
 				e.printStackTrace();
 			}
 		}
+		return row;
+	}
+	
+	// 포인트 사용시 customer에서 update 후 pointHistory insert
+	public int getUsePointByOrder(Customer customer, PointHistory pointHistory) {
+		int row = 0;
+		Connection conn = null;
+		
+		try {
+			conn = DBUtil.getConnection();
+			this.customerDao = new CustomerDao();
+			int result = customerDao.updateUsePoint(conn, customer);
+			if(result == 0) {
+				throw new Exception();
+			} else {
+				this.pointHistoryDao = new PointHistoryDao();
+				row = pointHistoryDao.insertPoint(conn, pointHistory);
+				if(row == 0) {
+					throw new Exception();
+				}
+			}
+			conn.commit();
+		} catch (Exception e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
 		return row;
 	}
 }
