@@ -69,7 +69,7 @@ public class LoginController extends HttpServlet {
 			// 비로그인 장바구니에 상품 담긴채로 로그인 했을 경우
 			if(session.getAttribute("cart") != null) {
 				System.out.println("장바구니로");
-				response.sendRedirect(request.getContextPath()+"/AddCartList");
+				response.sendRedirect(request.getContextPath()+"/member/AddCartList");
 				return;
 			}
 			response.sendRedirect(request.getContextPath()+"/home");

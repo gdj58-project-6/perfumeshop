@@ -16,7 +16,7 @@ import service.CartService;
 import vo.Cart;
 import vo.Customer;
 
-@WebServlet("/AddCartList")
+@WebServlet("/member/AddCartList")
 public class AddCartList extends HttpServlet {
 	private CartService cartService;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

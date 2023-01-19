@@ -1,6 +1,5 @@
 package service;
 
-import java.awt.image.PackedColorModel;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -16,6 +15,59 @@ import vo.GoodsImg;
 public class GoodsService {
 	private GoodsDao goodsDao;
 	private GoodsImgDao goodsImgDao;
+	
+	// modifyHit(cart)
+	public int getModifyHitByCart(ArrayList<HashMap<String, Object>> list) {
+		int row = 0;
+		Connection conn = null;
+		try {
+			conn = DBUtil.getConnection();
+			this.goodsDao = new GoodsDao();
+			row = goodsDao.modifyHitByCart(conn, list);
+			conn.commit();
+		} catch (Exception e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch(SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return row;
+	}
+	
+	// modifyHit(바로구매)
+	public int getModifyHit(int goodsCode) {
+		int row = 0;
+		Connection conn = null;
+		try {
+			conn = DBUtil.getConnection();
+			this.goodsDao = new GoodsDao();
+			row = goodsDao.modifyHit(conn, goodsCode);
+			conn.commit();
+		} catch (Exception e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch(SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return row;
+	}
 	
 	// RemoveGoods
 	public int removeGoods(Goods goods, GoodsImg goodsImg) {

@@ -101,6 +101,16 @@ public class GoodsPaymentController extends HttpServlet {
 		int orderCode = orderService.getInsertOrder(orders, goodsOne);
 		if(orderCode != 0) {
 			System.out.println("주문 성공"); // 주문성공하면 포인트 차감
+			
+			// 상품구매 할때마다 hit값 1씩 증가 
+			int hitRow = goodsService.getModifyHit(goodsCode);
+			if(hitRow != 1) {
+				System.out.println("hit값 증가 실패");
+			} else {
+				System.out.println("hit값 증가 성공");
+			}
+		
+			// 포인트 사용
 			if(point != 0 && !request.getParameter("point").equals("0") && request.getParameter("point") != null) {
 				PointHistory pointHistory = new PointHistory();
 				pointHistory.setOrderCode(orderCode);
@@ -109,8 +119,7 @@ public class GoodsPaymentController extends HttpServlet {
 				pointHistory.setPointKind("사용");
 				pointHistory.setPoint(point);
 				pointHistory.setMemo("상품 구매");
-				
-				// 포인트 사용
+
 				int row = pointHistoryService.getInsertPoint(pointHistory);
 				if(row == 0) {
 					System.out.println("포인트 사용 실패");

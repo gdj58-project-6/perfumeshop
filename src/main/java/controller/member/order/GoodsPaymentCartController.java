@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import service.CartService;
 import service.CustomerService;
+import service.GoodsService;
 import service.OrderService;
 import service.PointHistoryService;
 import vo.Customer;
@@ -26,6 +27,7 @@ public class GoodsPaymentCartController extends HttpServlet {
 	private CustomerService customerService;
 	private OrderService orderService;
 	private PointHistoryService pointHistoryService;
+	private GoodsService goodsService;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 로그인 정보 저장
 		HttpSession session = request.getSession();
@@ -69,7 +71,6 @@ public class GoodsPaymentCartController extends HttpServlet {
 		
 		// 값 받아오기
 		int point = Integer.parseInt(request.getParameter("point"));
-		
 		// 바인딩
 		Orders orders = new Orders();
 		orders.setCustomerId(id);
@@ -81,12 +82,23 @@ public class GoodsPaymentCartController extends HttpServlet {
 		// 카트에서 넘어오는 굿즈 리스트
 		this.cartService = new CartService();
 		ArrayList<HashMap<String, Object>> list = cartService.getCartList(id);
-		
+
+
 		// 주문
 		this.orderService = new OrderService();
 		int orderCode = orderService.getInsertOrderByCart(orders, list);
 		if(orderCode != 0) {
 			System.out.println("주문 성공"); // 주문성공하면 포인트 차감
+			// 상품구매 할때마다 hit값 1씩증가
+			this.goodsService = new GoodsService();
+			int hitRow = goodsService.getModifyHitByCart(list);
+			if(hitRow == 0) {
+				System.out.println("장바구니 hit 증가실패");
+			} else {
+				System.out.println("장바구니 hit 증가성공");
+			}
+				
+		
 			if(point != 0 && !request.getParameter("point").equals("0") && request.getParameter("point") != null) {
 				PointHistory pointHistory = new PointHistory();
 				pointHistory.setOrderCode(orderCode);

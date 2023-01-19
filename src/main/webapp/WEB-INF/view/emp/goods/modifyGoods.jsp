@@ -55,11 +55,7 @@
 			<!-- hit 값은 일단 0~3으로 설정-->
 			<!-- 나중에 수정전 체크돼있는 것에 자동으로 체크표시 나오게 -->		
 			<div>
-				hit : 
-				<input type="radio" name="hit" value="0">0 
-				<input type="radio" name="hit" value="1">1	 
-				<input type="radio" name="hit" value="2">2 
-				<input type="radio" name="hit" value="3">3	 
+				hit : <input type="number" name="hit" value="0">
 			</div>		
 			<!-- goodsCode 히든으로 보내기 다른 좋은방법 있으면 그걸로 변경-->
 			<div>

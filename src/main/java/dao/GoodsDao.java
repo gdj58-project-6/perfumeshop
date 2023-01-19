@@ -13,6 +13,37 @@ import vo.Goods;
 
 public class GoodsDao {
 	
+	// modifyHit(장바구니)
+	public int modifyHitByCart(Connection conn, ArrayList<HashMap<String, Object>> list) throws Exception {
+		int row = 0;
+		PreparedStatement stmt = null;
+		
+		for(HashMap<String, Object> m : list) {
+			String sql = "UPDATE goods SET hit = hit+1 WHERE goods_code = ?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, (int)m.get("goodsCode"));
+			row = stmt.executeUpdate();
+		}
+		
+		stmt.close();
+		
+		return row;
+	}
+	
+	
+	// modifyHit(바로구매)
+	public int modifyHit(Connection conn, int goodsCode) throws Exception {
+		int row = 0;
+		PreparedStatement stmt = null;
+		
+		String sql ="UPDATE goods SET hit = hit+1 WHERE goods_code = ?";
+		stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, goodsCode);
+		row = stmt.executeUpdate();
+		stmt.close();
+		
+		return row;
+	}
 	// RemoveGoods
 	public int removeGoods(Connection conn, Goods goods) throws Exception {
 		int row = 0;
