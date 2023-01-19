@@ -42,7 +42,7 @@ public class GoodsListController extends HttpServlet {
 		
 		System.out.println(sort);
 		System.out.println(category);
-	
+		System.out.println(word);
 		
 		int currentPage = 1;
 		if(request.getParameter("currentPage") != null) {
