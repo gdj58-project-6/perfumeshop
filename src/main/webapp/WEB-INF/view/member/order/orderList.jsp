@@ -66,5 +66,9 @@
 				</tr>
 			</c:forEach>
 		</table>
+		<a href="${pageContext.request.contextPath}/admin/orderList?currentPage=${1}">처음</a>
+		<a href="${pageContext.request.contextPath}/admin/orderList?currentPage=${currentPage - 1}">이전</a>
+		<a href="${pageContext.request.contextPath}/admin/orderList?currentPage=${currentPage + 1}">다음</a>
+		<a href="${pageContext.request.contextPath}/admin/orderList?currentPage=${lastPage}">마지막</a>
 	</body>
 </html>
