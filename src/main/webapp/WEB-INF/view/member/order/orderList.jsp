@@ -7,6 +7,25 @@
 		<title>Insert title here</title>
 	</head>
 	<body>
+		<form action="${pageContext.request.contextPath}/member/orderList" id="orderStateForm" method="get">
+			<select name="stateSearch" id="orderState">
+				<option value="" <c:out value="${state == '' ? 'selected':'' }"/>>주문상태</option>
+				<option value="결제" <c:out value="${state == '결제' ? 'selected':'' }"/>>결제</option>
+				<option value="취소" <c:out value="${state == '취소' ? 'selected':'' }"/>>취소</option>
+				<option value="반품신청" <c:out value="${state == '반품신청' ? 'selected':'' }"/>>반품신청</option>
+				<option value="반품완료" <c:out value="${state == '반품완료' ? 'selected':'' }"/>>반품완료</option>
+				<option value="배송전" <c:out value="${state == '배송전' ? 'selected':'' }"/>>배송전</option>
+				<option value="배송중" <c:out value="${state == '배송중' ? 'selected':'' }"/>>배송중</option>
+				<option value="배송완료" <c:out value="${state == '배송완료' ? 'selected':'' }"/>>배송완료</option>
+				<option value="구매확정" <c:out value="${state == '구매확정' ? 'selected':'' }"/>>구매확정</option>
+			</select>
+			<select name="sort" id="sort">
+				<option value="ASC" <c:out value="${sort == 'ASC' ? 'selected':'' }"/>>오래된순</option>
+				<option value="DESC" <c:out value="${sort == 'DESC' ? 'selected':'' }"/>>최근결제순</option>
+			</select>
+			<input type="text" name="customerId">
+			<button type="submit">검색</button>
+		</form>
 		<table>
 			<tr>
 				<th>상품 </th>

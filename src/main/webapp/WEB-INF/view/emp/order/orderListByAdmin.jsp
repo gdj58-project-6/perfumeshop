@@ -30,8 +30,8 @@
 				<option value="구매확정" <c:out value="${state == '구매확정' ? 'selected':'' }"/>>구매확정</option>
 			</select>
 			<select name="sort" id="sort">
-				<option value="DESC" <c:out value="${sort == 'DESC' ? 'selected':'' }"/>>오래된순</option>
-				<option value="ASC" <c:out value="${sort == 'ASC' ? 'selected':'' }"/>>최근결제순</option>
+				<option value="ASC" <c:out value="${sort == 'ASC' ? 'selected':'' }"/>>오래된순</option>
+				<option value="DESC" <c:out value="${sort == 'DESC' ? 'selected':'' }"/>>최근결제순</option>
 			</select>
 			<input type="text" name="customerId">
 			<button type="submit">검색</button>

@@ -17,6 +17,7 @@
 				<th>주문 상품</th>
 				<th>포인트 내용</th>
 				<th>포인트</th>
+				<th>메모</th>
 				<th>적립 일자</th>
 			</tr>
 			<c:forEach var="p" items="${list}">
@@ -25,6 +26,7 @@
 					<td>${p.goodsCode}</td>
 					<td>${p.pointKind}</td>
 					<td>${p.point}</td>
+					<td>${p.memo}</td>
 					<td>${p.createdate}</td>
 				</tr>
 			</c:forEach>

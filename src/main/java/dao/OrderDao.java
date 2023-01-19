@@ -41,7 +41,7 @@ public class OrderDao {
 	}
 	
 	// 관리자용 모든 주문 리스트
-	public ArrayList<HashMap<String, Object>> selectAllOrderList(Connection conn, String stateSearch, String customerId, String sort) throws Exception {
+	public ArrayList<HashMap<String, Object>> selectAllOrderList(Connection conn, String stateSearch, String customerId, String sort, int beginRow,  int rowPerPage) throws Exception {
 		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
 		String sql = null;
 		ResultSet rs = null;
@@ -66,8 +66,11 @@ public class OrderDao {
 							+ "INNER JOIN goods_img gi "
 							+ "ON g.goods_code = gi.goods_code "
 							+ "GROUP BY o.order_code "
-							+ "ORDER BY o.createdate DESC ";
+							+ "ORDER BY o.createdate DESC "
+							+ "LIMIT ?, ? ";
 						stmt = conn.prepareStatement(sql);
+						stmt.setInt(1, beginRow);
+						stmt.setInt(2, rowPerPage);
 				} else {
 					sql = "SELECT "
 							+ "o.order_code orderCode"
@@ -87,9 +90,12 @@ public class OrderDao {
 							+ "ON g.goods_code = gi.goods_code "
 							+ "WHERE o.customer_id LIKE ? "
 							+ "GROUP BY o.order_code "
-							+ "ORDER BY o.createdate DESC ";
+							+ "ORDER BY o.createdate DESC "
+							+ "LIMIT ?, ? ";
 						stmt = conn.prepareStatement(sql);
 						stmt.setString(1, "%" + customerId + "%");
+						stmt.setInt(2, beginRow);
+						stmt.setInt(3, rowPerPage);
 				}
 			} else {
 				if(customerId == null || customerId.equals("")) {
@@ -111,9 +117,12 @@ public class OrderDao {
 							+ "ON g.goods_code = gi.goods_code "
 							+ "WHERE o.order_state LIKE ? "
 							+ "GROUP BY o.order_code "
-							+ "ORDER BY o.createdate DESC ";
+							+ "ORDER BY o.createdate DESC "
+							+ "LIMIT ?, ? ";
 						stmt = conn.prepareStatement(sql);
 						stmt.setString(1, "%" + stateSearch + "%");
+						stmt.setInt(2, beginRow);
+						stmt.setInt(3, rowPerPage);
 				} else {
 					sql = "SELECT "
 							+ "o.order_code orderCode"
@@ -133,10 +142,13 @@ public class OrderDao {
 							+ "ON g.goods_code = gi.goods_code "
 							+ "WHERE o.order_state LIKE ? AND o.customer_id LIKE ? "
 							+ "GROUP BY o.order_code "
-							+ "ORDER BY o.createdate DESC ";
+							+ "ORDER BY o.createdate DESC "
+							+ "LIMIT ?, ? ";
 						stmt = conn.prepareStatement(sql);
 						stmt.setString(1, "%" + stateSearch + "%");
 						stmt.setString(2, "%" + customerId + "%");
+						stmt.setInt(3, beginRow);
+						stmt.setInt(4, rowPerPage);
 				}
 			}
 		} else if (sort.equals("ASC")) {
@@ -159,8 +171,11 @@ public class OrderDao {
 							+ "INNER JOIN goods_img gi "
 							+ "ON g.goods_code = gi.goods_code "
 							+ "GROUP BY o.order_code "
-							+ "ORDER BY o.createdate ASC ";
+							+ "ORDER BY o.createdate ASC "
+							+ "LIMIT ?, ? ";
 						stmt = conn.prepareStatement(sql);
+						stmt.setInt(1, beginRow);
+						stmt.setInt(2, rowPerPage);
 				} else {
 					sql = "SELECT "
 							+ "o.order_code orderCode"
@@ -180,9 +195,12 @@ public class OrderDao {
 							+ "ON g.goods_code = gi.goods_code "
 							+ "WHERE o.customer_id LIKE ? "
 							+ "GROUP BY o.order_code "
-							+ "ORDER BY o.createdate ASC ";
+							+ "ORDER BY o.createdate ASC "
+							+ "LIMIT ?, ? ";
 						stmt = conn.prepareStatement(sql);
 						stmt.setString(1, "%" + customerId + "%");
+						stmt.setInt(2, beginRow);
+						stmt.setInt(3, rowPerPage);
 				}
 			} else {
 				if(customerId == null || customerId.equals("")) {
@@ -204,9 +222,12 @@ public class OrderDao {
 							+ "ON g.goods_code = gi.goods_code "
 							+ "WHERE o.order_state LIKE ? "
 							+ "GROUP BY o.order_code "
-							+ "ORDER BY o.createdate ASC ";
+							+ "ORDER BY o.createdate ASC "
+							+ "LIMIT ?, ? ";
 						stmt = conn.prepareStatement(sql);
 						stmt.setString(1, "%" + stateSearch + "%");
+						stmt.setInt(2, beginRow);
+						stmt.setInt(3, rowPerPage);
 				} else {
 					sql = "SELECT "
 							+ "o.order_code orderCode"
@@ -226,10 +247,13 @@ public class OrderDao {
 							+ "ON g.goods_code = gi.goods_code "
 							+ "WHERE o.order_state LIKE ? AND o.customer_id LIKE ? "
 							+ "GROUP BY o.order_code "
-							+ "ORDER BY o.createdate ASC ";
+							+ "ORDER BY o.createdate ASC "
+							+ "LIMIT ?, ? ";
 						stmt = conn.prepareStatement(sql);
 						stmt.setString(1, "%" + stateSearch + "%");
 						stmt.setString(2, "%" + customerId + "%");
+						stmt.setInt(3, beginRow);
+						stmt.setInt(4, rowPerPage);
 				}
 			}
 		}
@@ -255,30 +279,173 @@ public class OrderDao {
 		return list;
 	}
 	
-	// 고객용 주문 리스트
-	public ArrayList<HashMap<String, Object>> selectOrderByCustomerList(Connection conn, Customer customer) throws Exception {
-		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
+	// 관리자 주문리스트 페이징용 카운트
+	public int orderListCount(Connection conn, String stateSearch, String customerId, String sort) throws Exception {
+		int cnt = 0;
+		String sql  = null;
 		ResultSet rs = null;
-		String sql = "SELECT "
-					+ "o.order_code orderCode"
-					+ ", gi.filename filename "
-					+ ", g.goods_name goodsName "
-					+ ", t.cnt cnt "
-					+ ", o.order_price orderPrice "
-					+ ", o.order_state orderState "
-					+ ", o.createdate createdate "
-					+ "FROM orders o "
-					+ "INNER JOIN (SELECT order_code orderCode, goods_code goodsCode, (COUNT(*)-1) cnt FROM order_goods GROUP BY order_code) t "
-					+ "ON o.order_code = t.orderCode "
-					+ "INNER JOIN goods g "
-					+ "ON t.goodsCode = g.goods_code "
-					+ "INNER JOIN goods_img gi "
-					+ "ON g.goods_code = gi.goods_code "
-					+ "WHERE o.customer_id = ? "
-					+ "GROUP BY o.order_code";
-		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setString(1, customer.getCustomerId());
+		PreparedStatement stmt = null;
+		if(stateSearch == null || stateSearch.equals("")) {
+			if(customerId == null || customerId.equals("")) {
+				sql = "SELECT COUNT(*) cnt FROM orders";
+				stmt = conn.prepareStatement(sql);
+				
+				rs = stmt.executeQuery();
+				
+				if(rs.next()) {
+					cnt = rs.getInt("cnt");
+				}
+			} else {
+				sql = "SELECT COUNT(*) cnt FROM orders WHERE o.customer_id LIKE ?";
+				stmt = conn.prepareStatement(sql);
+				stmt.setString(1, "%" + customerId + "%");
+				
+				rs = stmt.executeQuery();
+				
+				if(rs.next()) {
+					cnt = rs.getInt("cnt");
+				}
+			}
+		} else {
+			if(customerId == null || customerId.equals("")) {
+				sql = "SELECT COUNT(*) cnt FROM orders WHERE o.order_state LIKE ?";
+				stmt = conn.prepareStatement(sql);
+				stmt.setString(1, "%" + stateSearch + "%");
+				
+				rs = stmt.executeQuery();
+				
+				if(rs.next()) {
+					cnt = rs.getInt("cnt");
+				}
+			} else {
+				sql = "SELECT COUNT(*) cnt FROM orders WHERE o.order_state LIKE ? AND o.customer_id LIKE ?";
+				stmt = conn.prepareStatement(sql);
+				stmt.setString(1, "%" + stateSearch + "%");
+				stmt.setString(2, "%" + customerId + "%");
+				
+				rs = stmt.executeQuery();
+				
+				if(rs.next()) {
+					cnt = rs.getInt("cnt");
+				}
+			} 
+		}
 		
+		rs.close();
+		stmt.close();
+		
+		return cnt;
+	}
+	
+	// 고객용 주문 리스트
+	public ArrayList<HashMap<String, Object>> selectOrderByCustomerList(Connection conn, String id, String stateSearch, String sort, int beginRow, int rowPerPage) throws Exception {
+		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
+		String sql =null; 
+		ResultSet rs = null;
+		PreparedStatement stmt = null;
+		if(sort.equals("DESC")) {
+			if(stateSearch == null || stateSearch.equals("")) {
+				sql = "SELECT "
+						+ "o.order_code orderCode"
+						+ ", gi.filename filename "
+						+ ", g.goods_name goodsName "
+						+ ", t.cnt cnt "
+						+ ", o.order_price orderPrice "
+						+ ", o.order_state orderState "
+						+ ", o.createdate createdate "
+						+ "FROM orders o "
+						+ "INNER JOIN (SELECT order_code orderCode, goods_code goodsCode, (COUNT(*)-1) cnt FROM order_goods GROUP BY order_code) t "
+						+ "ON o.order_code = t.orderCode "
+						+ "INNER JOIN goods g "
+						+ "ON t.goodsCode = g.goods_code "
+						+ "INNER JOIN goods_img gi "
+						+ "ON g.goods_code = gi.goods_code "
+						+ "WHERE o.customer_id = ? "
+						+ "GROUP BY o.order_code "
+						+ "ORDER BY o.createdate DESC "
+						+ "LIMIT ?, ? ";
+						stmt = conn.prepareStatement(sql);
+						stmt.setString(1, id);
+						stmt.setInt(2, beginRow);
+						stmt.setInt(3, rowPerPage);
+			} else {
+				sql = "SELECT "
+						+ "o.order_code orderCode"
+						+ ", gi.filename filename "
+						+ ", g.goods_name goodsName "
+						+ ", t.cnt cnt "
+						+ ", o.order_price orderPrice "
+						+ ", o.order_state orderState "
+						+ ", o.createdate createdate "
+						+ "FROM orders o "
+						+ "INNER JOIN (SELECT order_code orderCode, goods_code goodsCode, (COUNT(*)-1) cnt FROM order_goods GROUP BY order_code) t "
+						+ "ON o.order_code = t.orderCode "
+						+ "INNER JOIN goods g "
+						+ "ON t.goodsCode = g.goods_code "
+						+ "INNER JOIN goods_img gi "
+						+ "ON g.goods_code = gi.goods_code "
+						+ "WHERE o.customer_id = ? AND o.order_state LIKE ? "
+						+ "GROUP BY o.order_code "
+						+ "ORDER BY o.createdate DESC "
+						+ "LIMIT ?, ? ";
+						stmt = conn.prepareStatement(sql);
+						stmt.setString(1, id);
+						stmt.setString(2, stateSearch);
+						stmt.setInt(3, beginRow);
+						stmt.setInt(4, rowPerPage);
+			}
+		} else {
+			if(stateSearch == null || stateSearch.equals("")) {
+				sql = "SELECT "
+						+ "o.order_code orderCode"
+						+ ", gi.filename filename "
+						+ ", g.goods_name goodsName "
+						+ ", t.cnt cnt "
+						+ ", o.order_price orderPrice "
+						+ ", o.order_state orderState "
+						+ ", o.createdate createdate "
+						+ "FROM orders o "
+						+ "INNER JOIN (SELECT order_code orderCode, goods_code goodsCode, (COUNT(*)-1) cnt FROM order_goods GROUP BY order_code) t "
+						+ "ON o.order_code = t.orderCode "
+						+ "INNER JOIN goods g "
+						+ "ON t.goodsCode = g.goods_code "
+						+ "INNER JOIN goods_img gi "
+						+ "ON g.goods_code = gi.goods_code "
+						+ "WHERE o.customer_id = ? "
+						+ "GROUP BY o.order_code "
+						+ "ORDER BY o.createdate ASC "
+						+ "LIMIT ?, ? ";
+						stmt = conn.prepareStatement(sql);
+						stmt.setString(1, id);
+						stmt.setInt(2, beginRow);
+						stmt.setInt(3, rowPerPage);
+			} else {
+				sql = "SELECT "
+						+ "o.order_code orderCode"
+						+ ", gi.filename filename "
+						+ ", g.goods_name goodsName "
+						+ ", t.cnt cnt "
+						+ ", o.order_price orderPrice "
+						+ ", o.order_state orderState "
+						+ ", o.createdate createdate "
+						+ "FROM orders o "
+						+ "INNER JOIN (SELECT order_code orderCode, goods_code goodsCode, (COUNT(*)-1) cnt FROM order_goods GROUP BY order_code) t "
+						+ "ON o.order_code = t.orderCode "
+						+ "INNER JOIN goods g "
+						+ "ON t.goodsCode = g.goods_code "
+						+ "INNER JOIN goods_img gi "
+						+ "ON g.goods_code = gi.goods_code "
+						+ "WHERE o.customer_id = ? AND o.order_state LIKE ? "
+						+ "GROUP BY o.order_code "
+						+ "ORDER BY o.createdate ASC "
+						+ "LIMIT ?, ? ";
+						stmt = conn.prepareStatement(sql);
+						stmt.setString(1, id);
+						stmt.setString(2, stateSearch);
+						stmt.setInt(3, beginRow);
+						stmt.setInt(4, rowPerPage);
+			}
+		}
 		rs = stmt.executeQuery();
 		
 		while(rs.next()) {
@@ -297,6 +464,39 @@ public class OrderDao {
 		stmt.close();
 		
 		return list;
+	}
+	
+	// 고객 orderList 페이징용 카운트
+	public int customerOrderListCnt(Connection conn, String id, String stateSearch) throws Exception {
+		int cnt = 0;
+		String sql  = null;
+		ResultSet rs = null;
+		PreparedStatement stmt = null;
+		if(stateSearch == null || stateSearch.equals("")) {
+				sql = "SELECT COUNT(*) cnt FROM orders WHERE customer_id = ?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, id);
+					
+					rs = stmt.executeQuery();
+					
+					if(rs.next()) {
+						cnt = rs.getInt("cnt");
+					}
+		} else {
+			sql = "SELECT COUNT(*) cnt FROM orders WHERE customer_id = ? AND order_state LIKE ?";
+				stmt = conn.prepareStatement(sql);
+				stmt.setString(1, id);
+				stmt.setString(2, "%" + stateSearch + "%");
+				
+				rs = stmt.executeQuery();
+				
+				if(rs.next()) {
+					cnt = rs.getInt("cnt");
+				}
+		}
+		
+		return cnt;
+		
 	}
 	
 	// orderOne

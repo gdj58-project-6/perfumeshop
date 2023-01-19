@@ -23,12 +23,13 @@ public class OrderListByAdminController extends HttpServlet {
 		Emp loginMember = (Emp)(session.getAttribute("loginMember"));
 		
 		// 로그인이 안되어있으면
-		/*if(loginMember == null) {
+		if(loginMember == null) {
 			response.sendRedirect(request.getContextPath() + "/member/login");
 			return;
-		}*/
+		}
 		
 		// 검색
+		// 검색을 하지 않았을때 모두 풀력하기 위해서 공백 대입
 		String stateSearch = "";
 		String customerId = "";
 		String sort = "DESC";
@@ -45,13 +46,33 @@ public class OrderListByAdminController extends HttpServlet {
 			sort = "ASC";
 		}
 		
-		System.out.println(stateSearch);
+		// 페이징
+		// 현재페이지
+		int currentPage = 1;
+		if(request.getParameter("currentPage") != null) {
+			currentPage = Integer.parseInt(request.getParameter("currentPage"));
+		}
+		// 한페이지당 보여줄 order 갯수
+		int rowPerPage = 10;
+		int beginRow = (currentPage - 1) * rowPerPage;
+		// 페이징을 위한 row count
+		this.orderService = new OrderService();
+		int cnt = orderService.getOrderListCount(stateSearch, customerId, sort);
+		//  마지막페이지
+		int lastPage = cnt / rowPerPage;
+		if(lastPage % rowPerPage != 0) {
+			lastPage++;
+		}
 		
 		// 로그인이되어있으면
 		// Model
-		this.orderService = new OrderService();
-		ArrayList<HashMap<String, Object>> list = orderService.getSelectAllOrderList(stateSearch, customerId, sort);
+		ArrayList<HashMap<String, Object>> list = orderService.getSelectAllOrderList(stateSearch, customerId, sort, beginRow, rowPerPage);
 		
+		// 페이징
+		session.setAttribute("currentPage", currentPage);
+		session.setAttribute("lastPage", lastPage);
+		
+		// 검색
 		session.setAttribute("state", stateSearch);
 		session.setAttribute("sort", sort);
 		

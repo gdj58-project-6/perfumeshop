@@ -177,14 +177,14 @@ public class OrderService {
 	}
 	
 	// 관리자용 모든 주문 리스트
-	public ArrayList<HashMap<String, Object>> getSelectAllOrderList(String stateSearch, String customerId, String createdate) {
+	public ArrayList<HashMap<String, Object>> getSelectAllOrderList(String stateSearch, String customerId, String createdate, int beginRow, int rowPerPage) {
 		ArrayList<HashMap<String, Object>> list = null;
 		Connection conn = null;
 		
 		 try {
 			 conn = DBUtil.getConnection();
 			 this.orderDao = new OrderDao();
-			 list = orderDao.selectAllOrderList(conn, stateSearch, customerId, createdate);
+			 list = orderDao.selectAllOrderList(conn, stateSearch, customerId, createdate, beginRow, rowPerPage);
 			 conn.commit();
 		 } catch (Exception e) {
 			 e.printStackTrace();
@@ -199,15 +199,38 @@ public class OrderService {
 		 return list;
 	}
 	
+	// 관리자 주문리스트 페이징용 카운트
+	public int getOrderListCount(String stateSearch, String customerId, String sort) {
+		int cnt = 0;
+		Connection conn = null;
+		
+		try {
+			conn = DBUtil.getConnection();
+			this.orderDao = new OrderDao();
+			cnt = orderDao.orderListCount(conn, stateSearch, customerId, sort);
+			conn.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return cnt;
+	}
+	
 	// 고객용 주문 리스트
-	public ArrayList<HashMap<String, Object>> getSelectOrderByCustomerLIst(Customer customer) {
+	public ArrayList<HashMap<String, Object>> getSelectOrderByCustomerLIst(String id, String stateSearch, String sort, int beginRow, int rowPerPage) {
 		ArrayList<HashMap<String, Object>> list = null;
 		Connection conn = null;
 		
 		try {
 			conn = DBUtil.getConnection();
 			this.orderDao = new OrderDao();
-			list = orderDao.selectOrderByCustomerList(conn, customer);
+			list = orderDao.selectOrderByCustomerList(conn, id, stateSearch, sort, beginRow, rowPerPage);
 			conn.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -220,6 +243,29 @@ public class OrderService {
 		}
 		
 		return list;
+	}
+	
+	// 고객용 주문리스트 페이징용 카운트
+	public int getCustomerOrderListCnt(String id, String stateSearch) {
+		int cnt = 0;
+		Connection conn = null;
+		
+		try {
+			conn = DBUtil.getConnection();
+			this.orderDao = new OrderDao();
+			cnt = orderDao.customerOrderListCnt(conn, id, stateSearch);
+			conn.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return cnt;
 	}
 	
 	// 관리자가 주문상태 변경

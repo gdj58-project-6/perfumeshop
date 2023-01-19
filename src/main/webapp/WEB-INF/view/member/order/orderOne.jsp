@@ -15,8 +15,8 @@
 					<td>상품 이름 : <a href="${pageContext.request.contextPath}/member/goodsOne?goodsCode=${g.goodsCode}">${g.goodsName}</a></td>
 					<td>상품 가격 : ${g.orderGoodsPrice}</td>
 					<td>상품 개수 : ${g.orderGoodsQuantity}</td>
+					<td>상품 총 가격 : ${g.orderGoodsPrice * g.orderGoodsQuantity}</td>
 					<c:set var="totalPrice"  value="${totalPrice + (g.orderGoodsPrice * g.orderGoodsQuantity)}" ></c:set>
-					<td>상품 총 가격 : ${totalPrice}</td>
 					<td>
 						<c:if test="${g.orderState ne '구매확정'}">
 							${o.orderState}
