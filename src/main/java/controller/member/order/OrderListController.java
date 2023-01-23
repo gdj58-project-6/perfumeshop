@@ -50,7 +50,7 @@ public class OrderListController extends HttpServlet {
 		if(request.getParameter("currentPage") != null) {
 			currentPage = Integer.parseInt(request.getParameter("currentPage"));
 		}
-		// 한페이지당 보여줄 order 갯수
+		// 한페이지당 보여줄 order 개수
 		int rowPerPage = 10;
 		int beginRow = (currentPage - 1) * rowPerPage;
 		// 페이징을 위한 row count
@@ -62,6 +62,21 @@ public class OrderListController extends HttpServlet {
 			lastPage++;
 		}
 		
+		int showPage = 5; // 버튼에 표시할 페이지 개수
+		int startPage = ((currentPage - 1) / showPage) * showPage + 1; // 시작 페이지
+		System.out.println(startPage);
+		int endPage = (((currentPage - 1) / showPage) + 1) * showPage; // 현제 페이지의 마지막 페이지 번호
+		System.out.println(endPage);
+		// lastPage가 endPage보다 작을 경우 lastPage로 바꿔줌
+		if(lastPage < endPage) {
+			endPage = lastPage;
+		}
+		
+		// 이전 버튼 활성화 여부
+		boolean prev = (startPage == 1) ? false : true;
+		// 다음 버튼 활성화 여부
+		boolean next = (endPage == lastPage) ? false : true;
+		
 		// 바인딩
 		Customer customer = new Customer();
 		customer.setCustomerId(loginMember.getCustomerId());
@@ -70,9 +85,13 @@ public class OrderListController extends HttpServlet {
 		ArrayList<HashMap<String, Object>> list = orderService.getSelectOrderByCustomerLIst(id, stateSearch, sort, beginRow, rowPerPage);
 		
 		// 페이징
+		request.setAttribute("list", list);
 		session.setAttribute("currentPage", currentPage);
 		session.setAttribute("lastPage", lastPage);
-		request.setAttribute("list", list);
+		request.setAttribute("startPage", startPage);
+		request.setAttribute("endPage", endPage);
+		request.setAttribute("prev", prev);
+		request.setAttribute("next", next);
 		
 		// 검색
 		session.setAttribute("state", stateSearch);
