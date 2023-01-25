@@ -5,26 +5,15 @@
 	<!-- 위의 직급은 아래 직급의 권한을 다 가짐 -->
 	<!-- 직원 4등급 신입 문의(답글,수정), 리뷰 삭제 -->
 	<c:if test="${loginMember.getAuthCode() == 4}">
-		<a>문의답변</a> <!-- 미구현 -->
-		<a>문의수정</a> <!-- 미구현 -->
-		<a>리뷰삭제</a> <!-- 미구현 -->
 		<a href="${pageContext.request.contextPath}/admin/orderList">주문 관리</a>
 	</c:if>
 	<!-- 직원 5등급 대리 상품등록, 문의(답글,수정,삭제), 리뷰 삭제 -->
 	<c:if test="${loginMember.getAuthCode() == 5}">
-		<a>문의답변</a> <!-- 미구현 -->
-		<a>문의수정</a> <!-- 미구현 -->
-		<a>문의삭제</a> <!-- 미구현 -->
-		<a>리뷰삭제</a> <!-- 미구현 -->
 		<a href="${pageContext.request.contextPath}/admin/orderList">주문 관리</a>
 		<a href="${pageContext.request.contextPath}/admin/addGoods">상품등록</a>
 	</c:if>
 	<!-- 직원 6등급 과장 상품수정, 삭제, 상품등록, 문의(답글,수정,삭제), 리뷰 삭제  -->
 	<c:if test="${loginMember.getAuthCode() == 6}">
-		<a>문의답변</a> <!-- 미구현 -->
-		<a>문의수정</a> <!-- 미구현 -->
-		<a>문의삭제</a> <!-- 미구현 -->
-		<a>리뷰삭제</a> <!-- 미구현 -->
 		<a href="${pageContext.request.contextPath}/admin/orderList">주문 관리</a>
 		<a href="${pageContext.request.contextPath}/admin/addGoods">상품등록</a>
 	</c:if>
@@ -32,9 +21,6 @@
 	<c:if test="${loginMember.getAuthCode() == 7}">
 		<a href="${pageContext.request.contextPath}/admin/goodsComment">상품문의답변</a>
 		<a href="${pageContext.request.contextPath}/admin/comment">주문문의답변</a>
-		<a>문의수정</a> <!-- 미구현 -->
-		<a>문의삭제</a> <!-- 미구현 -->
-		<a>리뷰삭제</a> <!-- 미구현 -->
 		<a href="${pageContext.request.contextPath}/admin/orderList">주문 관리</a>
 		<a href="${pageContext.request.contextPath}/admin/addGoods">상품등록</a>
 		<a href="${pageContext.request.contextPath}/admin/modifyMember">고객레벨수정</a>
