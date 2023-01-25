@@ -128,6 +128,7 @@ public class GoodsDao {
 					+ ", g.goods_name goodsName"
 					+ ", g.goods_price goodsPrice"
 					+ ", g.goods_memo goodsMemo"
+					+ ", g.goods_category goodsCategory"
 					+ ", gi.filename fileName"
 					+ " FROM goods g INNER JOIN goods_img gi "
 					+ " ON g.goods_code = gi.goods_code "
@@ -142,6 +143,7 @@ public class GoodsDao {
 			goodsOne.put("goodsName", rs.getString("goodsName"));
 			goodsOne.put("goodsPrice", rs.getInt("goodsPrice"));
 			goodsOne.put("goodsMemo", rs.getString("goodsMemo"));
+			goodsOne.put("goodsCategory", rs.getString("goodsCategory"));
 			goodsOne.put("fileName", rs.getString("fileName"));
 		}
 		
