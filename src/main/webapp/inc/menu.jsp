@@ -26,7 +26,7 @@
 						</li>
 
 						<li>
-							<a href="about.html">About</a>
+							<a href="about.html">회사소개</a>
 						</li>
 					</ul>
 				</div>	
