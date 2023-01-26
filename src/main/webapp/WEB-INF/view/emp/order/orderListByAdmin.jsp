@@ -19,15 +19,16 @@
 		<link rel="stylesheet" type="text/css" href="../css/util.css">
 		<link rel="stylesheet" type="text/css" href="../css/main.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-		<script>
-			$(document).ready(function() {
-				$('.js-select2').change(function() {
-					$(this.form).submit();
-					alert('주문상태를 변경했습니다');
+		<c:forEach var="o" items="${list}">
+			<script>
+				$(document).ready(function() {
+					$('#orderState${o.orderCode}').change(function() {
+						$('#orderStateForm${o.orderCode}').submit();
+						alert('주문상태를 변경했습니다');
+					})
 				})
-			})
-			
-		</script>
+			</script>
+		</c:forEach>
 		<style>
 			table, th, td {
 				text-align: center;
@@ -43,7 +44,7 @@
 			<div class="flex-w flex-sb-m">
 				<div class="flex-w flex-l-m filter-tope-group m-tb-10">
 				</div>
-				<form action="${pageContext.request.contextPath}/admin/orderList" id="orderStateForm" method="get">
+				<form action="${pageContext.request.contextPath}/admin/orderList" method="get">
 					<div class="flex-w flex-c-m m-tb-10">
 						<div class="rs1-select2 rs2-select2 bor8" style="width: 130px; margin: 10px;">
 							<select name="stateSearch" id="orderState" class="js-select2">
@@ -67,8 +68,7 @@
 						<div class="dropDownSelect2"></div>
 						</div>
 						<div class="bor17 of-hidden pos-relative">
-							<input class="stext-103 cl2 plh4 size-116 p-l-28 p-r-55" type="text" name="search" placeholder="Search">
-
+							<input class="stext-103 cl2 plh4 size-116 p-l-28 p-r-55" type="text" name="customerId" placeholder="Search">
 							<button class="flex-c-m size-122 ab-t-r fs-18 cl4 hov-cl1 trans-04" type="submit">
 								<i class="zmdi zmdi-search"></i>
 							</button>
@@ -107,18 +107,18 @@
 										<td style="width: 150px;"><fmt:formatNumber value="${o.orderPrice}" pattern="###,###,###" /></td>
 										<td style="width: 150px;">
 											<c:if test="${o.orderState ne '반품신청' && o.orderState ne '반품' && o.orderState ne '구매확정' && o.orderState ne '반품완료' && o.orderState ne '취소'}">
-												<form action="${pageContext.request.contextPath}/admin/modifyOrderState?orderCode=${o.orderCode}" method="post">
-														<div class="rs1-select2 rs2-select2 bor8" style="width: 130px;">
-															<select name="orderState" class="js-select2">
-																<!-- orderState의 상태가 true이면 selected 속성 -->
-																<option value="결제" <c:out value="${o.orderState == '결제' ? 'selected':'' }"/>>결제</option>
-																<option value="취소" <c:out value="${o.orderState == '취소' ? 'selected':'' }"/>>취소</option>
-																<option value="배송전" <c:out value="${o.orderState == '배송전' ? 'selected':'' }"/>>배송전</option>
-																<option value="배송중" <c:out value="${o.orderState == '배송중' ? 'selected':'' }"/>>배송중</option>
-																<option value="배송완료" <c:out value="${o.orderState == '배송완료' ? 'selected':'' }"/>>배송완료</option>
-															</select>	
-															<div class="dropDownSelect2"></div>
-														</div>
+												<form action="${pageContext.request.contextPath}/admin/modifyOrderState?orderCode=${o.orderCode}" method="post" id="orderStateForm${o.orderCode}">
+													<div class="rs1-select2 rs2-select2 bor8" style="width: 130px;">
+														<select name="orderState" class="js-select2" id="orderState${o.orderCode}">
+															<!-- orderState의 상태가 true이면 selected 속성 -->
+															<option value="결제" <c:out value="${o.orderState == '결제' ? 'selected':'' }"/>>결제</option>
+															<option value="취소" <c:out value="${o.orderState == '취소' ? 'selected':'' }"/>>취소</option>
+															<option value="배송전" <c:out value="${o.orderState == '배송전' ? 'selected':'' }"/>>배송전</option>
+															<option value="배송중" <c:out value="${o.orderState == '배송중' ? 'selected':'' }"/>>배송중</option>
+															<option value="배송완료" <c:out value="${o.orderState == '배송완료' ? 'selected':'' }"/>>배송완료</option>
+														</select>	
+														<div class="dropDownSelect2"></div>
+													</div>
 												</form>
 											</c:if>
 											<c:if test="${o.orderState eq '반품신청'}">
