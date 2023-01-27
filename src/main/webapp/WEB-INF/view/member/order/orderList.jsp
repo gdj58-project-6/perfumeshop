@@ -38,6 +38,10 @@
 			a, a:hover, a:visited {
 				color: #234200;
 			}
+			
+			.flex-c-m {
+				width: 30px;
+			}
 		</style>
 	</head>
 	<body class="animsition">
@@ -82,14 +86,15 @@
 									<th style="width: 700px;" colspan="2">상품</th>
 									<th style="width: 200px;">주문 총 가격</th>
 									<th style="width: 200px;">주문상태</th>
-									<th style="width: 300px;">주문일자</th>
+									<th style="width: 200px;">주문일자</th>
+									<th style="width: 200px;"></th>
 								</tr>
 								<c:forEach var="o" items="${list}">
 									<tr class="table_row">
-										<td style="width: 300px;">
+										<td style="width: 250px;">
 											<img src="${pageContext.request.contextPath}/upload/${o.filename}" width="150" height="150">
 										</td>
-										<td style="width: 400px;">
+										<td style="width: 450px;">
 											<a href="${pageContext.request.contextPath}/member/orderOne?orderCode=${o.orderCode}">
 												<c:if test="${o.cnt eq 0}">
 													${o.goodsName}
@@ -103,20 +108,17 @@
 											<fmt:formatNumber value="${o.orderPrice}" pattern="###,###,###" />
 										</td>
 										<td style="width: 200px;">
-											<c:if test="${o.orderState eq '결제' || o.orderState eq '배송전'}">
-												${o.orderState}
-											</c:if>
-											<c:if test="${o.orderState eq '배송중' || o.orderState eq '배송완료'}">
-												${o.orderState} <a href="${pageContext.request.contextPath}/member/addReturnByOrder?orderCode=${o.orderCode}">환불신청</a>
-											</c:if>
-											<c:if test="${o.orderState eq '배송완료'}">
-												<a href="${pageContext.request.contextPath}/member/modifyOrderState?orderCode=${o.orderCode}">구매확정</a>
-											</c:if>
-											<c:if test="${o.orderState ne '결제' && o.orderState ne '배송전' && o.orderState ne '배송중' && o.orderState ne '배송완료'}">
-												${o.orderState}
-											</c:if>
+											${o.orderState}
 										</td>
 										<td style="width: 300px;">${fn:substring(o.createdate, 0, 10)}</td>
+										<td style="width: 200px;">
+											<c:if test="${o.orderState eq '배송중' || o.orderState eq '배송완료'}">
+												<a href="${pageContext.request.contextPath}/member/addReturnByOrder?orderCode=${o.orderCode}" class="flex-c-m stext-101 cl2 size-102 bg0 bor13 hov-btn1 p-lr-15 trans-04 pointer">환불신청</a><br>
+											</c:if>
+											<c:if test="${o.orderState eq '배송완료'}">
+												<a href="${pageContext.request.contextPath}/member/modifyOrderState?orderCode=${o.orderCode}" class="flex-c-m stext-101 cl2 size-102 bg0 bor13 hov-btn1 p-lr-15 trans-04 pointer">구매확정</a>
+											</c:if>
+										</td>
 									</tr>
 								</c:forEach>
 							</table>
