@@ -42,9 +42,11 @@
 				let plusBtn2 = document.querySelectorAll('.plusBtn2');
 				let minusBtn2 = document.querySelectorAll('.minusBtn2');
 				
+				let loginBtn = document.querySelector('#loginBtn');
+				
 				// 비로그인 상태
 				$('.plusBtn2').click(function() {
-					 alert('수량변경은 로그인 후 하실 수 있습니다');
+					alert('수량변경은 로그인 후 하실 수 있습니다');
 				})
 				
 				$('.minusBtn2').click(function() {
@@ -57,7 +59,7 @@
 				for (let i = 0; i < orderQuantity.length; i++) {
 					plusBtn[i].addEventListener('click',function() {
 						let quantity = parseInt(document.querySelectorAll('.orderQuantity')[i].value);
-						orderQuantity[i].value = quantity + 1;
+						orderQuantity[i].value = quantity;
 						totalPrice[i].textContent = parseInt(goodsPrice[i].textContent) * (quantity + 1);
 						modifyCartList.submit();
 					
@@ -65,7 +67,7 @@
 					minusBtn[i].addEventListener('click',function() {
 						let quantity = parseInt(document.querySelectorAll('.orderQuantity')[i].value);
 						if (orderQuantity[i].value > 1) {
-							orderQuantity[i].value = quantity - 1;
+							orderQuantity[i].value = quantity;
 							totalPrice[i].textContent = parseInt(goodsPrice[i].textContent) * (quantity - 1);
 							modifyCartList.submit();
 							
@@ -337,23 +339,12 @@
 											<c:if test="${loginCustomer == null}">
 												<td class="column-4">
 													<div class="wrap-num-product flex-w m-l-auto m-r-0">
-														<input type="button" value=" - " name="minus2" class="minusBtn2 btn cl8 hov-btn3 trans-04 flex-c-m"> 
+														<input type="button" value=" - " name="minus2" class="minusBtn2 btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m"> 
 														<input type="text" name="orderQuantity" class="orderQuantity mtext-104 cl3 txt-center num-product" value="${m.cartQuantity}" min="1" readonly="readonly"> 
-														<input type="button" value=" + " name="plus2" class="plusBtn2 btn cl8 hov-btn3 trans-04 flex-c-m">
+														<input type="button" value=" + " name="plus2" class="plusBtn2 btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
 													</div>
 												</td>
-											</c:if>
-													<!-- 
-													<div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
-														<i class="fs-16 zmdi zmdi-minus"></i>
-													</div>
-		
-													<input class="mtext-104 cl3 txt-center num-product" type="text" name="orderQuantity" value="${m.cartQuantity}" readonly="readonly">
-		
-													<div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
-														<i class="fs-16 zmdi zmdi-plus"></i>
-													</div>
-													!-->							
+											</c:if>						
 											<td class="column-5">${m.goodsPrice*m.cartQuantity}원</td>
 										</tr>
 									</table>
@@ -381,8 +372,10 @@
 						<div class="size-300">
 							<span class="mtext-101 cl2">
 								장바구니가 비었습니다
-								<a href='${pageContext.request.contextPath}/member/goodsList'>쇼핑하러 가기</a>
 							</span>
+							<div>
+								<a class="stext-101 cl2 size-118 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-5" href='${pageContext.request.contextPath}/member/goodsList'>쇼핑하러 가기</a>
+							</div>
 						</div>
 					</c:if>	
 					<div class="flex-w flex-t p-t-27 p-b-33">
@@ -409,7 +402,7 @@
 						</c:if>
 					</div>
 					<div class="m-b-15">
-						<c:if test="${loginCustomer != null }">
+						<c:if test="${loginCustomer != null && list.size() != 0}">
 							<form action="${pageContext.request.contextPath}/member/goodsPayMentCart" method="get">
 								<button type="submit" class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer">구매하기</button>
 							</form>
@@ -417,7 +410,7 @@
 					</div>
 					<div class="m-b-15">
 						<c:if test="${loginCustomer == null }">
-							<a href='${pageContext.request.contextPath}/member/login'>로그인 후 구매</a>	
+							<a class="stext-101 cl2 size-118 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-5" href='${pageContext.request.contextPath}/member/login'>로그인 후 구매</a>	
 						</c:if>
 					</div>	
 				</div>
