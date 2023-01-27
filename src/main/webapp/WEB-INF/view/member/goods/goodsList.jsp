@@ -338,6 +338,8 @@
 										<option value="lowPrice" <c:out value="${sort == 'lowPrice' ? 'selected':'' }"/>>낮은가격순</option>
 										<option value="highPrice" <c:out value="${sort == 'highPrice' ? 'selected':'' }"/>>높은가격순</option>
 									</select>
+									<input type="hidden" name="category" value="${category}">
+									<input type="hidden" name="word" value="${word}">
 								</form>	
 							</div>
 						</div>
@@ -362,13 +364,13 @@
 						<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
 							<!-- Block2 -->
 							<div class="block2">
-								<div class="block2-pic hov-img0">
+								<div class="block2-pic hov-img">
 									<img src="${pageContext.request.contextPath}/upload/${m.fileName}" width="200" height="200">
 								</div>
 		
 								<div class="block2-txt flex-w flex-t p-t-14">
 									<div class="block2-txt-child1 flex-col-l ">
-										<a href="${pageContext.request.contextPath}/member/goodsOne?goodsCode=${m.goodsCode}">
+										<a href="${pageContext.request.contextPath}/member/goodsOne?goodsCode=${m.goodsCode}" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
 											${m.goodsName}
 										</a>
 		
@@ -388,23 +390,23 @@
 					</c:forEach>
 				</div>	
 			</div>
-		</div>
-		<div>
-	         <!-- 현재 페이지가 1보다 클때만 이전버튼 나오게 -->
-	         <c:if test="${currentPage > 1 && word != ''}"> 
-	            <a href="${pageContext.request.contextPath}/member/goodsList?rowPerPage=${rowPerPage}&currentPage=${currentPage-1}&word=${word}&sort=${sort}&category=${category}">이전</a>
-	         </c:if>
-	         <c:if test="${currentPage > 1 && word == ''}">
-	            <a href="${pageContext.request.contextPath}/member/goodsList?rowPerPage=${rowPerPage}&currentPage=${currentPage-1}&sort=${sort}&category=${category}">이전</a>
-	         </c:if>
-	         <span>${currentPage}</span>
-	         <!-- 현재 페이지가 라스트페이지보다 작으면 다음버튼 나오게 -->
-	         <c:if test="${currentPage < lastPage && word != ''}"> 
-	         <a href="${pageContext.request.contextPath}/member/goodsList?rowPerPage=${rowPerPage}&currentPage=${currentPage+1}&word=${word}&sort=${sort}&category=${category}">다음</a>
-	         </c:if>   
-	         <c:if test="${currentPage < lastPage && word == ''}">
-	            <a href="${pageContext.request.contextPath}/member/goodsList?rowPerPage=${rowPerPage}&currentPage=${currentPage+1}&sort=${sort}&category=${category}">다음</a>
-	         </c:if>
+			<div style="width:100%; text-align:center;">
+		         <!-- 현재 페이지가 1보다 클때만 이전버튼 나오게 -->
+		         <c:if test="${currentPage > 1 && word != ''}"> 
+		            <a href="${pageContext.request.contextPath}/member/goodsList?rowPerPage=${rowPerPage}&currentPage=${currentPage-1}&word=${word}&sort=${sort}&category=${category}">이전</a>
+		         </c:if>
+		         <c:if test="${currentPage > 1 && word == ''}">
+		            <a href="${pageContext.request.contextPath}/member/goodsList?rowPerPage=${rowPerPage}&currentPage=${currentPage-1}&sort=${sort}&category=${category}">이전</a>
+		         </c:if>
+		         <span>${currentPage}</span>
+		         <!-- 현재 페이지가 라스트페이지보다 작으면 다음버튼 나오게 -->
+		         <c:if test="${currentPage < lastPage && word != ''}"> 
+		         <a href="${pageContext.request.contextPath}/member/goodsList?rowPerPage=${rowPerPage}&currentPage=${currentPage+1}&word=${word}&sort=${sort}&category=${category}">다음</a>
+		         </c:if>   
+		         <c:if test="${currentPage < lastPage && word == ''}">
+		            <a href="${pageContext.request.contextPath}/member/goodsList?rowPerPage=${rowPerPage}&currentPage=${currentPage+1}&sort=${sort}&category=${category}">다음</a>
+		         </c:if>
+			</div>
 		</div>
 		<!-- Footer -->
 		<footer class="bg3 p-t-75 p-b-32">

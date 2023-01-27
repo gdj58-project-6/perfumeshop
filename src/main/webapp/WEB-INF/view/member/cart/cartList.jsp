@@ -284,7 +284,7 @@
 		<!-- breadcrumb -->
 		<div class="container">
 			<div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
-				<a href="index.html" class="stext-109 cl8 hov-cl1 trans-04">
+				<a href="${pageContext.request.contextPath}/home" class="stext-109 cl8 hov-cl1 trans-04">
 					Home
 					<i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
 				</a>
@@ -327,16 +327,20 @@
 											<td class="column-3">${m.goodsPrice}원</td>
 											<c:if test="${loginCustomer != null }">
 												<td class="column-4">
-													<input type="button" value=" - " name="minus" class="minusBtn"> 
-													<input type="text"name="orderQuantity" class="orderQuantity" value="${m.cartQuantity}" min="1" readonly="readonly"> 
-													<input type="button" value=" + " name="plus" class="plusBtn">
+													<div class="wrap-num-product flex-w m-l-auto m-r-0">
+														<input type="button" value=" - " name="minus" class="minusBtn btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m"> 
+														<input type="text" name="orderQuantity" class="orderQuantity mtext-104 cl3 txt-center num-product" value="${m.cartQuantity}" min="1" readonly="readonly"> 
+														<input type="button" value=" + " name="plus" class="plusBtn btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
+													</div>
 												</td>			
 											</c:if>
 											<c:if test="${loginCustomer == null}">
 												<td class="column-4">
-													<input type="button" value=" - " name="minus2" class="minusBtn2"> 
-													<input type="text" name="orderQuantity" class="orderQuantity" value="${m.cartQuantity}" min="1" readonly="readonly"> 
-													<input type="button" value=" + " name="plus2" class="plusBtn2">
+													<div class="wrap-num-product flex-w m-l-auto m-r-0">
+														<input type="button" value=" - " name="minus2" class="minusBtn2 btn cl8 hov-btn3 trans-04 flex-c-m"> 
+														<input type="text" name="orderQuantity" class="orderQuantity mtext-104 cl3 txt-center num-product" value="${m.cartQuantity}" min="1" readonly="readonly"> 
+														<input type="button" value=" + " name="plus2" class="plusBtn2 btn cl8 hov-btn3 trans-04 flex-c-m">
+													</div>
 												</td>
 											</c:if>
 													<!-- 
