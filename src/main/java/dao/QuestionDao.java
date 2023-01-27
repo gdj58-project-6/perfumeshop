@@ -17,13 +17,14 @@ public class QuestionDao {
 		// 객체 초기화
 		int row = 0;
 		// 쿼리문 작성
-		String sql = "INSERT INTO question(orders_code, category, question_memo, createdate) VALUES(?, ?, ?, NOW())";
+		String sql = "INSERT INTO question(orders_code, customer_id, category, question_memo, createdate) VALUES(?, ?, ?, ?, NOW())";
 		// 쿼리 객체 생성
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		// 쿼리문 ?값 지정
 		stmt.setInt(1, question.getOrderCode());
-		stmt.setString(2, question.getCategory());
-		stmt.setString(3, question.getQuestionMemo());
+		stmt.setString(2, question.getCustomerId());
+		stmt.setString(3, question.getCategory());
+		stmt.setString(4, question.getQuestionMemo());
 		//쿼리 실행
 		row = stmt.executeUpdate();
 		

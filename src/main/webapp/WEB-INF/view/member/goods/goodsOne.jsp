@@ -354,7 +354,7 @@
 								</span>
 		
 								<p class="stext-102 cl3 p-t-23">
-									${goodsOne.goodsMemo}
+									
 								</p>
 								<div class="flex-w flex-r-m p-b-10">
 									<div class="size-204 flex-w flex-m respon6-next">
@@ -433,7 +433,7 @@
 	
 					<!-- Tab panes -->
 					<div class="tab-content p-t-43">
-						<!-- - -->
+						<!-- tab1 상품정보 -->
 						<div class="tab-pane fade show active" id="description" role="tabpanel">
 							<div class="how-pos2 p-lr-15-md">
 								<p class="stext-102 cl6">
@@ -442,7 +442,7 @@
 							</div>
 						</div>
 	
-						<!-- - -->
+						<!-- tab2 상품문의 -->
 						<div class="tab-pane fade" id="information" role="tabpanel">
 							<div class="row">
 								<div class="col-sm-10 col-md-8 col-lg-6 m-lr-auto">
@@ -501,7 +501,7 @@
 							</div>
 						</div>
 	
-						<!-- - -->
+						<!-- tab3 상품리뷰 -->
 						<div class="tab-pane fade" id="reviews" role="tabpanel">
 							<div class="row">
 								<div class="col-sm-10 col-md-8 col-lg-6 m-lr-auto">
@@ -805,6 +805,5 @@
 		</script>
 	<!--===============================================================================================-->
 		<script src="../js/main.js"></script>
-	
 	</body>
 </html>

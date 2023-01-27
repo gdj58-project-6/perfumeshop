@@ -8,7 +8,7 @@
 			<nav class="limiter-menu-desktop p-l-45">
 				<!-- Logo desktop -->		
 				<a href="#" class="logo">
-					<img src="images/icons/logo-01.png" alt="IMG-LOGO">
+					<img src="${pageContext.request.contextPath}/images/icons/logo-01.png" alt="IMG-LOGO">
 				</a>
 				<!-- Menu desktop -->
 				<div class="menu-desktop">
@@ -73,7 +73,7 @@
 					<div class="flex-c-m h-full p-r-24">
 						<div class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11 js-show-modal-search">
 						<a href="${pageContext.request.contextPath}/member/cart">
-							<img src="images/icons/cart.png" style="width:30px;">
+							<img src="${pageContext.request.contextPath}/images/icons/cart.png" style="width:30px;">
 						</a>
 						</div>
 					</div>
@@ -81,18 +81,20 @@
 					<div class="flex-c-m h-full p-r-24">
 						<div class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11 js-show-modal-search">
 						<a href="${pageContext.request.contextPath}/member/question">
-							<img src="images/icons/center.png" style="width:30px;">
+							<img src="${pageContext.request.contextPath}/images/icons/center.png" style="width:30px;">
 						</a>
 						</div>
 					</div>
 					<!-- 로그아웃 아이콘 -->
-					<div class="flex-c-m h-full p-r-24">
-						<div class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11 js-show-modal-search">
-							<a href="${pageContext.request.contextPath}/member/logout">
-								<img src="images/icons/log-out.png" style="width:30px;">
-							</a>
+					<c:if test="${loginMember != null}">
+						<div class="flex-c-m h-full p-r-24">
+							<div class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11 js-show-modal-search">
+								<a href="${pageContext.request.contextPath}/member/logout">
+									<img src="${pageContext.request.contextPath}/images/icons/log-out.png" style="width:30px;">
+								</a>
+							</div>
 						</div>
-					</div>
+					</c:if>
 				</div>
 			</nav>
 		</div>	

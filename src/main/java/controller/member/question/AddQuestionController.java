@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import service.QuestionService;
+import vo.Customer;
 import vo.Emp;
 import vo.Question;
 
@@ -40,12 +41,16 @@ public class AddQuestionController extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		Customer loginCustomer = (Customer)session.getAttribute("loginMember");
+		
 		int orderCode = Integer.parseInt(request.getParameter("orderCode"));
+		String customerId = loginCustomer.getCustomerId();
 		String category = request.getParameter("category");
 		String questionMemo = request.getParameter("questionMemo");
 		// System.out.println(orderCode);
-		System.out.println(category + "<-- category 디버깅");
-		System.out.println(questionMemo + "<-- questionMemo 디버깅");
+		// System.out.println(category + "<-- category 디버깅");
+		// System.out.println(questionMemo + "<-- questionMemo 디버깅");
 		if(request.getParameter("category").equals("") || request.getParameter("questionMemo") == null
 				|| request.getParameter("questionMemo").equals("")) {
 				String msg = URLEncoder.encode("카테고리선택or문의내용을 적어주세요", "utf-8");
@@ -55,6 +60,7 @@ public class AddQuestionController extends HttpServlet {
 		// 메서드 vo
 		Question q = new Question();
 		q.setOrderCode(orderCode);
+		q.setCustomerId(customerId);
 		q.setCategory(category);
 		q.setQuestionMemo(questionMemo);
 		
