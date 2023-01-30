@@ -27,7 +27,6 @@ public class RemoveOrderController extends HttpServlet {
 		// 값 받아오기
 		int orderCode = Integer.parseInt(request.getParameter("orderCode"));
 		int goodsCode = Integer.parseInt(request.getParameter("goodsCode"));
-		int orderPrice = Integer.parseInt(request.getParameter("orderPrice"));
 		int point = Integer.parseInt(request.getParameter("point"));
 		String orderState = "취소";
 		
@@ -35,7 +34,6 @@ public class RemoveOrderController extends HttpServlet {
 		Orders orders = new Orders();
 		orders.setOrderCode(orderCode);
 		orders.setOrderState(orderState);
-		orders.setOrderPrice(orderPrice);
 		orders.setCustomerId(id);
 		
 		PointHistory pointHistory = new PointHistory();

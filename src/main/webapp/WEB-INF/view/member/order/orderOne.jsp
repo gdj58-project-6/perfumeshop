@@ -18,6 +18,14 @@
 		<link rel="stylesheet" type="text/css" href="../vendor/perfect-scrollbar/perfect-scrollbar.css">
 		<link rel="stylesheet" type="text/css" href="../css/util.css">
 		<link rel="stylesheet" type="text/css" href="../css/main.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+		<script>
+			$(document).ready(function() {
+				$('#removeOrderBtn').click(function() {
+					alert('주문을 취소할 수 없습니다.');
+				})
+			})
+		</script>
 		<style>
 			table, th, td {
 				text-align: center;
@@ -31,7 +39,7 @@
 				color: #234200;
 			}
 			
-			.flex-c-m {
+			#reviewBtn {
 				width: 30px;
 			}
 		</style>
@@ -70,7 +78,7 @@
 												${o.orderState}
 											</c:if>
 											<c:if test="${g.orderState eq '구매확정'}">
-												<a href="${pageContext.request.contextPath}/member/addReview?orderCode=${g.orderCode}&goodsCode=${g.goodsCode}" class="flex-c-m stext-101 cl2 size-102 bg0 bor13 hov-btn1 p-lr-15 trans-04 pointer">리뷰쓰기</a>
+												<a href="${pageContext.request.contextPath}/member/addReview?orderCode=${g.orderCode}&goodsCode=${g.goodsCode}" class="flex-c-m stext-101 cl2 size-102 bg0 bor13 hov-btn1 p-lr-15 trans-04 pointer" id="reviewBtn">리뷰쓰기</a>
 											</c:if>
 										</td>
 									</tr>
@@ -145,6 +153,19 @@
 							</div>
 							<div class="size-208 m-l-20">
 								<span class="mtext-110 cl2"> <fmt:formatNumber value="${customerOne.orderPrice}" pattern="###,###,###" /> </span>
+							</div>
+						</div>
+						<div class="flex-t p-t-5 p-b-10">
+							<div class="w-50 m-l-5 m-r-5">
+								<c:if test="${customerOne.orderState eq '결제' || customerOne.orderState eq '배송전'}">	
+									<a href="${pageContext.request.contextPath}/member/removeOrder?orderCode=${customerOne.orderCode}&goodsCode=${goodsCode}&point=${customerOne.point}" class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn1 p-lr-15 trans-04 pointer" style="color: white;">주문 취소</a>
+								</c:if>
+								<c:if test="${customerOne.orderState ne '결제' && customerOne.orderState ne '배송전'}">
+									<a class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn1 p-lr-15 trans-04 pointer" style="color: white;" id="removeOrderBtn">주문 취소</a>
+								</c:if>
+							</div>
+							<div class="w-50 m-l-5 m-r-5">
+								<a href="${pageContext.request.contextPath}/member/orderOne?orderCode=${orderCode}" class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn1 p-lr-15 trans-04 pointer" style="color: white;">주문 문의</a>
 							</div>
 						</div>
 					</div>

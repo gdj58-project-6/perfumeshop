@@ -99,7 +99,7 @@
 													${o.goodsName}
 												</c:if>
 												<c:if test="${o.cnt > 0}">
-													${o.goodsName}외 ${o.cnt}건
+													${o.goodsName} &nbsp; 외 &nbsp; ${o.cnt}건
 												</c:if>
 											</a>
 										</td>

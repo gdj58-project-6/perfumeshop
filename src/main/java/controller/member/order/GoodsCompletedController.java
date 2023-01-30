@@ -25,6 +25,7 @@ public class GoodsCompletedController extends HttpServlet {
 		ArrayList<HashMap<String, Object>> list = orderService.getSelectOrderByGoodsList(orderCode);
 		
 		request.setAttribute("list", list);
+		request.setAttribute("orderCode", orderCode);
 		request.getRequestDispatcher("/WEB-INF/view/member/order/goodsCompletedList.jsp").forward(request, response);
 	}
 

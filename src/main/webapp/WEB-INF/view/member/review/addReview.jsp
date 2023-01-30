@@ -39,8 +39,8 @@
 							<div class="size-208 w-full-ssm p-t-10">
 								<img src="${pageContext.request.contextPath}/upload/${orderOne.filename}" width="200" height="200" alt="${orderOne.goodsName}">
 							</div>
-							<div class="size-209 p-r-18 p-r-0-sm w-full-ssm p-t-10">
-								<span> ${orderOne.goodsName} </span><!-- 사진이랑 이름 정렬시키기 -->
+							<div class="size-209 p-r-18 p-r-0-sm w-full-ssm p-t-160">
+								<span> ${orderOne.goodsName} </span>
 							</div>
 							<div class="size-208 w-full-ssm p-t-40">
 								<span class="stext-110 cl2"> 상품 가격 </span>
@@ -72,7 +72,6 @@
 								<div class="col-12 p-t-20 p-b-5">
 									<label class="stext-102 cl3" for="poinr">Point</label>
 									<c:set var="point" value="${(orderOne.orderGoodsPrice * orderOne.orderGoodsQuantity) * 0.005}"></c:set>
-									<fmt:formatNumber var="point" type="number"  maxFractionDigits="3"  value="${point}" />
 									<input class="size-111 bor8 stext-102 cl2 p-lr-20" name="point" value="${Double.valueOf(point).intValue()}" readonly>
 								</div>
 								<div class="col-12 p-t-20 p-b-5">

@@ -39,7 +39,7 @@
 				color: #234200;
 			}
 			
-			.flex-c-m {
+			#flex {
 				width: 30px;
 			}
 		</style>
@@ -49,7 +49,7 @@
 			<div class="flex-w flex-sb-m">
 				<div class="flex-w flex-l-m filter-tope-group m-tb-10">
 				</div>
-				<form action="${pageContext.request.contextPath}/member/orderList" id="orderStateForm" method="get">
+				<form action="${pageContext.request.contextPath}/member/orderList" method="get" id="orderStateForm">
 					<div class="flex-w flex-c-m m-tb-10">
 						<div class="rs1-select2 rs2-select2 bor8" style="width: 130px; margin: 10px;">
 							<select name="stateSearch" id="orderState" class="js-select2">
@@ -100,7 +100,7 @@
 													${o.goodsName}
 												</c:if>
 												<c:if test="${o.cnt > 0}">
-													${o.goodsName}외 ${o.cnt}건
+													${o.goodsName} &nbsp; 외 &nbsp; ${o.cnt}건
 												</c:if>
 											</a>
 										</td>
@@ -113,10 +113,10 @@
 										<td style="width: 300px;">${fn:substring(o.createdate, 0, 10)}</td>
 										<td style="width: 200px;">
 											<c:if test="${o.orderState eq '배송중' || o.orderState eq '배송완료'}">
-												<a href="${pageContext.request.contextPath}/member/addReturnByOrder?orderCode=${o.orderCode}" class="flex-c-m stext-101 cl2 size-102 bg0 bor13 hov-btn1 p-lr-15 trans-04 pointer">환불신청</a><br>
+												<a href="${pageContext.request.contextPath}/member/addReturnByOrder?orderCode=${o.orderCode}" class="flex-c-m stext-101 cl2 size-102 bg0 bor13 hov-btn1 p-lr-15 trans-04 pointer" id="flex">반품신청</a><br>
 											</c:if>
 											<c:if test="${o.orderState eq '배송완료'}">
-												<a href="${pageContext.request.contextPath}/member/modifyOrderState?orderCode=${o.orderCode}" class="flex-c-m stext-101 cl2 size-102 bg0 bor13 hov-btn1 p-lr-15 trans-04 pointer">구매확정</a>
+												<a href="${pageContext.request.contextPath}/member/modifyOrderState?orderCode=${o.orderCode}" class="flex-c-m stext-101 cl2 size-102 bg0 bor13 hov-btn1 p-lr-15 trans-04 pointer" id="flex">구매확정</a>
 											</c:if>
 										</td>
 									</tr>
