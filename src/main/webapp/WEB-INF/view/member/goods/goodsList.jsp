@@ -6,36 +6,17 @@
 		<title>goodsList</title>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-	
 		<link rel="icon" type="image/png" href="../images/icons/favicon.png"/>
-	
 		<link rel="stylesheet" type="text/css" href="../vendor/bootstrap/css/bootstrap.min.css">
-	
 		<link rel="stylesheet" type="text/css" href="../fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-	
 		<link rel="stylesheet" type="text/css" href="../fonts/iconic/css/material-design-iconic-font.min.css">
-	
 		<link rel="stylesheet" type="text/css" href="../fonts/linearicons-v1.0.0/icon-font.min.css">
-	
 		<link rel="stylesheet" type="text/css" href="../vendor/animate/animate.css">
-	
-		<link rel="stylesheet" type="text/css" href="../vendor/css-hamburgers/hamburgers.min.css">
-	
 		<link rel="stylesheet" type="text/css" href="../vendor/animsition/css/animsition.min.css">
-	
 		<link rel="stylesheet" type="text/css" href="../vendor/select2/select2.min.css">
-	
-		<link rel="stylesheet" type="text/css" href="../vendor/daterangepicker/daterangepicker.css">
-	
-		<link rel="stylesheet" type="text/css" href="../vendor/slick/slick.css">
-		
-		<link rel="stylesheet" type="text/css" href="../vendor/MagnificPopup/magnific-popup.css">
-	
 		<link rel="stylesheet" type="text/css" href="../vendor/perfect-scrollbar/perfect-scrollbar.css">
-	
 		<link rel="stylesheet" type="text/css" href="../css/util.css">
 		<link rel="stylesheet" type="text/css" href="../css/main.css">
-		
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
    	 	<script>
 	        $(document).ready(function() {
@@ -306,7 +287,7 @@
 					</div>
 	
 					<div class="flex-w flex-c-m m-tb-10">
-						<div class="flex-c-m stext-106 cl6 size-104 bor4 pointer hov-btn3 trans-04 m-r-8 m-tb-4 js-show-filter">
+						<div class="flex-c-m stext-106 cl6 size-105 bor4 pointer hov-btn3 trans-04 m-r-8 m-tb-4 js-show-filter">
 							<i class="icon-filter cl2 m-r-6 fs-15 trans-04 zmdi zmdi-filter-list"></i>
 							<i class="icon-close-filter cl2 m-r-6 fs-15 trans-04 zmdi zmdi-close dis-none"></i>
 							 Filter
@@ -327,17 +308,23 @@
 									정렬
 								</div>
 								<form id ="pageForm" method="get" action="${pageContext.request.contextPath}/member/goodsList">
-									<select class="js-select2" name="rowPerpage" id="rowPerPage">
-										<option value="10" <c:out value="${rowPerPage == '10' ? 'selected':'' }"/>>10</option>
-										<option value="20" <c:out value="${rowPerPage == '20' ? 'selected':'' }"/>>20</option>
-										<option value="30" <c:out value="${rowPerPage == '30' ? 'selected':'' }"/>>30</option>	
-									</select>
-									<select class="js-select2" name="sort" id="sort">
-										<option value="createdate" <c:out value="${sort == 'createdate' ? 'selected':'' }"/>>신상품순</option>
-										<option value="hit" <c:out value="${sort == 'hit' ? 'selected':'' }"/>>인기상품순</option>
-										<option value="lowPrice" <c:out value="${sort == 'lowPrice' ? 'selected':'' }"/>>낮은가격순</option>
-										<option value="highPrice" <c:out value="${sort == 'highPrice' ? 'selected':'' }"/>>높은가격순</option>
-									</select>
+									<div class="rs1-select2 rs2-select2 bor8" style="width: 130px; margin: 10px;">
+										<select class="js-select2" name="rowPerpage" id="rowPerPage">
+											<option value="10" <c:out value="${rowPerPage == '10' ? 'selected':'' }"/>>10</option>
+											<option value="20" <c:out value="${rowPerPage == '20' ? 'selected':'' }"/>>20</option>
+											<option value="30" <c:out value="${rowPerPage == '30' ? 'selected':'' }"/>>30</option>	
+										</select>
+										<div class="dropDownSelect2"></div>
+									</div>
+									<div class="rs1-select2 rs2-select2 bor8" style="width: 130px; margin: 10px;">
+										<select class="js-select2" name="sort" id="sort">
+											<option value="createdate" <c:out value="${sort == 'createdate' ? 'selected':'' }"/>>신상품순</option>
+											<option value="hit" <c:out value="${sort == 'hit' ? 'selected':'' }"/>>인기상품순</option>
+											<option value="lowPrice" <c:out value="${sort == 'lowPrice' ? 'selected':'' }"/>>낮은가격순</option>
+											<option value="highPrice" <c:out value="${sort == 'highPrice' ? 'selected':'' }"/>>높은가격순</option>
+										</select>
+										<div class="dropDownSelect2"></div>
+									</div>
 									<input type="hidden" name="category" value="${category}">
 									<input type="hidden" name="word" value="${word}">
 								</form>	
@@ -707,39 +694,21 @@
 			</div>
 		</div>
 	
-	<!--===============================================================================================-->	
 		<script src="../vendor/jquery/jquery-3.2.1.min.js"></script>
-	<!--===============================================================================================-->
 		<script src="../vendor/animsition/js/animsition.min.js"></script>
-	<!--===============================================================================================-->
 		<script src="../vendor/bootstrap/js/popper.js"></script>
 		<script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
-	<!--===============================================================================================-->
 		<script src="../vendor/select2/select2.min.js"></script>
-	
-	<!--===============================================================================================-->
-		<script src="../vendor/daterangepicker/moment.min.js"></script>
-		<script src="../vendor/daterangepicker/daterangepicker.js"></script>
-	<!--===============================================================================================-->
-		<script src="../vendor/slick/slick.min.js"></script>
-		<script src="../js/slick-custom.js"></script>
-	<!--===============================================================================================-->
-		<script src="../vendor/parallax100/parallax100.js"></script>
 		<script>
-	        $('.parallax100').parallax100();
+			$(".js-select2").each(function(){
+				$(this).select2({
+					minimumResultsForSearch: 20,
+					dropdownParent: $(this).next('.dropDownSelect2')
+				});
+			})
 		</script>
-	<!--===============================================================================================-->
 		<script src="../vendor/MagnificPopup/jquery.magnific-popup.min.js"></script>
-		
-	<!--===============================================================================================-->
-		<script src="../vendor/isotope/isotope.pkgd.min.js"></script>
-	<!--===============================================================================================-->
-		<script src="../vendor/sweetalert/sweetalert.min.js"></script>
-		
-	<!--===============================================================================================-->
 		<script src="../vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-		
-	<!--===============================================================================================-->
 		<script src="../js/main.js"></script>
 	</body>
 </html>

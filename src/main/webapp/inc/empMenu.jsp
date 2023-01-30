@@ -18,7 +18,7 @@
 						</li>
 
 						<li>
-							<a href="${pageContext.request.contextPath}member/goodsList">상품</a>
+							<a href="${pageContext.request.contextPath}/member/goodsList">상품</a>
 						</li>
 
 						<li class="label1" data-label1="hot">

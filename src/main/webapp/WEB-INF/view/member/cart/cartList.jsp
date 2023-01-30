@@ -339,9 +339,9 @@
 											<c:if test="${loginCustomer == null}">
 												<td class="column-4">
 													<div class="wrap-num-product flex-w m-l-auto m-r-0">
-														<input type="button" value=" - " name="minus2" class="minusBtn2 btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m"> 
+														<input type="button" value=" - " name="minus2" class="minusBtn2 btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m"> 
 														<input type="text" name="orderQuantity" class="orderQuantity mtext-104 cl3 txt-center num-product" value="${m.cartQuantity}" min="1" readonly="readonly"> 
-														<input type="button" value=" + " name="plus2" class="plusBtn2 btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
+														<input type="button" value=" + " name="plus2" class="plusBtn2 btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
 													</div>
 												</td>
 											</c:if>						
