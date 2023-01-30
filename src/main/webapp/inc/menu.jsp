@@ -13,20 +13,15 @@
 				<!-- Menu desktop -->
 				<div class="menu-desktop">
 					<ul class="main-menu">
-						<li class="active-menu">
+						<li>
 							<a href="${pageContext.request.contextPath}/home">홈</a>
 						</li>
-
-						<li>
+						<li class="label1" data-label1="hot">
 							<a href="${pageContext.request.contextPath}/member/goodsList">상품</a>
 						</li>
 
-						<li class="label1" data-label1="hot">
-							<a href="shoping-cart.html">공지사항</a>
-						</li>
-
 						<li>
-							<a href="about.html">회사소개</a>
+							<a href="${pageContext.request.contextPath}/admin/notice">공지사항</a>
 						</li>
 					</ul>
 				</div>	
@@ -38,7 +33,7 @@
 						<div class="flex-c-m h-full p-r-24">
 							<div class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11 js-show-modal-search">
 								<a href="${pageContext.request.contextPath}/member/login">
-									<img src="images/icons/Signin.png" style="width:30px;">
+									<img src="${pageContext.request.contextPath}/images/icons/Signin.png" style="width:35px;">
 								</a>
 							</div>
 						</div>
@@ -46,7 +41,7 @@
 						<div class="flex-c-m h-full p-r-24">
 							<div class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11 js-show-modal-search">
 								<a href="${pageContext.request.contextPath}/member/addMember">
-									<img src="images/icons/Signup.png" style="width:30px;">
+									<img src="${pageContext.request.contextPath}/images/icons/Signup.png" style="width:35px;">
 								</a>
 							</div>
 						</div>
@@ -58,11 +53,14 @@
 							<div class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11 js-show-modal-search">
 								<ul class="main-menu">
 									<li class="active-menu">
-										${loginMember.customerName}
+										<a href="${pageContext.request.contextPath}/member/memberOne">
+											<img src="${pageContext.request.contextPath}/images/icons/memberInfo2.png" style="width:35px;">
+										</a>
 										<ul class="sub-menu">
-											<li><a href="${pageContext.request.contextPath}/member/memberOne">내 정보</a></li>
+											<li><a href="${pageContext.request.contextPath}/member/memberOne">회원정보</a></li>
 											<li><a href="${pageContext.request.contextPath}/member/orderList">주문내역</a></li>
-											<li><a href="${pageContext.request.contextPath}/member/pointHistory">내 포인트</a></li>
+											<li><a href="${pageContext.request.contextPath}/member/pointHistory">포인트</a></li>
+											<li><a href="${pageContext.request.contextPath}/member/question">문의사항</a></li>
 										</ul>
 									</li>
 								</ul>
@@ -73,11 +71,11 @@
 					<div class="flex-c-m h-full p-r-24">
 						<div class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11 js-show-modal-search">
 						<a href="${pageContext.request.contextPath}/member/cart">
-							<img src="${pageContext.request.contextPath}/images/icons/cart.png" style="width:30px;">
+							<img src="${pageContext.request.contextPath}/images/icons/cart.png" style="width:35px;">
 						</a>
 						</div>
 					</div>
-					<!-- 고객센터 아이콘 -->
+					<!-- 고객센터 아이콘 
 					<div class="flex-c-m h-full p-r-24">
 						<div class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11 js-show-modal-search">
 						<a href="${pageContext.request.contextPath}/member/question">
@@ -85,12 +83,13 @@
 						</a>
 						</div>
 					</div>
+					-->
 					<!-- 로그아웃 아이콘 -->
 					<c:if test="${loginMember != null}">
 						<div class="flex-c-m h-full p-r-24">
 							<div class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11 js-show-modal-search">
 								<a href="${pageContext.request.contextPath}/member/logout">
-									<img src="${pageContext.request.contextPath}/images/icons/log-out.png" style="width:30px;">
+									<img src="${pageContext.request.contextPath}/images/icons/log-out.png" style="width:35px;">
 								</a>
 							</div>
 						</div>

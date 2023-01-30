@@ -74,6 +74,12 @@
 										리미티드 도손 출시 기념 구매 혜택
 									</h2>
 								</div>
+								
+								<div class="layer-slick1 animated visible-false" data-appear="slideInUp" data-delay="1600">
+									<a href="${pageContext.request.contextPath}/member/goodsList" class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
+										Shop Now
+									</a>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -137,19 +143,22 @@
 				<div class="row">
 					<div class="col-sm-6 col-lg-3 p-b-50">
 						<h4 class="stext-301 cl0 p-b-30">
-							Categories
+							GitHub
 						</h4>
-	
 						<ul>
 							<li class="p-b-10">
-								<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-									Home
+								<a href="https://github.com/rungmin2" class="stext-107 cl7 hov-cl1 trans-04">
+									Seongmin
 								</a>
 							</li>
-	
 							<li class="p-b-10">
-								<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-									Shop
+								<a href="https://github.com/eunseoa" class="stext-107 cl7 hov-cl1 trans-04">
+									Eunseo
+								</a>
+							</li>
+							<li class="p-b-10">
+								<a href="https://github.com/ansankjh" class="stext-107 cl7 hov-cl1 trans-04">
+									Jihoon
 								</a>
 							</li>
 						</ul>
@@ -162,13 +171,8 @@
 	
 						<ul>
 							<li class="p-b-10">
-								<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
+								<a href="${pageContext.request.contextPath}/admin/notice" class="stext-107 cl7 hov-cl1 trans-04">
 									Notice
-								</a>
-							</li>
-							<li class="p-b-10">
-								<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-									FAQs
 								</a>
 							</li>
 						</ul>
@@ -511,46 +515,5 @@
 		</script>
 		<!--===============================================================================================-->
 		<script src="js/main.js"></script>
-		<!-- 
-		 공지목록 페이징 5개씩 
-		<h2>공지사항</h2>
-		<c:if test="${loginMember.getAuthCode() >3}">
-			<a href="${pageContext.request.contextPath}/admin/addNotice">공지사항 입력</a>
-		</c:if>
-		<table border="1">
-			<tr>
-				<th>번호</th>
-				<th>제목</th>
-				<th>작성자</th>
-				<th>작성일</th>
-			</tr>
-			<c:forEach var="m" items="${list}">
-				<tr>
-					<td>${m.noticeCode}</td>
-					<td>
-						<a href="${pageContext.request.contextPath}/admin/noticeOne?noticeCode=${m.noticeCode}">${m.noticeTitle}</a>
-					</td>
-					<td>${m.empId}</td>
-					<td>${m.createdate}</td>
-				</tr>
-			</c:forEach>
-		</table>
-		 공지목록 페이징 5개씩 
-		<div>
-			<c:if test="${currentPage != 1}">
-				<a href="${pageContext.request.contextPath}/home?currentPage=1">처음</a>				
-			</c:if>
-			<c:if test="${currentPage > 1}">
-				<a href="${pageContext.request.contextPath}/home?currentPage=${currentPage-1}">이전</a>
-			</c:if>
-			${currentPage}
-			<c:if test="${currentPage < lastPage}">
-				<a href="${pageContext.request.contextPath}/home?currentPage=${currentPage+1}">다음</a>
-			</c:if>
-			<c:if test="${currentPage != lastPage}">
-				<a href="${pageContext.request.contextPath}/home?currentPage=${lastPage}">마지막</a>
-			</c:if>
-		</div>
-		-->
 	</body>
 </html>

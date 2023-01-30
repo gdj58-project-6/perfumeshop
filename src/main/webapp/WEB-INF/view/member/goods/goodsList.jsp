@@ -33,7 +33,6 @@
      	</script>
 	</head>
 	<body class="animsition">
-		
 		<!-- Header -->
 		<header class="header-v4">
 			<!-- Header desktop -->

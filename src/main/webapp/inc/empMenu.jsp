@@ -8,7 +8,7 @@
 			<nav class="limiter-menu-desktop p-l-45">
 				<!-- Logo desktop -->		
 				<a href="#" class="logo">
-					<img src="images/icons/logo-01.png" alt="IMG-LOGO">
+					<img src="${pageContext.request.contextPath}/images/icons/logo-01.png" alt="IMG-LOGO">
 				</a>
 				<!-- Menu desktop -->
 				<div class="menu-desktop">
@@ -17,16 +17,12 @@
 							<a href="${pageContext.request.contextPath}/home">홈</a>
 						</li>
 
-						<li>
+						<li class="label1" data-label1="hot">
 							<a href="${pageContext.request.contextPath}/member/goodsList">상품</a>
 						</li>
 
-						<li class="label1" data-label1="hot">
-							<a href="shoping-cart.html">공지사항</a>
-						</li>
-
 						<li>
-							<a href="about.html">About</a>
+							<a href="${pageContext.request.contextPath}/admin/notice">공지사항</a>
 						</li>
 					</ul>
 				</div>	
@@ -58,23 +54,29 @@
 							<div class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11 js-show-modal-search">
 								<ul class="main-menu">
 									<li class="active-menu">
-										${loginMember.empName}(등급:${loginMember.getAuthCode()})
+										<a href="${pageContext.request.contextPath}/home">
+											<img src="${pageContext.request.contextPath}/images/icons/adminIcon.png" style="width:35px;">
+										</a>
 										<ul class="sub-menu">
 											<c:if test="${loginMember.getAuthCode() == 4}">
+												<li><a href="${pageContext.request.contextPath}/admin/addNotice">공지사항 입력</a></li>
 												<li><a href="${pageContext.request.contextPath}/admin/orderList">주문 관리</a></li>
 											</c:if>
 											<!-- 직원 5등급 대리 상품등록, 문의(답글,수정,삭제), 리뷰 삭제 -->
 											<c:if test="${loginMember.getAuthCode() == 5}">
+												<li><a href="${pageContext.request.contextPath}/admin/addNotice">공지사항 입력</a></li>
 												<li><a href="${pageContext.request.contextPath}/admin/orderList">주문 관리</a></li>
 												<li><a href="${pageContext.request.contextPath}/admin/addGoods">상품등록</a></li>
 											</c:if>
 											<!-- 직원 6등급 과장 상품수정, 삭제, 상품등록, 문의(답글,수정,삭제), 리뷰 삭제  -->
 											<c:if test="${loginMember.getAuthCode() == 6}">
+												<li><a href="${pageContext.request.contextPath}/admin/addNotice">공지사항 입력</a></li>
 												<li><a href="${pageContext.request.contextPath}/admin/orderList">주문 관리</a></li>
 												<li><a href="${pageContext.request.contextPath}/admin/addGoods">상품등록</a></li>
 											</c:if>
 											<!-- 직원 7등급 팀장 다 가능(고객,직원 등급수정 팀장만 가능), 상품등록, 문의(답글,수정,삭제), 리뷰 삭제 -->
 											<c:if test="${loginMember.getAuthCode() == 7}">
+												<li><a href="${pageContext.request.contextPath}/admin/addNotice">공지사항 입력</a></li>
 												<li><a href="${pageContext.request.contextPath}/admin/goodsComment">상품문의답변</a></li>
 												<li><a href="${pageContext.request.contextPath}/admin/comment">주문문의답변</a></li>
 												<li><a href="${pageContext.request.contextPath}/admin/orderList">주문 관리</a></li>
@@ -92,23 +94,24 @@
 					<div class="flex-c-m h-full p-r-24">
 						<div class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11 js-show-modal-search">
 						<a href="${pageContext.request.contextPath}/member/cart">
-							<img src="images/icons/cart.png" style="width:30px;">
+							<img src="${pageContext.request.contextPath}/images/icons/cart.png" style="width:30px;">
 						</a>
 						</div>
 					</div>
-					<!-- 고객센터 아이콘 -->
+					<!-- 고객센터 아이콘 
 					<div class="flex-c-m h-full p-r-24">
 						<div class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11 js-show-modal-search">
 						<a href="${pageContext.request.contextPath}/member/question">
-							<img src="images/icons/center.png" style="width:30px;">
+							<img src="${pageContext.request.contextPath}/images/icons/center.png" style="width:30px;">
 						</a>
 						</div>
 					</div>
+					-->
 					<!-- 로그아웃 아이콘 -->
 					<div class="flex-c-m h-full p-r-24">
 						<div class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11 js-show-modal-search">
 							<a href="${pageContext.request.contextPath}/member/logout">
-								<img src="images/icons/log-out.png" style="width:30px;">
+								<img src="${pageContext.request.contextPath}/images/icons/log-out.png" style="width:30px;">
 							</a>
 						</div>
 					</div>

@@ -153,7 +153,7 @@ public class NoticeService {
 		return row;
 	}
 	// home화면 페이징할 목록의수
-	public int getHomeCount() {
+	public int getNoticeCount() {
 		// 객체 초기화
 		int row = 0;
 		// 드라이버 초기화
