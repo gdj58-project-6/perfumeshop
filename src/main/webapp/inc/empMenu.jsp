@@ -123,7 +123,7 @@
 							</div>
 						</div>
 					</c:if>
-					<!-- cart 아이콘 -->
+					<!-- cart 아이콘
 					<div class="flex-c-m h-full p-r-24">
 						<div class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11 js-show-modal-search">
 						<a href="${pageContext.request.contextPath}/member/cart">
@@ -131,6 +131,7 @@
 						</a>
 						</div>
 					</div>
+					 -->
 					<!-- 고객센터 아이콘 
 					<div class="flex-c-m h-full p-r-24">
 						<div class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11 js-show-modal-search">

@@ -35,13 +35,15 @@
 		    	$("#btnCancel").click(function(){
 		    		$(location).attr("href", "${pageContext.request.contextPath}/member/question")
 		    	})
+		    	
+		    	$('#memo').focus();
 		    });
 		</script>
 	</head>
 	<body>
-		<c:if test="${loginMember != null}">
+		<div>
 			<jsp:include page="/inc/menu.jsp"></jsp:include>
-		</c:if>
+		</div>
 		<div align="center" class="po">
 			<h1>상품문의수정</h1>
 			${msg}
@@ -69,7 +71,7 @@
 					<tr>
 						<td align="center" style="vertical-align:middle;">내용</td>
 						<td>
-							<textarea cols="50" rows="5" name="goodsQuestionMemo">${goodsQuestion.goodsQuestionMemo}</textarea>
+							<textarea cols="50" rows="5" name="goodsQuestionMemo" id="memo">${goodsQuestion.goodsQuestionMemo}</textarea>
 						</td>
 					</tr>
 					<tr>

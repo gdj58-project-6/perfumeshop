@@ -38,21 +38,117 @@
 		</script>
 	</head>
 	<body>
-		<h1>고객센터</h1>
+		<div>
+			<jsp:include page="/inc/menu.jsp"></jsp:include>
+		</div>
+		<!-- 상품문의 -->
+		<div class="container">
+			<div class="row">
+				<!-- 공지목록 -->
+				<div class="col-md-10 col-lg-10 p-b-190 p-t-55 mx-auto">
+					<h1 class="mtext-109 cl2 p-b-10" style="margin-top:100px;">상품문의</h1>
+					<table class="table text-center stext-110 cl2">
+						<tr>
+							<th class="text-center" style="width:15%;">번호</th>
+							<th class="text-center w-50">제목</th>
+							<th class="text-center" style="width:15%;">작성자</th>
+							<th class="text-center" style="width:20%;">작성일</th>
+						</tr>
+						<c:forEach var="m" items="${list}">
+							<tr>
+								<td>${m.noticeCode}</td>
+								<td>
+									<a href="${pageContext.request.contextPath}/admin/noticeOne?noticeCode=${m.noticeCode}">${m.noticeTitle}</a>
+								</td>
+								<td>${m.empId}</td>
+								<td>${m.createdate}</td>
+							</tr>
+						</c:forEach>
+					</table>
+					<!-- 공지사항 페이징 -->
+					<div>
+						<!-- 
+						<c:if test="${currentPage != 1}">
+							<a href="${pageContext.request.contextPath}/admin/notice?currentPage=1">처음</a>				
+						</c:if>
+						 -->
+						<c:if test="${currentPage > 1}">
+							<a href="${pageContext.request.contextPath}/admin/notice?currentPage=${currentPage-1}">이전</a>
+						</c:if>
+						${currentPage}
+						<c:if test="${currentPage < lastPage}">
+							<a href="${pageContext.request.contextPath}/admin/notice?currentPage=${currentPage+1}">다음</a>
+						</c:if>
+						<!-- 
+						<c:if test="${currentPage != lastPage}">
+							<a href="${pageContext.request.contextPath}/admin/notice?currentPage=${lastPage}">마지막</a>
+						</c:if>
+						 -->
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 주문문의 -->
+		<div class="container">
+			<div class="row">
+				<!-- 공지목록 -->
+				<div class="col-md-10 col-lg-10 p-b-190 p-t-55 mx-auto">
+					<h1 class="mtext-109 cl2 p-b-10" style="margin-top:100px;">주문문의</h1>
+					<table class="table text-center stext-110 cl2">
+						<tr>
+							<th class="text-center" style="width:15%;">번호</th>
+							<th class="text-center w-50">제목</th>
+							<th class="text-center" style="width:15%;">작성자</th>
+							<th class="text-center" style="width:20%;">작성일</th>
+						</tr>
+						<c:forEach var="m" items="${list}">
+							<tr>
+								<td>${m.noticeCode}</td>
+								<td>
+									<a href="${pageContext.request.contextPath}/admin/noticeOne?noticeCode=${m.noticeCode}">${m.noticeTitle}</a>
+								</td>
+								<td>${m.empId}</td>
+								<td>${m.createdate}</td>
+							</tr>
+						</c:forEach>
+					</table>
+					<!-- 공지사항 페이징 -->
+					<div>
+						<!-- 
+						<c:if test="${currentPage != 1}">
+							<a href="${pageContext.request.contextPath}/admin/notice?currentPage=1">처음</a>				
+						</c:if>
+						 -->
+						<c:if test="${currentPage > 1}">
+							<a href="${pageContext.request.contextPath}/admin/notice?currentPage=${currentPage-1}">이전</a>
+						</c:if>
+						${currentPage}
+						<c:if test="${currentPage < lastPage}">
+							<a href="${pageContext.request.contextPath}/admin/notice?currentPage=${currentPage+1}">다음</a>
+						</c:if>
+						<!-- 
+						<c:if test="${currentPage != lastPage}">
+							<a href="${pageContext.request.contextPath}/admin/notice?currentPage=${lastPage}">마지막</a>
+						</c:if>
+						 -->
+					</div>
+				</div>
+			</div>
+		</div>
 		<!-- goodsQuestion 나의 상품문의 리스트 customerId로 받아오기 -->
-		<h2>goodsQuestion</h2>
+		<h2>상품문의</h2>
 		<div class="bg0 p-t-2 p-b-2">
 			<div class="row">
 				<div class="col-lg-12 m-lr-auto m-b-50">
 					<div class="wrap-table-shopping-cart">
-						<table class="table-shopping-cart">
+						<table class="table text-center stext-110 cl2">
 							<tr>
-								<th>문의번호</th>
-								<th>상품이름</th>
-								<th>작성자</th>
-								<th>분류</th>
-								<th style="width:1000px;">내용</th>
-								<th>작성일자</th>
+								<th class="text-center">문의번호</th>
+								<th class="text-center">상품이름</th>
+								<th class="text-center">작성자</th>
+								<th class="text-center">분류</th>
+								<th style="width:1000px;" class="text-center">내용</th>
+								<th class="text-center">작성일자</th>
 							</tr>
 							<c:forEach var="m" items="${goodsQuestionList}">
 								<tr>
@@ -64,6 +160,7 @@
 										<div>
 										    <ul>
 										        <li class="menu">
+										        	
 										            <a>
 										            	${m.goodsQuestionMemo}
 										            </a>
@@ -72,7 +169,6 @@
 									            		<li>A. ${m.goodsCommentMemo}</li>
 									            	</c:if>
 									            	<c:if test="${m.goodsCommentMemo == null}">
-									            		<li>답변대기중</li>
 									            		<li><a href="${pageContext.request.contextPath}/member/modifyGoodsQuestion?goodsQuestionCode=${m.goodsQuestionCode}">수정</a></li>
 									            		<li><a href="${pageContext.request.contextPath}/member/removeGoodsQuestion?goodsQuestionCode=${m.goodsQuestionCode}">삭제</a></li>
 									            	</c:if>
@@ -105,12 +201,12 @@
 			</div>
 		</div>
 		<!-- question 나의 주문문의 리스트 -->
-		<h2>question</h2>
+		<h2>주문문의</h2>
 		<div class="bg0 p-t-2 p-b-2">
 			<div class="row">
 				<div class="col-lg-12 m-lr-auto m-b-50">
 					<div class="wrap-table-shopping-cart">
-						<table class="table-shopping-cart">
+						<table class="table text-center stext-110 cl2">
 							<tr>
 								<th>문의번호</th>
 								<th>주문번호</th>
@@ -129,17 +225,27 @@
 										<div>
 										    <ul>
 										        <li class="menu">
-										            <a>
-										            	${m2.questionMemo}
-										            </a>
+										        	<c:if test="${m2.commentMemo != null}">
+														<a>
+															${m2.questionMemo}
+														</a>	
+										        	</c:if>
+										       		<c:if test="${m2.commentMemo == null}">
+										       			<a>
+															${m2.questionMemo}[답변처리중]
+														</a>
+										       		</c:if>
 										            <ul class="hide">
 										            <c:if test="${m2.commentMemo != null}">
 									            		<li>A. ${m2.commentMemo}</li>
 									            	</c:if>
 									            	<c:if test="${m2.commentMemo == null}">
-									            		<li>답변대기중</li>
-									            		<li><a href="${pageContext.request.contextPath}/member/modifyQuestion?questionCode=${m2.questionCode}">수정</a></li>
-									            		<li><a href="${pageContext.request.contextPath}/member/removeQuestion?questionCode=${m2.questionCode}">삭제</a></li>
+									            		<button id="btnCancel" type="button">
+															취소하기
+														</button>
+														<button type="submit">
+															수정하기
+														</button>
 									            	</c:if>
 										            </ul>
 										        </li>
