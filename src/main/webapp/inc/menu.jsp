@@ -1,15 +1,47 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!-- Header -->
-<header class="header-v2">
+<header>
 	<!-- Header desktop -->
-	<div class="container-menu-desktop trans-03">
+	<div class="container-menu-desktop">
+		<!-- Topbar -->
+		<div class="top-bar">
+			<div class="content-topbar flex-sb-m h-full container">
+				<div class="left-top-bar">
+					GDJ58 Team : Hot6
+				</div>
+
+				<div class="right-top-bar flex-w h-full">
+					<c:if test="${loginMember != null}">
+						<a href="${pageContext.request.contextPath}/member/question" class="flex-c-m trans-04 p-lr-25">
+							Help & FAQs
+						</a>
+					</c:if>
+					
+
+					<a href="${pageContext.request.contextPath}/member/memberOne" class="flex-c-m trans-04 p-lr-25">
+						My Account
+					</a>
+
+					<a href="https://map.naver.com/v5/search/%EB%8C%80%EB%A5%AD3%EC%B0%A8/place/18980791?placePath=%3Fentry=pll%26from=nx%26fromNxList=true&c=15,0,0,0,dh" class="flex-c-m trans-04 p-lr-25">
+						GDJ
+					</a>
+
+					<a href="#" class="flex-c-m trans-04 p-lr-25">
+						KRW
+					</a>
+				</div>
+			</div>
+		</div>
+		
 		<div class="wrap-menu-desktop">
-			<nav class="limiter-menu-desktop p-l-45">
+			<nav class="limiter-menu-desktop container">
+				
 				<!-- Logo desktop -->		
-				<a href="#" class="logo">
+				<a href="${pageContext.request.contextPath}/home" class="logo">
 					<img src="${pageContext.request.contextPath}/images/icons/logo-01.png" alt="IMG-LOGO">
 				</a>
+
 				<!-- Menu desktop -->
 				<div class="menu-desktop">
 					<ul class="main-menu">
@@ -23,8 +55,11 @@
 						<li>
 							<a href="${pageContext.request.contextPath}/admin/notice">공지사항</a>
 						</li>
+
 					</ul>
 				</div>	
+
+				<!-- 오른쪽 아이콘 -->
 				<!-- 로그인, 회원가입, 장바구니 -->
 				<div class="wrap-icon-header flex-w flex-r-m h-full">
 					<!-- 비로그인시 -->
@@ -98,7 +133,24 @@
 			</nav>
 		</div>	
 	</div>
+	<!-- Modal Search 
+	<div class="modal-search-header flex-c-m trans-04 js-hide-modal-search">
+		<div class="container-search-header">
+			<button class="flex-c-m btn-hide-modal-search trans-04 js-hide-modal-search">
+				<img src="images/icons/icon-close2.png" alt="CLOSE">
+			</button>
+
+			<form class="wrap-search-header flex-w p-l-15">
+				<button class="flex-c-m trans-04">
+					<i class="zmdi zmdi-search"></i>
+				</button>
+				<input class="plh3" type="text" name="search" placeholder="Search...">
+			</form>
+		</div>
+	</div>
+	-->
 </header>
+
 <!-- 
 <nav>
 	<div>

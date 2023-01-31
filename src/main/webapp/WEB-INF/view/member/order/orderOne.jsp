@@ -165,7 +165,7 @@
 								</c:if>
 							</div>
 							<div class="w-50 m-l-5 m-r-5">
-								<a href="${pageContext.request.contextPath}/member/orderOne?orderCode=${orderCode}" class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn1 p-lr-15 trans-04 pointer" style="color: white;">주문 문의</a>
+								<a href="${pageContext.request.contextPath}/member/addQuestion?orderCode=${orderCode}" class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn1 p-lr-15 trans-04 pointer" style="color: white;">주문 문의</a>
 							</div>
 						</div>
 					</div>

@@ -1,7 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 	<head>
+		<style>
+			.po {
+				position : relative;
+				top : 100px;
+			}
+			table {
+				width : 1000px;
+				height : 500px;
+			}
+		</style>
 		<meta charset="UTF-8">
 		<title>modifyGoodsQuestion</title>
 		<link rel="icon" type="image/png" href="../images/icons/favicon.png"/>
@@ -11,7 +22,6 @@
 		<link rel="stylesheet" type="text/css" href="../fonts/linearicons-v1.0.0/icon-font.min.css">
 		<link rel="stylesheet" type="text/css" href="../vendor/animate/animate.css">
 		<link rel="stylesheet" type="text/css" href="../vendor/css-hamburgers/hamburgers.min.css">
-		<link rel="stylesheet" type="text/css" href="../vendor/animsition/css/animsition.min.css">
 		<link rel="stylesheet" type="text/css" href="../vendor/select2/select2.min.css">
 		<link rel="stylesheet" type="text/css" href="../vendor/daterangepicker/daterangepicker.css">
 		<link rel="stylesheet" type="text/css" href="../vendor/slick/slick.css">
@@ -19,44 +29,66 @@
 		<link rel="stylesheet" type="text/css" href="../vendor/perfect-scrollbar/perfect-scrollbar.css">
 		<link rel="stylesheet" type="text/css" href="../css/util.css">
 		<link rel="stylesheet" type="text/css" href="../css/main.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+		<script>
+		    $(document).ready(function(){
+		    	$("#btnCancel").click(function(){
+		    		$(location).attr("href", "${pageContext.request.contextPath}/member/question")
+		    	})
+		    });
+		</script>
 	</head>
 	<body>
-		<h1>상품문의수정</h1>
-		${msg}
-		<form action="${pageContext.request.contextPath}/member/modifyGoodsQuestion" method="post">
-			<table border="1">
-				<tr>
-					<td>문의번호</td>
-					<td>
-						<input type="text" name="goodsQuestionCode" value="${goodsQuestion.goodsQuestionCode}" readonly="readonly">
-					</td>
-				</tr>
-				<tr>
-					<td>상품번호</td>
-					<td>${goodsQuestion.goodsCode}</td>
-				</tr>
-				<tr>
-					<td>작성자</td>
-					<td>${goodsQuestion.customerId}</td>
-				</tr>
-				<tr>
-					<td>분류</td>
-					<td>${goodsQuestion.category}</td>
-				</tr>
-				<tr>
-					<td>내용</td>
-					<td>
-						<textarea cols="50" rows="5" name="goodsQuestionMemo">${goodsQuestion.goodsQuestionMemo}</textarea>
-					</td>
-				</tr>
-				<tr>
-					<td>작성일자</td>
-					<td>${goodsQuestion.createdate}</td>
-				</tr>
-			</table>
-			<div>
-				<button type="submit">수정</button>
-			</div>
-		</form>
+		<c:if test="${loginMember != null}">
+			<jsp:include page="/inc/menu.jsp"></jsp:include>
+		</c:if>
+		<div align="center" class="po">
+			<h1>상품문의수정</h1>
+			${msg}
+			<br>
+			<form action="${pageContext.request.contextPath}/member/modifyGoodsQuestion" method="post">
+				<table class="table table-bordered" style="width:1000px;">
+					<tr>
+						<td align="center" style="vertical-align:middle;">문의번호</td>
+						<td style="vertical-align:middle;">
+							<input type="text" name="goodsQuestionCode" value="${goodsQuestion.goodsQuestionCode}" readonly="readonly">
+						</td>
+					</tr>
+					<tr>
+						<td align="center" style="vertical-align:middle;">상품번호</td>
+						<td style="vertical-align:middle;">${goodsQuestion.goodsCode}</td>
+					</tr>
+					<tr>
+						<td align="center" style="vertical-align:middle;">작성자</td>
+						<td style="vertical-align:middle;">${goodsQuestion.customerId}</td>
+					</tr>
+					<tr>
+						<td align="center" style="vertical-align:middle;">분류</td>
+						<td style="vertical-align:middle;">${goodsQuestion.category}</td>
+					</tr>
+					<tr>
+						<td align="center" style="vertical-align:middle;">내용</td>
+						<td>
+							<textarea cols="50" rows="5" name="goodsQuestionMemo">${goodsQuestion.goodsQuestionMemo}</textarea>
+						</td>
+					</tr>
+					<tr>
+						<td align="center" style="vertical-align:middle;">작성일자</td>
+						<td style="vertical-align:middle;">${goodsQuestion.createdate}</td>
+					</tr>
+				</table>
+				<br>
+				<div>
+					<div>
+					<button id="btnCancel" style="display: inline-block;" class="flex-c-m stext-101 cl0 size-112 bg7 bor11 hov-btn3 p-lr-15 trans-04 m-b-10" type="button">
+						취소하기
+					</button>
+					<button style="display: inline-block;" class="flex-c-m stext-101 cl0 size-112 bg7 bor11 hov-btn3 p-lr-15 trans-04 m-b-10" type="submit">
+						수정하기
+					</button>
+				</div>
+				</div>
+			</form>
+		</div>
 	</body>
 </html>

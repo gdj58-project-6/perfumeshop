@@ -4,11 +4,6 @@
 <html>
 	<head>
 		<style>
-			a {
-				text-align : center;
-				line-height : 10px;
-			}
-			
 			.po {
 				position : relative;
 				top : 100px;
