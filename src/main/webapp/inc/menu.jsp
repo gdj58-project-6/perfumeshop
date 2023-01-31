@@ -3,7 +3,7 @@
 <!-- Header -->
 <header>
 	<!-- Header desktop -->
-	<div class="container-menu-desktop">
+	<div class="container-menu-desktop p-b-40">
 		<!-- Topbar -->
 		<div class="top-bar">
 			<div class="content-topbar flex-sb-m h-full container">

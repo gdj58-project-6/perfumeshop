@@ -34,7 +34,7 @@ public class AddMemberController extends HttpServlet {
 		// 입력 값
 		String id = request.getParameter("id");            
 		String name = request.getParameter("name");
-		String phone = request.getParameter("phone1") + request.getParameter("phone2") + request.getParameter("phone3");
+		String phone = request.getParameter("phone");
 		System.out.println(phone); // 디버깅
 		String pw = request.getParameter("pw");
 		String address = request.getParameter("address");
