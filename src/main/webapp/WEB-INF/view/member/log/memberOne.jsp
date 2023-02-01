@@ -17,9 +17,7 @@
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 	</head>
 	<body>
-		<c:if test="${loginMember == null}">
-			<jsp:include page="/inc/menu.jsp"></jsp:include>
-		</c:if>
+		<jsp:include page="/inc/menu.jsp"></jsp:include>
 		<div class="container">
 			<div class="bor10 m-t-50 p-t-43 p-b-40 col-sm-8 m-lr-auto">
 				<div class="row">
