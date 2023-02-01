@@ -49,11 +49,11 @@
 		<!-- Header -->
 		<!-- 고객or비로그인 -->
 		<c:if test="${loginMember == null || loginMember.getAuthCode() < 4}">
-			<jsp:include page="/inc/menu.jsp"></jsp:include>
+			<jsp:include page="/inc/homeMenu.jsp"></jsp:include>
 		</c:if>
 		<!-- 직원 -->
 		<c:if test="${loginMember.getAuthCode() > 3}">
-			<jsp:include page="/inc/empMenu.jsp"></jsp:include>
+			<jsp:include page="/inc/homeEmpMenu.jsp"></jsp:include>
 		</c:if>
 		
 		<!-- Slider -->

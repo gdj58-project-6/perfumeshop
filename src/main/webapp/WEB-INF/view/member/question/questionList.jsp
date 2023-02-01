@@ -20,7 +20,7 @@
 			.menu a{cursor:pointer;}
     		.menu .hide{display:none;}
 		</style>
-		<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 		<script>
 		$(document).ready(function(){
 			// menu 클래스 바로 하위에 있는 a 태그를 클릭했을때
