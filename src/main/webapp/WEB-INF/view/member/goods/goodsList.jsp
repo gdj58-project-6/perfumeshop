@@ -361,6 +361,7 @@
 				});
 			})
 		</script>
+		<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 		<script src="../vendor/MagnificPopup/jquery.magnific-popup.min.js"></script>
 		<script src="../vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
 		<script src="../js/main.js"></script>
