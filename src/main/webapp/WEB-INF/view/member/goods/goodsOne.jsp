@@ -170,7 +170,7 @@
 								</c:if>
 							</div>
 						</form>
-						<c:if test="${loginCustomer != null}">
+						<c:if test="${loginMember != null}">
 							<div class="p-r-50 p-t-5 p-lr-0-lg">
 								<div class="size-204 flex-w flex-m respon6-next">
 									<form action="${pageContext.request.contextPath}/member/goodsPayMent" method="get" id="goodsPayMent">
