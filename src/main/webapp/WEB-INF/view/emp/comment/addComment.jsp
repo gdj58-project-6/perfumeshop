@@ -44,7 +44,7 @@
 			<h1>답글입력</h1>
 			${msg}
 			<br>
-			<form action="${pageContext.request.contextPath}/member/addQuestion" method="post">
+			<form action="${pageContext.request.contextPath}/admin/addComment" method="post">
 				<table class="table table-bordered" style="width:1000px;">
 					<tr>
 						<td align="center">문의번호</td>
