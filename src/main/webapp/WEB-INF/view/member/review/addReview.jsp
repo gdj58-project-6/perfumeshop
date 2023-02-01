@@ -11,8 +11,6 @@
 		<link rel="stylesheet" type="text/css" href="../fonts/font-awesome-4.7.0/css/font-awesome.min.css">
 		<link rel="stylesheet" type="text/css" href="../fonts/iconic/css/material-design-iconic-font.min.css">
 		<link rel="stylesheet" type="text/css" href="../fonts/linearicons-v1.0.0/icon-font.min.css">
-		<link rel="stylesheet" type="text/css" href="../vendor/animate/animate.css">
-		<link rel="stylesheet" type="text/css" href="../vendor/animsition/css/animsition.min.css">
 		<link rel="stylesheet" type="text/css" href="../vendor/select2/select2.min.css">
 		<link rel="stylesheet" type="text/css" href="../vendor/perfect-scrollbar/perfect-scrollbar.css">
 		<link rel="stylesheet" type="text/css" href="../css/util.css">
@@ -72,6 +70,8 @@
 								<div class="col-12 p-t-20 p-b-5">
 									<label class="stext-102 cl3" for="poinr">Point</label>
 									<c:set var="point" value="${(orderOne.orderGoodsPrice * orderOne.orderGoodsQuantity) * 0.005}"></c:set>
+									<input type="hidden" name="orderCode" value="${orderOne.orderCode}">
+									<input type="hidden" name="goodsCode" value="${orderOne.goodsCode}">
 									<input class="size-111 bor8 stext-102 cl2 p-lr-20" name="point" value="${Double.valueOf(point).intValue()}" readonly>
 								</div>
 								<div class="col-12 p-t-20 p-b-5">
