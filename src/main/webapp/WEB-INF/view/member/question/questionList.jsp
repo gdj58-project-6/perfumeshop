@@ -80,10 +80,10 @@
 								            	</c:if>
 								            	<c:if test="${m.goodsCommentMemo == null}">
 								            		<button id="btnCancel" type="button">
-														취소하기
+														삭제
 													</button>
 													<button type="submit">
-														수정하기
+														수정
 													</button>
 								            	</c:if>
 									            </ul>
@@ -152,11 +152,11 @@
 								            		<li>A. ${m2.commentMemo}</li>
 								            	</c:if>
 								            	<c:if test="${m2.commentMemo == null}">
-								            		<button id="btnCancel" type="button">
-														취소하기
+								            		<button class="btm_image" id="deleteBtn" type="button">
+														<img src="${pageContext.request.contextPath}/images/icons/delete.png" style="width:25px;">
 													</button>
-													<button type="submit">
-														수정하기
+													<button class="btm_image" id="modifyBtn" type="button">
+														<img src="${pageContext.request.contextPath}/images/icons/modify.png" style="width:25px;">
 													</button>
 								            	</c:if>
 									            </ul>

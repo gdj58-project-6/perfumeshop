@@ -66,7 +66,7 @@
 					<c:if test="${loginMember == null}">
 						<!-- 로그인 아이콘 -->
 						<div class="flex-c-m h-full p-r-24">
-							<div class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11 js-show-modal-search">
+							<div class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11">
 								<a href="${pageContext.request.contextPath}/member/login">
 									<img src="${pageContext.request.contextPath}/images/icons/Signin.png" style="width:35px;">
 								</a>
@@ -74,7 +74,7 @@
 						</div>
 						<!-- 회원가입 아이콘 -->
 						<div class="flex-c-m h-full p-r-24">
-							<div class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11 js-show-modal-search">
+							<div class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11">
 								<a href="${pageContext.request.contextPath}/member/addMember">
 									<img src="${pageContext.request.contextPath}/images/icons/Signup.png" style="width:35px;">
 								</a>
@@ -85,7 +85,7 @@
 					<c:if test="${loginMember != null && loginMember.getAuthCode() < 4}">
 						<!-- 내정보 아이콘 -->
 						<div class="flex-c-m h-full p-r-24">
-							<div class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11 js-show-modal-search">
+							<div class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11">
 								<ul class="main-menu">
 									<li class="active-menu">
 										<a href="${pageContext.request.contextPath}/member/memberOne">
@@ -104,7 +104,7 @@
 					</c:if>
 					<!-- cart 아이콘 -->
 					<div class="flex-c-m h-full p-r-24">
-						<div class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11 js-show-modal-search">
+						<div class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11">
 						<a href="${pageContext.request.contextPath}/member/cart">
 							<img src="${pageContext.request.contextPath}/images/icons/cart.png" style="width:35px;">
 						</a>
@@ -112,7 +112,7 @@
 					</div>
 					<!-- 고객센터 아이콘 
 					<div class="flex-c-m h-full p-r-24">
-						<div class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11 js-show-modal-search">
+						<div class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11">
 						<a href="${pageContext.request.contextPath}/member/question">
 							<img src="${pageContext.request.contextPath}/images/icons/center.png" style="width:30px;">
 						</a>
@@ -122,7 +122,7 @@
 					<!-- 로그아웃 아이콘 -->
 					<c:if test="${loginMember != null}">
 						<div class="flex-c-m h-full p-r-24">
-							<div class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11 js-show-modal-search">
+							<div class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11">
 								<a href="${pageContext.request.contextPath}/member/logout">
 									<img src="${pageContext.request.contextPath}/images/icons/log-out.png" style="width:35px;">
 								</a>

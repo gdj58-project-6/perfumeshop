@@ -65,7 +65,7 @@
 					<c:if test="${loginMember == null}">
 						<!-- 로그인 아이콘 -->
 						<div class="flex-c-m h-full p-r-24">
-							<div class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11 js-show-modal-search">
+							<div class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11">
 								<a href="${pageContext.request.contextPath}/member/login">
 									<img src="images/icons/Signin.png" style="width:30px;">
 								</a>
@@ -73,7 +73,7 @@
 						</div>
 						<!-- 회원가입 아이콘 -->
 						<div class="flex-c-m h-full p-r-24">
-							<div class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11 js-show-modal-search">
+							<div class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11">
 								<a href="${pageContext.request.contextPath}/member/addMember">
 									<img src="images/icons/Signup.png" style="width:30px;">
 								</a>
@@ -84,7 +84,7 @@
 					<c:if test="${loginMember != null && loginMember.getAuthCode() > 3}">
 						<!-- 내정보 아이콘 -->
 						<div class="flex-c-m h-full p-r-24">
-							<div class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11 js-show-modal-search">
+							<div class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11">
 								<ul class="main-menu">
 									<li class="active-menu">
 										<a href="${pageContext.request.contextPath}/home">
@@ -143,7 +143,7 @@
 					-->
 					<!-- 로그아웃 아이콘 -->
 					<div class="flex-c-m h-full p-r-24">
-						<div class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11 js-show-modal-search">
+						<div class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11">
 							<a href="${pageContext.request.contextPath}/member/logout">
 								<img src="${pageContext.request.contextPath}/images/icons/log-out.png" style="width:30px;">
 							</a>

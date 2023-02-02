@@ -10,14 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import service.NoticeService;
 import vo.Customer;
 import vo.Emp;
-import vo.Notice;
 
 @WebServlet("/home")
 public class HomeController extends HttpServlet {
-	private NoticeService noticeService;
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Customer loginCustomer = null;
