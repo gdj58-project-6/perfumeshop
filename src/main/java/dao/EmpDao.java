@@ -58,7 +58,7 @@ public class EmpDao {
 				+ "		, active"
 				+ "		, auth_code authoCode"
 				+ "		, createdate"
-				+ "		FROM emp ORDER BY emp_code ASC LIMIT ?, ?";
+				+ "		FROM emp ORDER BY emp_code DESC LIMIT ?, ?";
 		// 쿼리 객체 생성
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		// 쿼리문 ?값 지정
