@@ -241,7 +241,7 @@ public class QuestionDao {
 		rs.close();
 		return row;
 	}
-	// 고객센터 상품문의
+	// 나의 문의사항 상품문의 questionList.jsp 
 	public ArrayList<HashMap<String, Object>> selectGoodsQuestion(Connection conn, String customerId, int beginRow, int rowPerPage) throws Exception {
 		// 객체 초기화
 		ArrayList<HashMap<String, Object>> list = null;
@@ -305,8 +305,8 @@ public class QuestionDao {
 		rs.close();
 		return row;
 	}
-	// 상품문의 리스트
-	public ArrayList<HashMap<String, Object>> selectGoodsQuestionList(Connection conn, int beginRow, int rowPerPage) throws Exception {
+	// 상품문의 리스트 goodsOne
+	public ArrayList<HashMap<String, Object>> selectGoodsQuestionList(Connection conn, int goodsCode, int beginRow, int rowPerPage) throws Exception {
 		// 객체 초기화
 		ArrayList<HashMap<String, Object>> list = null;
 		// 쿼리문 작성
@@ -324,12 +324,14 @@ public class QuestionDao {
 				+ "		ON gq.goods_code = g.goods_code"
 				+ "		left JOIN goods_question_comment gqc"
 				+ "		ON gq.goods_question_code = gqc.goods_question_code"
+				+ "		WHERE gq.goods_code=?"
 				+ "		ORDER BY gq.goods_question_code DESC LIMIT ?, ?";
 		// 쿼리 객체 생성
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		// 쿼리문 ?값 지정
-		stmt.setInt(1, beginRow);
-		stmt.setInt(2, rowPerPage);
+		stmt.setInt(1, goodsCode);
+		stmt.setInt(2, beginRow);
+		stmt.setInt(3, rowPerPage);
 		// 쿼리 실행
 		ResultSet rs = stmt.executeQuery();
 		list = new ArrayList<HashMap<String, Object>>();

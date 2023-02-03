@@ -312,7 +312,7 @@ public class QuestionService {
 		return row;
 	}
 	
-	// 고객센터 문의 수정, 삭제를 위한 리스트 출력
+	// 나의문의사항 문의 수정, 삭제를 위한 리스트 출력 questionList.jsp
 	public ArrayList<HashMap<String, Object>> getGoodsQuestion(String customerId, int currentPage, int rowPerPage) {
 		// 객체 초기화
 		ArrayList<HashMap<String, Object>> list = null;
@@ -369,8 +369,8 @@ public class QuestionService {
 		return row;
 	}
 	
-	// 상품문의 리스트
-	public ArrayList<HashMap<String, Object>> getGoodsQuestionList(int currentPage, int rowPerPage) {
+	// 상품문의 리스트 goodsOne.jsp
+	public ArrayList<HashMap<String, Object>> getGoodsQuestionList(int goodsCode, int currentPage, int rowPerPage) {
 		// 객체 초기화
 		ArrayList<HashMap<String, Object>> list =  null;
 		// 드라이버 초기화
@@ -383,7 +383,7 @@ public class QuestionService {
 			conn = DBUtil.getConnection();
 			// dao 호출
 			this.questionDao = new QuestionDao();
-			list = questionDao.selectGoodsQuestionList(conn, beginRow, rowPerPage);
+			list = questionDao.selectGoodsQuestionList(conn, goodsCode, beginRow, rowPerPage);
 			// 커밋
 			conn.commit();
 		} catch(Exception e) {

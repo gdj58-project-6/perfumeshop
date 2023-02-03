@@ -37,6 +37,18 @@
 		    	$("#btnCancel").click(function(){
 		    		$(location).attr("href", "${pageContext.request.contextPath}/member/orderOne?orderCode=${orderCode}")
 		    	})
+		    	
+		    	$("#memo").focus();
+		    	
+		    	
+		    	
+		    	$("#btn").click(function() {
+		    		if($("#category option:selected").val() == '') {
+		    			alert("분류를 선택해주세요.");
+		    		} else if($("#memo").val().length == 0) {
+		    			alert("문의내용을 입력해주세요.");
+		    		}
+		    	})
 		    });
 		</script>
 	</head>
@@ -47,7 +59,6 @@
 		</c:if>
 		<div align="center" class="po">
 			<h1>문의작성</h1>
-			${msg}
 			<br>
 			<form action="${pageContext.request.contextPath}/member/addQuestion" method="post">
 				<table class="table table-bordered" style="width:1000px;">
@@ -60,7 +71,7 @@
 					<tr>
 						<td align="center">분류</td>
 						<td>
-							<select class="js-select2" name="category">
+							<select class="js-select2" name="category" id="category">
 								<option value="">분류</option>
 								<option value="할인">할인</option>
 								<option value="포인트">포인트</option>
@@ -72,7 +83,7 @@
 					<tr>
 						<td align="center" style="vertical-align:middle;">문의내용</td>
 						<td>
-							<textarea cols="100" rows="20" name="questionMemo"></textarea>
+							<textarea cols="100" rows="20" name="questionMemo" id="memo">${msg}</textarea>
 						</td>
 					</tr>
 				</table>
@@ -81,7 +92,7 @@
 					<button id="btnCancel" style="display: inline-block;" class="flex-c-m stext-101 cl0 size-112 bg7 bor11 hov-btn3 p-lr-15 trans-04 m-b-10" type="button">
 						취소하기
 					</button>
-					<button style="display: inline-block;" class="flex-c-m stext-101 cl0 size-112 bg7 bor11 hov-btn3 p-lr-15 trans-04 m-b-10" type="submit">
+					<button style="display: inline-block;" class="flex-c-m stext-101 cl0 size-112 bg7 bor11 hov-btn3 p-lr-15 trans-04 m-b-10" type="submit" id="btn">
 						등록하기
 					</button>
 				</div>

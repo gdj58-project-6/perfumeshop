@@ -78,8 +78,8 @@ public class GoodsOneController extends HttpServlet {
 		this.questionService = new QuestionService();
 		this.reviewService = new ReviewService();
 		HashMap<String, Object> goodsOne = goodsService.goodsOne(goods);
-		ArrayList<HashMap<String, Object>> questionList = questionService.getGoodsQuestionList(currentPage, rowPerPage);
-		ArrayList<HashMap<String, Object>> reviewList = reviewService.getReviewListByCustomer(currentPage2, rowPerPage);
+		ArrayList<HashMap<String, Object>> questionList = questionService.getGoodsQuestionList(goodsCode, currentPage, rowPerPage);
+		ArrayList<HashMap<String, Object>> reviewList = reviewService.getReviewListByCustomer(goodsCode, currentPage2, rowPerPage);
 		int cnt = questionService.getQuestionCountByGoodsQuestion();
 		int count = reviewService.getReviewCount();
 		int lastPage = 0;
@@ -93,8 +93,7 @@ public class GoodsOneController extends HttpServlet {
 			// System.out.println(lastPage + "<--나누어 떨어지지 않을때");
 		}
 		
-		if(count % rowPerPage == 0) {
-			lastPage2 = count / rowPerPage;
+		if(count % rowPerPage == 0) {			lastPage2 = count / rowPerPage;
 		} else if(count % rowPerPage != 0) {
 			lastPage2 = (count / rowPerPage) + 1;
 		}

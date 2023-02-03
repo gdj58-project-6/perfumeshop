@@ -32,6 +32,14 @@
 		    	$("#btnCancel").click(function(){
 		    		$(location).attr("href", "${pageContext.request.contextPath}/admin/comment")
 		    	})
+		    	
+		    	$('#btn').click(function() {
+		    		if($("#memo").val().length == 0) {
+		    			alert("답변을 입력해주세요.")
+		    		}
+		    	})
+		    	
+		    	$('#memo').focus();
 		    });
 		</script>
 	</head>
@@ -42,7 +50,6 @@
 		</c:if>
 		<div align="center" class="po">
 			<h1>답글입력</h1>
-			${msg}
 			<br>
 			<form action="${pageContext.request.contextPath}/admin/addComment" method="post">
 				<table class="table table-bordered" style="width:1000px;">
@@ -61,7 +68,7 @@
 					<tr>
 						<td align="center" style="vertical-align:middle;">답변내용</td>
 						<td>
-							<textarea cols="100" rows="10" name="commentMemo"></textarea>
+							<textarea cols="100" rows="10" name="commentMemo" id="memo">${msg}</textarea>
 						</td>
 					</tr>
 				</table>
@@ -70,7 +77,7 @@
 					<button id="btnCancel" style="display: inline-block;" class="flex-c-m stext-101 cl0 size-112 bg7 bor11 hov-btn3 p-lr-15 trans-04 m-b-10" type="button">
 						취소하기
 					</button>
-					<button style="display: inline-block;" class="flex-c-m stext-101 cl0 size-112 bg7 bor11 hov-btn3 p-lr-15 trans-04 m-b-10" type="submit">
+					<button id="btn" style="display: inline-block;" class="flex-c-m stext-101 cl0 size-112 bg7 bor11 hov-btn3 p-lr-15 trans-04 m-b-10" type="submit">
 						등록하기
 					</button>
 				</div>

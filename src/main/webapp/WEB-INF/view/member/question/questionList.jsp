@@ -79,12 +79,14 @@
 								            		<li>A. ${m.goodsCommentMemo}</li>
 								            	</c:if>
 								            	<c:if test="${m.goodsCommentMemo == null}">
-								            		<button id="btnCancel" type="button">
-														삭제
-													</button>
-													<button type="submit">
+								            		<a style="color:black;" href="${pageContext.request.contextPath}/member/modifyGoodsQuestion?goodsQuestionCode=${m.goodsQuestionCode}">
+								            			<img src="${pageContext.request.contextPath}/images/icons/modify.png" style="width:25px;">
 														수정
-													</button>
+								            		</a>
+								            		<a style="color:black;" href="${pageContext.request.contextPath}/member/removeGoodsQuestion?goodsQuestionCode=${m.goodsQuestionCode}">
+								            			<img src="${pageContext.request.contextPath}/images/icons/delete.png" style="width:25px;">
+														삭제
+								            		</a>
 								            	</c:if>
 									            </ul>
 									        </li>
@@ -152,12 +154,14 @@
 								            		<li>A. ${m2.commentMemo}</li>
 								            	</c:if>
 								            	<c:if test="${m2.commentMemo == null}">
-								            		<button class="btm_image" id="deleteBtn" type="button">
-														<img src="${pageContext.request.contextPath}/images/icons/delete.png" style="width:25px;">
-													</button>
-													<button class="btm_image" id="modifyBtn" type="button">
-														<img src="${pageContext.request.contextPath}/images/icons/modify.png" style="width:25px;">
-													</button>
+								            		<a style="color:black;" href="${pageContext.request.contextPath}/member/modifyQuestion?questionCode=${m2.questionCode}">
+								            			<img src="${pageContext.request.contextPath}/images/icons/modify.png" style="width:25px;">
+														수정
+								            		</a>
+									            	<a style="color:black;" href="${pageContext.request.contextPath}/member/removeQuestion?questionCode=${m2.questionCode}">
+									            		<img src="${pageContext.request.contextPath}/images/icons/delete.png" style="width:25px;">
+														삭제
+									            	</a>
 								            	</c:if>
 									            </ul>
 									        </li>

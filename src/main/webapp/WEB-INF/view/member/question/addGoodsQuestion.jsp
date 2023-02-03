@@ -6,11 +6,16 @@
 		<style>
 			.po {
 				position : relative;
-				top : 150px;
+				top : 100px;
+			}
+			
+			table {
+				width : 1000px;
+				height : 500px;
 			}
 		</style>
 		<meta charset="UTF-8">
-		<title>addComment</title>
+		<title>addGoodsQuestion</title>
 		<link rel="icon" type="image/png" href="../images/icons/favicon.png"/>
 		<link rel="stylesheet" type="text/css" href="../vendor/bootstrap/css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="../fonts/font-awesome-4.7.0/css/font-awesome.min.css">
@@ -26,61 +31,43 @@
 		<link rel="stylesheet" type="text/css" href="../vendor/perfect-scrollbar/perfect-scrollbar.css">
 		<link rel="stylesheet" type="text/css" href="../css/util.css">
 		<link rel="stylesheet" type="text/css" href="../css/main.css">
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-		<script>
-		    $(document).ready(function(){
-		    	$("#btnCancel").click(function(){
-		    		$(location).attr("href", "${pageContext.request.contextPath}/admin/goodsComment")
-		    	})
-		    	
-		    	// 답변내용 빈칸 체크
-		    	$('#btn').click(function() {
-		    		if($('#memo').val().length == 0) {
-		    			alert("답변을 입력해주세요.");
-		    		}
-		    	})
-		    	
-		    	// 답변 내용에 포커스
-		    	$('#memo').focus();
-		    });
-		</script>
 	</head>
 	<body>
-		<!-- 직원 -->
-		<c:if test="${loginMember.getAuthCode() > 3}">
-			<jsp:include page="/inc/empMenu.jsp"></jsp:include>
+		<!-- 고객or비로그인 -->
+		<c:if test="${loginMember == null || loginMember.getAuthCode() < 4}">
+			<jsp:include page="/inc/menu.jsp"></jsp:include>
 		</c:if>
 		<div align="center" class="po">
-			<h1>답글입력</h1>
-			<form action="${pageContext.request.contextPath}/admin/addGoodsComment" method="post">
+			<h1>문의작성</h1>
+			<form action="${pageContext.request.contextPath}/member/addGoodsQuestion" method="post">
 				<table class="table table-bordered" style="width:1000px;">
 					<tr>
-						<td align="center">문의번호</td>
+						<td align="center">상품번호</td>
 						<td>
-							<input type="text" name="goodsQuestionCode" value="${code}" readonly="readonly">
+							<input type="text" name="goodsCode" value="${goodsCode}" readonly="readonly">
+						</td>
+					</tr>
+					<tr>
+						<td>문의분류</td>
+						<td>
+							<select class="js-select2" name="category" id="category">
+								<option value="">==선택==</option>
+								<option value="재입고">재입고</option>
+								<option value="배송">배송</option>
+								<option value="취소">취소</option>
+								<option value="기타">기타</option>
+							</select>
 						</td>
 					</tr>
 					<tr>
 						<td align="center" style="vertical-align:middle;">문의내용</td>
 						<td>
-							<textarea cols="100" rows="10" name="goodsQuestionMemo" readonly="readonly">${memo}</textarea>
-							
-						</td>
-					</tr>
-					<tr>
-						<td align="center" style="vertical-align:middle;">답변내용</td>
-						<td>
-							<textarea cols="100" rows="10" name="goodsCommentMemo" id="memo">${msg}</textarea>
+							<textarea cols="50" rows="5" name="goodsQuestionMemo">${msg}</textarea>
 						</td>
 					</tr>
 				</table>
 				<div>
-					<button id="btnCancel" style="display: inline-block;" class="flex-c-m stext-101 cl0 size-112 bg7 bor11 hov-btn3 p-lr-15 trans-04 m-b-10" type="button">
-						취소하기
-					</button>
-					<button id="btn" style="display: inline-block;" class="flex-c-m stext-101 cl0 size-112 bg7 bor11 hov-btn3 p-lr-15 trans-04 m-b-10" type="submit">
-						등록하기
-					</button>
+					<button type="submit">등록</button>
 				</div>
 			</form>
 		</div>
