@@ -58,27 +58,6 @@
 						</div>
 						<div class="flex-w flex-c-m m-tb-10">
 							<div class="rs1-select2 rs2-select2 bor8" style="width: 130px; margin: 10px;">
-								<!-- 목록수 변경 -->
-								<select name="rowPerPage" id="rowPerPage" class="js-select2">
-									<c:if test="${rowPerPage == 5}">
-										<option value="5" selected="selected">5</option>
-										<option value="10">10</option>
-										<option value="15">15</option>
-									</c:if>
-									<c:if test="${rowPerPage == 10}">
-										<option value="5">5</option>
-										<option value="10" selected="selected">10</option>
-										<option value="15">15</option>
-									</c:if>
-									<c:if test="${rowPerPage == 15}">
-										<option value="5">5</option>
-										<option value="10">10</option>
-										<option value="15" selected="selected">15</option>
-									</c:if>
-								</select>
-								<div class="dropDownSelect2"></div>
-							</div>
-							<div class="rs1-select2 rs2-select2 bor8" style="width: 130px; margin: 10px;">
 							<!-- 검색어 분류 -->
 							<select name="search" class="js-select2">
 								<c:if test="${empty search}">
@@ -105,115 +84,136 @@
 									<i class="zmdi zmdi-search"></i>
 								</button>
 							</div>
+							<div class="rs1-select2 rs2-select2 bor8" style="width: 130px; margin: 10px;">
+								<!-- 목록수 변경 -->
+								<select name="rowPerPage" id="rowPerPage" class="js-select2">
+									<c:if test="${rowPerPage == 5}">
+										<option value="5" selected="selected">5</option>
+										<option value="10">10</option>
+										<option value="15">15</option>
+									</c:if>
+									<c:if test="${rowPerPage == 10}">
+										<option value="5">5</option>
+										<option value="10" selected="selected">10</option>
+										<option value="15">15</option>
+									</c:if>
+									<c:if test="${rowPerPage == 15}">
+										<option value="5">5</option>
+										<option value="10">10</option>
+										<option value="15" selected="selected">15</option>
+									</c:if>
+								</select>
+								<div class="dropDownSelect2"></div>
+							</div>
 						</div>
 					</div>
 				</div>
-				<table class="tabale table-bordered">
+			</form>
+			<table class="tabale table-bordered">
+				<tr>
+					<th>문의번호</th>
+					<th>문의고객</th>
+					<th>상품명</th>
+					<th>분류
+						<select name="category" id="category">
+							<c:if test="${empty category}">
+								<option value="" selected="selected">분류</option>
+								<option value="재입고">재입고</option>
+								<option value="배송">배송</option>
+								<option value="취소">취소</option>
+								<option value="기타">기타</option>
+							</c:if>
+							<c:if test="${category eq '재입고'}">
+								<option value="">분류</option>
+								<option value="재입고" selected="selected">재입고</option>
+								<option value="배송">배송</option>
+								<option value="취소">취소</option>
+								<option value="기타">기타</option>
+							</c:if>
+							<c:if test="${category eq '배송'}">
+								<option value="">분류</option>
+								<option value="재입고">재입고</option>
+								<option value="배송" selected="selected">배송</option>
+								<option value="취소">취소</option>
+								<option value="기타">기타</option>
+							</c:if>
+							<c:if test="${category eq '취소'}">
+								<option value="">분류</option>
+								<option value="재입고">재입고</option>
+								<option value="배송">배송</option>
+								<option value="취소" selected="selected">취소</option>
+								<option value="기타">기타</option>
+							</c:if>
+							<c:if test="${category eq '기타'}">
+								<option value="">분류</option>
+								<option value="재입고">재입고</option>
+								<option value="배송">배송</option>
+								<option value="취소">취소</option>
+								<option value="기타" selected="selected">기타</option>
+							</c:if>
+						</select>
+					</th>
+					<th style="width:500px;">내용</th>
+					<th>문의일자</th>
+					<th>
+						<!-- 답변 전후 정렬 -->
+						<select name="sort" id="sort">
+							<c:if test="${empty sort}">
+								<option value="" selected="selected">정렬</option>
+								<option value="asc">답변전</option>
+								<option value="desc">답변완료</option>
+							</c:if>
+							<c:if test="${sort eq 'asc'}">
+								<option value="">정렬</option>
+								<option value="asc" selected="selected">답변전</option>
+								<option value="desc">답변완료</option>
+							</c:if>
+							<c:if test="${sort eq 'desc'}">
+								<option value="">정렬</option>
+								<option value="asc">답변전</option>
+								<option value="desc" selected="selected">답변완료</option>
+							</c:if>
+						</select>
+					</th>
+					<th>작성자일</th>
+				</tr>
+				<c:forEach var="m" items="${goodsList}">
 					<tr>
-						<th>문의번호</th>
-						<th>문의고객</th>
-						<th>상품명</th>
-						<th>
-							<select name="category" id="category">
-								<c:if test="${empty category}">
-									<option value="" selected="selected">분류</option>
-									<option value="재입고">재입고</option>
-									<option value="배송">배송</option>
-									<option value="취소">취소</option>
-									<option value="기타">기타</option>
-								</c:if>
-								<c:if test="${category eq '재입고'}">
-									<option value="">분류</option>
-									<option value="재입고" selected="selected">재입고</option>
-									<option value="배송">배송</option>
-									<option value="취소">취소</option>
-									<option value="기타">기타</option>
-								</c:if>
-								<c:if test="${category eq '배송'}">
-									<option value="">분류</option>
-									<option value="재입고">재입고</option>
-									<option value="배송" selected="selected">배송</option>
-									<option value="취소">취소</option>
-									<option value="기타">기타</option>
-								</c:if>
-								<c:if test="${category eq '취소'}">
-									<option value="">분류</option>
-									<option value="재입고">재입고</option>
-									<option value="배송">배송</option>
-									<option value="취소" selected="selected">취소</option>
-									<option value="기타">기타</option>
-								</c:if>
-								<c:if test="${category eq '기타'}">
-									<option value="">분류</option>
-									<option value="재입고">재입고</option>
-									<option value="배송">배송</option>
-									<option value="취소">취소</option>
-									<option value="기타" selected="selected">기타</option>
-								</c:if>
-							</select>
-						</th>
-						<th style="width:500px;">내용</th>
-						<th>문의일자</th>
-						<th>
-							<!-- 답변 전후 정렬 -->
-							<select name="sort" id="sort">
-								<c:if test="${empty sort}">
-									<option value="" selected="selected">정렬</option>
-									<option value="asc">답변전</option>
-									<option value="desc">답변완료</option>
-								</c:if>
-								<c:if test="${sort eq 'asc'}">
-									<option value="">정렬</option>
-									<option value="asc" selected="selected">답변전</option>
-									<option value="desc">답변완료</option>
-								</c:if>
-								<c:if test="${sort eq 'desc'}">
-									<option value="">정렬</option>
-									<option value="asc">답변전</option>
-									<option value="desc" selected="selected">답변완료</option>
-								</c:if>
-							</select>
-						</th>
-						<th>작성자일</th>
-					</tr>
-					<c:forEach var="m" items="${goodsList}">
-						<tr>
-							<td>${m.goodsQuestionCode}</td>
-							<td>${m.customerId}</td>
-							<td>${m.goodsName}</td>
-							<td>${m.category}</td>
-							<td>${m.goodsQuestionMemo}</td>
-							<td>${m.gqCreatedate}</td>
-							<td>
-								<c:if test="${m.goodsCommentMemo == null}">
-									<a href="${pageContext.request.contextPath}/admin/addGoodsComment?goodsQuestionCode=${m.goodsQuestionCode}&goodsQuestionMemo=${m.goodsQuestionMemo}">
-										답글작성
-									</a>
-								</c:if>
-								<c:if test="${m.goodsCommentMemo != null}">
-					         		<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#memberOne">답변</button>
-									<div class="modal" id="memberOne">
-										<div class="modal-dialog">
-											<div class="modal-content">
-												<div class="modal-header">
-													<h4 class="modal-title">답변내용</h4>
-													<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-												</div>
-												<div class="modal-body">
-													문의내용 : ${m.goodsQuestionMemo} <br>
-													답변내용 : ${m.goodsCommentMemo}
-												</div>
+						<td>${m.goodsQuestionCode}</td>
+						<td>${m.customerId}</td>
+						<td>${m.goodsName}</td>
+						<td>${m.category}</td>
+						<td>${m.goodsQuestionMemo}</td>
+						<td>${m.gqCreatedate}</td>
+						<td>
+							<c:if test="${m.goodsCommentMemo == null}">
+								<a href="${pageContext.request.contextPath}/admin/addGoodsComment?goodsQuestionCode=${m.goodsQuestionCode}&goodsQuestionMemo=${m.goodsQuestionMemo}">
+									답글작성
+								</a>
+							</c:if>
+							<c:if test="${m.goodsCommentMemo != null}">
+				         		<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#memberOne">답변</button>
+								<div class="modal" id="memberOne">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h4 class="modal-title">답변내용</h4>
+												<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+											</div>
+											<div class="modal-body">
+												문의내용 : ${m.goodsQuestionMemo} <br>
+												답변내용 : ${m.goodsCommentMemo}
 											</div>
 										</div>
 									</div>
-									<a href="${pageContext.request.contextPath}/admin/removeGoodsComment?goodsCommentCode=${m.goodsCommentCode}">삭제</a>
-								</c:if>
-							</td>
-							<td>${m.gqcCreatedate}</td>
-						</tr>				
-					</c:forEach>
-				</table>
-			</form>
+								</div>
+								<a href="${pageContext.request.contextPath}/admin/removeGoodsComment?goodsCommentCode=${m.goodsCommentCode}">삭제</a>
+							</c:if>
+						</td>
+						<td>${m.gqcCreatedate}</td>
+					</tr>				
+				</c:forEach>
+			</table>
 		</div>
 		<div>
 			<!-- 검색어x -->
