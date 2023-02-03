@@ -65,7 +65,7 @@
 					<tr>
 						<td align="center">주문번호</td>
 						<td>
-							<input type="text" name="orderCode" value="${orderCode}">
+							<input type="text" name="orderCode" value="${orderCode}" readonly="readonly">
 						</td>
 					</tr>
 					<tr>

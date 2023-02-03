@@ -31,6 +31,26 @@
 		<link rel="stylesheet" type="text/css" href="../vendor/perfect-scrollbar/perfect-scrollbar.css">
 		<link rel="stylesheet" type="text/css" href="../css/util.css">
 		<link rel="stylesheet" type="text/css" href="../css/main.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+		<script>
+		    $(document).ready(function(){
+		    	$("#btnCancel").click(function(){
+		    		$(location).attr("href", "${pageContext.request.contextPath}/member/goodsOne?goodsCode=${goodsCode}")
+		    	})
+		    	
+		    	$("#memo").focus();
+		    	
+		    	
+		    	
+		    	$("#btn").click(function() {
+		    		if($("#category option:selected").val() == '') {
+		    			alert("분류를 선택해주세요.");
+		    		} else if($("#memo").val().length == 0) {
+		    			alert("문의내용을 입력해주세요.");
+		    		}
+		    	})
+		    });
+		</script>
 	</head>
 	<body>
 		<!-- 고객or비로그인 -->
@@ -39,6 +59,7 @@
 		</c:if>
 		<div align="center" class="po">
 			<h1>문의작성</h1>
+			<br>
 			<form action="${pageContext.request.contextPath}/member/addGoodsQuestion" method="post">
 				<table class="table table-bordered" style="width:1000px;">
 					<tr>
@@ -62,12 +83,17 @@
 					<tr>
 						<td align="center" style="vertical-align:middle;">문의내용</td>
 						<td>
-							<textarea cols="50" rows="5" name="goodsQuestionMemo">${msg}</textarea>
+							<textarea cols="100" rows="20" name="goodsQuestionMemo" id="memo">${msg}</textarea>
 						</td>
 					</tr>
 				</table>
 				<div>
-					<button type="submit">등록</button>
+					<button id="btnCancel" style="display: inline-block;" class="flex-c-m stext-101 cl0 size-112 bg7 bor11 hov-btn3 p-lr-15 trans-04 m-b-10" type="button">
+						취소하기
+					</button>
+					<button style="display: inline-block;" class="flex-c-m stext-101 cl0 size-112 bg7 bor11 hov-btn3 p-lr-15 trans-04 m-b-10" type="submit" id="btn">
+						등록하기
+					</button>
 				</div>
 			</form>
 		</div>
