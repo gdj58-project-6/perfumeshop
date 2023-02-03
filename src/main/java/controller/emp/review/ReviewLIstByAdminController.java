@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import service.ReviewService;
 
-@WebServlet("/ReviewLIstByAdminController")
+@WebServlet("/admin/reviewList")
 public class ReviewLIstByAdminController extends HttpServlet {
 	private ReviewService reviewService;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

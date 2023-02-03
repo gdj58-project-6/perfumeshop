@@ -94,26 +94,32 @@
 											<c:if test="${loginMember.getAuthCode() == 4}">
 												<li><a href="${pageContext.request.contextPath}/admin/addNotice">공지사항 입력</a></li>
 												<li><a href="${pageContext.request.contextPath}/admin/orderList">주문 관리</a></li>
+												<li><a href="${pageContext.request.contextPath}/admin/reviewList">리뷰 관리</a></li>
 											</c:if>
 											<!-- 직원 5등급 대리 상품등록, 문의(답글,수정,삭제), 리뷰 삭제 -->
 											<c:if test="${loginMember.getAuthCode() == 5}">
 												<li><a href="${pageContext.request.contextPath}/admin/addNotice">공지사항 입력</a></li>
 												<li><a href="${pageContext.request.contextPath}/admin/orderList">주문 관리</a></li>
+												<li><a href="${pageContext.request.contextPath}/admin/reviewList">리뷰 관리</a></li>
 												<li><a href="${pageContext.request.contextPath}/admin/addGoods">상품등록</a></li>
 											</c:if>
 											<!-- 직원 6등급 과장 상품수정, 삭제, 상품등록, 문의(답글,수정,삭제), 리뷰 삭제  -->
 											<c:if test="${loginMember.getAuthCode() == 6}">
 												<li><a href="${pageContext.request.contextPath}/admin/addNotice">공지사항 입력</a></li>
 												<li><a href="${pageContext.request.contextPath}/admin/orderList">주문 관리</a></li>
+												<li><a href="${pageContext.request.contextPath}/admin/reviewList">리뷰 관리</a></li>
 												<li><a href="${pageContext.request.contextPath}/admin/addGoods">상품등록</a></li>
+												<li><a href="${pageContext.request.contextPath}admin/returnHistoryList">반품내역</a></li>
 											</c:if>
 											<!-- 직원 7등급 팀장 다 가능(고객,직원 등급수정 팀장만 가능), 상품등록, 문의(답글,수정,삭제), 리뷰 삭제 -->
 											<c:if test="${loginMember.getAuthCode() == 7}">
 												<li><a href="${pageContext.request.contextPath}/admin/addNotice">공지사항 입력</a></li>
+												<li><a href="${pageContext.request.contextPath}/admin/orderList">주문 관리</a></li>
+												<li><a href="${pageContext.request.contextPath}/admin/reviewList">리뷰 관리</a></li>
+												<li><a href="${pageContext.request.contextPath}/admin/addGoods">상품등록</a></li>
+												<li><a href="${pageContext.request.contextPath}/admin/returnHistoryList">반품내역</a></li>
 												<li><a href="${pageContext.request.contextPath}/admin/goodsComment">상품문의답변</a></li>
 												<li><a href="${pageContext.request.contextPath}/admin/comment">주문문의답변</a></li>
-												<li><a href="${pageContext.request.contextPath}/admin/orderList">주문 관리</a></li>
-												<li><a href="${pageContext.request.contextPath}/admin/addGoods">상품등록</a></li>
 												<li><a href="${pageContext.request.contextPath}/admin/modifyMember">고객레벨수정</a></li>
 												<li><a href="${pageContext.request.contextPath}/admin/modifyByAdmin">직원레벨수정</a></li>
 											</c:if>

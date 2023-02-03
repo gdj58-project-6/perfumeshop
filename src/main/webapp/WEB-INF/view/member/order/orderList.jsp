@@ -43,6 +43,7 @@
 		</style>
 	</head>
 	<body>
+		<jsp:include page="/inc/menu.jsp"></jsp:include>
 		<div class="container">
 			<div class="flex-w flex-sb-m">
 				<div class="flex-w flex-l-m filter-tope-group m-tb-10">
