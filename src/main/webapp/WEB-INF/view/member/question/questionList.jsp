@@ -58,7 +58,11 @@
 						<c:forEach var="m" items="${goodsQuestionList}">
 							<tr>
 								<td class="text-center">${m.goodsQuestionCode}</td>
-								<td class="text-center">${m.goodsName}</td>
+								<td class="text-center">
+									<a href="${pageContext.request.contextPath}/member/goodsOne?goodsCode=${m.goodsCode}">
+										${m.goodsName}
+									</a>
+								</td>
 								<td class="text-center">${m.category}</td>
 								<td class="text-center">
 									<div>
@@ -133,7 +137,11 @@
 						<c:forEach var="m2" items="${questionList}">
 							<tr>
 								<td class="text-center">${m2.questionCode}</td>
-								<td class="text-center">${m2.ordersCode}</td>
+								<td class="text-center">
+									<a href="${pageContext.request.contextPath}/member/orderOne?orderCode=${m2.ordersCode}">
+										${m2.ordersCode}
+									</a>
+								</td>
 								<td class="text-center">${m2.category}</td>
 								<td class="text-center">
 									<div>

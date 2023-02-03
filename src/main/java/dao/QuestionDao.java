@@ -248,6 +248,7 @@ public class QuestionDao {
 		// 쿼리문 작성
 		String sql = "SELECT gq.goods_question_code goodsQuestionCode"
 				+ "		, g.goods_code goodsCode"
+				+ "		, g.goods_name goodsName"
 				+ "		, gq.customer_id customerId"
 				+ "		, gq.category category"
 				+ "		, gq.goods_question_memo goodsQuestionMemo"
@@ -275,6 +276,7 @@ public class QuestionDao {
 			HashMap<String, Object> m = new HashMap<String, Object>();
 			m.put("goodsQuestionCode", rs.getInt("goodsQuestionCode"));
 			m.put("goodsCode", rs.getInt("goodsCode"));
+			m.put("goodsName", rs.getString("goodsName"));
 			m.put("customerId", rs.getString("customerId"));
 			m.put("category", rs.getString("category"));
 			m.put("goodsQuestionMemo", rs.getString("goodsQuestionMemo"));
