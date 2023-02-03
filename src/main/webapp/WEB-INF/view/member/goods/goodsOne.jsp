@@ -109,8 +109,8 @@
 								<div class="wrap-slick3-arrows flex-sb-m flex-w"></div>
 								<div class="slick3 gallery-lb">
 									<div class="item-slick3" data-thumb="../images/product-detail-01.jpg">
-										<div class="wrap-pic-w pos-relative hov-img">
-											<img src="${pageContext.request.contextPath}/upload/${goodsOne.fileName}"  width="200" height="400">
+										<div>
+											<img src="${pageContext.request.contextPath}/upload/${goodsOne.fileName}">
 										</div>
 									</div>
 								</div>
