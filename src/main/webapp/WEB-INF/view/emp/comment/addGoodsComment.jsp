@@ -3,12 +3,6 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<style>
-			.po {
-				position : relative;
-				top : 150px;
-			}
-		</style>
 		<meta charset="UTF-8">
 		<title>addComment</title>
 		<link rel="icon" type="image/png" href="../images/icons/favicon.png"/>
@@ -44,6 +38,12 @@
 		    	$('#memo').focus();
 		    });
 		</script>
+		<style>
+			.po {
+				position : relative;
+				top : 100px;
+			}
+		</style>
 	</head>
 	<body>
 		<!-- 직원 -->

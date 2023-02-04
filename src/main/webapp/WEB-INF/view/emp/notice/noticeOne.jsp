@@ -20,42 +20,83 @@
 		<link rel="stylesheet" type="text/css" href="../vendor/perfect-scrollbar/perfect-scrollbar.css">
 		<link rel="stylesheet" type="text/css" href="../css/util.css">
 		<link rel="stylesheet" type="text/css" href="../css/main.css">
-		
-		<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+		<script>
+		    $(document).ready(function(){
+		    	// 목록
+		    	$("#list").click(function(){
+		    		$(location).attr("href", "${pageContext.request.contextPath}/admin/notice")
+		    	})
+		    	
+		    	// 수정
+		    	$("#update").click(function(){
+		    		$(location).attr("href", "${pageContext.request.contextPath}/admin/modifyNotice?noticeCode=${n.noticeCode}")
+		    	})
+		    	
+		    	// 삭제
+		    	$("#delete").click(function(){
+		    		$(location).attr("href", "${pageContext.request.contextPath}/admin/removeNotice?noticeCode=${n.noticeCode}")
+		    	})
+		    });
+		</script>
 	</head>
 	<body>
-		<a href="${pageContext.request.contextPath}/home">홈</a>
-		<h1 class="text-center">공지사항</h1>
-		<table class="table table-bordered">
-			<tr>
-				<td>번호</td>
-				<td>${n.noticeCode}</td>
-			</tr>
-			<tr>
-				<td>제목</td>
-				<td>${n.noticeTitle}</td>
-			</tr>
-			<tr>
-				<td>내용</td>
-				<td>
-					<textarea cols="50" rows="5" readonly="readonly">${n.noticeContent}</textarea>
-				</td>
-			</tr>
-			<tr>
-				<td>작성자</td>
-				<td>${n.empId}</td>
-			</tr>
-			<tr>
-				<td>작성일</td>
-				<td>${n.createdate}</td>
-			</tr>
-		</table>
+		<c:if test="${loginMember.getAuthCode() < 4 || loginMember == null}">
+			<jsp:include page="/inc/menu.jsp"></jsp:include>
+		</c:if>
+		<!-- 직원 -->
 		<c:if test="${loginMember.getAuthCode() > 3}">
-			<div>
-				<a href="${pageContext.request.contextPath}/admin/modifyNotice?noticeCode=${n.noticeCode}">수정</a>
-				<a href="${pageContext.request.contextPath}/admin/removeNotice?noticeCode=${n.noticeCode}">삭제</a>
-			</div>
+			<jsp:include page="/inc/empMenu.jsp"></jsp:include>
 		</c:if>
 		
+		<div align="center" style="margin-top:80px;">
+			<h1 class="text-center">공지사항</h1>
+			<br>
+			<table class="table table-bordered" style="width:700px;">
+				<tr>
+					<td>번호</td>
+					<td>${n.noticeCode}</td>
+				</tr>
+				<tr>
+					<td>제목</td>
+					<td>${n.noticeTitle}</td>
+				</tr>
+				<tr>
+					<td>내용</td>
+					<td>
+						<textarea cols="50" rows="5" readonly="readonly">${n.noticeContent}</textarea>
+					</td>
+				</tr>
+				<tr>
+					<td>작성자</td>
+					<td>${n.empId}</td>
+				</tr>
+				<tr>
+					<td>작성일</td>
+					<td>${n.createdate}</td>
+				</tr>
+			</table>
+			<br>
+			<c:if test="${loginMember.getAuthCode() < 4 || loginMember == null}">
+				<div>
+					<button id="list" style="display: inline-block;" class="flex-c-m stext-101 cl0 size-112 bg7 bor11 hov-btn3 p-lr-15 trans-04 m-b-10" type="button">
+						목록
+					</button>
+				</div>
+			</c:if>
+			<c:if test="${loginMember.getAuthCode() > 3}">
+				<div>
+					<button id="list" style="display: inline-block;" class="flex-c-m stext-101 cl0 size-112 bg7 bor11 hov-btn3 p-lr-15 trans-04 m-b-10" type="button">
+						목록
+					</button>
+					<button id="update" style="display: inline-block;" class="flex-c-m stext-101 cl0 size-112 bg7 bor11 hov-btn3 p-lr-15 trans-04 m-b-10" type="submit">
+						수정
+					</button>
+					<button id="delete" style="display: inline-block;" class="flex-c-m stext-101 cl0 size-112 bg7 bor11 hov-btn3 p-lr-15 trans-04 m-b-10" type="submit">
+						삭제
+					</button>
+				</div>
+			</c:if>
+		</div>
 	</body>
 </html>
