@@ -34,6 +34,24 @@
 			        submenu.slideDown();
 			    }
 			});
+			
+			$('#delete').click(function() {
+				var deleteBtn = confirm("상품 문의사항을 삭제하시겠습니까?");
+				if(deleteBtn == true) {
+					alert("삭제완료");
+				} else {
+					return false;
+				}
+			});
+			
+			$('#delete2').click(function() {
+				var deleteBtn2 = confirm("주문 문의사항을 삭제하시겠습니까?");
+				if(deleteBtn2 == true) {
+					alert("삭제완료");
+				} else {
+					return false;
+				}
+			});
 		});
 		</script>
 	</head>
@@ -70,12 +88,12 @@
 									        <li class="menu">
 												<c:if test="${m.goodsCommentMemo != null}">
 													<a>
-														${m.goodsQuestionMemo}
+														[답변완료]${m.goodsQuestionMemo}
 													</a>	
 									        	</c:if>
 									       		<c:if test="${m.goodsCommentMemo == null}">
 									       			<a>
-														${m.goodsQuestionMemo}[답변처리중]
+														[답변처리중]${m.goodsQuestionMemo}
 													</a>
 									       		</c:if>
 									            <ul class="hide">
@@ -87,7 +105,7 @@
 								            			<img src="${pageContext.request.contextPath}/images/icons/modify.png" style="width:25px;">
 														수정
 								            		</a>
-								            		<a style="color:black;" href="${pageContext.request.contextPath}/member/removeGoodsQuestion?goodsQuestionCode=${m.goodsQuestionCode}">
+								            		<a id="delete" style="color:black;" href="${pageContext.request.contextPath}/member/removeGoodsQuestion?goodsQuestionCode=${m.goodsQuestionCode}">
 								            			<img src="${pageContext.request.contextPath}/images/icons/delete.png" style="width:25px;">
 														삭제
 								            		</a>
@@ -149,12 +167,12 @@
 									        <li class="menu">
 									        	<c:if test="${m2.commentMemo != null}">
 													<a>
-														${m2.questionMemo}
+														[답변완료]${m2.questionMemo}
 													</a>	
 									        	</c:if>
 									       		<c:if test="${m2.commentMemo == null}">
 									       			<a>
-														${m2.questionMemo}[답변처리중]
+														[답변처리중]${m2.questionMemo}
 													</a>
 									       		</c:if>
 									            <ul class="hide">
@@ -166,7 +184,7 @@
 								            			<img src="${pageContext.request.contextPath}/images/icons/modify.png" style="width:25px;">
 														수정
 								            		</a>
-									            	<a style="color:black;" href="${pageContext.request.contextPath}/member/removeQuestion?questionCode=${m2.questionCode}">
+									            	<a id="delete2" style="color:black;" href="${pageContext.request.contextPath}/member/removeQuestion?questionCode=${m2.questionCode}">
 									            		<img src="${pageContext.request.contextPath}/images/icons/delete.png" style="width:25px;">
 														삭제
 									            	</a>

@@ -32,11 +32,26 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 		<script>
 		    $(document).ready(function(){
-		    	$("#btnCancel").click(function(){
-		    		$(location).attr("href", "${pageContext.request.contextPath}/member/question")
-		    	})
 		    	
 		    	$('#memo').focus();
+		    	
+		    	$("#btnCancel").click(function(){
+		    		var update = confirm("변경사항이 저장되지 않을 수 있습니다.");
+		    		if(update == true) {
+		    			$(location).attr("href", "${pageContext.request.contextPath}/member/question");
+		    		} else {
+		    			return false;
+		    		}
+		    	});
+		    	
+		    	$('#update').click(function() {
+		    		var update = confirm("문의사항을 수정하시겠습니까?");
+		    		if(update == true) {
+		    			alert("수정완료");
+		    		} else {
+		    			return false;
+		    		}
+		    	});
 		    });
 		</script>
 	</head>
@@ -85,7 +100,7 @@
 					<button id="btnCancel" style="display: inline-block;" class="flex-c-m stext-101 cl0 size-112 bg7 bor11 hov-btn3 p-lr-15 trans-04 m-b-10" type="button">
 						취소하기
 					</button>
-					<button style="display: inline-block;" class="flex-c-m stext-101 cl0 size-112 bg7 bor11 hov-btn3 p-lr-15 trans-04 m-b-10" type="submit">
+					<button id="update" style="display: inline-block;" class="flex-c-m stext-101 cl0 size-112 bg7 bor11 hov-btn3 p-lr-15 trans-04 m-b-10" type="submit">
 						수정하기
 					</button>
 				</div>

@@ -166,14 +166,19 @@ public class ReviewDao {
 		ArrayList<HashMap<String, Object>> list = null;
 		// 쿼리문 작성
 		String sql = "SELECT"
-					+ "		r.order_code orderCode"
-					+ "		, g.goods_name goodsName"
-					+ "		, r.review_memo reviewMemo"
-					+ "		, r.createdate createdate"
-					+ "		FROM review r INNER JOIN goods g"
-					+ "		ON r.goods_code = g.goods_code"
-					+ "		WHERE g.goods_code = ?"
-					+ "		ORDER BY r.order_code DESC LIMIT ?,?";
+			+ "	r.order_code orderCode"
+			+ "	, c.customer_name customerName"
+			+ "	, g.goods_name goodsName"
+			+ "	, r.review_memo reviewMemo"
+			+ "	, r.createdate createdate"
+			+ "	FROM review r INNER JOIN goods g"
+			+ "	ON r.goods_code = g.goods_code"
+			+ "	INNER JOIN orders o"
+			+ "	ON r.order_code = o.order_code"
+			+ "	INNER JOIN customer c"
+			+ "	ON o.customer_id = c.customer_id"
+			+ "	WHERE g.goods_code = ?"
+			+ "	ORDER BY r.order_code DESC LIMIT ?, ?";
 		// 쿼리 객체 생성
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		// 쿼리 ?값 지정
@@ -186,6 +191,7 @@ public class ReviewDao {
 		while(rs.next()) {
 			HashMap<String, Object> m = new HashMap<String, Object>();
 			m.put("orderCode", rs.getInt("orderCode"));
+			m.put("customerName", rs.getString("customerName"));
 			m.put("goodsName", rs.getString("goodsName"));
 			m.put("reviewMemo", rs.getString("reviewMemo"));
 			m.put("createdate", rs.getString("createdate"));

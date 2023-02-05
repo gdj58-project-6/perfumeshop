@@ -34,21 +34,33 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 		<script>
 		    $(document).ready(function(){
-		    	$("#btnCancel").click(function(){
-		    		$(location).attr("href", "${pageContext.request.contextPath}/member/orderOne?orderCode=${orderCode}")
-		    	})
-		    	
+
 		    	$("#memo").focus();
 		    	
-		    	
+		    	$("#btnCancel").click(function(){
+		    		var cancel = confirm("변경사항이 저장되지 않을 수 있습니다.");
+		    		if(cancel == true) {
+		    			$(location).attr("href", "${pageContext.request.contextPath}/member/orderOne?orderCode=${orderCode}");
+		    		} else {
+		    			return false;
+		    		}
+		    		
+		    	});
 		    	
 		    	$("#btn").click(function() {
 		    		if($("#category option:selected").val() == '') {
 		    			alert("분류를 선택해주세요.");
 		    		} else if($("#memo").val().length == 0) {
 		    			alert("문의내용을 입력해주세요.");
+		    		} else {
+		    			var insert = confirm("문의사항을 등록하시겠습니까?");
+		    			if(insert == true) {
+		    				alert("문의사항 등록완료");
+		    			} else {
+		    				return false;
+		    			}
 		    		}
-		    	})
+		    	});
 		    });
 		</script>
 	</head>

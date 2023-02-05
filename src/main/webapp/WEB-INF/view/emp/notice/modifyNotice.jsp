@@ -36,7 +36,7 @@
 		    	});
 		    	
 		    	$('#update').click(function() {
-		    		var update = confirm("변경사항을 저장하시겠습니까?");
+		    		var update = confirm("공지를 수정하시겠습니까?");
 		    		if(update == true) {
 		    			alert("공지가 수정 되었습니다.");
 		    		} else {

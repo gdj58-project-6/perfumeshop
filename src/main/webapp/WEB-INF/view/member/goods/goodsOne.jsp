@@ -73,8 +73,19 @@
 					$('#goodsPayMent').submit();
 				})
 		    });
-				
 		</script>
+		<style>
+			 .menu a {
+	            cursor:pointer;
+	         }
+	         .menu .hide {
+	            display:none;
+	         }
+			
+			a {
+				text-decoration : none;
+			}
+		</style>
 	</head>
 	<body class="animsition">
 		
@@ -236,88 +247,103 @@
 	
 						<!-- tab2 상품문의 -->
 						<div class="tab-pane fade" id="information" role="tabpanel">
-							<div class="row">
-								<div class="col-sm-10 col-md-8 col-lg-6 m-lr-auto">
-									<a href="${pageContext.request.contextPath}/member/addGoodsQuestion?goodsCode=${goodsCode}">상품문의</a>
-									<table class="table table-bordered">
-										<tr>
-										   <th>문의번호</th>
-										   <th>작성자</th>
-										   <th>상품번호</th>
-										   <th>문의분류</th>
-										   <th>문의내용</th>
-										</tr>
-										<c:forEach var="m2" items="${questionList}">
-										   <tr>
-										      <td>${m2.goodsQuestionCode}</td>
-										      <td>${m2.customerId}</td>
-										      <td>${m2.goodsCode}</td>
-										      <td>${m2.category}</td>
-										      <td>
-										         <div>
-										          <ul>
-										              <li class="menu">
-										                  <a>${m2.goodsQuestionMemo}</a>
-										                  <ul class="hide">
-										                     <c:if test="${m2.goodsCommentMemo != null}">
-										                        <li>${m2.goodsCommentMemo}</li>
-										                     </c:if>
-										                     <c:if test="${m2.goodsCommentMemo == null}">
-										                        <li>답변대기중</li>
-										                     </c:if>
-										                  </ul>
-										              </li>
-										          </ul>
-										       </div>
-										      </td>
-										      <td>${m2.createdate}</td>
-										   </tr>
-										</c:forEach>
-									</table>
-									<!-- 문의글 페이징 -->
-									<div>
-									   <c:if test="${currentPage != 1}">
-									      <a href="${pageContext.request.contextPath}/member/goodsOne?currentPage=1&goodsCode=${goodsCode}">처음</a>
-									   </c:if>
-									   <c:if test="${currentPage > 1}">
-									      <a href="${pageContext.request.contextPath}/member/goodsOne?currentPage=${currentPage-1}&goodsCode=${goodsCode}">이전</a>
-									   </c:if>
-									   ${currentPage}
-									   <c:if test="${currentPage < lastPage}">
-									      <a href="${pageContext.request.contextPath}/member/goodsOne?currentPage=${currentPage+1}&goodsCode=${goodsCode}">다음</a>
-									   </c:if>
-									   <c:if test="${currentPage != lastPage}">
-									      <a href="${pageContext.request.contextPath}/member/goodsOne?currentPage=${lastPage}&goodsCode=${goodsCode}">마지막</a>
-									   </c:if>
+							<div class="bg0 p-t-2 p-b-2">
+								<div class="container">
+									<div class="row">
+										<div class="col-lg-12 m-lr-auto m-b-50">
+											<div class="wrap-table-shopping-cart">
+												<c:if test="${loginMember == null}">
+													<a class="btn btn-secondary" href="${pageContext.request.contextPath}/member/login">상품문의</a>
+												</c:if>
+												<c:if test="${loginMember != null}">
+													<a class="btn btn-secondary" href="${pageContext.request.contextPath}/member/addGoodsQuestion?goodsCode=${goodsCode}">상품문의</a>
+												</c:if>
+												<table class="table-shopping-cart">
+													<tr align="center">
+													   <th style="width: 150px;">문의번호</th>
+													   <th style="width: 150px;">작성자</th>
+													   <th style="width: 150px;">문의분류</th>
+													   <th style="width: 650px;">문의내용</th>
+													   <th style="width: 200px;">문의일자</th>
+													</tr>
+													<c:forEach var="m2" items="${questionList}">
+													   <tr>
+													      <td align="center" style="vertical-align:middle;">${m2.goodsQuestionCode}</td>
+													      <td align="center" style="vertical-align:middle;">${m2.customerId}</td>
+													      <td align="center" style="vertical-align:middle;">${m2.category}</td>
+													      <td>
+													         <div>
+													          <ul>
+													              <li class="menu">
+													                  <a>${m2.goodsQuestionMemo}</a>
+													                  <ul class="hide">
+													                     <c:if test="${m2.goodsCommentMemo != null}">
+													                        <li><span style="color:blue;">A.</span> ${m2.goodsCommentMemo}</li>
+													                        <li style="color:blue;">답변 등록일 : ${m2.gqcCreatedate}</li>
+													                     </c:if>
+													                     <c:if test="${m2.goodsCommentMemo == null}">
+													                        <li>답변대기중</li>
+													                     </c:if>
+													                  </ul>
+													              </li>
+													          </ul>
+													       </div>
+													      </td>
+													      <td align="center" style="vertical-align:middle;">${m2.gqCreatedate}</td>
+													   </tr>
+													</c:forEach>
+												</table>
+											</div>
+											<br>
+											<!-- 문의글 페이징 -->
+											<div align="center">
+											   <c:if test="${currentPage != 1}">
+											      <a href="${pageContext.request.contextPath}/member/goodsOne?currentPage=1&goodsCode=${goodsCode}">처음</a>
+											   </c:if>
+											   <c:if test="${currentPage > 1}">
+											      <a href="${pageContext.request.contextPath}/member/goodsOne?currentPage=${currentPage-1}&goodsCode=${goodsCode}">이전</a>
+											   </c:if>
+											   ${currentPage}
+											   <c:if test="${currentPage < lastPage}">
+											      <a href="${pageContext.request.contextPath}/member/goodsOne?currentPage=${currentPage+1}&goodsCode=${goodsCode}">다음</a>
+											   </c:if>
+											   <c:if test="${currentPage != lastPage}">
+											      <a href="${pageContext.request.contextPath}/member/goodsOne?currentPage=${lastPage}&goodsCode=${goodsCode}">마지막</a>
+											   </c:if>
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-	
 						<!-- tab3 상품리뷰 -->
 						<div class="tab-pane fade" id="reviews" role="tabpanel">
 							<div class="row">
 								<div class="col-sm-10 col-md-8 col-lg-6 m-lr-auto">
 									<div class="p-b-30 m-lr-15-sm">
 										<!-- Review -->
-										<table class="table table-bordered">
-											<tr>
-											   <th>주문번호</th>
-											   <th>상품명</th>
-											   <th>리뷰내용</th>
-											   <th>리뷰작성일</th>
-											</tr>
+										<div class="flex-w flex-t p-b-68">
 											<c:forEach var="m3" items="${reviewList}">
-											   <tr>
-											      <td>${m3.orderCode}</td>
-											      <td>${m3.goodsName}</td>
-											      <td>${m3.reviewMemo}</td>
-											      <td>${m3.createdate}</td>
-											   </tr>
+												<div class="size-207">
+													<div class="flex-w flex-sb-m p-b-17">
+														<span class="stext-102 cl6">
+															고객님 : ${m3.customerName}
+														</span>
+	
+														<span class="fs-18 cl11">
+															<i>${m3.createdate}</i>
+														</span>
+													</div>
+	
+													<p class="mtext-107 cl2 p-r-20">
+														${m3.reviewMemo}
+													</p>
+													<span class="stext-102 cl6">------------------------------------------------------------------------------------------------------</span>
+												</div>
 											</c:forEach>
-										</table>
+										</div>
 										<!-- 리뷰 페이징 -->
-										<div>
+										<div align="center">
 										   <c:if test="${currentPage2 != 1}">
 										      <a href="${pageContext.request.contextPath}/member/goodsOne?currentPage2=1&goodsCode=${goodsCode}">처음</a>
 										   </c:if>
