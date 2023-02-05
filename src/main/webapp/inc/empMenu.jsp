@@ -1,5 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+	<script>
+		// html dom 이 다 로딩된 후 실행된다.
+	    $(document).ready(function(){
+	    	$('#logout').click(function() {
+	    		var out = confirm("로그아웃 하시겠습니까?");
+	    		if(out == true) {
+	    			alert("로그아웃 되었습니다.");
+	    		} else {
+	    			return false;
+	    		}
+	    	});
+	    });
+	</script>
 <!-- Header -->
 <header>
 	<!-- Header desktop -->
@@ -111,8 +125,8 @@
 												<li><a href="${pageContext.request.contextPath}/admin/reviewList">리뷰 관리</a></li>
 												<li><a href="${pageContext.request.contextPath}/admin/addGoods">상품등록</a></li>
 												<li><a href="${pageContext.request.contextPath}/admin/returnHistoryList">반품내역</a></li>
-												<li><a href="${pageContext.request.contextPath}/admin/goodsComment">상품문의답변</a></li>
 												<li><a href="${pageContext.request.contextPath}/admin/comment">주문문의답변</a></li>
+												<li><a href="${pageContext.request.contextPath}/admin/goodsComment">상품문의답변</a></li>
 												<li><a href="${pageContext.request.contextPath}/admin/modifyMember">고객레벨수정</a></li>
 												<li><a href="${pageContext.request.contextPath}/admin/modifyByAdmin">직원레벨수정</a></li>
 											</c:if>
@@ -143,7 +157,7 @@
 					<!-- 로그아웃 아이콘 -->
 					<div class="flex-c-m h-full p-r-24">
 						<div class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11">
-							<a href="${pageContext.request.contextPath}/member/logout">
+							<a id="logout" href="${pageContext.request.contextPath}/member/logout">
 								<img src="${pageContext.request.contextPath}/images/icons/log-out.png" style="width:30px;">
 							</a>
 						</div>

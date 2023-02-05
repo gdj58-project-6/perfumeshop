@@ -30,6 +30,15 @@
 				$('#sort').change(function() {
 					$('#pageForm').submit();
 				})
+				
+				$('#deleteBtn').click(function() {
+					var result = confirm("답변을 삭제하시겠습니까?");
+					if(result == true) {
+						alert("답변삭제 완료");
+					} else {
+						return false;
+					}
+				});
 			});
 		</script>
 		<style>
@@ -223,7 +232,7 @@
 													</a>
 												</c:if>
 												<c:if test="${m.commentMemo != null}">
-													<a href="${pageContext.request.contextPath}/admin/removeComment?commentCode=${m.commentCode}">
+													<a id="deleteBtn" href="${pageContext.request.contextPath}/admin/removeComment?commentCode=${m.commentCode}">
 														<img src="${pageContext.request.contextPath}/images/icons/delete.png" style="width:30px;">
 													</a>
 												</c:if>

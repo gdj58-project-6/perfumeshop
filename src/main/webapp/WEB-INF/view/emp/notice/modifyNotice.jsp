@@ -23,12 +23,27 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 		<script>
 			$(document).ready(function() {
+				
+				$('#memo').focus();
+				
 				$("#btn").click(function(){
-		    		$(location).attr("href", "${pageContext.request.contextPath}/admin/noticeOne?noticeCode=${n.noticeCode}")
-		    	})
+					var result = confirm("변경사항이 저장되지 않을 수 있습니다.");
+					if(result == true) {
+						$(location).attr("href", "${pageContext.request.contextPath}/admin/noticeOne?noticeCode=${n.noticeCode}");
+					} else {
+						return false;
+					}
+		    	});
 		    	
-		    	$('#memo').focus();
-			})
+		    	$('#update').click(function() {
+		    		var update = confirm("변경사항을 저장하시겠습니까?");
+		    		if(update == true) {
+		    			alert("공지가 수정 되었습니다.");
+		    		} else {
+		    			return false;
+		    		}
+		    	});
+			});
 		</script>
 		<style>
 			.po {
@@ -49,7 +64,7 @@
 			<form action="${pageContext.request.contextPath}/admin/modifyNotice" method="post">
 				<input type="hidden" name="empId" value="${loginMember.getEmpId()}">
 				<input type="hidden" name="noticeCode" value="${n.noticeCode}">
-				<table class="table table-bordered" style="width:700px;">
+				<table class="table table-bordered" style="width:750px;">
 					<tr>
 						<td align="center" style="vertical-align:middle;">번호</td>
 						<td>${n.noticeCode}</td>
@@ -57,13 +72,13 @@
 					<tr>
 						<td align="center" style="vertical-align:middle;">제목</td>
 						<td>
-							<input type="text" name="noticeTitle" value="${n.noticeTitle}" id="memo">
+							<textarea cols="80" rows="1" name="noticeTitle" id="memo">${n.noticeTitle}</textarea>
 						</td>
 					</tr>
 					<tr>
 						<td align="center" style="vertical-align:middle;">내용</td>
 						<td>
-							<textarea cols="50" rows="5" name="noticeContent" id="memo">${n.noticeContent}</textarea>
+							<textarea cols="80" rows="5" name="noticeContent">${n.noticeContent}</textarea>
 						</td>
 					</tr>
 					<tr>

@@ -23,12 +23,28 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 		<script>
 			$(document).ready(function() {
+				
+				$('#memo').focus();
+				
 				$("#btn").click(function(){
-		    		$(location).attr("href", "${pageContext.request.contextPath}/admin/notice")
-		    	})
-		    	
-		    	$('#memo').focus();
-			})
+					var cancel = confirm("변경사항이 저장되지 않을 수 있습니다.");
+					if(cancel == true) {
+						$(location).attr("href", "${pageContext.request.contextPath}/admin/notice");
+					} else {
+						return false;
+					}
+		    	});
+				
+				$('#insert').click(function() {
+					var insert = confirm("공지를 입력하시겠습니까?");
+					if(insert == true) {
+						alert("공지입력 완료");
+					} else {
+						return false;
+					}
+				});
+				
+			});
 		</script>
 	</head>
 	<body>
@@ -43,7 +59,7 @@
 					<tr>
 						<td align="center" style="vertical-align:middle; style:100px;">제목</td>
 						<td>
-							<textarea cols="80" rows="1" name="noticeTitle" placeholder="제목을 입력해주세요...."></textarea>
+							<textarea cols="80" rows="1" name="noticeTitle" placeholder="제목을 입력해주세요...." id="memo"></textarea>
 						</td>
 					</tr>
 					<tr>
@@ -64,7 +80,7 @@
 					<button id="btn" style="display: inline-block;" class="flex-c-m stext-101 cl0 size-112 bg7 bor11 hov-btn3 p-lr-15 trans-04 m-b-10" type="button">
 						취소
 					</button>
-					<button style="display: inline-block;" class="flex-c-m stext-101 cl0 size-112 bg7 bor11 hov-btn3 p-lr-15 trans-04 m-b-10" type="submit">
+					<button id="insert" style="display: inline-block;" class="flex-c-m stext-101 cl0 size-112 bg7 bor11 hov-btn3 p-lr-15 trans-04 m-b-10" type="submit">
 						입력
 					</button>
 				</div>

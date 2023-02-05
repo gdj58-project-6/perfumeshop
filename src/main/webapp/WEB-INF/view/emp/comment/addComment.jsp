@@ -30,14 +30,26 @@
 		<script>
 		    $(document).ready(function(){
 		    	$("#btnCancel").click(function(){
-		    		$(location).attr("href", "${pageContext.request.contextPath}/admin/comment")
-		    	})
+		    		var cancel = confirm("변경사항이 저장되지 않을 수 있습니다.");
+		    		if(cancel == true) {
+		    			$(location).attr("href", "${pageContext.request.contextPath}/admin/comment");	
+		    		} else {
+		    			return false;
+		    		}
+		    	});
 		    	
 		    	$('#btn').click(function() {
 		    		if($("#memo").val().length == 0) {
 		    			alert("답변을 입력해주세요.")
+		    		} else {
+		    			var insert = confirm("답변을 등록하시겠습니까?");
+		    			if(insert == true) {
+		    				alert("답변등록 완료");
+		    			} else {
+		    				return false;
+		    			}
 		    		}
-		    	})
+		    	});
 		    	
 		    	$('#memo').focus();
 		    });

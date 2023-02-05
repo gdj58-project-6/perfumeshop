@@ -32,6 +32,15 @@
 				$('#sort').change(function() {
 					$('#goodsForm').submit();
 				});
+				
+				$('#deleteBtn').click(function() {
+					var result = confirm("답변을 삭제하시겠습니까?");
+					if(result == true) {
+						alert("답변삭제 완료");
+					} else {
+						return false;
+					}
+				});
 			});
 		</script>
 		<style>
@@ -243,7 +252,7 @@
 													</a>
 												</c:if>
 												<c:if test="${m.goodsCommentMemo != null}">
-													<a href="${pageContext.request.contextPath}/admin/removeGoodsComment?goodsCommentCode=${m.goodsCommentCode}">
+													<a id="deleteBtn" href="${pageContext.request.contextPath}/admin/removeGoodsComment?goodsCommentCode=${m.goodsCommentCode}">
 														<img src="${pageContext.request.contextPath}/images/icons/delete.png" style="width:30px;">
 													</a>
 												</c:if>

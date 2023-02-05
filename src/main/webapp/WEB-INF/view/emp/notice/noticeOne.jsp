@@ -35,7 +35,14 @@
 		    	
 		    	// 삭제
 		    	$("#delete").click(function(){
-		    		$(location).attr("href", "${pageContext.request.contextPath}/admin/removeNotice?noticeCode=${n.noticeCode}")
+		    		var result = confirm("공지를 삭제하시겠습니까?");
+		    		if(result == true) {
+		    			alert("공지가 삭제되었습니다.");
+		    			$(location).attr("href", "${pageContext.request.contextPath}/admin/removeNotice?noticeCode=${n.noticeCode}");
+		    		} else {
+		    			return false;
+		    		}
+		    		
 		    	})
 		    });
 		</script>
