@@ -27,7 +27,8 @@
 		</style>
 	</head>
 	<body>
-		<div class="container m-t-20">
+		<jsp:include page="/inc/homeMenu.jsp"></jsp:include>
+		<div class="container m-t-20 p-t-80">
 			<div class="row">
 				<div class="col-sm-10 col-lg-7 col-xl-12 m-lr-auto m-b-30">
 					<div class="bor10 p-lr-50 p-t-30 p-b-30 m-l-45 m-r-10 m-lr-0-xl p-lr-15-sm" style="text-align: center;">

@@ -57,6 +57,29 @@ public class ReturnHistoryService {
 		return row;
 	}
 	
+	// 반품 상세내역
+	public HashMap<String, Object> selectReturnHistoryOne(int orderCode) {
+		HashMap<String, Object> returnOne = null;
+		Connection conn = null;
+		
+		try {
+			conn = DBUtil.getConnection();
+			this.returnHistoryDao = new ReturnHistoryDao();
+			returnOne = returnHistoryDao.selectReturnHistoryOne(conn, orderCode);
+			conn.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return returnOne;
+	}
+	
 	// 관리자용 반품 리스트
 	public ArrayList<HashMap<String, Object>> getSelectReturnHistoryList(String sort, String returnState, String customerId) {
 		ArrayList<HashMap<String, Object>> list = null;

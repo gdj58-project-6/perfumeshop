@@ -10,8 +10,6 @@
 		<link rel="stylesheet" type="text/css" href="../fonts/font-awesome-4.7.0/css/font-awesome.min.css">
 		<link rel="stylesheet" type="text/css" href="../fonts/iconic/css/material-design-iconic-font.min.css">
 		<link rel="stylesheet" type="text/css" href="../fonts/linearicons-v1.0.0/icon-font.min.css">
-		<link rel="stylesheet" type="text/css" href="../vendor/animate/animate.css">
-		<link rel="stylesheet" type="text/css" href="../vendor/animsition/css/animsition.min.css">
 		<link rel="stylesheet" type="text/css" href="../vendor/select2/select2.min.css">
 		<link rel="stylesheet" type="text/css" href="../vendor/perfect-scrollbar/perfect-scrollbar.css">
 		<link rel="stylesheet" type="text/css" href="../css/util.css">
@@ -20,14 +18,11 @@
 			table, th, td {
 				text-align: center;
 			}
-			
-			a, a:hover, a:visited {
-				color: #234200;
-			}
 		</style>
 	</head>
-	<body class="animsition">
-		<div class="container">
+	<body>
+		<jsp:include page="/inc/empMenu.jsp"></jsp:include>
+		<div class="container p-t-80">
 			<div class="flex-w flex-sb-m">
 				<div class="flex-w flex-l-m filter-tope-group m-tb-10">
 				</div>
@@ -68,26 +63,17 @@
 									<th style="width: 100px;">주문코드</th>
 									<th style="width: 200px;">주문 고객</th>
 									<th style="width: 200px;">결제 금액</th>
-									<th style="width: 200px;">주문 상태</th>
-									<th style="width: 600px;">반품 사유</th>
 									<th style="width: 300px;">반픔 승인 여부</th>
 									<th style="width: 200px;">반품 신청 날짜</th>
 								</tr>
 								<c:forEach var="r" items="${list}">
 									<tr class="table_row">
-										<td>${r.orderCode}</td>
+										<td>
+											<a href="${pageContext.request.contextPath}/admin/returnHistoryOne?orderCode=${r.orderCode}">${r.orderCode}</a>
+										</td>
 										<td>${r.customerId}</td>
 										<td>${r.orderPrice}</td>
-										<td>${r.orderState}</td>
-										<td style="width: 500px;">${r.returnMemo}</td>
-										<td>
-											<c:if test="${r.returnState eq '승인전'}">					
-												${r.returnState}<a class="btn" href="${pageContext.request.contextPath}/admin/modifyReturnByOrder?orderCode=${r.orderCode}">반품승인</a>
-											</c:if>
-											<c:if test="${r.returnState eq '승인완료'}">					
-												${r.returnState}
-											</c:if>
-										</td>
+										<td>${r.returnState}</td>
 										<td>${r.createdate}</td>
 									</tr>
 								</c:forEach>

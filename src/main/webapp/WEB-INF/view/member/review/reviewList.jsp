@@ -19,11 +19,18 @@
 			$(document).ready(function() {
 				$('.flex-c-m').click(function() {
 					 let html = 
-						`<textarea name="reviewMemo" class="size-110 bor8 stext-102 cl2 p-lr-20 p-tb-10"></textarea>
+						`<textarea name="reviewMemo" id="reviewMemo" class="size-110 bor8 stext-102 cl2 p-lr-20 p-tb-10"></textarea>
 						<br>
-						<button type="submit" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">수정하기</button>`
+						<button type="submit" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5" id="reviewBtn2">수정하기</button>`
 					$(this.form).children('div').html(html);
 					// form안에 있는 div를 찾아서 html 넣는 코드
+				})
+				
+				$('#reviewBtn2').click(function() {
+					if($('reviewMemo').val() == '') {}
+					alert('리뷰내용을 작성해주세요');
+					
+					$('#reviewForm').submit();
 				})
 			})
 		</script>
@@ -34,6 +41,7 @@
 		</style>
 	</head>
 	<body>
+		<jsp:include page="/inc/homeMenu.jsp"></jsp:include>
 		<div class="container">
 			<div class="row m-lr-200">
 				<c:forEach var="r" items="${reviewList}">
@@ -62,12 +70,12 @@
 	
 							<div class="flex-w flex-t p-t-16" align="right">
 								<div class="flex-w size-217">
-									<form action="${pageContext.request.contextPath}/member/modifyReview" method="post">
+									<form action="${pageContext.request.contextPath}/member/modifyReview" method="post" id="reviewForm">
 										<span>
 											<input type="hidden" name="orderCode" value="${r.orderCode}">
 											<input type="hidden" name="goodsCode" value="${r.goodsCode}">
 										</span>
-										<div><button type="button" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">리뷰 수정</button></div>
+										<div><button type="button" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5" id="reviewBtn1">리뷰 수정</button></div>
 									</form>
 								</div>
 							</div>

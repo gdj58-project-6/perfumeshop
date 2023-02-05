@@ -17,34 +17,30 @@ public class counterController extends HttpServlet {
 	private CounterService counterService;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		this.counterService = new CounterService();
+	
+		// 오늘 총 접속자 수
+		int todayCount = counterService.getSelectTodayCount();
+		System.out.println("todayCount : " + todayCount);
+		request.setAttribute("todayCount", todayCount);
 		
-		try {
-			// 오늘 총 접속자 수
-			int todayCount = counterService.getSelectTodayCount();
-			System.out.println("todayCount : " + todayCount);
-			request.setAttribute("todayCount", todayCount);
-			
-			// 사이트가 생성된 후부터 누적 접속자 수
-			int totalCount = counterService.getSelectTotalCount();
-			System.out.println("totalCount : " + totalCount);
-			request.setAttribute("totalCount", totalCount);
-			
-			// 년도별 누적 접속자 수
-			ArrayList<SiteCounter> yearList = counterService.getSelectCountByYear();
-			request.setAttribute("yearList", yearList);
-			
-			// 월별 누적 접속자 수
-			ArrayList<SiteCounter> monthList = counterService.getSelectCountByMonth();
-			request.setAttribute("monthList", monthList);
-			
-			// 일자별 누적 접속자 수
-			ArrayList<SiteCounter> dayList = counterService.getSelectCountByDay();
-			request.setAttribute("dayList", dayList);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		// 사이트가 생성된 후부터 누적 접속자 수
+		int totalCount = counterService.getSelectTotalCount();
+		System.out.println("totalCount : " + totalCount);
+		request.setAttribute("totalCount", totalCount);
 		
-		request.getRequestDispatcher("/WEB-INF/view/counter.jsp").forward(request, response);
+		// 년도별 누적 접속자 수
+		ArrayList<SiteCounter> yearList = counterService.getSelectCountByYear();
+		request.setAttribute("yearList", yearList);
+		
+		// 월별 누적 접속자 수
+		ArrayList<SiteCounter> monthList = counterService.getSelectCountByMonth();
+		request.setAttribute("monthList", monthList);
+		
+		// 일자별 누적 접속자 수
+		ArrayList<SiteCounter> dayList = counterService.getSelectCountByDay();
+		request.setAttribute("dayList", dayList);
+		
+		request.getRequestDispatcher("/WEB-INF/view/emp/count/counter.jsp").forward(request, response);
 	}
 
 }

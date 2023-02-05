@@ -24,6 +24,51 @@ public class ReturnHistoryDao {
 		return row;
 	}
 	
+	// 반품 상세 내역
+	public HashMap<String, Object> selectReturnHistoryOne(Connection conn, int orderCode) throws Exception {
+		HashMap<String, Object> returnOne = new HashMap<String, Object>();
+		ResultSet rs = null;
+		String sql = "SELECT"
+					+ "	o.order_code orderCode "
+					+ ", og.goods_code goodsCode "
+					+ ", o.customer_id customerId "
+					+ ", o.order_price orderPrice "
+					+ ", ph.point point "
+					+ ", o.order_state orderState "
+					+ ", rh.return_memo returnMemo "
+					+ ", rh.return_state returnState "
+					+ ", rh.createdate createdate "
+					+ "FROM return_history rh INNER JOIN orders o "
+					+ "ON rh.order_code = o.order_code "
+					+ "INNER JOIN order_goods og "
+					+ "ON o.order_code = og.order_code "
+					+ "LEFT JOIN point_history ph "
+					+ "ON o.order_code = ph.order_code "
+					+ "WHERE o.order_code = ? "
+					+ "ORDER BY o.createdate ASC";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, orderCode);
+		
+		rs = stmt.executeQuery();
+		
+		if(rs.next()) {
+			returnOne.put("orderCode", rs.getInt("orderCode"));
+			returnOne.put("goodsCode", rs.getInt("goodsCode"));
+			returnOne.put("customerId", rs.getString("customerId"));
+			returnOne.put("orderPrice", rs.getInt("orderPrice"));
+			returnOne.put("point", rs.getInt("point"));
+			returnOne.put("orderState", rs.getString("orderState"));
+			returnOne.put("returnMemo", rs.getString("returnMemo"));
+			returnOne.put("returnState", rs.getString("returnState"));
+			returnOne.put("createdate", rs.getString("createdate"));
+		}
+		
+		stmt.close();
+		rs.close();
+		
+		return returnOne;
+	}
+	
 	// 관리자용 반품 리스트
 	public ArrayList<HashMap<String, Object>> selectReturnHistoryList(Connection conn, String sort, String returnState, String customerId) throws Exception {
 		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
@@ -38,8 +83,6 @@ public class ReturnHistoryDao {
 							+ "	o.order_code orderCode "
 							+ ", o.customer_id customerId "
 							+ ", o.order_price orderPrice "
-							+ ", o.order_state orderState "
-							+ ", rh.return_memo returnMemo "
 							+ ", rh.return_state returnState "
 							+ ", rh.createdate createdate "
 							+ "FROM return_history rh INNER JOIN orders o "
@@ -51,8 +94,6 @@ public class ReturnHistoryDao {
 							+ "	o.order_code orderCode "
 							+ ", o.customer_id customerId "
 							+ ", o.order_price orderPrice "
-							+ ", o.order_state orderState "
-							+ ", rh.return_memo returnMemo "
 							+ ", rh.return_state returnState "
 							+ ", rh.createdate createdate "
 							+ "FROM return_history rh INNER JOIN orders o "
@@ -68,8 +109,6 @@ public class ReturnHistoryDao {
 							+ "	o.order_code orderCode "
 							+ ", o.customer_id customerId "
 							+ ", o.order_price orderPrice "
-							+ ", o.order_state orderState "
-							+ ", rh.return_memo returnMemo "
 							+ ", rh.return_state returnState "
 							+ ", rh.createdate createdate "
 							+ "FROM return_history rh INNER JOIN orders o "
@@ -83,8 +122,6 @@ public class ReturnHistoryDao {
 							+ "	o.order_code orderCode "
 							+ ", o.customer_id customerId "
 							+ ", o.order_price orderPrice "
-							+ ", o.order_state orderState "
-							+ ", rh.return_memo returnMemo "
 							+ ", rh.return_state returnState "
 							+ ", rh.createdate createdate "
 							+ "FROM return_history rh INNER JOIN orders o "
@@ -103,8 +140,6 @@ public class ReturnHistoryDao {
 							+ "	o.order_code orderCode "
 							+ ", o.customer_id customerId "
 							+ ", o.order_price orderPrice "
-							+ ", o.order_state orderState "
-							+ ", rh.return_memo returnMemo "
 							+ ", rh.return_state returnState "
 							+ ", rh.createdate createdate "
 							+ "FROM return_history rh INNER JOIN orders o "
@@ -116,8 +151,6 @@ public class ReturnHistoryDao {
 							+ "	o.order_code orderCode "
 							+ ", o.customer_id customerId "
 							+ ", o.order_price orderPrice "
-							+ ", o.order_state orderState "
-							+ ", rh.return_memo returnMemo "
 							+ ", rh.return_state returnState "
 							+ ", rh.createdate createdate "
 							+ "FROM return_history rh INNER JOIN orders o "
@@ -133,8 +166,6 @@ public class ReturnHistoryDao {
 							+ "	o.order_code orderCode "
 							+ ", o.customer_id customerId "
 							+ ", o.order_price orderPrice "
-							+ ", o.order_state orderState "
-							+ ", rh.return_memo returnMemo "
 							+ ", rh.return_state returnState "
 							+ ", rh.createdate createdate "
 							+ "FROM return_history rh INNER JOIN orders o "
@@ -148,8 +179,6 @@ public class ReturnHistoryDao {
 							+ "	o.order_code orderCode "
 							+ ", o.customer_id customerId "
 							+ ", o.order_price orderPrice "
-							+ ", o.order_state orderState "
-							+ ", rh.return_memo returnMemo "
 							+ ", rh.return_state returnState "
 							+ ", rh.createdate createdate "
 							+ "FROM return_history rh INNER JOIN orders o "
@@ -170,8 +199,6 @@ public class ReturnHistoryDao {
 			m.put("orderCode", rs.getInt("orderCode"));
 			m.put("customerId", rs.getString("customerId"));
 			m.put("orderPrice", rs.getInt("orderPrice"));
-			m.put("orderState", rs.getString("orderState"));
-			m.put("returnMemo", rs.getString("returnMemo"));
 			m.put("returnState", rs.getString("returnState"));
 			m.put("createdate", rs.getString("createdate"));
 			list.add(m);

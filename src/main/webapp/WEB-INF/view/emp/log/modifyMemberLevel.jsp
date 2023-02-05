@@ -38,7 +38,8 @@
 		</style>
 	</head>
 	<body>
-		<div class="container">
+		<jsp:include page="/inc/homeEmpMenu.jsp"></jsp:include>
+		<div class="container p-t-80">
 			<div class="flex-w flex-sb-m">
 				<div class="flex-w flex-l-m filter-tope-group m-tb-10 text-center">
 					<h3>고객 등급 관리</h3>

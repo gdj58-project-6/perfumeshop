@@ -15,6 +15,20 @@
 		<link rel="stylesheet" type="text/css" href="../vendor/perfect-scrollbar/perfect-scrollbar.css">
 		<link rel="stylesheet" type="text/css" href="../css/util.css">
 		<link rel="stylesheet" type="text/css" href="../css/main.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+		<script>
+			$(document).ready(function() {
+				$('#returnBtn').click(function() {
+					if($($('#review').val() == '') {
+						alert('반품사유를 적어주세요');
+					}
+					
+					$('#returnForm').submit();
+				})
+				
+			})
+		</script>
+		
 		<style>
 			textarea {
 				resize: none;
@@ -26,14 +40,15 @@
 		</style>
 	</head>
 	<body>
-		<div class="container">
+		<jsp:include page="/inc/homeMenu.jsp"></jsp:include>
+		<div class="container p-t-80">
 			<div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
 				<a href="${pageContext.request.contextPath}/home" class="stext-109 cl8 hov-cl1 trans-04"> Home <i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i></a> 
 				<a href="javascript:window.history.back();" class="stext-109 cl8 hov-cl1 trans-04"> 주문내역 <i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i></a>
 				<span class="stext-109 cl4"> 환불신청 </span>
 			</div>
 		</div>
-		<form action="${pageContext.request.contextPath}/member/addReturnByOrder" method="post">
+		<form action="${pageContext.request.contextPath}/member/addReturnByOrder" method="post" id="returnForm">
 			<div class="container m-t-20">
 				<div class="row">
 					<div class="col-lg-10 m-lr-auto m-b-50">
@@ -75,7 +90,7 @@
 								</div>
 							</div>
 							<div align="right">
-								<button type="submit" class="flex-c-m stext-101 cl0 size-112 bg7 bor11 p-lr-15 trans-04 m-b-10">
+								<button type="submit" class="flex-c-m stext-101 cl0 size-112 bg7 bor11 p-lr-15 trans-04 m-b-10" id="returnBtn">
 									반품신청
 								</button>
 							</div>

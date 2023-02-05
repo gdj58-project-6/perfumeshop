@@ -135,7 +135,7 @@ public class CustomerDao {
 	public int addCustomer(Connection conn, Customer customer) throws Exception {
 		int row = 0;
 		String sql = "INSERT INTO customer(customer_id, customer_pw, customer_name, customer_phone, total_price, POINT, auth_code, createdate) "
-					+ "				VALUES(?, PASSWORD(?), ?, ?, DEFAULT(`total_price`), DEFAULT(`point`), DEFAULT(`auth_code`), CURDATE())";
+					+ "				VALUES(?, PASSWORD(?), ?, ?, DEFAULT(`total_price`), DEFAULT(`point`), DEFAULT(`auth_code`), NOW())";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, customer.getCustomerId());
 		stmt.setString(2, customer.getCustomerPw());

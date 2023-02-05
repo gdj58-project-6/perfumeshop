@@ -16,7 +16,8 @@
 		<link rel="stylesheet" type="text/css" href="../css/main.css">
 	</head>
 	<body>
-		<div class="bg0 p-t-2 p-b-2">
+		<jsp:include page="/inc/homeEmpMenu.jsp"></jsp:include>
+		<div class="bg0 p-t-80 p-b-2">
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-12 m-lr-auto m-b-50">

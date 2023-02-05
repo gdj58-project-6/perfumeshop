@@ -31,7 +31,8 @@
 		</style>
 	</head>
 	<body>
-		<div class="container">
+		<jsp:include page="/inc/homeMenu.jsp"></jsp:include>
+		<div class="container p-t-80">
 			<div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
 				<a href="${pageContext.request.contextPath}/home" class="stext-109 cl8 hov-cl1 trans-04"> Home <i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i></a>
 				<span class="stext-109 cl4"> Order </span>
@@ -88,7 +89,7 @@
 								</div>
 								<div class="size-209 p-r-18 p-r-0-sm w-full-ssm p-t-10">
 									<c:set var="phone" value="${customerOne.customerPhone}"></c:set>
-									<input class="size-111 bor8 stext-102 cl2 p-lr-20" value="${fn:substring(phone, 0, 3)}-${fn:substring(phone, 3, 7)}-${fn:substring(phone, 7, 11)}" readonly="readonly">
+									<input class="size-111 bor8 stext-102 cl2 p-lr-20" value="${fn:substring(phone, 0, 3)}-${fn:substring(phone, 3, 7)}-${fn:substring(phone, 7, 11)}" readonly>
 								</div>
 								<div class="size-208 w-full-ssm p-t-10">
 									<span class="stext-110 cl2"> Address </span>

@@ -38,7 +38,8 @@
 		</style>
 	</head>
 	<body>
-		<div class="container">
+		<jsp:include page="/inc/empMenu.jsp"></jsp:include>
+		<div class="container p-t-80">
 			<div class="flex-w flex-sb-m">
 				<div class="flex-w flex-l-m filter-tope-group m-tb-10">
 				</div>

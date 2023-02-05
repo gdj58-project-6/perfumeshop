@@ -15,10 +15,8 @@
 		<link rel="stylesheet" type="text/css" href="../css/main.css">
 	</head>
 	<body>
-		<c:if test="${loginMember == null}">
-			<jsp:include page="/inc/menu.jsp"></jsp:include>
-		</c:if>
-		<div class="container">
+		<jsp:include page="/inc/homeEmpMenu.jsp"></jsp:include>
+		<div class="container p-t-80">
 			<div class="bor10 m-t-50 p-t-43 p-b-40">
 				<form action="${pageContext.request.contextPath}/admin/addAdmin" method="post">
 					<div class="row">
@@ -74,5 +72,17 @@
 				</form>
 			</div>
 		</div>
+		<div class="btn-back-to-top" id="myBtn">
+			<span class="symbol-btn-back-to-top">
+				<i class="zmdi zmdi-chevron-up"></i>
+			</span>
+		</div>
+		<script src="../vendor/jquery/jquery-3.2.1.min.js"></script>
+		<script src="../vendor/animsition/js/animsition.min.js"></script>
+		<script src="../vendor/bootstrap/js/popper.js"></script>
+		<script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
+		<script src="../vendor/MagnificPopup/jquery.magnific-popup.min.js"></script>
+		<script src="../vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+		<script src="../js/main.js"></script>
 	</body>
 </html>

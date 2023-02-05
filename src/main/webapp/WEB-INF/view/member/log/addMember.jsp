@@ -13,14 +13,55 @@
 		<link rel="stylesheet" type="text/css" href="../fonts/linearicons-v1.0.0/icon-font.min.css">
 		<link rel="stylesheet" type="text/css" href="../css/util.css">
 		<link rel="stylesheet" type="text/css" href="../css/main.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+		<script>
+		$(document).ready(function() {
+			$('#addBtn').click(function() {
+				if($('#id').val() == ''
+				|| $('#name').val() == ''
+				|| $('#phone').val() == ''
+				|| $('#address').val() == ''
+				|| $('#pw').val() == ''
+				|| $('#pw2').val() == '') {
+					alert('입력되지않은 항목이 있습니다');
+					return;
+				}
+
+				if($('#id').val() < 3) {
+					alert('아이디는 3자이상 입력해주세요');
+					return;
+				}
+				
+				if($('#name').val() < 2) {
+					alert('이름은 2자이상 입력해주세요');
+					return;
+				}
+				
+				if($('#phone').val() != 11) {
+					alert('전화번호 11자리를 입력해주세요');
+					return;
+				}
+				
+				if($('#pw').val() < 4) {
+					alert('비밀번호는 4자이상 입력해주세요');
+					return;
+				}
+				
+				if($('#pw').val() != $('#pw').val()) {
+					alert('비밀번호를 확인해주세요');
+					return;
+				}
+				
+				$('#addForm').submit();
+			})
+		})
+		</script>
 	</head>
 	<body>
-		<c:if test="${loginMember == null}">
-			<jsp:include page="/inc/menu.jsp"></jsp:include>
-		</c:if>
+		<jsp:include page="/inc/menu.jsp"></jsp:include>
 		<div class="container">
 			<div class="bor10 m-t-50 p-t-43 p-b-40">
-				<form action="${pageContext.request.contextPath}/member/addMember" method="post">
+				<form action="${pageContext.request.contextPath}/member/addMember" method="post" id="addForm">
 					<div class="row">
 						<div class="col-5">
 							<div class="p-b-30 m-l-200">
@@ -29,7 +70,7 @@
 									<div class="col-sm-12 p-b-5">
 										<label class="stext-102 cl3" for="id">ID</label>
 										<div align="right">
-											<input class="size-111 bor8 stext-102 cl2 p-lr-20" id="id" type="text" name="id">
+											<input class="size-111 bor8 stext-102 cl2 p-lr-20" id="id" type="text" name="id" oninput="this.value = this.value.replaceAll(/[^a-z|A-Z|0-9]/g, '')">
 										</div>
 									</div>
 								</div>
@@ -37,14 +78,14 @@
 									<div class="col-12 p-b-5">
 										<label class="stext-102 cl3" for="name">Name</label>
 										<div align="right">
-											<input class="size-111 bor8 stext-102 cl2 p-lr-20" id="name" type="text" name="name">
+											<input class="size-111 bor8 stext-102 cl2 p-lr-20" id="name" type="text" name="name" oninput="this.value = this.value.replaceAll(/[^a-z|A-Z|ㄱ-ㅎ|가-힣]/g, '')">
 										</div>
 									</div>
 								</div>
 								<div class="row p-b-20">
 									<div class="col-12 p-b-5">
-										<label class="stext-102 cl3" for="email">Phone</label>
-										<input class="size-111 bor8 stext-102 cl2 p-lr-20" id="phone1" type="password" name="phone">
+										<label class="stext-102 cl3" for="phone">Phone</label>
+										<input class="size-111 bor8 stext-102 cl2 p-lr-20" id="phone" type="text" name="phone" placeholder="-는 제외해주세요" oninput="this.value = this.value.replaceAll(/\D/g, '')">
 									</div>
 								</div>
 								<div class="row p-b-20">
@@ -70,19 +111,19 @@
 									<div class="col-12 p-b-5">
 										<label class="stext-102 cl3" for="pw">Password</label>
 										<div align="right">
-											<input class="size-111 bor8 stext-102 cl2 p-lr-20" id="pw" type="password" name="pw">
+											<input class="size-111 bor8 stext-102 cl2 p-lr-20" id="pw" type="password" name="pw" oninput="this.value = this.value.replaceAll(/[^a-z|A-Z|0-9]/g, '')">
 										</div>
 									</div>
 								</div>
 								<div class="row p-b-20">
 									<div class="col-12 p-b-5">
 										<label class="stext-102 cl3" for="pw2">Check Password</label>
-										<input class="size-111 bor8 stext-102 cl2 p-lr-20" id="pw2" type="password">
+										<input class="size-111 bor8 stext-102 cl2 p-lr-20" id="pw2" type="password" oninput="this.value = this.value.replaceAll(/[^a-z|A-Z|0-9]/g, '')">
 									</div>
 								</div>
 								<div class="row p-b-10">
 									<div class="col-12 p-b-5">
-										<button class="flex-c-m stext-101 cl0 size-112 bg7 bor11 p-lr-15 trans-04 m-b-10">
+										<button type="button" class="flex-c-m stext-101 cl0 size-112 bg7 bor11 p-lr-15 trans-04 m-b-10" id="addBtn">
 											회원가입
 										</button>
 									</div>

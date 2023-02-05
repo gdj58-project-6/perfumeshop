@@ -15,6 +15,30 @@
 		<link rel="stylesheet" type="text/css" href="../css/util.css">
 		<link rel="stylesheet" type="text/css" href="../css/main.css">
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+		<script>
+			$(document).ready(function() {
+				$('#memberOneBtn').click(function() {
+					if($('#name').val() == ''
+						|| $('#phone').val() == ''
+						|| $('#pw').val() == '') {
+						alert('입력되지않은 항목이 있습니다');
+					}
+					
+					$('#memberOneForm').submit();
+					
+				})
+				$('#addressBtn').click(function() {
+					if($('#adress').val() == '') {
+						alert('주소를 입력해주세요');
+					}
+					
+					$('#addressForm').submit();
+				
+				})
+				
+			})
+		</script>
 	</head>
 	<body>
 		<jsp:include page="/inc/menu.jsp"></jsp:include>
@@ -79,11 +103,12 @@
 							</div>
 						</div>
 						<div class="text-center">
-							<a href="/perfumeshop/member/removeMember" class="stext-115 cl6 hov-cl1 trans-04 p-tb-8 p-lr-4">회원탈퇴</a> <a href="/perfumeshop/member/modifyMemberPw" class="stext-115 cl6 hov-cl1 trans-04 p-tb-8 p-lr-4">비밀번호수정</a>
+							<a href="/perfumeshop/member/removeMember" class="stext-115 cl6 hov-cl1 trans-04 p-tb-8 p-lr-4">회원탈퇴</a> 
+							<a href="/perfumeshop/member/modifyMemberPw" class="stext-115 cl6 hov-cl1 trans-04 p-tb-8 p-lr-4">비밀번호수정</a>
 						</div>
 						<div>
 							<!-- 회원정보 수정 modal -->
-							<form action="${pageContext.request.contextPath}/member/modifyMember" method="post">
+							<form action="${pageContext.request.contextPath}/member/modifyMember" method="post" id="memberOneForm">
 								<div class="modal p-t-200" id="memberOne">
 									<div class="modal-dialog">
 										<div class="modal-content">
@@ -92,17 +117,24 @@
 												<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 											</div>
 											<div class="modal-body">
-												<label class="stext-102 cl3" for="name">Name</label> <input class="size-111 bor8 stext-102 cl2 p-lr-20" type="text" id="name" name="name" value="${memberOne.customerName}"> <label class="stext-102 cl3" for="phone">Phone</label> <input class="size-111 bor8 stext-102 cl2 p-lr-20" type="text" id="phone" name="phone" value="${memberOne.customerPhone}"> <label class="stext-102 cl3" for="pw">Password</label> <input class="size-111 bor8 stext-102 cl2 p-lr-20" type="text" id="pw" name="pw">
+												<label class="stext-102 cl3" for="name">Name</label> 
+												<input class="size-111 bor8 stext-102 cl2 p-lr-20" type="text" id="name" name="name" value="${memberOne.customerName}"> 
+												
+												<label class="stext-102 cl3" for="phone">Phone</label> 
+												<input class="size-111 bor8 stext-102 cl2 p-lr-20" type="text" id="phone" name="phone" value="${memberOne.customerPhone}"> 
+												
+												<label class="stext-102 cl3" for="pw">Password</label> 
+												<input class="size-111 bor8 stext-102 cl2 p-lr-20" type="text" id="pw" name="pw">
 											</div>
 											<div class="modal-footer">
-												<button type="submit" class="flex-c-m stext-101 cl0 size-112 bg7 bor11 p-lr-15 trans-04 m-b-10">수정</button>
+												<button type="button" class="flex-c-m stext-101 cl0 size-112 bg7 bor11 p-lr-15 trans-04 m-b-10" id="memberOneBtn">수정</button>
 											</div>
 										</div>
 									</div>
 								</div>
 							</form>
 							<!-- 회원 주소 수정 modal -->
-							<form action="${pageContext.request.contextPath}/member/modifyMemberAddress" method="post">
+							<form action="${pageContext.request.contextPath}/member/modifyMemberAddress" method="post" id="addressForm">
 								<div class="modal p-t-200" id="address">
 									<div class="modal-dialog">
 										<div class="modal-content">
@@ -111,13 +143,14 @@
 												<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 											</div>
 											<div class="modal-body">
-												<label class="stext-102 cl3" for="address">Address</label> <input class="size-111 bor8 stext-102 cl2 p-lr-20" type="text" id="address2" name="address" value="${memberOne.address}">
+												<label class="stext-102 cl3" for="address">Address</label> 
+												<input class="size-111 bor8 stext-102 cl2 p-lr-20" type="text" id="address2" name="address" value="${memberOne.address}">
 											</div>
 											<div class="modal-footer">
 												<button type="button" onclick="address_search()" class="m-l-20 stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">주소검색</button>
 											</div>
 											<div class="modal-footer">
-												<button type="submit" class="flex-c-m stext-101 cl0 size-112 bg7 bor11 p-lr-15 trans-04 m-b-10">수정</button>
+												<button type="button" class="flex-c-m stext-101 cl0 size-112 bg7 bor11 p-lr-15 trans-04 m-b-10" id="addressBtn">수정</button>
 											</div>
 										</div>
 									</div>

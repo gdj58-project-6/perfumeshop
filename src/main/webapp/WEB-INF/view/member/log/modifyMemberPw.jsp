@@ -12,6 +12,25 @@
 		<link rel="stylesheet" type="text/css" href="../fonts/linearicons-v1.0.0/icon-font.min.css">
 		<link rel="stylesheet" type="text/css" href="../css/util.css">
 		<link rel="stylesheet" type="text/css" href="../css/main.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+		<script>
+			$(document).ready(function() {
+				$('#modifyPwBtn').click(function() {
+					if($('#changePw').val() == ''
+						|| $('#customerPw').val() == ''
+						|| $('#ckPw').val() == '') {
+						alert('입력되지않은 항목이 있습니다');
+					}
+					
+					if($('#customerPw').val() != $('#ckPw').val()) {
+						alret('비밀번호를 확인해주세요');
+					}
+					
+					$('#modifyPwForm').submit();
+				})
+				
+			})
+		</script>
 		<style>
 			.po {
 				position: relative;
@@ -26,20 +45,20 @@
 				<div class="po row">
 					<div class="col-sm-10 col-md-8 col-lg-10 m-lr-auto">
 						<div class="p-b-30 m-lr-15-sm">
-							<form action="${pageContext.request.contextPath}/member/modifyMemberPw" method="post">
+							<form action="${pageContext.request.contextPath}/member/modifyMemberPw" method="post" id="modifyPwForm">
 								<h5 class="mtext-108 cl2 p-b-7">비밀번호 수정</h5>
+								<div class="row p-b-25">
+									<div class="col-sm-6 p-b-5" >
+										<label class="stext-102 cl3" for="changePw">New Password</label>
+										<input class="size-111 bor8 stext-102 cl2 p-lr-20" id="changePw" type="password" name="changePw">
+									</div>
+								</div>
 								<div class="row p-b-25">
 									<div class="col-sm-6 p-b-5">
 										<label class="stext-102 cl3" for="customerPw">Password</label>
 										<div align="right">
 											<input class="size-111 bor8 stext-102 cl2 p-lr-20" type="text" id="customerPw" name="customerPw">
 										</div>
-									</div>
-								</div>
-								<div class="row p-b-25">
-									<div class="col-sm-6 p-b-5" >
-										<label class="stext-102 cl3" for="changePw">New Password</label>
-										<input class="size-111 bor8 stext-102 cl2 p-lr-20" id="changePw" type="password" name="changePw">
 									</div>
 								</div>
 								<div class="row p-b-25">
@@ -54,7 +73,7 @@
 									</div>
 								</div>
 								<div>
-									<button class="flex-c-m stext-101 cl0 size-112 bg7 bor11 p-lr-15 trans-04 m-b-10">
+									<button class="flex-c-m stext-101 cl0 size-112 bg7 bor11 p-lr-15 trans-04 m-b-10" id="modifyPwBtn">
 										수정
 									</button>
 								</div>

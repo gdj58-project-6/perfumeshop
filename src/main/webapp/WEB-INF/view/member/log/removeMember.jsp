@@ -12,6 +12,25 @@
 		<link rel="stylesheet" type="text/css" href="../fonts/linearicons-v1.0.0/icon-font.min.css">
 		<link rel="stylesheet" type="text/css" href="../css/util.css">
 		<link rel="stylesheet" type="text/css" href="../css/main.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+		<script>
+			$(document).ready(function() {
+				$('#removeBtn').click(function() {
+					if($($('#customerPw').val() == ''
+						|| $('#ckPw').val() == '') {
+						alert('입력되지않은 항목이 있습니다');
+					}
+					
+					if($('#customerPw').val() != $('#ckPw').val()) {
+						alret('비밀번호를 확인해주세요');
+					}
+					
+					$('#modifyPwForm').submit();
+				})
+				
+			})
+		</script>
+		
 		<style>
 			.po {
 				position: relative;
@@ -54,7 +73,7 @@
 									</div>
 								</div>
 								<div>
-									<button class="flex-c-m stext-101 cl0 size-112 bg7 bor11 p-lr-15 trans-04 m-b-10">
+									<button class="flex-c-m stext-101 cl0 size-112 bg7 bor11 p-lr-15 trans-04 m-b-10" id="removeBtn">
 										탈퇴
 									</button>
 								</div>

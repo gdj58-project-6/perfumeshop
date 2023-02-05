@@ -45,7 +45,7 @@
 		<c:if test="${loginMember == null || loginMember.getAuthCode() < 4}">
 			<jsp:include page="/inc/menu.jsp"></jsp:include>
 		</c:if>
-		<div align="center" class="po">
+		<div align="center" class="po p-t-80">
 			<h1>문의작성</h1>
 			${msg}
 			<br>
