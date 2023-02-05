@@ -49,12 +49,14 @@ public class GoodsCommentController extends HttpServlet {
 			// System.out.println(word + "<-- word 디버깅");
 		}
 		
+		// 문의분류
 		String category = "";
 		if(request.getParameter("category") != "") {
 			category = request.getParameter("category");
 			// System.out.println(category + "<-- category 디버깅");
 		}
 		
+		// 답변 전후
 		String sort = "";
 		if(request.getParameter("sort") != "") {
 			sort = request.getParameter("sort");

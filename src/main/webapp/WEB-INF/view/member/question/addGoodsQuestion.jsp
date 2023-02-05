@@ -15,7 +15,7 @@
 			}
 		</style>
 		<meta charset="UTF-8">
-		<title>orderQuestion</title>
+		<title>addGoodsQuestion</title>
 		<link rel="icon" type="image/png" href="../images/icons/favicon.png"/>
 		<link rel="stylesheet" type="text/css" href="../vendor/bootstrap/css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="../fonts/font-awesome-4.7.0/css/font-awesome.min.css">
@@ -35,7 +35,7 @@
 		<script>
 		    $(document).ready(function(){
 		    	$("#btnCancel").click(function(){
-		    		$(location).attr("href", "${pageContext.request.contextPath}/member/orderOne?orderCode=${orderCode}")
+		    		$(location).attr("href", "${pageContext.request.contextPath}/member/goodsOne?goodsCode=${goodsCode}")
 		    	})
 		    	
 		    	$("#memo").focus();
@@ -57,37 +57,36 @@
 		<c:if test="${loginMember == null || loginMember.getAuthCode() < 4}">
 			<jsp:include page="/inc/menu.jsp"></jsp:include>
 		</c:if>
-		<div align="center" class="po p-t-80">
+		<div align="center" class="po">
 			<h1>문의작성</h1>
 			<br>
-			<form action="${pageContext.request.contextPath}/member/addQuestion" method="post">
+			<form action="${pageContext.request.contextPath}/member/addGoodsQuestion" method="post">
 				<table class="table table-bordered" style="width:1000px;">
 					<tr>
-						<td align="center">주문번호</td>
+						<td align="center">상품번호</td>
 						<td>
-							<input type="text" name="orderCode" value="${orderCode}" readonly="readonly">
+							<input type="text" name="goodsCode" value="${goodsCode}" readonly="readonly">
 						</td>
 					</tr>
 					<tr>
-						<td align="center">분류</td>
+						<td>문의분류</td>
 						<td>
 							<select class="js-select2" name="category" id="category">
-								<option value="">분류</option>
-								<option value="할인">할인</option>
-								<option value="포인트">포인트</option>
-								<option value="구매">구매</option>
-								<option value="결제">결제</option>
+								<option value="">==선택==</option>
+								<option value="재입고">재입고</option>
+								<option value="배송">배송</option>
+								<option value="취소">취소</option>
+								<option value="기타">기타</option>
 							</select>
 						</td>
 					</tr>
 					<tr>
 						<td align="center" style="vertical-align:middle;">문의내용</td>
 						<td>
-							<textarea cols="100" rows="20" name="questionMemo" id="memo">${msg}</textarea>
+							<textarea cols="100" rows="20" name="goodsQuestionMemo" id="memo">${msg}</textarea>
 						</td>
 					</tr>
 				</table>
-				<br>
 				<div>
 					<button id="btnCancel" style="display: inline-block;" class="flex-c-m stext-101 cl0 size-112 bg7 bor11 hov-btn3 p-lr-15 trans-04 m-b-10" type="button">
 						취소하기

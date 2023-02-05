@@ -161,7 +161,7 @@ public class ReviewDao {
 	}
 	
 	// goodsOne에 리뷰 출력
-	public ArrayList<HashMap<String, Object>> selectReviewByCustomer(Connection conn, int beginRow, int rowPerPage) throws Exception {
+	public ArrayList<HashMap<String, Object>> selectReviewByCustomer(Connection conn, int goodsCode, int beginRow, int rowPerPage) throws Exception {
 		// 객체 생성
 		ArrayList<HashMap<String, Object>> list = null;
 		// 쿼리문 작성
@@ -172,12 +172,14 @@ public class ReviewDao {
 					+ "		, r.createdate createdate"
 					+ "		FROM review r INNER JOIN goods g"
 					+ "		ON r.goods_code = g.goods_code"
+					+ "		WHERE g.goods_code = ?"
 					+ "		ORDER BY r.order_code DESC LIMIT ?,?";
 		// 쿼리 객체 생성
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		// 쿼리 ?값 지정
-		stmt.setInt(1, beginRow);
-		stmt.setInt(2, rowPerPage);
+		stmt.setInt(1, goodsCode);
+		stmt.setInt(2, beginRow);
+		stmt.setInt(3, rowPerPage);
 		// 쿼리 실행
 		ResultSet rs = stmt.executeQuery();
 		list = new ArrayList<HashMap<String, Object>>();

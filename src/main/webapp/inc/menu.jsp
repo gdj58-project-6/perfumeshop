@@ -17,16 +17,12 @@
 							Help & FAQs
 						</a>
 					</c:if>
-					
-
 					<a href="${pageContext.request.contextPath}/member/memberOne" class="flex-c-m trans-04 p-lr-25">
 						My Account
 					</a>
-
 					<a href="https://map.naver.com/v5/search/%EB%8C%80%EB%A5%AD3%EC%B0%A8/place/18980791?placePath=%3Fentry=pll%26from=nx%26fromNxList=true&c=15,0,0,0,dh" class="flex-c-m trans-04 p-lr-25">
 						GDJ
 					</a>
-
 					<a href="#" class="flex-c-m trans-04 p-lr-25">
 						KRW
 					</a>

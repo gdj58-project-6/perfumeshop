@@ -1778,6 +1778,7 @@ public class CommentDao {
 		while(rs.next()) {
 			HashMap<String, Object> m = new HashMap<String, Object>();
 			m.put("goodsQuestionCode", rs.getInt("goodsQuestionCode"));
+			m.put("goodsCode", rs.getInt("goodsCode"));
 			m.put("customerId", rs.getString("customerId"));
 			m.put("category", rs.getString("category"));
 			m.put("goodsQuestionMemo", rs.getString("goodsQuestionMemo"));

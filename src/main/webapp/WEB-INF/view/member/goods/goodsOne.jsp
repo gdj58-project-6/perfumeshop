@@ -20,7 +20,8 @@
 		<link rel="stylesheet" type="text/css" href="../vendor/perfect-scrollbar/perfect-scrollbar.css">
 		<link rel="stylesheet" type="text/css" href="../css/util.css">
 		<link rel="stylesheet" type="text/css" href="../css/main.css">
-		
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  	    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 		<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
 		<script type="text/javascript">
 		    $(document).ready(function() {
@@ -228,7 +229,7 @@
 						<div class="tab-pane fade show active" id="description" role="tabpanel">
 							<div class="how-pos2 p-lr-15-md">
 								<p class="stext-102 cl6">
-									Aenean sit amet gravida nisi. Nam fermentum est felis, quis feugiat nunc fringilla sit amet. Ut in blandit ipsum. Quisque luctus dui at ante aliquet, in hendrerit lectus interdum. Morbi elementum sapien rhoncus pretium maximus. Nulla lectus enim, cursus et elementum sed, sodales vitae eros. Ut ex quam, porta consequat interdum in, faucibus eu velit. Quisque rhoncus ex ac libero varius molestie. Aenean tempor sit amet orci nec iaculis. Cras sit amet nulla libero. Curabitur dignissim, nunc nec laoreet consequat, purus nunc porta lacus, vel efficitur tellus augue in ipsum. Cras in arcu sed metus rutrum iaculis. Nulla non tempor erat. Duis in egestas nunc.
+									${goodsOne.goodsMemo}
 								</p>
 							</div>
 						</div>
@@ -237,57 +238,58 @@
 						<div class="tab-pane fade" id="information" role="tabpanel">
 							<div class="row">
 								<div class="col-sm-10 col-md-8 col-lg-6 m-lr-auto">
-									<ul class="p-lr-28 p-lr-15-sm">
-										<li class="flex-w flex-t p-b-7">
-											<span class="stext-102 cl3 size-205">
-												Weight
-											</span>
-	
-											<span class="stext-102 cl6 size-206">
-												0.79 kg
-											</span>
-										</li>
-	
-										<li class="flex-w flex-t p-b-7">
-											<span class="stext-102 cl3 size-205">
-												Dimensions
-											</span>
-	
-											<span class="stext-102 cl6 size-206">
-												110 x 33 x 100 cm
-											</span>
-										</li>
-	
-										<li class="flex-w flex-t p-b-7">
-											<span class="stext-102 cl3 size-205">
-												Materials
-											</span>
-	
-											<span class="stext-102 cl6 size-206">
-												60% cotton
-											</span>
-										</li>
-	
-										<li class="flex-w flex-t p-b-7">
-											<span class="stext-102 cl3 size-205">
-												Color
-											</span>
-	
-											<span class="stext-102 cl6 size-206">
-												Black, Blue, Grey, Green, Red, White
-											</span>
-										</li>
-	
-										<li class="flex-w flex-t p-b-7">
-											<span class="stext-102 cl3 size-205">
-												Size
-											</span>
-	
-											<span class="stext-102 cl6 size-206">
-												XL, L, M, S
-											</span>
-										</li>
-									</ul>
+									<a href="${pageContext.request.contextPath}/member/addGoodsQuestion?goodsCode=${goodsCode}">상품문의</a>
+									<table class="table table-bordered">
+										<tr>
+										   <th>문의번호</th>
+										   <th>작성자</th>
+										   <th>상품번호</th>
+										   <th>문의분류</th>
+										   <th>문의내용</th>
+										</tr>
+										<c:forEach var="m2" items="${questionList}">
+										   <tr>
+										      <td>${m2.goodsQuestionCode}</td>
+										      <td>${m2.customerId}</td>
+										      <td>${m2.goodsCode}</td>
+										      <td>${m2.category}</td>
+										      <td>
+										         <div>
+										          <ul>
+										              <li class="menu">
+										                  <a>${m2.goodsQuestionMemo}</a>
+										                  <ul class="hide">
+										                     <c:if test="${m2.goodsCommentMemo != null}">
+										                        <li>${m2.goodsCommentMemo}</li>
+										                     </c:if>
+										                     <c:if test="${m2.goodsCommentMemo == null}">
+										                        <li>답변대기중</li>
+										                     </c:if>
+										                  </ul>
+										              </li>
+										          </ul>
+										       </div>
+										      </td>
+										      <td>${m2.createdate}</td>
+										   </tr>
+										</c:forEach>
+									</table>
+									<!-- 문의글 페이징 -->
+									<div>
+									   <c:if test="${currentPage != 1}">
+									      <a href="${pageContext.request.contextPath}/member/goodsOne?currentPage=1&goodsCode=${goodsCode}">처음</a>
+									   </c:if>
+									   <c:if test="${currentPage > 1}">
+									      <a href="${pageContext.request.contextPath}/member/goodsOne?currentPage=${currentPage-1}&goodsCode=${goodsCode}">이전</a>
+									   </c:if>
+									   ${currentPage}
+									   <c:if test="${currentPage < lastPage}">
+									      <a href="${pageContext.request.contextPath}/member/goodsOne?currentPage=${currentPage+1}&goodsCode=${goodsCode}">다음</a>
+									   </c:if>
+									   <c:if test="${currentPage != lastPage}">
+									      <a href="${pageContext.request.contextPath}/member/goodsOne?currentPage=${lastPage}&goodsCode=${goodsCode}">마지막</a>
+									   </c:if>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -298,78 +300,38 @@
 								<div class="col-sm-10 col-md-8 col-lg-6 m-lr-auto">
 									<div class="p-b-30 m-lr-15-sm">
 										<!-- Review -->
-										<div class="flex-w flex-t p-b-68">
-											<div class="wrap-pic-s size-109 bor0 of-hidden m-r-18 m-t-6">
-												<img src="../images/avatar-01.jpg" alt="AVATAR">
-											</div>
-	
-											<div class="size-207">
-												<div class="flex-w flex-sb-m p-b-17">
-													<span class="mtext-107 cl2 p-r-20">
-														Ariana Grande
-													</span>
-	
-													<span class="fs-18 cl11">
-														<i class="zmdi zmdi-star"></i>
-														<i class="zmdi zmdi-star"></i>
-														<i class="zmdi zmdi-star"></i>
-														<i class="zmdi zmdi-star"></i>
-														<i class="zmdi zmdi-star-half"></i>
-													</span>
-												</div>
-	
-												<p class="stext-102 cl6">
-													Quod autem in homine praestantissimum atque optimum est, id deseruit. Apud ceteros autem philosophos
-												</p>
-											</div>
+										<table class="table table-bordered">
+											<tr>
+											   <th>주문번호</th>
+											   <th>상품명</th>
+											   <th>리뷰내용</th>
+											   <th>리뷰작성일</th>
+											</tr>
+											<c:forEach var="m3" items="${reviewList}">
+											   <tr>
+											      <td>${m3.orderCode}</td>
+											      <td>${m3.goodsName}</td>
+											      <td>${m3.reviewMemo}</td>
+											      <td>${m3.createdate}</td>
+											   </tr>
+											</c:forEach>
+										</table>
+										<!-- 리뷰 페이징 -->
+										<div>
+										   <c:if test="${currentPage2 != 1}">
+										      <a href="${pageContext.request.contextPath}/member/goodsOne?currentPage2=1&goodsCode=${goodsCode}">처음</a>
+										   </c:if>
+										   <c:if test="${currentPage2 > 1}">
+										      <a href="${pageContext.request.contextPath}/member/goodsOne?currentPage2=${currentPage2-1}&goodsCode=${goodsCode}">이전</a>
+										   </c:if>
+										   ${currentPage2}
+										   <c:if test="${currentPage2 < lastPage2}">
+										      <a href="${pageContext.request.contextPath}/member/goodsOne?currentPage2=${currentPage2+1}&goodsCode=${goodsCode}">다음</a>
+										   </c:if>
+										   <c:if test="${currentPage2 != lastPage2}">
+										      <a href="${pageContext.request.contextPath}/member/goodsOne?currentPage2=${lastPage2}&goodsCode=${goodsCode}">마지막</a>
+										   </c:if>
 										</div>
-										
-										<!-- Add review -->
-										<form class="w-full">
-											<h5 class="mtext-108 cl2 p-b-7">
-												Add a review
-											</h5>
-	
-											<p class="stext-102 cl6">
-												Your email address will not be published. Required fields are marked *
-											</p>
-	
-											<div class="flex-w flex-m p-t-50 p-b-23">
-												<span class="stext-102 cl3 m-r-16">
-													Your Rating
-												</span>
-	
-												<span class="wrap-rating fs-18 cl11 pointer">
-													<i class="item-rating pointer zmdi zmdi-star-outline"></i>
-													<i class="item-rating pointer zmdi zmdi-star-outline"></i>
-													<i class="item-rating pointer zmdi zmdi-star-outline"></i>
-													<i class="item-rating pointer zmdi zmdi-star-outline"></i>
-													<i class="item-rating pointer zmdi zmdi-star-outline"></i>
-													<input class="dis-none" type="number" name="rating">
-												</span>
-											</div>
-	
-											<div class="row p-b-25">
-												<div class="col-12 p-b-5">
-													<label class="stext-102 cl3" for="review">Your review</label>
-													<textarea class="size-110 bor8 stext-102 cl2 p-lr-20 p-tb-10" id="review" name="review"></textarea>
-												</div>
-	
-												<div class="col-sm-6 p-b-5">
-													<label class="stext-102 cl3" for="name">Name</label>
-													<input class="size-111 bor8 stext-102 cl2 p-lr-20" id="name" type="text" name="name">
-												</div>
-	
-												<div class="col-sm-6 p-b-5">
-													<label class="stext-102 cl3" for="email">Email</label>
-													<input class="size-111 bor8 stext-102 cl2 p-lr-20" id="email" type="text" name="email">
-												</div>
-											</div>
-	
-											<button class="flex-c-m stext-101 cl0 size-112 bg7 bor11 hov-btn3 p-lr-15 trans-04 m-b-10">
-												Submit
-											</button>
-										</form>
 									</div>
 								</div>
 							</div>

@@ -60,7 +60,7 @@ public class AddNoticeController extends HttpServlet {
 		this.noticeService = new NoticeService();
 		int addNotice = noticeService.addInsertNotice(notice);
 		
-		response.sendRedirect(request.getContextPath() + "/home");
+		response.sendRedirect(request.getContextPath() + "/admin/notice");
 	}
 
 }

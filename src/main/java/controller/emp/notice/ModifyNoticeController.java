@@ -55,13 +55,15 @@ public class ModifyNoticeController extends HttpServlet {
 		// System.out.println(empId);
 		// System.out.println(noticeTitle);
 		// System.out.println(noticeContent);
-		// 메서드 호출에 필요한 매개값
+		
 		if(request.getParameter("noticeTitle") == null || request.getParameter("noticeTitle").equals("")
 			|| request.getParameter("noticeContent") == null || request.getParameter("noticeContent").equals("")) {
 			String msg = URLEncoder.encode("공지제목or공지내용을 입력해주세요.", "utf-8");
 			response.sendRedirect(request.getContextPath() + "/admin/modifyNotice?msg="+msg+"&noticeCode="+noticeCode);
 			return;
 		}
+		
+		// 메서드 호출에 필요한 매개값
 		Notice n = new Notice();
 		n.setEmpId(empId);
 		n.setNoticeTitle(noticeTitle);

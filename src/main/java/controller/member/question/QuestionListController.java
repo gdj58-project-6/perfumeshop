@@ -45,7 +45,7 @@ public class QuestionListController extends HttpServlet {
 		
 		// 메서드 호출
 		this.questionService = new QuestionService();
-		ArrayList<HashMap<String, Object>> list = questionService.getGoodsQuestionList(currentPage, rowPerPage);
+		ArrayList<HashMap<String, Object>> list = questionService.getGoodsQuestion(customerId, currentPage2, rowPerPage);
 		ArrayList<HashMap<String, Object>> questionList = questionService.getQuestionList(customerId, currentPage2, rowPerPage);
 		int cnt = questionService.getQuestionCountByGoodsQuestionModify();
 		int count = questionService.getCountByQuestionList();

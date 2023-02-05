@@ -27,6 +27,6 @@ public class RemoveNoticeController extends HttpServlet {
 			System.out.println("삭제실패");
 		}
 		
-		response.sendRedirect(request.getContextPath() + "/home");
+		response.sendRedirect(request.getContextPath() + "/admin/notice");
 	}
 }

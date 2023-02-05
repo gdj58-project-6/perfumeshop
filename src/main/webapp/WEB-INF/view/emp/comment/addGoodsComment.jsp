@@ -3,12 +3,6 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<style>
-			.po {
-				position : relative;
-				top : 150px;
-			}
-		</style>
 		<meta charset="UTF-8">
 		<title>addComment</title>
 		<link rel="icon" type="image/png" href="../images/icons/favicon.png"/>
@@ -32,8 +26,24 @@
 		    	$("#btnCancel").click(function(){
 		    		$(location).attr("href", "${pageContext.request.contextPath}/admin/goodsComment")
 		    	})
+		    	
+		    	// 답변내용 빈칸 체크
+		    	$('#btn').click(function() {
+		    		if($('#memo').val().length == 0) {
+		    			alert("답변을 입력해주세요.");
+		    		}
+		    	})
+		    	
+		    	// 답변 내용에 포커스
+		    	$('#memo').focus();
 		    });
 		</script>
+		<style>
+			.po {
+				position : relative;
+				top : 100px;
+			}
+		</style>
 	</head>
 	<body>
 		<!-- 직원 -->
@@ -42,7 +52,6 @@
 		</c:if>
 		<div align="center" class="po">
 			<h1>답글입력</h1>
-			${msg}
 			<form action="${pageContext.request.contextPath}/admin/addGoodsComment" method="post">
 				<table class="table table-bordered" style="width:1000px;">
 					<tr>
@@ -61,7 +70,7 @@
 					<tr>
 						<td align="center" style="vertical-align:middle;">답변내용</td>
 						<td>
-							<textarea cols="100" rows="10" name="goodsCommentMemo"></textarea>
+							<textarea cols="100" rows="10" name="goodsCommentMemo" id="memo">${msg}</textarea>
 						</td>
 					</tr>
 				</table>
@@ -69,7 +78,7 @@
 					<button id="btnCancel" style="display: inline-block;" class="flex-c-m stext-101 cl0 size-112 bg7 bor11 hov-btn3 p-lr-15 trans-04 m-b-10" type="button">
 						취소하기
 					</button>
-					<button style="display: inline-block;" class="flex-c-m stext-101 cl0 size-112 bg7 bor11 hov-btn3 p-lr-15 trans-04 m-b-10" type="submit">
+					<button id="btn" style="display: inline-block;" class="flex-c-m stext-101 cl0 size-112 bg7 bor11 hov-btn3 p-lr-15 trans-04 m-b-10" type="submit">
 						등록하기
 					</button>
 				</div>
