@@ -129,6 +129,7 @@ public class GoodsDao {
 					+ ", g.goods_price goodsPrice"
 					+ ", g.goods_memo goodsMemo"
 					+ ", g.goods_category goodsCategory"
+					+ ", g.soldout soldout"
 					+ ", gi.filename fileName"
 					+ " FROM goods g INNER JOIN goods_img gi "
 					+ " ON g.goods_code = gi.goods_code "
@@ -144,6 +145,7 @@ public class GoodsDao {
 			goodsOne.put("goodsPrice", rs.getInt("goodsPrice"));
 			goodsOne.put("goodsMemo", rs.getString("goodsMemo"));
 			goodsOne.put("goodsCategory", rs.getString("goodsCategory"));
+			goodsOne.put("soldout", rs.getString("soldout"));
 			goodsOne.put("fileName", rs.getString("fileName"));
 		}
 		
@@ -305,6 +307,7 @@ public class GoodsDao {
 							+ ", g.goods_category goodsCategory"
 							+ ", g.goods_memo goodsMemo"
 							+ ", g.hit hit"
+							+ ", g.soldout soldout"
 							+ ", g.createdate createdate"
 							+ ", gi.filename fileName"
 							+ " FROM goods g INNER JOIN goods_img gi "
@@ -322,6 +325,7 @@ public class GoodsDao {
 							+ ", g.goods_category goodsCategory"
 							+ ", g.goods_memo goodsMemo"
 							+ ", g.hit hit"
+							+ ", g.soldout soldout"
 							+ ", g.createdate createdate"
 							+ ", gi.filename fileName"
 							+ " FROM goods g INNER JOIN goods_img gi "
@@ -343,6 +347,7 @@ public class GoodsDao {
 							+ ", g.goods_category goodsCategory"
 							+ ", g.goods_memo goodsMemo"
 							+ ", g.hit hit"
+							+ ", g.soldout soldout"
 							+ ", g.createdate createdate"
 							+ ", gi.filename fileName"
 							+ " FROM goods g INNER JOIN goods_img gi "
@@ -362,6 +367,7 @@ public class GoodsDao {
 							+ ", g.goods_category goodsCategory"
 							+ ", g.goods_memo goodsMemo"
 							+ ", g.hit hit"
+							+ ", g.soldout soldout"
 							+ ", g.createdate createdate"
 							+ ", gi.filename fileName"
 							+ " FROM goods g INNER JOIN goods_img gi "
@@ -387,6 +393,7 @@ public class GoodsDao {
 							+ ", g.goods_category goodsCategory"
 							+ ", g.goods_memo goodsMemo"
 							+ ", g.hit hit"
+							+ ", g.soldout soldout"
 							+ ", g.createdate createdate"
 							+ ", gi.filename fileName"
 							+ " FROM goods g INNER JOIN goods_img gi "
@@ -404,6 +411,7 @@ public class GoodsDao {
 							+ ", g.goods_category goodsCategory"
 							+ ", g.goods_memo goodsMemo"
 							+ ", g.hit hit"
+							+ ", g.soldout soldout"
 							+ ", g.createdate createdate"
 							+ ", gi.filename fileName"
 							+ " FROM goods g INNER JOIN goods_img gi "
@@ -425,6 +433,7 @@ public class GoodsDao {
 							+ ", g.goods_category goodsCategory"
 							+ ", g.goods_memo goodsMemo"
 							+ ", g.hit hit"
+							+ ", g.soldout soldout"
 							+ ", g.createdate createdate"
 							+ ", gi.filename fileName"
 							+ " FROM goods g INNER JOIN goods_img gi "
@@ -444,6 +453,7 @@ public class GoodsDao {
 							+ ", g.goods_category goodsCategory"
 							+ ", g.goods_memo goodsMemo"
 							+ ", g.hit hit"
+							+ ", g.soldout soldout"
 							+ ", g.createdate createdate"
 							+ ", gi.filename fileName"
 							+ " FROM goods g INNER JOIN goods_img gi "
@@ -469,6 +479,7 @@ public class GoodsDao {
 							+ ", g.goods_category goodsCategory"
 							+ ", g.goods_memo goodsMemo"
 							+ ", g.hit hit"
+							+ ", g.soldout soldout"
 							+ ", g.createdate createdate"
 							+ ", gi.filename fileName"
 							+ " FROM goods g INNER JOIN goods_img gi "
@@ -486,6 +497,7 @@ public class GoodsDao {
 							+ ", g.goods_category goodsCategory"
 							+ ", g.goods_memo goodsMemo"
 							+ ", g.hit hit"
+							+ ", g.soldout soldout"
 							+ ", g.createdate createdate"
 							+ ", gi.filename fileName"
 							+ " FROM goods g INNER JOIN goods_img gi "
@@ -507,6 +519,7 @@ public class GoodsDao {
 							+ ", g.goods_category goodsCategory"
 							+ ", g.goods_memo goodsMemo"
 							+ ", g.hit hit"
+							+ ", g.soldout soldout"
 							+ ", g.createdate createdate"
 							+ ", gi.filename fileName"
 							+ " FROM goods g INNER JOIN goods_img gi "
@@ -526,6 +539,7 @@ public class GoodsDao {
 							+ ", g.goods_category goodsCategory"
 							+ ", g.goods_memo goodsMemo"
 							+ ", g.hit hit"
+							+ ", g.soldout soldout"
 							+ ", g.createdate createdate"
 							+ ", gi.filename fileName"
 							+ " FROM goods g INNER JOIN goods_img gi "
@@ -551,6 +565,7 @@ public class GoodsDao {
 							+ ", g.goods_category goodsCategory"
 							+ ", g.goods_memo goodsMemo"
 							+ ", g.hit hit"
+							+ ", g.soldout soldout"
 							+ ", g.createdate createdate"
 							+ ", gi.filename fileName"
 							+ " FROM goods g INNER JOIN goods_img gi "
@@ -568,6 +583,7 @@ public class GoodsDao {
 							+ ", g.goods_category goodsCategory"
 							+ ", g.goods_memo goodsMemo"
 							+ ", g.hit hit"
+							+ ", g.soldout soldout"
 							+ ", g.createdate createdate"
 							+ ", gi.filename fileName"
 							+ " FROM goods g INNER JOIN goods_img gi "
@@ -589,6 +605,7 @@ public class GoodsDao {
 							+ ", g.goods_category goodsCategory"
 							+ ", g.goods_memo goodsMemo"
 							+ ", g.hit hit"
+							+ ", g.soldout soldout"
 							+ ", g.createdate createdate"
 							+ ", gi.filename fileName"
 							+ " FROM goods g INNER JOIN goods_img gi "
@@ -608,6 +625,7 @@ public class GoodsDao {
 							+ ", g.goods_category goodsCategory"
 							+ ", g.goods_memo goodsMemo"
 							+ ", g.hit hit"
+							+ ", g.soldout soldout"
 							+ ", g.createdate createdate"
 							+ ", gi.filename fileName"
 							+ " FROM goods g INNER JOIN goods_img gi "
@@ -633,6 +651,7 @@ public class GoodsDao {
 			m.put("goodsCategory", rs.getString("goodsCategory"));
 			m.put("goodsMemo", rs.getString("goodsMemo"));
 			m.put("hit", rs.getInt("hit"));
+			m.put("soldout", rs.getString("soldout"));
 			m.put("createdate", rs.getString("createdate"));
 			m.put("fileName", rs.getString("fileName"));
 			list.add(m);

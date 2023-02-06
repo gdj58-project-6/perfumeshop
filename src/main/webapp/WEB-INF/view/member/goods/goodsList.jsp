@@ -148,9 +148,16 @@
 						<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
 							<!-- Block2 -->
 							<div class="block2">
-								<div class="block2-pic hov-img">
-									<img src="${pageContext.request.contextPath}/upload/${m.fileName}" width="200" height="200">
-								</div>
+								<c:if test="${m.soldout == 'N'}">
+									<div class="block2-pic hov-img">
+										<img src="${pageContext.request.contextPath}/upload/${m.fileName}" width="200" height="200">
+									</div>
+								</c:if>
+								<c:if test="${m.soldout == 'Y'}">
+									<div class="block2-pic hov-img">
+										<img src="${pageContext.request.contextPath}/upload/soldout.jpg" width="200" height="200">
+									</div>
+								</c:if>								
 								<div class="block2-txt flex-w flex-t p-t-14">
 									<div class="block2-txt-child1 flex-col-l ">
 										<a href="${pageContext.request.contextPath}/member/goodsOne?goodsCode=${m.goodsCode}" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">

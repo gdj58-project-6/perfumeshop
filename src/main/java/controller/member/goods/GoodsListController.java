@@ -59,7 +59,7 @@ public class GoodsListController extends HttpServlet {
 		int lastPage = (int)Math.ceil((double)count / (double)rowPerPage);
 	
 		ArrayList<HashMap<String, Object>> list = goodsService.getGoodsList(currentPage, rowPerPage, word, sort, category);
-		// System.out.println(list);
+		System.out.println(list);
 		request.setAttribute("list", list);
 		request.setAttribute("currentPage", currentPage);
 		request.setAttribute("rowPerPage", rowPerPage);

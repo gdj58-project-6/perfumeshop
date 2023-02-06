@@ -121,9 +121,18 @@
 								<div class="wrap-slick3-arrows flex-sb-m flex-w"></div>
 								<div class="slick3 gallery-lb">
 									<div class="item-slick3" data-thumb="../images/product-detail-01.jpg">
-										<div>
-											<img src="${pageContext.request.contextPath}/upload/${goodsOne.fileName}">
-										</div>
+										<c:if test="${goodsOne.soldout == 'N'}">
+											<div>
+												<img src="${pageContext.request.contextPath}/upload/${goodsOne.fileName}">
+											</div>
+										</c:if>	
+									</div>
+									<div class="item-slick3" data-thumb="../images/product-detail-01.jpg">
+										<c:if test="${goodsOne.soldout == 'Y'}">
+											<div>
+												<img src="${pageContext.request.contextPath}/upload/soldout.jpg">
+											</div>
+										</c:if>	
 									</div>
 								</div>
 							</div>
