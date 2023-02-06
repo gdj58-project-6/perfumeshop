@@ -74,6 +74,12 @@
 								</p>
 							</div>
 							<div class="size-208 w-full-ssm p-t-10">
+								<span class="stext-110 cl2"> Total Price </span>
+							</div>
+							<div class="size-209 p-r-18 p-r-0-sm w-full-ssm p-t-10">
+								<p class="m-l-15 stext-111 cl6 p-t-2">${memberOne.totalPrice}</p>
+							</div>
+							<div class="size-208 w-full-ssm p-t-10">
 								<span class="stext-110 cl2"> Point </span>
 							</div>
 							<div class="size-209 p-r-18 p-r-0-sm w-full-ssm p-t-10">
