@@ -37,7 +37,7 @@
 					return;
 				}
 				
-				if($('#phone').val() != 11) {
+				if($('#phone').val() < 11) {
 					alert('전화번호 11자리를 입력해주세요');
 					return;
 				}

@@ -47,14 +47,14 @@
 												<div class="col-sm-6 p-b-5">
 													<label class="stext-102 cl3" for="customerId">ID</label>
 													<div align="right">
-														<input class="size-111 bor8 stext-102 cl2 p-lr-20" id="customerId" type="text" name="customerId">
+														<input class="size-111 bor8 stext-102 cl2 p-lr-20" id="customerId" type="text" name="customerId" value="goodee">
 													</div>
 												</div>
 											</div>
 											<div class="row p-b-25">
 												<div class="col-sm-6 p-b-5" >
 													<label class="stext-102 cl3" for="email">Password</label>
-													<input class="size-111 bor8 stext-102 cl2 p-lr-20" id="customerPw" type="password" name="customerPw">
+													<input class="size-111 bor8 stext-102 cl2 p-lr-20" id="customerPw" type="password" name="customerPw" value="1234">
 												</div>
 											</div>
 											<div class="row p-b-25">
