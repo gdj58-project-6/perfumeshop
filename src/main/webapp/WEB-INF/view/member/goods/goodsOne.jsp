@@ -173,25 +173,29 @@
 									</div>	
 								</div>	
 								<c:if test="${loginMember.getAuthCode() < 5 || loginMember == null}">
-									<div class="m-b-15">
-										<button type="submit" class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail" id="cartAddBtn">
-											장바구니 담기
-										</button>
-									</div>
+									<c:if test="${goodsOne.soldout == 'N'}">
+										<div class="m-b-15">
+											<button type="submit" class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail" id="cartAddBtn">
+												장바구니 담기
+											</button>
+										</div>
+									</c:if>
 								</c:if>	
 								<c:if test="${loginMember.getAuthCode() < 5 || loginMember == null}">
-									<div class="size-204 flex-w flex-m respon6-next m-b-15">
-										<a href='${pageContext.request.contextPath}/member/cart' class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">장바구니로 이동</a>
-									</div>
+									<c:if test="${goodsOne.soldout == 'N'}">
+										<div class="size-204 flex-w flex-m respon6-next m-b-15">
+											<a href='${pageContext.request.contextPath}/member/cart' class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">장바구니로 이동</a>
+										</div>
+									</c:if>
 								</c:if>
-								<c:if test="${loginMember.getAuthCode() > 5}">
+								<c:if test="${loginMember.getAuthCode() > 5} ">
 									<div class="size-204 flex-w flex-m respon6-next m-b-15">
 										<a href="${pageContext.request.contextPath}/admin/modifyGoods?goodsCode=${goodsCode}" class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">상품수정</a>
 									</div>
 								</c:if>
 							</div>
 						</form>
-						<c:if test="${loginMember != null}">
+						<c:if test="${loginMember != null && goodsOne.soldout == 'N'}">
 							<div class="p-r-50 p-t-5 p-lr-0-lg">
 								<div class="size-204 flex-w flex-m respon6-next">
 									<form action="${pageContext.request.contextPath}/member/goodsPayMent" method="get" id="goodsPayMent">
